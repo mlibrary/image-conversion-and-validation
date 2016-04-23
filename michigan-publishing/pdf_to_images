@@ -1,0 +1,187 @@
+#!/usr/bin/env python3
+# Copyright (c) 2016 The Regents of the University of Michigan.
+# All Rights Reserved. Licensed according to the terms of the Revised
+# BSD License. See LICENSE.txt for details.
+from datetime   import  datetime
+from math       import  ceil, log
+from os         import  rmdir, unlink, listdir, mkdir, walk
+from os.path    import  isdir, isfile, join as os_path_join
+from random     import  randrange
+from re         import  compile as re_compile
+from shutil     import  copyfile, copytree
+from subprocess import  Popen, PIPE
+from tempfile   import  mkdtemp
+from time       import  sleep
+import threading
+import xml.etree.ElementTree as ET
+
+# This appears on the help print screen.
+DETAILED_DESCRIPTION    = """\
+Convert born-digital PDFs to images. An already-bitonal page will always
+yield thresholded (bitonal) Group4-compressed TIFFs, but contone pages
+can yield several possible outputs, each with their pros and cons. This
+script can also prep volumes for OCR and/or loadcd."""
+
+# By default, page sequences' first character is 0.
+DEFAULT_PREFIX          = "0"
+
+# These are the output formats I allow as command-line options. Each is
+# a triple of:
+# -   the one-character prefix (or None to use the default)
+# -   one of `jp2`, `halftone`, `threshold`, or `yolo`
+# -   a string description for the help print screen.
+OUTPUT_FORMATS          = (
+    (None,  "jp2",          "JP2s"),
+    (None,  "halftone",     "halftoned TIFFs"),
+    (None,  "threshold",    "thresholded TIFFs"),
+    (None,  "yolo",         "uncompressed TIFFs"),
+    ("p",   "jp2",          "p-prefixed JP2s"),
+)
+
+# Your classes and functions go here.
+
+if __name__ == "__main__":
+    # Prep the argument parser.
+    from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
+    parser = ArgumentParser(
+            description     = DETAILED_DESCRIPTION,
+            usage           = "%(prog)s [-h] [options]",
+            formatter_class = ArgumentDefaultsHelpFormatter)
+
+    # There's only one option about inputs, and it's required.
+    group = parser.add_argument_group("inputs",
+            "Where do input files come from?")
+    group.add_argument("--pdf-directory",
+                       required = True,
+                       help     = "path to directory containing pdfs")
+
+    # There are a few different types of output formats.
+    group = parser.add_argument_group("outputs",
+            "What kinds of output contones do you want, and where? A"
+            " single directory may have multiple formats, but each must"
+            " have a different prefix.")
+
+    # Parse the approved output formats to get their ArgumentParser
+    # names. We'll also add them to the group defined above.
+    arg_formats = { }
+    for prefix, name, description in OUTPUT_FORMATS:
+        if prefix is None:
+            # If we're using the default prefix, then we can just use
+            # the output type's codename as the argument name.
+            argname = name + "_out"
+
+            # We should also set the prefix explicitly.
+            prefix  = DEFAULT_PREFIX
+
+        else:
+            # If our prefix is already explicit, then it should also be
+            # part of the argument name.
+            argname = "{}_{}_out".format(prefix, name)
+
+        # Add the prefix and name to our new dictionary, keyed on its
+        # argument name. First, be sure it isn't overwriting anything.
+        assert argname not in arg_formats
+        arg_formats[argname] = (prefix, name)
+
+        # We didn't add the description to our dictionary because it's
+        # only useful on the help screen. So we'll use it here as we add
+        # the argument option, and then we can forget about it.
+        group.add_argument("--{}".format(argname.replace("_", "-")),
+                           nargs    = "+",
+                           help     = "output base for " + description)
+
+    #group = parser.add_argument_group("advanced options",
+            #"Only mess with these if you know what you're doing. The"
+            #" defaults should be correct as they are.")
+
+    # Parse the actual arguments.
+    args            = parser.parse_args()
+
+    # From the arguments, I want a dictionary keyed on output
+    # directories. Each output directory should have its own dictionary
+    # (keyed on prefixes) of output formats.
+    output_dirs     = { }
+
+    # There could be prefix-and-directory collisions, and I want to be
+    # ready for that.
+    collisions      = { }
+
+    for argname, prefix_output in arg_formats.items():
+        # For each argument name corresponding to an output format, we
+        # need to check for a list of paths.
+        paths = getattr(args, argname)
+
+        if paths is not None:
+            # If we have a list of paths, then we'll want to split the
+            # prefix-output duple.
+            prefix, output = prefix_output
+
+            for path in paths:
+                # For each path, ensure that it has presence in our
+                # output directory dictionary.
+                if path not in output_dirs:
+                    output_dirs[path] = { }
+
+                # Now that we know it's in there, be sure this prefix
+                # does *not* have presence in the path's subdict.
+                if prefix in output_dirs[path]:
+                    # Add this path to our collisions dict.
+                    if path not in collisions:
+                        collisions[path] = set()
+
+                    # Add this prefix to our path's set.
+                    collisions[path].add(prefix)
+
+                else:
+                    # Otherwise, it's safe to add it in. The value is
+                    # the output format.
+                    output_dirs[path][prefix] = output
+
+    if len(output_dirs) == 0:
+        # If we weren't given any output directories, then we print a
+        # usage statement, an error, and then we exit.
+        from sys import stderr, exit
+        print("usage: " + parser.usage % {"prog": parser.prog},
+              file = stderr)
+
+        print("{}: error: expected at least one output directory"
+                    .format(parser.prog), file = stderr)
+
+        exit(2)
+
+    if len(collisions) > 0:
+        # If there were collisions, print a usage statement.
+        from sys import stderr, exit
+        print("usage: " + parser.usage % {"prog": parser.prog},
+              file = stderr)
+
+        # Get a sorted list of problem paths.
+        paths = list(collisions)
+        paths.sort()
+
+        for path in paths:
+            # For each path, get a sorted list of problem prefixes.
+            prefixes = list(collisions[path])
+            prefixes.sort()
+
+            for prefix in prefixes:
+                # For each problem prefix within a path, print an error.
+                print("{}: error: prefix collision {} in: {}".format(
+                        parser.prog,
+                        repr(prefix),
+                        path),
+                      file = stderr)
+
+        # With all collisions addressed, we can exit.
+        exit(2)
+
+    print("Output directories:")
+    ordered = list(output_dirs.keys())
+    ordered.sort()
+    for outdir in ordered:
+        print("- {}:".format(outdir))
+
+        prefixes = list(output_dirs[outdir].keys())
+        prefixes.sort()
+        for p in prefixes:
+            print("  {}: {}".format(p, output_dirs[outdir][p]))
