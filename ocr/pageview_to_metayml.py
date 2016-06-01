@@ -131,66 +131,6 @@ class MismatchedFilenameAndSequence (PageviewToMetaError):
 ############################### Functors ###############################
 ########################################################################
 
-class ArgumentParserBuilder:
-    # These are the reading order strings in full.
-    left_to_right   = "left-to-right"
-    right_to_left   = "right-to-left"
-
-    def __call__ (self, parser):
-        # Grab the argument parser.
-        self.parser = parser
-
-        # Add positional arguments then optional ones.
-        self.add_positional_arguments()
-        self.add_optional_arguments()
-
-        # Return the updated parser.
-        return self.parser
-
-    def add_positional_arguments (self):
-        # The only positional arguments are the list of volume
-        # directories (which must have a length of at least one).
-        self.parser.add_argument("volumes",
-                                 nargs      = "+",
-                                 help       = "paths to volume dirs")
-
-    def add_optional_arguments (self):
-        # The optional arguments are the capture agent and the reading
-        # order.
-        self.add_agent()
-        self.add_all_reading_orders()
-
-    def add_agent (self):
-        # Let's tell the user our default capture agent.
-        help_text   = "capture agent (default: {})".format(
-                                            DEFAULT_CAPTURE_AGENT)
-
-        self.parser.add_argument("-a", "--agent",
-                                 default    = DEFAULT_CAPTURE_AGENT,
-                                 help       = help_text)
-
-    def add_all_reading_orders (self):
-        # There are two reading orders. At the moment, I do nothing to
-        # distinguish between reading and scanning order because
-        # everything we do has matching scanning and reading orders.
-        self.add_reading_order(self.right_to_left,
-                               "set right-to-left reading order")
-        self.add_reading_order(self.left_to_right,
-                               "set left-to-right reading order")
-
-    def add_reading_order (self, value, help_text):
-        if value == DEFAULT_READING_ORDER:
-            # If this one is the default value, append it to the help
-            # text.
-            help_text += " (default)"
-
-        self.parser.add_argument("--" + value,
-                                 dest       = "reading_order",
-                                 action     = "store_const",
-                                 const      = value,
-                                 default    = DEFAULT_READING_ORDER,
-                                 help       = help_text)
-
 class PageviewDatParser:
     # Each line in a pageview.dat file has five values in this order.
     PageviewTuple       = namedtuple("PageviewTuple", ("filename",
@@ -546,7 +486,6 @@ class ExifDateGetter:
         return seconds
 
 # Functors really just act as functions.
-generate_arg_parser = ArgumentParserBuilder()
 pageview_dat_parser = PageviewDatParser()
 pageview_validator  = PageviewFilenameValidator()
 get_exif_date       = ExifDateGetter()
@@ -751,6 +690,66 @@ class VolumeData:
 ############################# Main Routine #############################
 ########################################################################
 
+class ArgumentParserBuilder:
+    # These are the reading order strings in full.
+    left_to_right   = "left-to-right"
+    right_to_left   = "right-to-left"
+
+    def __call__ (self, parser):
+        # Grab the argument parser.
+        self.parser = parser
+
+        # Add positional arguments then optional ones.
+        self.add_positional_arguments()
+        self.add_optional_arguments()
+
+        # Return the updated parser.
+        return self.parser
+
+    def add_positional_arguments (self):
+        # The only positional arguments are the list of volume
+        # directories (which must have a length of at least one).
+        self.parser.add_argument("volumes",
+                                 nargs      = "+",
+                                 help       = "paths to volume dirs")
+
+    def add_optional_arguments (self):
+        # The optional arguments are the capture agent and the reading
+        # order.
+        self.add_agent()
+        self.add_all_reading_orders()
+
+    def add_agent (self):
+        # Let's tell the user our default capture agent.
+        help_text   = "capture agent (default: {})".format(
+                                            DEFAULT_CAPTURE_AGENT)
+
+        self.parser.add_argument("-a", "--agent",
+                                 default    = DEFAULT_CAPTURE_AGENT,
+                                 help       = help_text)
+
+    def add_all_reading_orders (self):
+        # There are two reading orders. At the moment, I do nothing to
+        # distinguish between reading and scanning order because
+        # everything we do has matching scanning and reading orders.
+        self.add_reading_order(self.right_to_left,
+                               "set right-to-left reading order")
+        self.add_reading_order(self.left_to_right,
+                               "set left-to-right reading order")
+
+    def add_reading_order (self, value, help_text):
+        if value == DEFAULT_READING_ORDER:
+            # If this one is the default value, append it to the help
+            # text.
+            help_text += " (default)"
+
+        self.parser.add_argument("--" + value,
+                                 dest       = "reading_order",
+                                 action     = "store_const",
+                                 const      = value,
+                                 default    = DEFAULT_READING_ORDER,
+                                 help       = help_text)
+
 class MainRoutine:
     def __call__ (self, parsed_args):
         # Set initial internals based on the arguments.
@@ -793,7 +792,7 @@ class MainRoutine:
 if __name__ == "__main__":
     # Prep the argument parser.
     from argparse import ArgumentParser
-    parser = generate_arg_parser(ArgumentParser(
+    parser = ArgumentParserBuilder()(ArgumentParser(
                 description = DETAILED_DESCRIPTION))
 
     # Parse the actual arguments.
@@ -809,4 +808,6 @@ if __name__ == "__main__":
         echobad("Caught {}:".format(e.__class__.__name__))
         echobad(error_str)
 
+        # But we'll at least give the user the dignity of an error exit
+        # code.
         raise SystemExit(1)
