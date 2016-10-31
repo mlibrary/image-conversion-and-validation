@@ -72,3 +72,16 @@ class TestBaseError (unittest.TestCase):
         five = OneArg(5)
         self.assertEqual(five.value, 5)
         self.assertEqual(str(five), "something something 5")
+
+    def test_input_file_error (self):
+        self.assertTrue(issubclass(InputFileError, BaseError))
+
+    def test_cant_decode_encoding (self):
+        with self.assertRaisesRegex(InputFileError,
+                "Can't figure out file encoding for /path/to/file"):
+            raise CantDecodeEncoding("/path/to/file")
+
+    def test_inconsistent_newlines (self):
+        with self.assertRaisesRegex(InputFileError,
+                "Some combination of LF, CR, and CRLFs in filename"):
+            raise InconsistentNewlines("filename")

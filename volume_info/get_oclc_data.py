@@ -67,3 +67,15 @@ class BaseError (Exception):
             # If there's more than one, then we should use the entire
             # tuple as the value.
             self.value = args
+
+class InputFileError (BaseError):
+    """Generic input file error."""
+    pass
+
+class CantDecodeEncoding (InputFileError):
+    """Can't figure out file encoding for {}"""
+    pass
+
+class InconsistentNewlines (InputFileError):
+    """Some combination of LF, CR, and CRLFs in {}"""
+    pass
