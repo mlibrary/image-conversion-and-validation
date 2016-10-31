@@ -1,9 +1,38 @@
 # Copyright (c) 2016 The Regents of the University of Michigan.
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
+from tempfile import mkstemp
+import os
 import unittest
 
 from .get_oclc_data import *
+
+class TestInputData (unittest.TestCase):
+
+    def setUp (self):
+        # The InputData class needs a path in the filesystem, so I
+        # probably need to create a file.
+        fd, self.path = mkstemp(dir="/tmp", suffix=".txt")
+
+        # I don't want to deal with this low-level nonsense.
+        os.close(fd)
+
+    def tearDown (self):
+        # Delete the temporary file I created.
+        os.unlink(self.path)
+
+    def open_file (self, mode = "w"):
+        return open(self.path, mode)
+
+    def test_is_sequence (self):
+        self.assertTrue(issubclass(InputData, Sequence))
+
+    def test_error_on_stupid_newlines (self):
+        with self.open_file() as obj:
+            obj.write("first line\nsecond line\r\nthird line\rfourth")
+
+        with self.assertRaises(InconsistentNewlines):
+            data = InputData(self.path)
 
 class TestBaseError (unittest.TestCase):
 
