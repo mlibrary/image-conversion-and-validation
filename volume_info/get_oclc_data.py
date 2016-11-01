@@ -108,6 +108,10 @@ class InputData (Sequence):
         # have the ability to fail.
     )
 
+    # If I'm expecting CRLF newlines, then (a) all CRs must be followed
+    # by LFs and (b) all LFs must be preceded by CRs.
+    __re_not_crlf = re_compile(r"\r[^\n]|[^\r]\n")
+
     # I'm considering all control characters (except HT and LF, that is,
     # 0x09 and 0x0a) to be invalid.
     __re_bad_controls = re_compile(r"[\0-\x08\x0b-\x1f\x7f-\x9f]")
@@ -193,7 +197,7 @@ class InputData (Sequence):
             # We have carriage returns. If we also have linefeeds, then
             # we *should* be dealing with CRLF newlines. That said,
             # we'll want to check.
-            return self.__deal_with_CRLF(result.replace("\r\n", "\n"))
+            return self.__deal_with_CRLF(result)
 
         else:
             # If we have carriage returns without linefeeds, then all we
@@ -201,10 +205,13 @@ class InputData (Sequence):
             return result.replace("\r", "\n")
 
     def __deal_with_CRLF (self, result):
-        if "\r" in result:
-            # We're given some text that has already replaced CRLFs with
-            # LFs. If there are still CRs, then not all of them were
-            # accompanied by LFs.
+        # See if we can find a lone CR or LF in here.
+        match = self.__re_not_crlf.search(result)
+
+        if match is not None:
+            # We have text containing at least one CR and at least one
+            # LF, and at least one of those is on its own (i.e. not part
+            # of a CRLF).
             #
             # It's not hopeless, but whatever's going on likely
             # necessitates further investigation by hand to fix the
@@ -212,8 +219,9 @@ class InputData (Sequence):
             raise InconsistentNewlines(self.path)
 
         else:
-            # There aren't any CRs left, so it worked!
-            return result
+            # All newlines are CRLFs, so it's time to replace each with
+            # an LF.
+            return result.replace("\r\n", "\n")
 
     def __error_on_control_characters (self, result):
         # Try and find any control character.
