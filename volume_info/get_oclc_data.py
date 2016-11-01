@@ -144,8 +144,13 @@ class InputData (Sequence):
 
     @property
     def cols (self):
-        # The colcount matches the length of the first row.
-        return len(self[0])
+        if len(self) == 0:
+            # We have no columns if we have no rows.
+            return 0
+
+        else:
+            # The colcount matches the length of the first row.
+            return len(self[0])
 
     def __open_file (self):
         with open(self.path, "rb") as input_file:
@@ -256,7 +261,12 @@ class InputData (Sequence):
         # Split the full text into a list of lines.
         str_rows = text.strip("\n").split("\n")
 
-        if len(str_rows) > 0:
+        # str.split() always returns a list of at least one item, so I'm
+        # guaranteed to have a row at index 0. However, given that I
+        # stripped newlines before splitting, the first line will only
+        # be blank if I have no data at all. So I only move forward if
+        # the first line has data.
+        if len(str_rows[0]) > 0:
             # If we have rows to append, append them.
             self.__append_rows(str_rows)
 
