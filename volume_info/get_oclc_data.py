@@ -89,6 +89,10 @@ class InconsistentNewlines (InputFileError):
     """Some combination of LF, CR, and CRLFs in {}"""
     pass
 
+class InconsistentColumnCounts (InputFileError):
+    """Expected each row to have the same column count in {}"""
+    pass
+
 ########################################################################
 ############################### Classes ################################
 ########################################################################
@@ -140,6 +144,10 @@ class InputData (Sequence):
 
         # Convert the bytes object to str.
         text = self.__bytes_to_str(bytes_obj)
+
+        # We have a valid unicode str. All that's left is to parse it
+        # into rows of columns.
+        self.__parse_text(text)
 
     def __bytes_to_str (self, bytes_obj):
         # Figure out the bytestring's encoding, and use that to convert
@@ -230,3 +238,39 @@ class InputData (Sequence):
         if match is not None:
             # We found one! That's tooooo bad.
             raise InvalidControls(ord(match.group(0)), self.path)
+
+    def __parse_text (self, text):
+        # Our internal row storage starts with no data.
+        self.__rows = [ ]
+
+        # Split the full text into a list of lines.
+        str_rows = text.strip("\n").split("\n")
+
+        if len(str_rows) > 0:
+            # If we have rows to append, append them.
+            self.__append_rows(str_rows)
+
+    def __append_rows (self, str_rows):
+        # The column-count of the first row sets the tone for subsequent
+        # rows.
+        num_cols = len(str_rows[0].split("\t"))
+
+        for str_row in str_rows:
+            # We'll look at each row alongside our expected length.
+            self.__append_row_if_valid(str_row, num_cols)
+
+    def __append_row_if_valid (self, str_row, num_cols):
+        # Rather than a *list* of columns, I'll split the row into a
+        # *tuple* of columns. They're presently split by HTs.
+        row = tuple(str_row.split("\t"))
+
+        if len(row) == num_cols:
+            # This row is an expected length, so all that's left is to
+            # append it to our internal list of rows.
+            self.__rows.append(row)
+
+        else:
+            # This row isn't the same length as the first row. That
+            # means we have inconsistent column counts in this file, and
+            # we can't use it.
+            raise InconsistentColumnCounts(self.path)
