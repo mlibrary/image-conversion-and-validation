@@ -129,13 +129,25 @@ class InputData (Sequence):
         # I want to store the path to the file.
         self.path = path_to_file
 
+        # By default, we do not have a header row.
+        self.header = False
+
         # Open the file.
         self.__open_file()
 
     def __getitem__ (self, key):
-        return self.__rows[key]
+        if self.header and key >= 0:
+            return self.__rows[key + 1]
+
+        else:
+            return self.__rows[key]
+
     def __len__ (self):
-        return len(self.__rows)
+        if self.header:
+            return max(0, len(self.__rows) - 1)
+
+        else:
+            return len(self.__rows)
 
     @property
     def rows (self):
