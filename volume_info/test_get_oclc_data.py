@@ -91,16 +91,23 @@ class TestInputData (unittest.TestCase):
                 "flibbity flobbity\tfloop",
                 "un\tdeux")))
 
-    def test_len (self):
+    def test_len_3x3 (self):
         data = self.set_to_3x3_grid()
         self.assertEqual(len(data), 3)
         self.assertEqual(data.rows, 3)
         self.assertEqual(data.cols, 3)
 
+    def test_len_2x4 (self):
         data = self.set_to_2x4_grid()
         self.assertEqual(len(data), 4)
         self.assertEqual(data.rows, 4)
         self.assertEqual(data.cols, 2)
+
+    def test_len_0x0 (self):
+        data = self.data_from_str("")
+        self.assertEqual(len(data), 0)
+        self.assertEqual(data.rows, 0)
+        self.assertEqual(data.cols, 0)
 
 class TestBaseError (unittest.TestCase):
 
