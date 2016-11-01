@@ -109,6 +109,17 @@ class TestInputData (unittest.TestCase):
         self.assertEqual(data.rows, 0)
         self.assertEqual(data.cols, 0)
 
+    def test_set_header (self):
+        data = self.set_to_2x4_grid()
+
+        self.assertFalse(data.header)
+        data.header = True
+        self.assertTrue(data.header)
+
+        self.assertEqual(len(data), 3)
+        self.assertEqual(data.rows, 3)
+        self.assertEqual(data.cols, 2)
+
 class TestBaseError (unittest.TestCase):
 
     def test_is_exception (self):
