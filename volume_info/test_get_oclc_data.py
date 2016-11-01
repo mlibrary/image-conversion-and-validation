@@ -94,9 +94,13 @@ class TestInputData (unittest.TestCase):
     def test_len (self):
         data = self.set_to_3x3_grid()
         self.assertEqual(len(data), 3)
+        self.assertEqual(data.rows, 3)
+        self.assertEqual(data.cols, 3)
 
         data = self.set_to_2x4_grid()
         self.assertEqual(len(data), 4)
+        self.assertEqual(data.rows, 4)
+        self.assertEqual(data.cols, 2)
 
 class TestBaseError (unittest.TestCase):
 
