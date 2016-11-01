@@ -1,7 +1,12 @@
 # Copyright (c) 2016 The Regents of the University of Michigan.
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
+from collections.abc import Sequence
 from re import compile as re_compile
+
+########################################################################
+############################## Exceptions ##############################
+########################################################################
 
 class BaseError (Exception):
     """Catchall exception to sire all others in this script."""
@@ -76,6 +81,125 @@ class CantDecodeEncoding (InputFileError):
     """Can't figure out file encoding for {}"""
     pass
 
+class InvalidControls (CantDecodeEncoding):
+    """Unexpected control character (0x{:02x}) in {}"""
+    pass
+
 class InconsistentNewlines (InputFileError):
     """Some combination of LF, CR, and CRLFs in {}"""
     pass
+
+########################################################################
+############################### Classes ################################
+########################################################################
+
+class InputData (Sequence):
+    """A class to parse input files and hold their data meaningfully."""
+
+    __encodings = (
+        # I generally hope for UTF-8. Everything *should* be UTF-8.
+        "utf-8",
+
+        # If not UTF-8, Codepage 1252 is always a possibility.
+        "cp1252",
+
+        # I could go for latin1 (iso 8859-1), but that will accept
+        # literally any bytestring, and I think it's important that this
+        # have the ability to fail.
+    )
+
+    def __init__ (self, path_to_file):
+        """Initialize input data based on path to file.
+
+        Raises InputFileError or OSError.
+        """
+
+        # I want to store the path to the file.
+        self.path = path_to_file
+
+        # Open the file.
+        self.__open_file()
+
+    def __getitem__ (self, key):
+        pass
+    def __len__ (self):
+        pass
+
+    def __open_file (self):
+        with open(self.path, "rb") as input_file:
+            # Read the entire contents of the file into memory.
+            bytes_obj = input_file.read()
+
+        # Convert the bytes object to str.
+        text = self.__bytes_to_str(bytes_obj)
+
+    def __bytes_to_str (self, bytes_obj):
+        # Figure out the bytestring's encoding, and use that to convert
+        # to unicode.
+        result = self.__find_unicode(bytes_obj)
+
+        # Clean up weird newlines.
+        result = self.__clean_newlines(result)
+
+    def __find_unicode (self, bytes_obj):
+        for encoding in self.__encodings:
+            # Check each expected encoding.
+            result = self.__attempt_decode(bytes_obj, encoding)
+
+            if result is not None:
+                # If we got a non-None result, then we succeeded!
+                return result
+
+        # If we never got a unicode str object, then we should raise
+        # a unicode error.
+        raise CantDecodeEncoding(self.path)
+
+    def __attempt_decode (self, bytes_obj, encoding):
+        # Set our encoding.
+        self.encoding = encoding
+
+        try:
+            # Try to decode the bytestring assuming that encoding.
+            return bytes_obj.decode(encoding)
+
+        except UnicodeDecodeError:
+            # If we can't, then we don't return anything after all.
+            return None
+
+    def __clean_newlines (self, result):
+        if "\r" in result:
+            # If there are carriage returns, then we need to deal with
+            # them.
+            return self.__deal_with_CR(result)
+
+        else:
+            # If not, then awesome! Looks like we already only have
+            # linefeeds.
+            return result
+
+    def __deal_with_CR (self, result):
+        if "\n" in result:
+            # We have carriage returns. If we also have linefeeds, then
+            # we *should* be dealing with CRLF newlines. That said,
+            # we'll want to check.
+            return self.__deal_with_CRLF(result.replace("\r\n", "\n"))
+
+        else:
+            # If we have carriage returns without linefeeds, then all we
+            # need to do is replace them. There's no confusion.
+            return result.replace("\r", "\n")
+
+    def __deal_with_CRLF (self, result):
+        if "\r" in result:
+            # We're given some text that has already replaced CRLFs with
+            # LFs. If there are still CRs, then not all of them were
+            # accompanied by LFs.
+            #
+            # It's not hopeless, but whatever's going on likely
+            # necessitates further investigation by hand to fix the
+            # problem.
+            raise InconsistentNewlines(self.path)
+
+        else:
+            # There aren't any CRs left, so it worked!
+            return result

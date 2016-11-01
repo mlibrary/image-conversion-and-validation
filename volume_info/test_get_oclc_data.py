@@ -21,15 +21,26 @@ class TestInputData (unittest.TestCase):
         # Delete the temporary file I created.
         os.unlink(self.path)
 
-    def open_file (self, mode = "w"):
-        return open(self.path, mode)
+    def write_file (self, content):
+        if isinstance(content, str):
+            mode = "w"
+
+        else:
+            assert isinstance(content, bytes)
+            mode = "wb"
+
+        with open(self.path, mode) as obj:
+            obj.write(content)
+
+    def data_from_str (self, content):
+        self.write_file(content)
+        return InputData(self.path)
 
     def test_is_sequence (self):
         self.assertTrue(issubclass(InputData, Sequence))
 
     def test_error_on_stupid_newlines (self):
-        with self.open_file() as obj:
-            obj.write("first line\nsecond line\r\nthird line\rfourth")
+        self.write_file("first line\nsecond line\r\nthird line\rfourth")
 
         with self.assertRaises(InconsistentNewlines):
             data = InputData(self.path)
@@ -109,6 +120,11 @@ class TestBaseError (unittest.TestCase):
         with self.assertRaisesRegex(InputFileError,
                 "Can't figure out file encoding for /path/to/file"):
             raise CantDecodeEncoding("/path/to/file")
+
+    def test_invalid_controls (self):
+        with self.assertRaisesRegex(CantDecodeEncoding,
+                r"Unexpected control character \(0x0d\) in filename"):
+            raise InvalidControls(13, "filename")
 
     def test_inconsistent_newlines (self):
         with self.assertRaisesRegex(InputFileError,
