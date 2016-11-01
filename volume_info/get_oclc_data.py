@@ -133,9 +133,19 @@ class InputData (Sequence):
         self.__open_file()
 
     def __getitem__ (self, key):
-        pass
+        return self.__rows[key]
     def __len__ (self):
         return len(self.__rows)
+
+    @property
+    def rows (self):
+        # The rowcount matches the length.
+        return len(self)
+
+    @property
+    def cols (self):
+        # The colcount matches the length of the first row.
+        return len(self[0])
 
     def __open_file (self):
         with open(self.path, "rb") as input_file:
