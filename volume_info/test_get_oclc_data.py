@@ -39,6 +39,25 @@ class TestInputData (unittest.TestCase):
     def test_is_sequence (self):
         self.assertTrue(issubclass(InputData, Sequence))
 
+    def test_bad_bytes (self):
+        for i in b"\x81\x8d\x8f\x90\x9d":
+            self.write_file(i.to_bytes(1, "big"))
+            with self.assertRaises(CantDecodeEncoding):
+                data = InputData(self.path)
+
+    def test_bad_control_characters (self):
+        ranges = (
+            (0x00, 0x09),
+            (0x0b, 0x20),
+            (0x7f, 0xa0),
+        )
+
+        for low, high in ranges:
+            for i in range(low, high):
+                self.write_file(chr(i))
+                with self.assertRaises(InvalidControls):
+                    data = InputData(self.path)
+
     def test_error_on_stupid_newlines (self):
         self.write_file("first line\nsecond line\r\nthird line\rfourth")
 
