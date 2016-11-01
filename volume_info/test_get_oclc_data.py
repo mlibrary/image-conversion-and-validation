@@ -47,15 +47,17 @@ class TestInputData (unittest.TestCase):
 
     def test_bad_control_characters (self):
         ranges = (
-            (0x00, 0x09),
-            (0x0b, 0x20),
-            (0x7f, 0xa0),
+            (0x00, 0x09), # skip HT, LF
+            (0x0b, 0x0d), # skip CR
+            (0x0e, 0x20), # skip [ -~] aka visible characters
+            (0x7f, 0xa0), # not worrying about non-ASCII controls
         )
 
         for low, high in ranges:
             for i in range(low, high):
-                self.write_file(chr(i))
-                with self.assertRaises(InvalidControls):
+                self.write_file("something{}something\n".format(chr(i)))
+                regex = "0x{:02x}".format(i)
+                with self.assertRaisesRegex(InvalidControls, regex):
                     data = InputData(self.path)
 
     def test_error_on_stupid_newlines (self):

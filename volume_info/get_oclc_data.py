@@ -108,6 +108,10 @@ class InputData (Sequence):
         # have the ability to fail.
     )
 
+    # I'm considering all control characters (except HT and LF, that is,
+    # 0x09 and 0x0a) to be invalid.
+    __re_bad_controls = re_compile(r"[\0-\x08\x0b-\x1f\x7f-\x9f]")
+
     def __init__ (self, path_to_file):
         """Initialize input data based on path to file.
 
@@ -140,6 +144,13 @@ class InputData (Sequence):
 
         # Clean up weird newlines.
         result = self.__clean_newlines(result)
+
+        # Control characters (other than HT and LF) are signs of weird
+        # encoding issues that may not have been caught by using the
+        # 1252 codepage.
+        self.__error_on_control_characters(result)
+
+        return result
 
     def __find_unicode (self, bytes_obj):
         for encoding in self.__encodings:
@@ -203,3 +214,11 @@ class InputData (Sequence):
         else:
             # There aren't any CRs left, so it worked!
             return result
+
+    def __error_on_control_characters (self, result):
+        # Try and find any control character.
+        match = self.__re_bad_controls.search(result)
+
+        if match is not None:
+            # We found one! That's tooooo bad.
+            raise InvalidControls(ord(match.group(0)), self.path)
