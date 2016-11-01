@@ -72,6 +72,12 @@ class TestInputData (unittest.TestCase):
         with self.assertRaises(InconsistentNewlines):
             data = InputData(self.path)
 
+    def test_error_on_inconsistent_columns (self):
+        self.write_file("shipment\tvolume\n1234567\t8974326\t7843927")
+
+        with self.assertRaises(InconsistentColumnCounts):
+            data = InputData(self.path)
+
 class TestBaseError (unittest.TestCase):
 
     def test_is_exception (self):
@@ -157,3 +163,9 @@ class TestBaseError (unittest.TestCase):
         with self.assertRaisesRegex(InputFileError,
                 "Some combination of LF, CR, and CRLFs in filename"):
             raise InconsistentNewlines("filename")
+
+    def test_inconsistent_column_counts (self):
+        with self.assertRaisesRegex(InputFileError,
+                "Expected each row to have the same column count " \
+                "in filename"):
+            raise InconsistentColumnCounts("filename")
