@@ -135,7 +135,7 @@ class InputData (Sequence):
     def __getitem__ (self, key):
         pass
     def __len__ (self):
-        pass
+        return len(self.__rows)
 
     def __open_file (self):
         with open(self.path, "rb") as input_file:
