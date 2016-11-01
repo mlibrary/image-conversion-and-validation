@@ -66,6 +66,12 @@ class TestInputData (unittest.TestCase):
         with self.assertRaises(InconsistentNewlines):
             data = InputData(self.path)
 
+    def test_error_on_LF_and_CRLF (self):
+        self.write_file("first line\nsecond line\r\nthird line")
+
+        with self.assertRaises(InconsistentNewlines):
+            data = InputData(self.path)
+
 class TestBaseError (unittest.TestCase):
 
     def test_is_exception (self):
