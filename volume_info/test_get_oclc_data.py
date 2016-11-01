@@ -78,6 +78,26 @@ class TestInputData (unittest.TestCase):
         with self.assertRaises(InconsistentColumnCounts):
             data = InputData(self.path)
 
+    def set_to_3x3_grid (self):
+        return self.data_from_str("\n".join((
+                "first\tsecond\tthird",
+                "matthew\talexander\tlachance",
+                "un (french for one)\tdeux\ttrois")))
+
+    def set_to_2x4_grid (self):
+        return self.data_from_str("\n".join((
+                "first\tsecond",
+                "matthew\tlachance",
+                "flibbity flobbity\tfloop",
+                "un\tdeux")))
+
+    def test_len (self):
+        data = self.set_to_3x3_grid()
+        self.assertEqual(len(data), 3)
+
+        data = self.set_to_2x4_grid()
+        self.assertEqual(len(data), 4)
+
 class TestBaseError (unittest.TestCase):
 
     def test_is_exception (self):
