@@ -136,18 +136,51 @@ class InputData (Sequence):
         self.__open_file()
 
     def __getitem__ (self, key):
+        """Return the row at the given index."""
+
         if self.header and key >= 0:
+            # If we have a header row, then our first row should be row
+            # following the header row.
             return self.__rows[key + 1]
 
         else:
+            # If we don't have a header row, then the first row comes
+            # first. We also come here if we've been given a negative
+            # index.
             return self.__rows[key]
 
     def __len__ (self):
+        """Return the number of rows."""
+
         if self.header:
+            # If we have a header row, then we don't count it in our
+            # length.
             return max(0, len(self.__rows) - 1)
 
         else:
+            # If there's no header row, then we pass on the length
+            # as-is.
             return len(self.__rows)
+
+    def __iter__ (self):
+        """Iterate through rows.
+
+        This overrides the default __iter__ method. By default, it'd run
+        self.__getitem__(), and it'd run it self.__len__() times. Both
+        methods check self.header, which won't (or at least shouldn't)
+        change during an iteration.
+
+        So I figure it's fastest to only check once and iterate through
+        the internal list accordingly.
+        """
+
+        if self.header:
+            # If there's a header row, then we'll skip the first row.
+            return iter(self.__rows[1:])
+
+        else:
+            # If not, we loop over the entire thing.
+            return iter(self.__rows)
 
     @property
     def rows (self):
