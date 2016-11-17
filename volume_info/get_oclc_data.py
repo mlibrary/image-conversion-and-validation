@@ -100,25 +100,24 @@ class InconsistentColumnCounts (InputFileError):
 class TabularData (Sequence):
     """A class to parse input files and hold their data meaningfully."""
 
-    __encodings = (
-        # I generally hope for UTF-8. Everything *should* be UTF-8.
-        "utf-8",
+    @property
+    def rows (self):
+        """Return the number of rows."""
 
-        # If not UTF-8, Codepage 1252 is always a possibility.
-        "cp1252",
+        # The rowcount matches the length.
+        return len(self)
 
-        # I could go for latin1 (iso 8859-1), but that will accept
-        # literally any bytestring, and I think it's important that this
-        # have the ability to fail.
-    )
+    @property
+    def cols (self):
+        """Return the number of columns."""
 
-    # If I'm expecting CRLF newlines, then (a) all CRs must be followed
-    # by LFs and (b) all LFs must be preceded by CRs.
-    __re_not_crlf = re_compile(r"\r[^\n]|[^\r]\n")
+        if len(self) == 0:
+            # We have no columns if we have no rows.
+            return 0
 
-    # I'm considering all control characters (except HT and LF, that is,
-    # 0x09 and 0x0a) to be invalid.
-    __re_bad_controls = re_compile(r"[\0-\x08\x0b-\x1f\x7f-\x9f]")
+        else:
+            # The colcount matches the length of the first row.
+            return len(self[0])
 
     def __init__ (self, path_to_file):
         """Initialize input data based on path to file.
@@ -194,20 +193,29 @@ class TabularData (Sequence):
             # If not, we loop over the entire thing.
             return iter(self.__rows)
 
-    @property
-    def rows (self):
-        # The rowcount matches the length.
-        return len(self)
+    ################################################################
+    ################ Private Properties and Methods ################
+    ################################################################
 
-    @property
-    def cols (self):
-        if len(self) == 0:
-            # We have no columns if we have no rows.
-            return 0
+    __encodings = (
+        # I generally hope for UTF-8. Everything *should* be UTF-8.
+        "utf-8",
 
-        else:
-            # The colcount matches the length of the first row.
-            return len(self[0])
+        # If not UTF-8, Codepage 1252 is always a possibility.
+        "cp1252",
+
+        # I could go for latin1 (iso 8859-1), but that will accept
+        # literally any bytestring, and I think it's important that this
+        # have the ability to fail.
+    )
+
+    # If I'm expecting CRLF newlines, then (a) all CRs must be followed
+    # by LFs and (b) all LFs must be preceded by CRs.
+    __re_not_crlf = re_compile(r"\r[^\n]|[^\r]\n")
+
+    # I'm considering all control characters (except HT and LF, that is,
+    # 0x09 and 0x0a) to be invalid.
+    __re_bad_controls = re_compile(r"[\0-\x08\x0b-\x1f\x7f-\x9f]")
 
     def __open_file (self):
         with open(self.path, "rb") as input_file:
