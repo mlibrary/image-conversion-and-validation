@@ -138,15 +138,14 @@ class TabularData (Sequence):
     def __getitem__ (self, key):
         """Return the row at the given index."""
 
-        if self.header and key >= 0:
-            # If we have a header row, then our first row should be row
-            # following the header row.
-            return self.__rows[key + 1]
+        if self.header:
+            # We need to do some special handwaving if we have a header
+            # row.
+            return self.__getitem_but_skip_header(key)
 
         else:
             # If we don't have a header row, then the first row comes
-            # first. We also come here if we've been given a negative
-            # index.
+            # first like normal.
             return self.__rows[key]
 
     def __len__ (self):
@@ -339,3 +338,34 @@ class TabularData (Sequence):
             # means we have inconsistent column counts in this file, and
             # we can't use it.
             raise InconsistentColumnCounts(self.path)
+
+    def __getitem_but_skip_header (self, key):
+        if isinstance(key, slice):
+            # If we've been given a slice, the easiest thing to do is
+            # take two slices -- the first one will slice out the header
+            # row, and then the second can act as it will.
+            return self.__rows[1:][key]
+
+        else:
+            # Otherwise, we've probably been given an integer. Taking a
+            # slice would be overkill in this case, so we do our own
+            # thing.
+            return self.__getitem_with_int_key(key)
+
+    def __getitem_with_int_key (self, key):
+        if key >= 0:
+            # Given a normal, nonnegative index, we simply increment it
+            # to ensure that we skip the first row.
+            return self.__rows[key + 1]
+
+        elif key + len(self.__rows) == 0:
+            # If we have a negative index, then we want to check to see
+            # if it would normally point at the header row. If it would,
+            # we'll decrement it to force it to be out of range.
+            return self.__rows[key - 1]
+
+        else:
+            # Otherwise, we have a negative index that won't point at
+            # the header row. Therefore, we can just pass it along. The
+            # last row is still the last row.
+            return self.__rows[key]
