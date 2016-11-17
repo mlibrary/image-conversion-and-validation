@@ -161,6 +161,19 @@ class TabularData (Sequence):
             # as-is.
             return len(self.__rows)
 
+    def __repr__ (self):
+        # Whether there's a header is part of our deal here.
+        result = "<{} header={}".format(self.__class__.__name__,
+                                        repr(self.header))
+
+        if len(self.__rows) > 0:
+            # Each row should be separated by a comma-space.
+            result += " " + ", ".join(map(repr, iter(self.__rows)))
+
+        # Whether or not we added rows, we close the repr string with a
+        # closing angle bracket.
+        return result + ">"
+
     def __iter__ (self):
         """Iterate through rows.
 

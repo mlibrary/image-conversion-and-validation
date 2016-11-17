@@ -179,9 +179,10 @@ class TestTabularData (unittest.TestCase):
     def test_repr (self):
         data = self.set_to_3x3_grid()
         self.assertEqual(repr(data),
-            "<TabularData ('first', 'second', 'third'),"
-                      + " ('matthew', 'alexander', 'lachance'),"
-                      + " ('un (french for one)', 'deux', 'trois')>")
+                "<TabularData header=False"
+                + " ('first', 'second', 'third'),"
+                + " ('matthew', 'alexander', 'lachance'),"
+                + " ('un (french for one)', 'deux', 'trois')>")
 
 class TestBaseError (unittest.TestCase):
 
