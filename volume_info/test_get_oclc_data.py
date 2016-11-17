@@ -163,6 +163,12 @@ class TestTabularData (unittest.TestCase):
         with self.assertRaises(IndexError):
             row_should_not_exist = data[4]
 
+    def test_values_0x0 (self):
+        data = self.data_from_str("")
+
+        with self.assertRaises(IndexError):
+            row_should_not_exist = data[0]
+
 class TestBaseError (unittest.TestCase):
 
     def test_is_exception (self):
