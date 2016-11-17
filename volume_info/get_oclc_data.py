@@ -97,7 +97,7 @@ class InconsistentColumnCounts (InputFileError):
 ############################### Classes ################################
 ########################################################################
 
-class InputData (Sequence):
+class TabularData (Sequence):
     """A class to parse input files and hold their data meaningfully."""
 
     __encodings = (

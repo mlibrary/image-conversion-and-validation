@@ -7,10 +7,10 @@ import unittest
 
 from .get_oclc_data import *
 
-class TestInputData (unittest.TestCase):
+class TestTabularData (unittest.TestCase):
 
     def setUp (self):
-        # The InputData class needs a path in the filesystem, so I
+        # The TabularData class needs a path in the filesystem, so I
         # probably need to create a file.
         fd, self.path = mkstemp(dir="/tmp", suffix=".txt")
 
@@ -34,16 +34,16 @@ class TestInputData (unittest.TestCase):
 
     def data_from_str (self, content):
         self.write_file(content)
-        return InputData(self.path)
+        return TabularData(self.path)
 
     def test_is_sequence (self):
-        self.assertTrue(issubclass(InputData, Sequence))
+        self.assertTrue(issubclass(TabularData, Sequence))
 
     def test_bad_bytes (self):
         for i in b"\x81\x8d\x8f\x90\x9d":
             self.write_file(i.to_bytes(1, "big"))
             with self.assertRaises(CantDecodeEncoding):
-                data = InputData(self.path)
+                data = TabularData(self.path)
 
     def test_bad_control_characters (self):
         ranges = (
@@ -58,25 +58,25 @@ class TestInputData (unittest.TestCase):
                 self.write_file("something{}something\n".format(chr(i)))
                 regex = "0x{:02x}".format(i)
                 with self.assertRaisesRegex(InvalidControls, regex):
-                    data = InputData(self.path)
+                    data = TabularData(self.path)
 
     def test_error_on_stupid_newlines (self):
         self.write_file("first line\nsecond line\r\nthird line\rfourth")
 
         with self.assertRaises(InconsistentNewlines):
-            data = InputData(self.path)
+            data = TabularData(self.path)
 
     def test_error_on_LF_and_CRLF (self):
         self.write_file("first line\nsecond line\r\nthird line")
 
         with self.assertRaises(InconsistentNewlines):
-            data = InputData(self.path)
+            data = TabularData(self.path)
 
     def test_error_on_inconsistent_columns (self):
         self.write_file("shipment\tvolume\n1234567\t8974326\t7843927")
 
         with self.assertRaises(InconsistentColumnCounts):
-            data = InputData(self.path)
+            data = TabularData(self.path)
 
     def set_to_3x3_grid (self):
         return self.data_from_str("\n".join((
