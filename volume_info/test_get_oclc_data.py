@@ -169,6 +169,13 @@ class TestTabularData (unittest.TestCase):
         with self.assertRaises(IndexError):
             row_should_not_exist = data[0]
 
+    def test_slice_accession (self):
+        data = self.set_to_3x3_grid()
+        self.assertTrue(isinstance(data[:], list))
+
+        data.header = True
+        self.assertTrue(isinstance(data[:], list))
+
 class TestBaseError (unittest.TestCase):
 
     def test_is_exception (self):
