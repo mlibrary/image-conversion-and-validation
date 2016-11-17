@@ -120,6 +120,49 @@ class TestTabularData (unittest.TestCase):
         self.assertEqual(data.rows, 3)
         self.assertEqual(data.cols, 2)
 
+    def test_values_3x3 (self):
+        data = self.set_to_3x3_grid()
+
+        self.assertEqual(data[0][0], "first")
+        self.assertEqual(data[0][1], "second")
+        self.assertEqual(data[0][2], "third")
+        self.assertEqual(data[1][0], "matthew")
+        self.assertEqual(data[1][1], "alexander")
+        self.assertEqual(data[1][2], "lachance")
+        self.assertEqual(data[2][0], "un (french for one)")
+        self.assertEqual(data[2][1], "deux")
+        self.assertEqual(data[2][2], "trois")
+
+        for i in range(3):
+            self.assertTrue(isinstance(data[i], tuple))
+
+            with self.assertRaises(IndexError):
+                should_not_exist = data[i][3]
+
+        with self.assertRaises(IndexError):
+            row_should_not_exist = data[3]
+
+    def test_values_2x4 (self):
+        data = self.set_to_2x4_grid()
+
+        self.assertEqual(data[0][0], "first")
+        self.assertEqual(data[0][1], "second")
+        self.assertEqual(data[1][0], "matthew")
+        self.assertEqual(data[1][1], "lachance")
+        self.assertEqual(data[2][0], "flibbity flobbity")
+        self.assertEqual(data[2][1], "floop")
+        self.assertEqual(data[3][0], "un")
+        self.assertEqual(data[3][1], "deux")
+
+        for i in range(4):
+            self.assertTrue(isinstance(data[i], tuple))
+
+            with self.assertRaises(IndexError):
+                should_not_exist = data[i][2]
+
+        with self.assertRaises(IndexError):
+            row_should_not_exist = data[4]
+
 class TestBaseError (unittest.TestCase):
 
     def test_is_exception (self):
