@@ -275,3 +275,31 @@ class TestTabularData (unittest.TestCase):
                 + " ('first', 'second', 'third'),"
                 + " ('matthew', 'alexander', 'lachance'),"
                 + " ('un (french for one)', 'deux', 'trois')>")
+
+class TestArgumentCollector (unittest.TestCase):
+
+    def test_is_mapping (self):
+        self.assertTrue(issubclass(ArgumentCollector, Mapping))
+
+    def test_wrong_args (self):
+        accepts_five = ArgumentCollector("a", "b", "c", "d", "e")
+
+        with self.assertRaises(TypeError):
+            accepts_five.update(1, 2, 3, 4)
+
+        with self.assertRaises(TypeError):
+            accepts_five.update(1, 2, 3, 4, 5, 6)
+
+        with self.assertRaises(TypeError):
+            accepts_five.update(1, 2, 3, 4, c = 5)
+
+    def test_iunno (self):
+        accepts_five = ArgumentCollector("a", "b", "c", "d", "e")
+
+        accepts_five.update(1, 2, 3, 4, 5)
+        self.assertEqual(accepts_five, {
+                        "a": 1,
+                        "b": 2,
+                        "c": 3,
+                        "d": 4,
+                        "e": 5})

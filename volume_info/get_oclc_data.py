@@ -1,7 +1,7 @@
 # Copyright (c) 2016 The Regents of the University of Michigan.
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
-from collections.abc import Sequence
+from collections.abc import Sequence, Mapping
 from re import compile as re_compile
 
 ########################################################################
