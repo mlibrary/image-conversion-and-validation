@@ -293,13 +293,91 @@ class TestArgumentCollector (unittest.TestCase):
         with self.assertRaises(TypeError):
             accepts_five.update(1, 2, 3, 4, c = 5)
 
-    def test_iunno (self):
+    def test_basic_args (self):
         accepts_five = ArgumentCollector("a", "b", "c", "d", "e")
 
         accepts_five.update(1, 2, 3, 4, 5)
+        self.assertEqual(len(accepts_five), 5)
         self.assertEqual(accepts_five, {
                         "a": 1,
                         "b": 2,
                         "c": 3,
                         "d": 4,
                         "e": 5})
+
+        accepts_five.update(5, 4, 3, 2, 1)
+        self.assertEqual(len(accepts_five), 5)
+        self.assertEqual(accepts_five, {
+                        "e": 1,
+                        "d": 2,
+                        "c": 3,
+                        "b": 4,
+                        "a": 5})
+
+        accepts_five.update(1, 2, 3, 4, 5, ok="what")
+        self.assertEqual(len(accepts_five), 6)
+        self.assertEqual(accepts_five, {
+                        "ok": "what",
+                        "a": 1,
+                        "b": 2,
+                        "c": 3,
+                        "d": 4,
+                        "e": 5})
+
+        accepts_five.update(1, 2, 3, 4, 5)
+        self.assertEqual(len(accepts_five), 5)
+        self.assertEqual(accepts_five, {
+                        "a": 1,
+                        "b": 2,
+                        "c": 3,
+                        "d": 4,
+                        "e": 5})
+
+    def test_kwargs (self):
+        with_defaults = ArgumentCollector("a", "b", c=1, d=2, e=3)
+
+        with_defaults.update(1, 2)
+        self.assertEqual(len(with_defaults), 5)
+        self.assertEqual(with_defaults, {
+                        "a": 1,
+                        "b": 2,
+                        "c": 1,
+                        "d": 2,
+                        "e": 3})
+
+        with_defaults.update(123, 234, d=345)
+        self.assertEqual(len(with_defaults), 5)
+        self.assertEqual(with_defaults, {
+                        "a": 123,
+                        "b": 234,
+                        "c": 1,
+                        "d": 345,
+                        "e": 3})
+
+        with_defaults.update("hi", "hello")
+        self.assertEqual(len(with_defaults), 5)
+        self.assertEqual(with_defaults, {
+                        "a": "hi",
+                        "b": "hello",
+                        "c": 1,
+                        "d": 2,
+                        "e": 3})
+
+        with_defaults.update(1, 2, f="matt")
+        self.assertEqual(len(with_defaults), 6)
+        self.assertEqual(with_defaults, {
+                        "a": 1,
+                        "b": 2,
+                        "c": 1,
+                        "d": 2,
+                        "e": 3,
+                        "f": "matt"})
+
+        with_defaults.update(1, 2)
+        self.assertEqual(len(with_defaults), 5)
+        self.assertEqual(with_defaults, {
+                        "a": 1,
+                        "b": 2,
+                        "c": 1,
+                        "d": 2,
+                        "e": 3})
