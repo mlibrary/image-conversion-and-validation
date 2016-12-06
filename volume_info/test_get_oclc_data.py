@@ -381,3 +381,27 @@ class TestArgumentCollector (unittest.TestCase):
                         "c": 1,
                         "d": 2,
                         "e": 3})
+
+    def test_repr (self):
+        eg_ac = ArgumentCollector("a", "b", hi="hello", d="hey")
+        eg_ac.update(1, 2, c=3, d=4)
+
+        start = "<ArgumentCollector {"
+        end = "}>"
+        length = len(start) + len(end)
+
+        repr_str = repr(eg_ac)
+
+        self.assertTrue(repr_str.startswith(start))
+        self.assertTrue(repr_str.endswith(end))
+
+        i = 0
+        for key, value in eg_ac.items():
+            i += 1
+            findstr = "{}: {}".format(repr(key), repr(value))
+            self.assertNotEqual(-1, repr_str.find(findstr))
+            length += len(findstr) + 2
+
+        self.assertEqual(i, 5)
+
+        self.assertEqual(len(repr_str), length - 2)
