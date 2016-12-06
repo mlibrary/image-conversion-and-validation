@@ -546,6 +546,36 @@ class ArgumentCollector (Mapping):
         # have.
         self.__current_args = mapping
 
+    def copy (self):
+        """Return a copy of this object.
+
+        Altering the copy will not affect the original, and altering the
+        original will not affect the copy. In other words, it's
+        basically a deep copy, except much faster and without the memory
+        cost.
+        """
+
+        # Create a new ArgumentCollector. Doesn't really matter how we
+        # init it, since we're going to throw away its inards.
+        result = ArgumentCollector()
+
+        # Override its internals with our own. This is safe because
+        # neither object has the ability to *modify* those internals;
+        # updates merely replace them with new objects, which won't
+        # affect other clones like these.
+        result.__override_internals(self)
+
+        return result
+
+    def base (self, *args):
+        """Return a new object defaulting to a copy of this one.
+
+        It defaults to a copy so you won't have the ability to modify
+        its default behavior by modifying the source object.
+        """
+
+        return ArgumentCollector(args, self.copy())
+
     def __getitem__ (self, key):
         """Return the value for the given key."""
 
@@ -745,6 +775,15 @@ class ArgumentCollector (Mapping):
         else:
             # Otherwise, we default to whatever the user says.
             return plural
+
+    def __override_internals (self, source):
+        assert isinstance(source, ArgumentCollector)
+
+        # Change every aspect of our own identity to match that of this
+        # new source.
+        self.__expected_args = source.__expected_args
+        self.__optional_args = source.__optional_args
+        self.__current_args = source.__current_args
 
     def __raise_too_many_arguments (self, function_name, args_length):
         raise TypeError("{}() takes {} but {} given".format(
