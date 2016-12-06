@@ -615,13 +615,24 @@ class ArgumentCollector (Mapping):
         """Return true if we contain values and if we contain all our
         required arguments."""
 
-        # Normally, it'd be enough to leave this undefined, and we'd
-        # just return true if our length was nonzero. But since we might
-        # have required values, we need to make sure those requirements
-        # are met.
-        return len(self) > 0 and (
-                len(self.__current_args) > 0
-                or len(self.__expected_args) == 0)
+        if not self.__optional_args and not self.__current_args:
+            # No need to waste time running len(self). We can just check
+            # the two mappings directly. If they're both empty, then we
+            # can return false, as expected.
+            return False
+
+        elif self.__current_args:
+            # If we're here, it means we have some values. If there are
+            # values in our current dict, we can assume they're valid
+            # (and therefore account for all required arguments).
+            return True
+
+        else:
+            # We have nonzero length, but we have no current dict, so I
+            # don't know whether we're valid. I need to check for the
+            # presence of each expected argument in order to be sure. If
+            # they're all present, then we're valid.
+            return all(arg in self for arg in self.__expected_args)
 
     def __repr__ (self):
         # I want to represent our mapping as a list of keypairs, so I
