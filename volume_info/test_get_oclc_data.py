@@ -442,7 +442,7 @@ class TestArgumentCollector (unittest.TestCase):
         a = ArgumentCollector("a", z="zee")
         a.update(5)
 
-        b = a.base("b", matt="is cool")
+        b = a.base("b")
         b.update(4)
 
         self.assertEqual(a, {
@@ -452,15 +452,14 @@ class TestArgumentCollector (unittest.TestCase):
         self.assertEqual(b, {
             "a":    5,
             "b":    4,
-            "z":    "zee",
-            "matt": "is cool"})
+            "z":    "zee"})
 
         a.update(8)
 
         self.assertEqual(a["a"], 8)
         self.assertEqual(b["a"], 5)
 
-        b.update(b=4, z="matt's still cool ok?")
+        b.update(b=4, z="matt is cool")
 
         self.assertEqual(a["z"], "zee")
-        self.assertEqual(b["z"], "matt's still cool ok?")
+        self.assertEqual(b["z"], "matt is cool")
