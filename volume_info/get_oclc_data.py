@@ -611,6 +611,18 @@ class ArgumentCollector (Mapping):
 
         return result
 
+    def __bool__ (self):
+        """Return true if we contain values and if we contain all our
+        required arguments."""
+
+        # Normally, it'd be enough to leave this undefined, and we'd
+        # just return true if our length was nonzero. But since we might
+        # have required values, we need to make sure those requirements
+        # are met.
+        return len(self) > 0 and (
+                len(self.__current_args) > 0
+                or len(self.__expected_args) == 0)
+
     def __repr__ (self):
         # I want to represent our mapping as a list of keypairs, so I
         # need a list.
