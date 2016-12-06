@@ -465,6 +465,9 @@ class TestArgumentCollector (unittest.TestCase):
         self.assertEqual(b["z"], "matt is cool")
 
     def test_truthiness (self):
+        a = ArgumentCollector("matt", matt="is cool")
+        self.assertTrue(a)
+
         a = ArgumentCollector("hey", matt="is cool")
         self.assertFalse(a)
 
