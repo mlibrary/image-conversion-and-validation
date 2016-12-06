@@ -581,6 +581,20 @@ class ArgumentCollector (Mapping):
 
         return result
 
+    def __repr__ (self):
+        # I want to represent our mapping as a list of keypairs, so I
+        # need a list.
+        data = [ ]
+
+        for key, value in self.items():
+            # Add a string for each keypair, fully representing both the
+            # key and the value, and making their relationship clear.
+            data.append("{}: {}".format(repr(key), repr(value)))
+
+        # Everything in that list should be comma-separated.
+        return "<{} {{{}}}>".format(
+                self.__class__.__name__, ", ".join(data))
+
     ################################################################
     ################ Private Properties and Methods ################
     ################################################################
