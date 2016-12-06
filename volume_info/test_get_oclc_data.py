@@ -405,3 +405,62 @@ class TestArgumentCollector (unittest.TestCase):
         self.assertEqual(i, 5)
 
         self.assertEqual(len(repr_str), length - 2)
+
+    def test_copy (self):
+        a = ArgumentCollector("a", "b", hi="hello", d="hey")
+        a.update(1, 2, c=3, d=4)
+
+        b = a.copy()
+        self.assertEqual(a, b)
+        self.assertEqual(len(a), len(b))
+
+        for key in a:
+            self.assertIn(key, b)
+            self.assertEqual(a[key], b[key])
+
+        for key in b:
+            self.assertIn(key, a)
+            self.assertEqual(a[key], b[key])
+
+        b.update(3, 4)
+
+        # a should be unchanged.
+        self.assertEqual(a["a"], 1)
+        self.assertEqual(a["b"], 2)
+        self.assertEqual(a["c"], 3)
+        self.assertEqual(a["d"], 4)
+        self.assertEqual(a["hi"], "hello")
+
+        # b should reflect the change (even with the default value for
+        # "d").
+        self.assertEqual(b["a"], 3)
+        self.assertEqual(b["b"], 4)
+        self.assertEqual(b["hi"], "hello")
+        self.assertEqual(b["d"], "hey")
+
+    def test_base (self):
+        a = ArgumentCollector("a", z="zee")
+        a.update(5)
+
+        b = a.base("b", matt="is cool")
+        b.update(4)
+
+        self.assertEqual(a, {
+            "a":    5,
+            "z":    "zee"})
+
+        self.assertEqual(b, {
+            "a":    5,
+            "b":    4,
+            "z":    "zee",
+            "matt": "is cool"})
+
+        a.update(8)
+
+        self.assertEqual(a["a"], 8)
+        self.assertEqual(b["a"], 5)
+
+        b.update(b=4, z="matt's still cool ok?")
+
+        self.assertEqual(a["z"], "zee")
+        self.assertEqual(b["z"], "matt's still cool ok?")
