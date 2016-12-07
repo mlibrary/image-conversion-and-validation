@@ -485,3 +485,43 @@ class TestArgumentCollector (unittest.TestCase):
 
         a.update()
         self.assertFalse(a)
+
+class TestURI (unittest.TestCase):
+
+    def test_get (self):
+        base = "https://lib.umich.edu/"
+        uri = URI(base, "barcode", key="secret")
+
+        result = uri.get("hello")
+
+        barcode_hello = "barcode=hello"
+        key_secret = "key=secret"
+
+        self.assertTrue(isinstance(result, bytes))
+        self.assertTrue(result.startswith(base + "?"))
+        self.assertNotEqual(-1, result.find(barcode_hello))
+        self.assertNotEqual(-1, result.find(key_secret))
+        self.assertEqual(len(result),
+                len(base) + len(barcode_hello) + len(key_secret) + 2)
+
+    def test_post (self):
+        base = "https://lib.umich.edu/"
+        uri = URI(base)
+
+        result = uri.post(matt="is cool")
+        self.assertTrue(isinstance(result, tuple))
+        self.assertEqual(len(result), 2)
+
+        result_uri, result_data = result
+        self.assertEqual(result_uri, base)
+        self.assertTrue(isinstance(result_data, bytes))
+        self.assertEqual(result_data, b"matt=is+cool")
+
+    def test_unicode (self):
+        base = "https://lib.umich.edu/"
+        uri = URI(base)
+
+        result = uri.get(matt="💪")
+        expected = base + "?matt=%F0%9F%92%AA"
+
+        self.assertEqual(result, expected)
