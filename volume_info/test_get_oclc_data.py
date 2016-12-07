@@ -498,7 +498,7 @@ class TestURI (unittest.TestCase):
         key_secret = "key=secret"
 
         self.assertTrue(isinstance(result, bytes))
-        self.assertTrue(result.startswith(base + "?"))
+        self.assertTrue(result.startswith(base.encode("ascii") + b"?"))
         self.assertNotEqual(-1, result.find(barcode_hello))
         self.assertNotEqual(-1, result.find(key_secret))
         self.assertEqual(len(result),
