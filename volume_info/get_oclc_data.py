@@ -741,7 +741,9 @@ class ArgumentCollector (Mapping):
             # If we found any, raise an error.
             self.__raise_missing_args(function_name, missing)
 
-    def __find_any_missing_args (self, mapping, missing = [ ]):
+    def __find_any_missing_args (self, mapping):
+        missing = [ ]
+
         for key in self.__expected_args:
             # Look at each key we expect to see.
             self.__add_key_if_missing(key, mapping, missing)
