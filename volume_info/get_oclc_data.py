@@ -3,6 +3,7 @@
 # BSD License. See LICENSE.txt for details.
 from collections.abc import Sequence, Mapping
 from re import compile as re_compile
+from urllib.parse import urlencode
 
 ########################################################################
 ############################## Exceptions ##############################
@@ -831,3 +832,45 @@ class ArgumentCollector (Mapping):
                 self.__maybe_plural(count,
                         "required positional argument"),
                 arg_str))
+
+class URI:
+
+    def __init__ (self, *args, **kwargs):
+        # The base URI should be the first positional argument.
+        self.__uri = self.__extract_uri(args)
+
+        # For everything else, we use an ArgumentCollector.
+        self.__args = ArgumentCollector(args[1:], kwargs)
+
+    def get (self, *args, **kwargs):
+        data = self.__get_encoded_data(args, kwargs)
+
+        if data:
+            return self.__uri + b"?" + data
+
+        else:
+            return self.__uri
+
+    def post (self, *args, **kwargs):
+        return self.__uri, self.__get_encoded_data(args, kwargs)
+
+    def __get_encoded_data (self, args, kwargs):
+        self.__args.update(args, kwargs)
+        encoded = urlencode(self.__args)
+
+        return self.__assert_bytes(encoded)
+
+    def __assert_bytes (self, ascii_str):
+        if isinstance(ascii_str, bytes):
+            return ascii_str
+
+        else:
+            return ascii_str.encode("ascii")
+
+    def __extract_uri (self, args):
+        if args:
+            return self.__assert_bytes(args[0])
+
+        else:
+            raise TypeError("__init__() missing 1 required " \
+                    "positional argument: 'uri_base'")
