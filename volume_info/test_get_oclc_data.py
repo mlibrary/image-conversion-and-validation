@@ -494,8 +494,8 @@ class TestURI (unittest.TestCase):
 
         result = uri.get("hello")
 
-        barcode_hello = "barcode=hello"
-        key_secret = "key=secret"
+        barcode_hello = "barcode=hello".encode("ascii")
+        key_secret = "key=secret".encode("ascii")
 
         self.assertTrue(isinstance(result, bytes))
         self.assertTrue(result.startswith(base.encode("ascii") + b"?"))
@@ -513,7 +513,7 @@ class TestURI (unittest.TestCase):
         self.assertEqual(len(result), 2)
 
         result_uri, result_data = result
-        self.assertEqual(result_uri, base)
+        self.assertEqual(result_uri, base.encode("ascii"))
         self.assertTrue(isinstance(result_data, bytes))
         self.assertEqual(result_data, b"matt=is+cool")
 
@@ -524,4 +524,4 @@ class TestURI (unittest.TestCase):
         result = uri.get(matt="💪")
         expected = base + "?matt=%F0%9F%92%AA"
 
-        self.assertEqual(result, expected)
+        self.assertEqual(result, expected.encode("ascii"))
