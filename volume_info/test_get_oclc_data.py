@@ -8,6 +8,9 @@ import unittest
 
 from .get_oclc_data import *
 
+SLOW_TESTS = os.environ.get("SLOW_TESTS", False)
+slow_test = unittest.skipUnless(SLOW_TESTS, "slow test")
+
 class TestBaseError (unittest.TestCase):
 
     def test_is_exception (self):
@@ -527,6 +530,7 @@ class TestURI (unittest.TestCase):
 
         self.assertEqual(result, expected.encode("ascii"))
 
+    @slow_test
     def test_get_response (self):
         uri = URI("http://lib.umich.edu/", "matt")
 
@@ -536,6 +540,7 @@ class TestURI (unittest.TestCase):
                     "lib.umich.edu/?matt=is+cool"))
             self.assertTrue(isinstance(response.read(), bytes))
 
+    @slow_test
     def test_post_response (self):
         uri = URI("http://lib.umich.edu/", "matt")
 
