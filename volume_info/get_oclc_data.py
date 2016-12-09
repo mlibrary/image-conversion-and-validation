@@ -845,7 +845,7 @@ class URI:
         # For everything else, we use an ArgumentCollector.
         self.__args = ArgumentCollector(args[1:], kwargs)
 
-    def get (self, *args, **kwargs):
+    def get_uri (self, *args, **kwargs):
         """Return a URI bytes object with appropriate GET data."""
 
         # Get the data.
@@ -860,7 +860,7 @@ class URI:
             # If we have no data, we can just use the URI as-is.
             return self.__uri
 
-    def post (self, *args, **kwargs):
+    def post_uri (self, *args, **kwargs):
         """Return a duple of bytes objects: base URI and POST data."""
         return self.__uri, self.__get_encoded_data(args, kwargs)
 
