@@ -490,6 +490,16 @@ class TestArgumentCollector (unittest.TestCase):
         a.update()
         self.assertFalse(a)
 
+class TestDecoyMapping (unittest.TestCase):
+
+    def test_format (self):
+        self.assertEqual(extract_format_keys("{hey} and {whatsup}"),
+                {"hey", "whatsup"})
+        self.assertEqual(extract_format_keys("{holler:d}"),
+                {"holler"})
+        self.assertEqual(extract_format_keys("{holler:f}"),
+                {"holler"})
+
 class TestURI (unittest.TestCase):
 
     def test_get (self):
