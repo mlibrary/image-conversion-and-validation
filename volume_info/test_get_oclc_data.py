@@ -528,19 +528,19 @@ class TestURI (unittest.TestCase):
         self.assertEqual(result, expected.encode("ascii"))
 
     def test_get_response (self):
-        uri = URI("https://lib.umich.edu/", "matt")
+        uri = URI("http://lib.umich.edu/", "matt")
 
         with uri.get("is cool") as response:
             self.assertTrue(isinstance(response, HTTPResponse))
-            self.assertEqual(response.geturl(),
-                    "https://lib.umich.edu/?matt=is+cool")
+            self.assertTrue(response.geturl().endswith(
+                    "lib.umich.edu/?matt=is+cool"))
             self.assertTrue(isinstance(response.read(), bytes))
 
     def test_post_response (self):
-        uri = URI("https://lib.umich.edu/", "matt")
+        uri = URI("http://lib.umich.edu/", "matt")
 
         with uri.post("is cool") as response:
             self.assertTrue(isinstance(response, HTTPResponse))
-            self.assertEqual(response.geturl(),
-                    "https://lib.umich.edu/")
+            self.assertTrue(response.geturl().endswith(
+                    "lib.umich.edu/"))
             self.assertTrue(isinstance(response.read(), bytes))
