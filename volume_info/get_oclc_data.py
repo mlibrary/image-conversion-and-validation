@@ -841,15 +841,19 @@ class DecoyMapping (Mapping):
     """
 
     def __init__ (self, value = 0):
+        """Init an empty decoy mapping."""
+
         # Start with an empty set.
         self.__keys = set()
         self.__value = value
 
     def get_keys (self):
-        # Return the key set.
+        """Return the set of keys."""
         return self.__keys
 
     def __getitem__ (self, key):
+        """Add key and return 0."""
+
         # A query! Add this to our set.
         self.__keys.add(key)
 
@@ -857,11 +861,11 @@ class DecoyMapping (Mapping):
         return self.__value
 
     def __len__ (self):
-        # We contain nothing.
+        """Return 0."""
         return 0
 
     def __iter__ (self):
-        # Iterate through nothing.
+        """Return an empty iterator."""
         return iter(())
 
 def extract_format_keys (s):
