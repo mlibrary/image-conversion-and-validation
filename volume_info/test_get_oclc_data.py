@@ -1,6 +1,7 @@
 # Copyright (c) 2016 The Regents of the University of Michigan.
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
+from http.client import HTTPResponse
 from tempfile import mkstemp
 import os
 import unittest
@@ -492,7 +493,7 @@ class TestURI (unittest.TestCase):
         base = "https://lib.umich.edu/"
         uri = URI(base, "barcode", key="secret")
 
-        result = uri.get("hello")
+        result = uri.get_uri("hello")
 
         barcode_hello = "barcode=hello".encode("ascii")
         key_secret = "key=secret".encode("ascii")
@@ -508,7 +509,7 @@ class TestURI (unittest.TestCase):
         base = "https://lib.umich.edu/"
         uri = URI(base)
 
-        result = uri.post(matt="is cool")
+        result = uri.post_uri(matt="is cool")
         self.assertTrue(isinstance(result, tuple))
         self.assertEqual(len(result), 2)
 
@@ -521,7 +522,25 @@ class TestURI (unittest.TestCase):
         base = "https://lib.umich.edu/"
         uri = URI(base)
 
-        result = uri.get(matt="💪")
+        result = uri.get_uri(matt="💪")
         expected = base + "?matt=%F0%9F%92%AA"
 
         self.assertEqual(result, expected.encode("ascii"))
+
+    def test_get_response (self):
+        uri = URI("https://lib.umich.edu/", "matt")
+
+        with uri.get("is cool") as response:
+            self.assertTrue(isinstance(response, HTTPResponse))
+            self.assertEqual(response.geturl(),
+                    "https://lib.umich.edu/?matt=is+cool")
+            self.assertTrue(isinstance(response.read(), bytes))
+
+    def test_post_response (self):
+        uri = URI("https://lib.umich.edu/", "matt")
+
+        with uri.post("is cool") as response:
+            self.assertTrue(isinstance(response, HTTPResponse))
+            self.assertEqual(response.geturl(),
+                    "https://lib.umich.edu/")
+            self.assertTrue(isinstance(response.read(), bytes))
