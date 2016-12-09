@@ -492,13 +492,21 @@ class TestArgumentCollector (unittest.TestCase):
 
 class TestDecoyMapping (unittest.TestCase):
 
-    def test_format (self):
+    def test_format_multiple (self):
         self.assertEqual(extract_format_keys("{hey} and {whatsup}"),
                 {"hey", "whatsup"})
+
+    def test_format_decimal (self):
         self.assertEqual(extract_format_keys("{holler:d}"),
                 {"holler"})
+
+    def test_format_float (self):
         self.assertEqual(extract_format_keys("{holler:f}"),
                 {"holler"})
+
+    def test_format_empty (self):
+        self.assertEqual(extract_format_keys("no field names"),
+                set())
 
 class TestURI (unittest.TestCase):
 
