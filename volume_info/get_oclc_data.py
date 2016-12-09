@@ -834,6 +834,49 @@ class ArgumentCollector (Mapping):
                         "required positional argument"),
                 arg_str))
 
+class DecoyMapping (Mapping):
+    """Pretends to be a mapping but tracks queries and returns 0.
+
+    This is nice if you need to know exactly which keys are queried.
+    """
+
+    def __init__ (self, value = 0):
+        # Start with an empty set.
+        self.__keys = set()
+        self.__value = value
+
+    def get_keys (self):
+        # Return the key set.
+        return self.__keys
+
+    def __getitem__ (self, key):
+        # A query! Add this to our set.
+        self.__keys.add(key)
+
+        # Return 0. Probably safe.
+        return self.__value
+
+    def __len__ (self):
+        # We contain nothing.
+        return 0
+
+    def __iter__ (self):
+        # Iterate through nothing.
+        return iter(())
+
+def extract_format_keys (s):
+    """Return the set of named keywords in the format string."""
+
+    # Use a decoy mapping to track whatever we're asking for.
+    mapping = DecoyMapping()
+
+    # We use format map to stop the thing from trying to convert to a
+    # dict or anything weird.
+    junk = s.format_map(mapping)
+
+    # Return the resulting set of keys.
+    return mapping.get_keys()
+
 class URI:
     """URI object that handles GET and/or POST data."""
 
