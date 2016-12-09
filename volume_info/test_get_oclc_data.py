@@ -501,6 +501,11 @@ class TestArgumentCollector (unittest.TestCase):
         self.assertEqual(a["matt"], "is cool")
         self.assertEqual(a["ok"], "yes")
 
+    def test_skip_iter_zero_length (self):
+        a = ArgumentCollector()
+        a.skip_iter("nothing")
+        self.assertEqual(len(a), 0)
+
 class TestDecoyMapping (unittest.TestCase):
 
     def test_format_multiple (self):
