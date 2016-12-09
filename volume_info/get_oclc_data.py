@@ -618,8 +618,12 @@ class ArgumentCollector (Mapping):
                 # we'll decrement our result to compensate.
                 result -= 1
 
+        for i in self.__skip:
+            if i in self:
+                result -= 1
+
         # We also want to subtract anything we're skipping.
-        return result - len(self.__skip)
+        return result
 
     def __bool__ (self):
         """Return true if we contain values and if we contain all our
