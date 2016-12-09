@@ -4,6 +4,7 @@
 from collections.abc import Sequence, Mapping
 from re import compile as re_compile
 from urllib.parse import urlencode
+from urllib.request import urlopen
 
 ########################################################################
 ############################## Exceptions ##############################
@@ -844,6 +845,22 @@ class URI:
 
         # For everything else, we use an ArgumentCollector.
         self.__args = ArgumentCollector(args[1:], kwargs)
+
+    def get (self, *args, **kwargs):
+        """Return an HTTPResponse for the given GET request."""
+
+        # We store URIs as bytes objects, so we need to decode it to an
+        # ASCII str.
+        return urlopen(self.get_uri(*args, **kwargs).decode("ascii"))
+
+    def post (self, *args, **kwargs):
+        """Return an HTTPResponse for the given POST request."""
+
+        uri, data = self.post_uri(*args, **kwargs)
+
+        # We store URIs as bytes objects, so we need to decode it to an
+        # ASCII str.
+        return urlopen(uri.decode("ascii"), data)
 
     def get_uri (self, *args, **kwargs):
         """Return a URI bytes object with appropriate GET data."""
