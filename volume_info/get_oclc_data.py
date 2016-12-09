@@ -530,6 +530,9 @@ class ArgumentCollector (Mapping):
         # Otherwise, we start with no given arguments.
         self.__current_args = { }
 
+        # We don't skip anything by default
+        self.__skip = set()
+
     def update (self, *args, **kwargs):
         """Set a particular set of values.
 
@@ -575,8 +578,12 @@ class ArgumentCollector (Mapping):
         It defaults to a copy so you won't have the ability to modify
         its default behavior by modifying the source object.
         """
-
         return ArgumentCollector(args, self.copy())
+
+    def skip_iter (self, *args):
+        """Set a list of keys to ignore on iteration and length
+        checks."""
+        self.__skip = set(args)
 
     def __getitem__ (self, key):
         """Return the value for the given key."""
@@ -593,10 +600,10 @@ class ArgumentCollector (Mapping):
     def __iter__ (self):
         """Iterate through present keys."""
 
-        # First, iterate through any defaults that aren't overridden.
-        # Second, iterate through the current specified set.
-        yield from self.__defaults_minus_current()
-        yield from self.__current_args
+        # Skip any keys we don't want to iterate through.
+        for key in self.__all_keys():
+            if key not in self.__skip:
+                yield key
 
     def __len__ (self):
         """Return the count of key-value pairs currently inside."""
@@ -611,7 +618,8 @@ class ArgumentCollector (Mapping):
                 # we'll decrement our result to compensate.
                 result -= 1
 
-        return result
+        # We also want to subtract anything we're skipping.
+        return result - len(self.__skip)
 
     def __bool__ (self):
         """Return true if we contain values and if we contain all our
@@ -811,6 +819,12 @@ class ArgumentCollector (Mapping):
         self.__expected_args = source.__expected_args
         self.__optional_args = source.__optional_args
         self.__current_args = source.__current_args
+
+    def __all_keys (self):
+        # First, iterate through any defaults that aren't overridden.
+        # Second, iterate through the current specified set.
+        yield from self.__defaults_minus_current()
+        yield from self.__current_args
 
     def __raise_too_many_arguments (self, function_name, args_length):
         raise TypeError("{}() takes {} but {} given".format(
