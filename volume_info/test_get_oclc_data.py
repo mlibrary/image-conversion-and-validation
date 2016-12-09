@@ -549,3 +549,12 @@ class TestURI (unittest.TestCase):
             self.assertTrue(response.geturl().endswith(
                     "lib.umich.edu/"))
             self.assertTrue(isinstance(response.read(), bytes))
+
+    def test_data_in_uri (self):
+        uri = URI("http://lib.umich.edu/etc/{barcode}/",
+                "barcode")
+
+        self.assertEqual(uri.get_uri("39015012345678"),
+                b"http://lib.umich.edu/etc/39015012345678/")
+        self.assertEqual(uri.get_uri("39015012345678", a="b"),
+                b"http://lib.umich.edu/etc/39015012345678/?a=b")
