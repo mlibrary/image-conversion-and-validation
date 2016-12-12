@@ -911,6 +911,11 @@ class URI:
         # For everything else, we use an ArgumentCollector.
         self.__args = ArgumentCollector(args[1:], kwargs)
 
+        # I don't want the arguments to iterate through any format names
+        # that happen to be in the URI.
+        self.__args.skip_iter(*tuple(
+                extract_format_keys(self.__uri.decode("ascii"))))
+
     def get (self, *args, **kwargs):
         """Return an HTTPResponse for the given GET request."""
 
@@ -931,20 +936,27 @@ class URI:
         """Return a URI bytes object with appropriate GET data."""
 
         # Get the data.
-        data = self.__get_encoded_data(args, kwargs)
+        uri, data = self.post_uri(*args, **kwargs)
 
         if data:
             # If we have any data, it's appended to the URI with a
             # question mark.
-            return self.__uri + b"?" + data
+            return uri + b"?" + data
 
         else:
             # If we have no data, we can just use the URI as-is.
-            return self.__uri
+            return uri
 
     def post_uri (self, *args, **kwargs):
         """Return a duple of bytes objects: base URI and POST data."""
-        return self.__uri, self.__get_encoded_data(args, kwargs)
+        # Get the data.
+        data = self.__get_encoded_data(args, kwargs)
+
+        # Get the specific URI.
+        uri = self.__uri.decode("ascii").format_map(
+                self.__args).encode("ascii")
+
+        return uri, data
 
     ################################################################
     ################ Private Properties and Methods ################
