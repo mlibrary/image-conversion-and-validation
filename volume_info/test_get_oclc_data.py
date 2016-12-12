@@ -590,5 +590,5 @@ class TestURI (unittest.TestCase):
 
         self.assertEqual(uri.get_uri("39015012345678"),
                 b"http://lib.umich.edu/etc/39015012345678/")
-        self.assertEqual(uri.get_uri("39015012345678", a="b"),
-                b"http://lib.umich.edu/etc/39015012345678/?a=b")
+        self.assertEqual(uri.get_uri("39015012345679", a="b"),
+                b"http://lib.umich.edu/etc/39015012345679/?a=b")
