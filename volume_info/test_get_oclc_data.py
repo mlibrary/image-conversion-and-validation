@@ -107,6 +107,7 @@ class TestTooManyArguments (unittest.TestCase):
 
     def test_basic_cases (self):
         error = TypeTooManyArguments("hi", 0, 1)
+        self.assertTrue(isinstance(error, TypeError))
 
 class TestTabularData (unittest.TestCase):
 
