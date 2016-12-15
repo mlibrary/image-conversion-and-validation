@@ -311,6 +311,33 @@ class TestTabularData (unittest.TestCase):
 
 class TestArgumentCollector (unittest.TestCase):
 
+    def test_zero_args (self):
+        ac = ArgumentCollector()
+        self.assertFalse(bool(ac))
+        self.assertEqual(len(ac), 0)
+
+        ac.update(hey = "hello")
+        self.assertTrue(bool(ac))
+        self.assertEqual(len(ac), 1)
+        self.assertTrue("hey" in ac)
+        self.assertFalse("what" in ac)
+
+        ac.update(what = "whaddup")
+        self.assertTrue(bool(ac))
+        self.assertEqual(len(ac), 1)
+        self.assertFalse("hey" in ac)
+        self.assertTrue("what" in ac)
+
+    def test_one_arg (self):
+        ac = ArgumentCollector("matt")
+        self.assertFalse(bool(ac))
+        self.assertEqual(len(ac), 0)
+
+    def test_one_arg_one_kwarg (self):
+        ac = ArgumentCollector("hi", matt="is cool")
+        self.assertFalse(bool(ac))
+        self.assertEqual(len(ac), 1)
+
     def test_is_mapping (self):
         self.assertTrue(issubclass(ArgumentCollector, Mapping))
 
@@ -541,6 +568,12 @@ class TestDecoyMapping (unittest.TestCase):
         """Run extract_format_keys and compare its result."""
         self.assertEqual(extract_format_keys(format_string), values)
 
+    def test_format_empty (self):
+        self.assert_keys("no field names", set())
+
+    def test_format_one (self):
+        self.assert_keys("what if it's {hi}", {"hi"})
+
     def test_format_multiple (self):
         self.assert_keys("{hey} and {whatsup}", {"hey", "whatsup"})
 
@@ -549,9 +582,6 @@ class TestDecoyMapping (unittest.TestCase):
 
     def test_format_float (self):
         self.assert_keys("{holler:f}", {"holler"})
-
-    def test_format_empty (self):
-        self.assert_keys("no field names", set())
 
 class TestURI (unittest.TestCase):
 
