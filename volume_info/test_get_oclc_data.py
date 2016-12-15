@@ -111,6 +111,11 @@ class TestTooManyArguments (unittest.TestCase):
         self.assertEqual(str(error),
                 "hi() takes 0 positional arguments but 1 was given")
 
+        error = TypeTooManyArguments("two", 0, 2)
+        self.assertTrue(isinstance(error, TypeError))
+        self.assertEqual(str(error),
+                "two() takes 0 positional arguments but 2 were given")
+
 class TestTabularData (unittest.TestCase):
 
     def setUp (self):
