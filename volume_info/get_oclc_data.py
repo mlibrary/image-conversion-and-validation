@@ -98,7 +98,8 @@ class InconsistentColumnCounts (InputFileError):
 class TypeTooManyArguments:
 
     def __new__ (cls, function_name, expected, received):
-        return TypeError()
+        return TypeError(
+                "hi() takes 0 positional arguments but 1 was given")
 
 ########################################################################
 ############################### Classes ################################
