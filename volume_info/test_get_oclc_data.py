@@ -103,6 +103,11 @@ class TestBaseError (unittest.TestCase):
                 "in filename"):
             raise InconsistentColumnCounts("filename")
 
+class TestTooManyArguments (unittest.TestCase):
+
+    def test_basic_cases (self):
+        error = TypeTooManyArguments("hi", 0, 1)
+
 class TestTabularData (unittest.TestCase):
 
     def setUp (self):
