@@ -95,6 +95,11 @@ class InconsistentColumnCounts (InputFileError):
     """Expected each row to have the same column count in {}"""
     pass
 
+class TypeTooManyArguments:
+
+    def __init__ (self, function_name, expected, received):
+        pass
+
 ########################################################################
 ############################### Classes ################################
 ########################################################################
