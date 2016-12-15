@@ -117,20 +117,49 @@ class TestTabularData (unittest.TestCase):
         # Delete the temporary file I created.
         os.unlink(self.path)
 
+    def init_tabular_data (self):
+        """Return TabularData initted with our temporary file."""
+        return TabularData(self.path)
+
+    def set_header (self, data, value = True):
+        """Set the header to the given value (or to True)."""
+        data.header = value
+
+    def assert_header (self, data, value):
+        """Get the data's header and assert its equality."""
+        self.assertEqual(data.header, value)
+
+    def assert_rows (self, data, value):
+        """Get the data's row count and assert its equality."""
+        self.assertEqual(data.rows, value)
+
+    def assert_cols (self, data, value):
+        """Get the data's column count and assert its equality."""
+        self.assertEqual(data.cols, value)
+
     def write_file (self, content):
+        """Shortcut to write bytes or a str to a file."""
+
         if isinstance(content, str):
+            # If the content is a str, then I can write all like normal
+            # at a high level.
             mode = "w"
 
         else:
+            # Otherwise, I need to write bytes, and I should ensure that
+            # I actually have bytes to write with.
             assert isinstance(content, bytes)
             mode = "wb"
 
         with open(self.path, mode) as obj:
+            # Write the content into the temporary file we've created at
+            # setup.
             obj.write(content)
 
     def data_from_str (self, content):
+        """Shortcut for writing content to a file and opening it."""
         self.write_file(content)
-        return TabularData(self.path)
+        return self.init_tabular_data()
 
     def test_is_sequence (self):
         self.assertTrue(issubclass(TabularData, Sequence))
@@ -139,7 +168,7 @@ class TestTabularData (unittest.TestCase):
         for i in b"\x81\x8d\x8f\x90\x9d":
             self.write_file(i.to_bytes(1, "big"))
             with self.assertRaises(CantDecodeEncoding):
-                data = TabularData(self.path)
+                data = self.init_tabular_data()
 
     def test_bad_control_characters (self):
         ranges = (
@@ -154,25 +183,25 @@ class TestTabularData (unittest.TestCase):
                 self.write_file("something{}something\n".format(chr(i)))
                 regex = "0x{:02x}".format(i)
                 with self.assertRaisesRegex(InvalidControls, regex):
-                    data = TabularData(self.path)
+                    data = self.init_tabular_data()
 
     def test_error_on_stupid_newlines (self):
         self.write_file("first line\nsecond line\r\nthird line\rfourth")
 
         with self.assertRaises(InconsistentNewlines):
-            data = TabularData(self.path)
+            data = self.init_tabular_data()
 
     def test_error_on_LF_and_CRLF (self):
         self.write_file("first line\nsecond line\r\nthird line")
 
         with self.assertRaises(InconsistentNewlines):
-            data = TabularData(self.path)
+            data = self.init_tabular_data()
 
     def test_error_on_inconsistent_columns (self):
         self.write_file("shipment\tvolume\n1234567\t8974326\t7843927")
 
         with self.assertRaises(InconsistentColumnCounts):
-            data = TabularData(self.path)
+            data = self.init_tabular_data()
 
     def set_to_3x3_grid (self):
         return self.data_from_str("\n".join((
@@ -190,31 +219,31 @@ class TestTabularData (unittest.TestCase):
     def test_len_3x3 (self):
         data = self.set_to_3x3_grid()
         self.assertEqual(len(data), 3)
-        self.assertEqual(data.rows, 3)
-        self.assertEqual(data.cols, 3)
+        self.assert_rows(data, 3)
+        self.assert_cols(data, 3)
 
     def test_len_2x4 (self):
         data = self.set_to_2x4_grid()
         self.assertEqual(len(data), 4)
-        self.assertEqual(data.rows, 4)
-        self.assertEqual(data.cols, 2)
+        self.assert_rows(data, 4)
+        self.assert_cols(data, 2)
 
     def test_len_0x0 (self):
         data = self.data_from_str("")
         self.assertEqual(len(data), 0)
-        self.assertEqual(data.rows, 0)
-        self.assertEqual(data.cols, 0)
+        self.assert_rows(data, 0)
+        self.assert_cols(data, 0)
 
     def test_set_header (self):
         data = self.set_to_2x4_grid()
 
-        self.assertFalse(data.header)
-        data.header = True
-        self.assertTrue(data.header)
+        self.assert_header(data, False)
+        self.set_header(data)
+        self.assert_header(data, True)
 
         self.assertEqual(len(data), 3)
-        self.assertEqual(data.rows, 3)
-        self.assertEqual(data.cols, 2)
+        self.assert_rows(data, 3)
+        self.assert_cols(data, 2)
 
     def test_values_3x3 (self):
         data = self.set_to_3x3_grid()
@@ -269,7 +298,7 @@ class TestTabularData (unittest.TestCase):
         data = self.set_to_3x3_grid()
         self.assertTrue(isinstance(data[:], list))
 
-        data.header = True
+        self.set_header(data)
         self.assertTrue(isinstance(data[:], list))
 
     def test_repr (self):
@@ -508,21 +537,21 @@ class TestArgumentCollector (unittest.TestCase):
 
 class TestDecoyMapping (unittest.TestCase):
 
+    def assert_keys (self, format_string, values):
+        """Run extract_format_keys and compare its result."""
+        self.assertEqual(extract_format_keys(format_string), values)
+
     def test_format_multiple (self):
-        self.assertEqual(extract_format_keys("{hey} and {whatsup}"),
-                {"hey", "whatsup"})
+        self.assert_keys("{hey} and {whatsup}", {"hey", "whatsup"})
 
     def test_format_decimal (self):
-        self.assertEqual(extract_format_keys("{holler:d}"),
-                {"holler"})
+        self.assert_keys("{holler:d}", {"holler"})
 
     def test_format_float (self):
-        self.assertEqual(extract_format_keys("{holler:f}"),
-                {"holler"})
+        self.assert_keys("{holler:f}", {"holler"})
 
     def test_format_empty (self):
-        self.assertEqual(extract_format_keys("no field names"),
-                set())
+        self.assert_keys("no field names", set())
 
 class TestURI (unittest.TestCase):
 
