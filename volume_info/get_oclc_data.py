@@ -97,8 +97,8 @@ class InconsistentColumnCounts (InputFileError):
 
 class TypeTooManyArguments:
 
-    def __init__ (self, function_name, expected, received):
-        pass
+    def __new__ (cls, function_name, expected, received):
+        return TypeError()
 
 ########################################################################
 ############################### Classes ################################
