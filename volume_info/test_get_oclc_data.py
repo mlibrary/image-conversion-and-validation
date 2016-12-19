@@ -103,12 +103,21 @@ class TestBaseError (unittest.TestCase):
                 "in filename"):
             raise InconsistentColumnCounts("filename")
 
-class TestTooManyArgumentsError (unittest.TestCase):
+class TestCustomTypeErrors (unittest.TestCase):
 
-    def assert_error_equal (self, fn, num1, num2, rhs):
-        error = TooManyArgumentsError(fn, num1, num2)
+    class_to_test = None
+
+    def assert_error_equal (self, *args):
+        rhs = args[-1]
+        args = args[:-1]
+
+        error = self.class_to_test(*args)
         self.assertTrue(isinstance(error, TypeError))
         self.assertEqual(str(error), rhs)
+
+class TestTooManyArgumentsError (TestCustomTypeErrors):
+
+    class_to_test = TooManyArgumentsError
 
     def test_expected_zero (self):
         self.assert_error_equal("hi", 0, 1,
@@ -131,12 +140,12 @@ class TestTooManyArgumentsError (unittest.TestCase):
         self.assert_error_equal("six", 2, 3,
                 "six() takes 2 positional arguments but 3 were given")
 
-class TestMultipleValuesOneArgError (unittest.TestCase):
+class TestMultipleValuesOneArgError (TestCustomTypeErrors):
+
+    class_to_test = MultipleValuesOneArgError
 
     def test_degenerate (self):
-        error = MultipleValuesOneArgError("hey", "what")
-        self.assertTrue(isinstance(error, TypeError))
-        self.assertEqual(str(error),
+        self.assert_error_equal("hey", "what",
                 "hey() got multiple values for keyword argument 'what'")
 
 class TestTabularData (unittest.TestCase):
