@@ -105,15 +105,16 @@ class TestBaseError (unittest.TestCase):
 
 class TestTooManyArguments (unittest.TestCase):
 
-    def test_basic_cases (self):
-        error = TypeTooManyArguments("hi", 0, 1)
+    def assert_error_equal (self, fn, num1, num2, rhs):
+        error = TypeTooManyArguments(fn, num1, num2)
         self.assertTrue(isinstance(error, TypeError))
-        self.assertEqual(str(error),
+        self.assertEqual(str(error), rhs)
+
+    def test_basic_cases (self):
+        self.assert_error_equal("hi", 0, 1,
                 "hi() takes 0 positional arguments but 1 was given")
 
-        error = TypeTooManyArguments("two", 0, 2)
-        self.assertTrue(isinstance(error, TypeError))
-        self.assertEqual(str(error),
+        self.assert_error_equal("two", 0, 2,
                 "two() takes 0 positional arguments but 2 were given")
 
 class TestTabularData (unittest.TestCase):
