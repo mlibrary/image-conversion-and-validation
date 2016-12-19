@@ -118,7 +118,8 @@ class TooManyArgumentsError:
 class MultipleValuesOneArgError:
 
     def __new__ (cls, *args):
-        return TypeError()
+        return TypeError(
+                "hey() got multiple values for keyword argument 'what'")
 
 ########################################################################
 ############################### Classes ################################
