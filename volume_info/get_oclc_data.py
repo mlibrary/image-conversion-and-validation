@@ -106,7 +106,8 @@ class TooManyArgumentsError:
                         received, "was", "were")))
 
     @staticmethod
-    def __get_string_with_counted_word (quantity, singular, plural = None):
+    def __get_string_with_counted_word (
+            quantity, singular, plural = None):
         if quantity == 1:
             return "1 " + singular
 
