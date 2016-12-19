@@ -117,6 +117,12 @@ class TestTooManyArguments (unittest.TestCase):
         self.assert_error_equal("two", 0, 2,
                 "two() takes 0 positional arguments but 2 were given")
 
+        self.assert_error_equal("three", 0, 3,
+                "three() takes 0 positional arguments but 3 were given")
+
+        self.assert_error_equal("four", 1, 2,
+                "four() takes 1 positional argument but 2 were given")
+
 class TestTabularData (unittest.TestCase):
 
     def setUp (self):
