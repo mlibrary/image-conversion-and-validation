@@ -106,7 +106,7 @@ class TestBaseError (unittest.TestCase):
 class TestTooManyArguments (unittest.TestCase):
 
     def assert_error_equal (self, fn, num1, num2, rhs):
-        error = TypeTooManyArguments(fn, num1, num2)
+        error = TooManyArgumentsError(fn, num1, num2)
         self.assertTrue(isinstance(error, TypeError))
         self.assertEqual(str(error), rhs)
 
