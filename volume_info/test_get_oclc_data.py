@@ -148,6 +148,9 @@ class TestMultipleValuesOneArgError (TestCustomTypeErrors):
         self.assert_error_equal("hey", "what",
                 "hey() got multiple values for keyword argument 'what'")
 
+        self.assert_error_equal("two", "ok",
+                "two() got multiple values for keyword argument 'ok'")
+
 class TestTabularData (unittest.TestCase):
 
     def setUp (self):
