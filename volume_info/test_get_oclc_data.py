@@ -110,7 +110,7 @@ class TestTooManyArguments (unittest.TestCase):
         self.assertTrue(isinstance(error, TypeError))
         self.assertEqual(str(error), rhs)
 
-    def test_basic_cases (self):
+    def test_expected_zero (self):
         self.assert_error_equal("hi", 0, 1,
                 "hi() takes 0 positional arguments but 1 was given")
 
@@ -120,8 +120,16 @@ class TestTooManyArguments (unittest.TestCase):
         self.assert_error_equal("three", 0, 3,
                 "three() takes 0 positional arguments but 3 were given")
 
+    def test_expected_one (self):
         self.assert_error_equal("four", 1, 2,
                 "four() takes 1 positional argument but 2 were given")
+
+        self.assert_error_equal("five", 1, 3,
+                "five() takes 1 positional argument but 3 were given")
+
+    def test_expected_two (self):
+        self.assert_error_equal("six", 2, 3,
+                "six() takes 2 positional arguments but 3 were given")
 
 class TestTabularData (unittest.TestCase):
 
