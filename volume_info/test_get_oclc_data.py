@@ -135,6 +135,7 @@ class TestMultipleValuesOneArgError (unittest.TestCase):
 
     def test_degenerate (self):
         error = MultipleValuesOneArgError("hey", "what")
+        self.assertTrue(isinstance(error, TypeError))
 
 class TestTabularData (unittest.TestCase):
 
