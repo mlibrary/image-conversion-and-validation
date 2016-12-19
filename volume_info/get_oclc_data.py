@@ -104,9 +104,17 @@ class TypeTooManyArguments:
         else:
             was = "were"
 
+        if expected == 1:
+            argument = "argument"
+
+        else:
+            argument = "arguments"
+
         return TypeError(
-                "{}() takes {:d} positional arguments but {:d} {} "
-                "given".format(function_name, expected, received, was))
+                "{}() takes {:d} positional {} but {:d} {} given"
+                .format(function_name,
+                        expected, argument,
+                        received, was))
 
 ########################################################################
 ############################### Classes ################################
