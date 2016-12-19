@@ -100,18 +100,20 @@ class TypeTooManyArguments:
     def __new__ (cls, function_name, expected, received):
         return TypeError("{}() takes {} but {} given".format(
                 function_name,
-                cls.__maybe_plural(expected, "positional argument"),
-                cls.__maybe_plural(received, "was", "were")))
+                cls.__get_string_with_counted_word(
+                        expected, "positional argument"),
+                cls.__get_string_with_counted_word(
+                        received, "was", "were")))
 
     @staticmethod
-    def __maybe_plural (number, word, plural = None):
-        if number == 1:
-            return "1 " + word
+    def __get_string_with_counted_word (quantity, singular, plural = None):
+        if quantity == 1:
+            return "1 " + singular
 
         if plural is None:
-            plural = word + "s"
+            plural = singular + "s"
 
-        return "{:d} {}".format(number, plural)
+        return "{:d} {}".format(quantity, plural)
 
 ########################################################################
 ############################### Classes ################################
