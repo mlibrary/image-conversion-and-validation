@@ -117,8 +117,8 @@ class TooManyArgumentsError:
 
 class MultipleValuesOneArgError:
 
-    def __init__ (self, *args):
-        pass
+    def __new__ (cls, *args):
+        return TypeError()
 
 ########################################################################
 ############################### Classes ################################
