@@ -103,7 +103,7 @@ class TestBaseError (unittest.TestCase):
                 "in filename"):
             raise InconsistentColumnCounts("filename")
 
-class TestTooManyArguments (unittest.TestCase):
+class TestTooManyArgumentsError (unittest.TestCase):
 
     def assert_error_equal (self, fn, num1, num2, rhs):
         error = TooManyArgumentsError(fn, num1, num2)
