@@ -136,6 +136,8 @@ class TestMultipleValuesOneArgError (unittest.TestCase):
     def test_degenerate (self):
         error = MultipleValuesOneArgError("hey", "what")
         self.assertTrue(isinstance(error, TypeError))
+        self.assertEqual(str(error),
+                "hey() got multiple values for keyword argument 'what'")
 
 class TestTabularData (unittest.TestCase):
 
