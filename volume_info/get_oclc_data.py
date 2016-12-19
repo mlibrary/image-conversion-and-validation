@@ -98,23 +98,20 @@ class InconsistentColumnCounts (InputFileError):
 class TypeTooManyArguments:
 
     def __new__ (cls, function_name, expected, received):
-        if received == 1:
-            was = "was"
+        return TypeError("{}() takes {} but {} given".format(
+                function_name,
+                cls.__maybe_plural(expected, "positional argument"),
+                cls.__maybe_plural(received, "was", "were")))
 
-        else:
-            was = "were"
+    @staticmethod
+    def __maybe_plural (number, word, plural = None):
+        if number == 1:
+            return "1 " + word
 
-        if expected == 1:
-            argument = "argument"
+        if plural is None:
+            plural = word + "s"
 
-        else:
-            argument = "arguments"
-
-        return TypeError(
-                "{}() takes {:d} positional {} but {:d} {} given"
-                .format(function_name,
-                        expected, argument,
-                        received, was))
+        return "{:d} {}".format(number, plural)
 
 ########################################################################
 ############################### Classes ################################
