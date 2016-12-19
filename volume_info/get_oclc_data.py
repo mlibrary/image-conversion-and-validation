@@ -115,6 +115,11 @@ class TooManyArgumentsError:
 
         return "{:d} {}".format(quantity, plural)
 
+class MultipleValuesOneArgError:
+
+    def __init__ (self, *args):
+        pass
+
 ########################################################################
 ############################### Classes ################################
 ########################################################################
