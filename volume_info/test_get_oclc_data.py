@@ -131,6 +131,11 @@ class TestTooManyArgumentsError (unittest.TestCase):
         self.assert_error_equal("six", 2, 3,
                 "six() takes 2 positional arguments but 3 were given")
 
+class TestMultipleValuesOneArgError (unittest.TestCase):
+
+    def test_degenerate (self):
+        error = MultipleValuesOneArgError("hey", "what")
+
 class TestTabularData (unittest.TestCase):
 
     def setUp (self):
