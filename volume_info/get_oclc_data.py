@@ -96,15 +96,49 @@ class InconsistentColumnCounts (InputFileError):
     pass
 
 class CountedWord:
+    """A word prepared to enter sentences accompanied by a quantity."""
 
     def __init__ (self, singular_word, optional_plural = None):
+        """Init internal parameters.
+
+        If you don't give me an optional plural, I'll default to
+        appending an `s` to the end of the singular word.
+        """
+
         self.__singular = singular_word
-        self.__plural = singular_word + "s" if optional_plural is None \
-                else optional_plural
+        self.__figure_out_plural(optional_plural)
 
     def getstr (self, quantity):
-        return "{:d} {}".format(quantity,
-                self.__singular if quantity == 1 else self.__plural)
+        """Return a string of the form `# word(s)`.
+
+        Whether we return the singular or the plural form of the word
+        depends on whether or not the quantity is 1.
+        """
+
+        if quantity == 1:
+            return self.__get_singular()
+
+        else:
+            return self.__get_plural(quantity)
+
+    def __figure_out_plural (self, optional_plural):
+        if optional_plural is None:
+            self.__set_default_plural()
+
+        else:
+            self.__set_specific_plural(optional_plural)
+
+    def __set_default_plural (self):
+        self.__plural = self.__singular + "s"
+
+    def __set_specific_plural (self, plural):
+        self.__plural = plural
+
+    def __get_singular (self):
+        return "1 " + self.__singular
+
+    def __get_plural (self, quantity):
+        return "{:d} {}".format(quantity, self.__plural)
 
 class TooManyArgumentsError:
 
