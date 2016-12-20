@@ -187,6 +187,8 @@ class TestCountedWord (unittest.TestCase):
     def test_custom_plural (self):
         self.init_counted_word("octopus", "octopodes")
         self.assert_getstr(0, "0 octopodes")
+        self.assert_getstr(1, "1 octopus")
+        self.assert_getstr(2, "2 octopodes")
 
 class TestTabularData (unittest.TestCase):
 
