@@ -122,8 +122,12 @@ class CountedWord:
             return self.__get_plural(quantity)
 
     def __repr__ (self):
-        return "<{} {}/{}>".format(self.__class__.__name__,
-                self.__singular, self.__plural)
+        """Return informataive representation of CountedWord object."""
+
+        return "<{} {}/{}>".format(
+                self.__class__.__name__,
+                self.__singular,
+                self.__plural)
 
     def __figure_out_plural (self, optional_plural):
         if optional_plural is None:
