@@ -105,7 +105,7 @@ class TestBaseError (unittest.TestCase):
 
 class TestCustomTypeErrors (unittest.TestCase):
 
-    class_to_test = None
+    class_to_test = TypeError
 
     def assert_error_equal (self, *args):
         rhs = args[-1]
@@ -114,6 +114,9 @@ class TestCustomTypeErrors (unittest.TestCase):
         error = self.class_to_test(*args)
         self.assertTrue(isinstance(error, TypeError))
         self.assertEqual(str(error), rhs)
+
+    def test_is_TypeError (self):
+        self.assertTrue(issubclass(self.class_to_test, TypeError))
 
 class TestTooManyArgumentsError (TestCustomTypeErrors):
 

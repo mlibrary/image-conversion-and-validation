@@ -148,7 +148,7 @@ class CountedWord:
     def __get_plural (self, quantity):
         return "{:d} {}".format(quantity, self.__plural)
 
-class TooManyArgumentsError:
+class TooManyArgumentsError (TypeError):
 
     def __new__ (cls, function_name, expected, received):
         args = CountedWord("positional argument")
@@ -157,14 +157,14 @@ class TooManyArgumentsError:
         return TypeError("{}() takes {} but {} given".format(
                 function_name, args(expected), were(received)))
 
-class MultipleValuesOneArgError:
+class MultipleValuesOneArgError (TypeError):
 
     def __new__ (cls, function_name, arg):
         return TypeError(
                 "{}() got multiple values for keyword argument '{}'"
                         .format(function_name, arg))
 
-class MissingPositionalArgsError:
+class MissingPositionalArgsError (TypeError):
 
     def __new__ (cls, function_name, *args):
         missing = CountedWord("required positional argument")
