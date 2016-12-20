@@ -311,3 +311,5 @@ class TestMARCData (unittest.TestCase):
 
         self.assertEqual(isman.callno, "Isl. Ms. 402")
         self.assertEqual(astro.callno, "Isl. Ms. 782")
+
+        self.assertEqual(isman.author, "")

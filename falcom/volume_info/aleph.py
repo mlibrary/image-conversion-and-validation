@@ -5,6 +5,8 @@ import xml.etree.ElementTree as ET
 
 class MARCData:
 
+    author = ""
+
     def __init__ (self, xml):
         root = ET.fromstring(xml)
         self.bib = root.find(".//{http://www.loc.gov/MARC21/slim}"
