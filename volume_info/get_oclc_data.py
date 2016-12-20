@@ -95,6 +95,8 @@ class InconsistentColumnCounts (InputFileError):
     """Expected each row to have the same column count in {}"""
     pass
 
+def CountedWord(arg): pass
+
 class TooManyArgumentsError:
 
     def __new__ (cls, function_name, expected, received):
