@@ -5,7 +5,7 @@ from re import compile as re_compile
 
 from .general.counted_word import CountedWord
 
-class BaseError (Exception):
+class BaseError (RuntimeError):
     """Catchall exception to sire all others in this script."""
 
     __re_indent = re_compile(r"\n +")
