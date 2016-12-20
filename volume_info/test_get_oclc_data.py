@@ -169,6 +169,7 @@ class TestCountedWord (unittest.TestCase):
 
     def test_degenerate (self):
         word = CountedWord("thing")
+        self.assertEqual(word.getstr(1), "1 thing")
 
 class TestTabularData (unittest.TestCase):
 
