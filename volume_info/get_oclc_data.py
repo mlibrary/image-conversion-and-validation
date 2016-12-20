@@ -97,13 +97,14 @@ class InconsistentColumnCounts (InputFileError):
 
 class CountedWord:
 
-    def __init__ (self, arg, optional = None):
-        self.__word = arg
-        self.__plural = arg + "s" if optional is None else optional
+    def __init__ (self, singular_word, optional_plural = None):
+        self.__singular = singular_word
+        self.__plural = singular_word + "s" if optional_plural is None \
+                else optional_plural
 
-    def getstr (self, arg):
-        return "{:d} {}".format(arg,
-                self.__word if arg == 1 else self.__plural)
+    def getstr (self, quantity):
+        return "{:d} {}".format(quantity,
+                self.__singular if quantity == 1 else self.__plural)
 
 class TooManyArgumentsError:
 
