@@ -97,7 +97,7 @@ class InconsistentColumnCounts (InputFileError):
 
 class CountedWord:
 
-    def __init__ (self, arg):
+    def __init__ (self, arg, optional = None):
         self.__word = arg
 
     def getstr (self, arg):

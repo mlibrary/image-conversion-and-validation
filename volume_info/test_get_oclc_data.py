@@ -175,6 +175,11 @@ class TestCountedWord (unittest.TestCase):
 
         word = CountedWord("widget")
         self.assertEqual(word.getstr(0), "0 widgets")
+        self.assertEqual(word.getstr(1), "1 widget")
+        self.assertEqual(word.getstr(2), "2 widgets")
+
+    def test_custom_plural (self):
+        word = CountedWord("octopus", "octopodes")
 
 class TestTabularData (unittest.TestCase):
 
