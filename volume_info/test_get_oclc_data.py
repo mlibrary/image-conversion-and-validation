@@ -190,6 +190,10 @@ class TestCountedWord (unittest.TestCase):
         self.assert_getstr(1, "1 octopus")
         self.assert_getstr(2, "2 octopodes")
 
+    def test_repr (self):
+        self.init_counted_word("beat")
+        self.assertEqual(repr(self.word), "<CountedWord beat/beats>")
+
 class TestTabularData (unittest.TestCase):
 
     def setUp (self):

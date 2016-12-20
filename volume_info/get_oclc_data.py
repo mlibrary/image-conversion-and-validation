@@ -121,6 +121,9 @@ class CountedWord:
         else:
             return self.__get_plural(quantity)
 
+    def __repr__ (self):
+        return "<CountedWord beat/beats>"
+
     def __figure_out_plural (self, optional_plural):
         if optional_plural is None:
             self.__set_default_plural()
