@@ -160,6 +160,10 @@ class TestMissingPositionalArgsError (TestCustomTypeErrors):
                 "hello() missing 1 required positional argument: "
                 "'missing1'")
 
+        self.assert_error_equal("hello", "missing1", "missing2",
+                "hello() missing 2 required positional arguments: "
+                "'missing1' and 'missing2'")
+
 class TestTabularData (unittest.TestCase):
 
     def setUp (self):

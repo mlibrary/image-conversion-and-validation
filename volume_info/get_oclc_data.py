@@ -123,9 +123,11 @@ class MultipleValuesOneArgError:
                 "{}() got multiple values for keyword argument '{}'"
                         .format(function_name, arg))
 
-def MissingPositionalArgsError(a, b, c):
-    return TypeError("hello() missing 1 required positional argument: "
-            "'missing1'")
+class MissingPositionalArgsError:
+
+    def __new__ (*args):
+        return TypeError("hello() missing 1 required positional argument: "
+                "'missing1'")
 
 ########################################################################
 ############################### Classes ################################
