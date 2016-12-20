@@ -167,19 +167,25 @@ class TestMissingPositionalArgsError (TestCustomTypeErrors):
 
 class TestCountedWord (unittest.TestCase):
 
-    def test_degenerate (self):
-        word = CountedWord("thing")
-        self.assertEqual(word.getstr(0), "0 things")
-        self.assertEqual(word.getstr(1), "1 thing")
-        self.assertEqual(word.getstr(2), "2 things")
+    def init_counted_word (self, *args):
+        self.word = CountedWord(*args)
 
-        word = CountedWord("widget")
-        self.assertEqual(word.getstr(0), "0 widgets")
-        self.assertEqual(word.getstr(1), "1 widget")
-        self.assertEqual(word.getstr(2), "2 widgets")
+    def assert_getstr (self, number, rhs):
+        self.assertEqual(self.word.getstr(number), rhs)
+
+    def test_degenerate (self):
+        self.init_counted_word("thing")
+        self.assert_getstr(0, "0 things")
+        self.assert_getstr(1, "1 thing")
+        self.assert_getstr(2, "2 things")
+
+        self.init_counted_word("widget")
+        self.assert_getstr(0, "0 widgets")
+        self.assert_getstr(1, "1 widget")
+        self.assert_getstr(2, "2 widgets")
 
     def test_custom_plural (self):
-        word = CountedWord("octopus", "octopodes")
+        self.init_counted_word("octopus", "octopodes")
 
 class TestTabularData (unittest.TestCase):
 
