@@ -194,6 +194,10 @@ class TestCountedWord (unittest.TestCase):
         self.init_counted_word("beat")
         self.assertEqual(repr(self.word), "<CountedWord beat/beats>")
 
+        self.init_counted_word("holler")
+        self.assertEqual(repr(self.word),
+                "<CountedWord holler/hollers>")
+
 class TestTabularData (unittest.TestCase):
 
     def setUp (self):
