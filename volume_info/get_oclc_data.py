@@ -168,17 +168,36 @@ class MissingPositionalArgsError (TypeError):
 
     def __new__ (cls, function_name, *args):
         missing = CountedWord("required positional argument")
-
-        if len(args) > 2:
-            repr_args = list(map(repr, args))
-            repr_args.append("and " + repr_args.pop())
-            list_of_args = ", ".join(repr_args)
-
-        else:
-            list_of_args = " and ".join(map(repr, args))
+        list_str = cls.__get_english_str_of_list(args)
 
         return TypeError("{}() missing {}: {}".format(
-                function_name, missing(len(args)), list_of_args))
+                function_name, missing(len(args)), list_str))
+
+    @classmethod
+    def __get_english_str_of_list (cls, sequence):
+        if len(sequence) > 2:
+            return cls.__get_str_of_list_of_3_or_more(sequence)
+
+        else:
+            return cls.__get_str_of_list_of_2_or_fewer(sequence)
+
+    @classmethod
+    def __get_str_of_list_of_3_or_more (cls, sequence):
+        l = cls.__get_list_of_reprs_of_each_elt(sequence)
+        cls.__prepend_and_to_last_elt(l)
+        return ", ".join(l)
+
+    @staticmethod
+    def __get_list_of_reprs_of_each_elt (iterable):
+        return list(map(repr, iterable))
+
+    @staticmethod
+    def __prepend_and_to_last_elt (list_of_elts):
+        list_of_elts.append("and " + list_of_elts.pop())
+
+    @staticmethod
+    def __get_str_of_list_of_2_or_fewer (sequence):
+        return " and ".join(map(repr, sequence))
 
 ########################################################################
 ############################### Classes ################################
