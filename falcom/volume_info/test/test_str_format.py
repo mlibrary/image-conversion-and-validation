@@ -3,7 +3,7 @@
 # BSD License. See LICENSE.txt for details.
 import unittest
 
-from ..str_format import *
+from ..str_format import get_keys_required_by_format_str
 
 class TestDecoyMapping (unittest.TestCase):
 

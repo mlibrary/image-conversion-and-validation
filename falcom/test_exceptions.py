@@ -3,7 +3,15 @@
 # BSD License. See LICENSE.txt for details.
 import unittest
 
-from .exceptions import *
+from .exceptions import BaseError, \
+        CantDecodeEncoding, \
+        InconsistentColumnCounts, \
+        InconsistentNewlines, \
+        InputFileError, \
+        InvalidControls, \
+        MissingPositionalArgsError, \
+        MultipleValuesOneArgError, \
+        TooManyArgumentsError
 
 class TestBaseError (unittest.TestCase):
 

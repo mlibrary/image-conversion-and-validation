@@ -4,7 +4,11 @@
 from collections.abc import Sequence
 from re import compile as re_compile
 
-from ..exceptions import *
+from ..exceptions import \
+        CantDecodeEncoding, \
+        InconsistentColumnCounts, \
+        InconsistentNewlines, \
+        InvalidControls
 
 class TabularData (Sequence):
     """A class to parse input files and hold their data meaningfully.

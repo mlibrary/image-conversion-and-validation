@@ -3,7 +3,7 @@
 # BSD License. See LICENSE.txt for details.
 import unittest
 
-from .counted_word import *
+from .counted_word import CountedWord
 
 class TestCountedWord (unittest.TestCase):
 

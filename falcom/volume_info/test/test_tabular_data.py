@@ -1,11 +1,17 @@
 # Copyright (c) 2016 The Regents of the University of Michigan.
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
+from collections.abc import Sequence
 from tempfile import mkstemp
 import os
 import unittest
 
-from ..tabular_data import *
+from ..tabular_data import TabularData
+from ...exceptions import \
+        CantDecodeEncoding, \
+        InconsistentColumnCounts, \
+        InconsistentNewlines, \
+        InvalidControls
 
 class TestTabularData (unittest.TestCase):
 

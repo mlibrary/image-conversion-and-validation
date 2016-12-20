@@ -3,7 +3,10 @@
 # BSD License. See LICENSE.txt for details.
 from collections.abc import Sequence, Mapping
 
-from ..exceptions import *
+from ..exceptions import \
+        MultipleValuesOneArgError, \
+        MissingPositionalArgsError, \
+        TooManyArgumentsError
 
 class ArgumentCollector (Mapping):
     """Mapping that with unchanging default values that can only be

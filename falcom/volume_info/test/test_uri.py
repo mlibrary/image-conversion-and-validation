@@ -5,7 +5,7 @@ from http.client import HTTPResponse
 import os
 import unittest
 
-from ..get_oclc_data import *
+from ..uri import URI
 
 SLOW_TESTS = os.environ.get("SLOW_TESTS", False)
 slow_test = unittest.skipUnless(SLOW_TESTS, "slow test")
