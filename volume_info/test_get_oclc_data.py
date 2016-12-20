@@ -171,7 +171,7 @@ class TestCountedWord (unittest.TestCase):
         self.word = CountedWord(*args)
 
     def assert_getstr (self, number, rhs):
-        self.assertEqual(self.word.getstr(number), rhs)
+        self.assertEqual(self.word(number), rhs)
 
     def test_degenerate (self):
         self.init_counted_word("thing")

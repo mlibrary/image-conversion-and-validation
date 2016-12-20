@@ -108,7 +108,7 @@ class CountedWord:
         self.__singular = singular_word
         self.__figure_out_plural(optional_plural)
 
-    def getstr (self, quantity):
+    def __call__ (self, quantity):
         """Return a string of the form `# word(s)`.
 
         Whether we return the singular or the plural form of the word
