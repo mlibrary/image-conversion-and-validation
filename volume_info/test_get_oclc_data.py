@@ -151,6 +151,15 @@ class TestMultipleValuesOneArgError (TestCustomTypeErrors):
         self.assert_error_equal("two", "ok",
                 "two() got multiple values for keyword argument 'ok'")
 
+class TestMissingPositionalArgsError (TestCustomTypeErrors):
+
+    class_to_test = MissingPositionalArgsError
+
+    def test_degenerate (self):
+        self.assert_error_equal("hello", "missing1",
+                "hello() missing 1 required positional argument: "
+                "'missing1'")
+
 class TestTabularData (unittest.TestCase):
 
     def setUp (self):
