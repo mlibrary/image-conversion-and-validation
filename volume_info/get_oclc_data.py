@@ -122,7 +122,8 @@ class CountedWord:
             return self.__get_plural(quantity)
 
     def __repr__ (self):
-        return "<CountedWord {w}/{w}s>".format(w=self.__singular)
+        return "<CountedWord {}/{}>".format(
+                self.__singular, self.__plural)
 
     def __figure_out_plural (self, optional_plural):
         if optional_plural is None:
