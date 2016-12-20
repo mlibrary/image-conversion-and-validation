@@ -171,6 +171,10 @@ class TestCountedWord (unittest.TestCase):
         word = CountedWord("thing")
         self.assertEqual(word.getstr(0), "0 things")
         self.assertEqual(word.getstr(1), "1 thing")
+        self.assertEqual(word.getstr(2), "2 things")
+
+        word = CountedWord("widget")
+        self.assertEqual(word.getstr(0), "0 widgets")
 
 class TestTabularData (unittest.TestCase):
 

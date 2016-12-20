@@ -98,10 +98,12 @@ class InconsistentColumnCounts (InputFileError):
 class CountedWord:
 
     def __init__ (self, arg):
-        pass
+        self.__word = arg
 
     def getstr (self, arg):
-        return "{:d} thing{}".format(arg, "" if arg == 1 else "s")
+        return "{:d} {}{}".format(arg,
+                self.__word,
+                "" if arg == 1 else "s")
 
 class TooManyArgumentsError:
 
