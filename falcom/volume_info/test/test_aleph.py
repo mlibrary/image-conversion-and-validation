@@ -308,3 +308,5 @@ class TestMARCData (unittest.TestCase):
 
         self.assertEqual(isman.bib, "006822264")
         self.assertEqual(astro.bib, "002601791")
+
+        self.assertEqual(isman.callno, "Isl. Ms. 402")

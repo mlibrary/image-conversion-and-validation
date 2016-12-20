@@ -3,6 +3,8 @@
 # BSD License. See LICENSE.txt for details.
 class MARCData:
 
+    callno = "Isl. Ms. 402"
+
     def __init__ (self, xml):
         marker = '<controlfield tag="001">'
         i = xml.index(marker) + len(marker)
