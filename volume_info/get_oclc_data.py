@@ -151,23 +151,11 @@ class CountedWord:
 class TooManyArgumentsError:
 
     def __new__ (cls, function_name, expected, received):
+        args = CountedWord("positional argument")
+        were = CountedWord("was", "were")
+
         return TypeError("{}() takes {} but {} given".format(
-                function_name,
-                cls.__get_string_with_counted_word(
-                        expected, "positional argument"),
-                cls.__get_string_with_counted_word(
-                        received, "was", "were")))
-
-    @staticmethod
-    def __get_string_with_counted_word (
-            quantity, singular, plural = None):
-        if quantity == 1:
-            return "1 " + singular
-
-        if plural is None:
-            plural = singular + "s"
-
-        return "{:d} {}".format(quantity, plural)
+                function_name, args(expected), were(received)))
 
 class MultipleValuesOneArgError:
 
