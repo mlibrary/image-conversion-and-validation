@@ -215,3 +215,4 @@ class TestMARCData (unittest.TestCase):
 
     def test_degenerate (self):
         marc = MARCData(EG_MARC_39015079130699)
+        self.assertEqual(marc.bib, "006822264")
