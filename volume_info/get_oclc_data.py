@@ -166,9 +166,11 @@ class MultipleValuesOneArgError:
 
 class MissingPositionalArgsError:
 
-    def __new__ (*args):
-        return TypeError("hello() missing 1 required positional argument: "
-                "'missing1'")
+    def __new__ (cls, function_name, *args):
+        missing = CountedWord("required positional argument")
+
+        return TypeError("hello() missing {}: {}".format(
+                missing(len(args)), " and ".join(map(repr, args))))
 
 ########################################################################
 ############################### Classes ################################

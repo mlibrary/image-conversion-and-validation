@@ -155,7 +155,6 @@ class TestMissingPositionalArgsError (TestCustomTypeErrors):
 
     class_to_test = MissingPositionalArgsError
 
-    @unittest.skipUnless(False, "later")
     def test_degenerate (self):
         self.assert_error_equal("hello", "missing1",
                 "hello() missing 1 required positional argument: "
