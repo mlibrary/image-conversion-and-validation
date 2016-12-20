@@ -179,6 +179,9 @@ class TestMissingPositionalArgsError (TestCustomTypeErrors):
         self.assert_error_equal("what", "arg",
                 "what() missing 1 required positional argument: 'arg'")
 
+        self.assert_error_equal("yooo", "arg",
+                "yooo() missing 1 required positional argument: 'arg'")
+
 class TestCountedWord (unittest.TestCase):
 
     def init_counted_word (self, *args):
