@@ -99,11 +99,11 @@ class CountedWord:
 
     def __init__ (self, arg, optional = None):
         self.__word = arg
+        self.__plural = arg + "s" if optional is None else optional
 
     def getstr (self, arg):
-        return "{:d} {}{}".format(arg,
-                self.__word,
-                "" if arg == 1 else "s")
+        return "{:d} {}".format(arg,
+                self.__word if arg == 1 else self.__plural)
 
 class TooManyArgumentsError:
 
