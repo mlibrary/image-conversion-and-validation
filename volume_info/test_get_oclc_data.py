@@ -158,7 +158,7 @@ class TestMissingPositionalArgsError (TestCustomTypeErrors):
 
     class_to_test = MissingPositionalArgsError
 
-    def test_degenerate (self):
+    def test_variadic_args (self):
         self.assert_error_equal("hello", "missing1",
                 "hello() missing 1 required positional argument: "
                 "'missing1'")
@@ -171,6 +171,14 @@ class TestMissingPositionalArgsError (TestCustomTypeErrors):
                 "hello() missing 3 required positional arguments: "
                 "'one', 'two', and 'three'")
 
+        self.assert_error_equal("hello", "one", "two", "three", "four",
+                "hello() missing 4 required positional arguments: "
+                "'one', 'two', 'three', and 'four'")
+
+    def test_different_function_names (self):
+        self.assert_error_equal("what", "arg",
+                "what() missing 1 required positional argument: 'arg'")
+
 class TestCountedWord (unittest.TestCase):
 
     def init_counted_word (self, *args):
@@ -179,7 +187,7 @@ class TestCountedWord (unittest.TestCase):
     def assert_getstr (self, number, rhs):
         self.assertEqual(self.word(number), rhs)
 
-    def test_degenerate (self):
+    def test_different_simple_nouns (self):
         self.init_counted_word("thing")
         self.assert_getstr(0, "0 things")
         self.assert_getstr(1, "1 thing")

@@ -177,8 +177,8 @@ class MissingPositionalArgsError (TypeError):
         else:
             list_of_args = " and ".join(map(repr, args))
 
-        return TypeError("hello() missing {}: {}".format(
-                missing(len(args)), list_of_args))
+        return TypeError("{}() missing {}: {}".format(
+                function_name, missing(len(args)), list_of_args))
 
 ########################################################################
 ############################### Classes ################################
