@@ -2,13 +2,10 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 from http.client import HTTPResponse
-import os
 import unittest
 
 from ..uri import URI
-
-SLOW_TESTS = os.environ.get("SLOW_TESTS", False)
-slow_test = unittest.skipUnless(SLOW_TESTS, "slow test")
+from ...general.slow_test import slow_test
 
 class TestURI (unittest.TestCase):
 
