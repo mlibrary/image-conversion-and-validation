@@ -101,7 +101,7 @@ class CountedWord:
         pass
 
     def getstr (self, arg):
-        return "1 thing"
+        return "{:d} thing{}".format(arg, "" if arg == 1 else "s")
 
 class TooManyArgumentsError:
 
