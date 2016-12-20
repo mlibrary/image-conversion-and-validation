@@ -122,7 +122,7 @@ class CountedWord:
             return self.__get_plural(quantity)
 
     def __repr__ (self):
-        return "<CountedWord {}/{}>".format(
+        return "<{} {}/{}>".format(self.__class__.__name__,
                 self.__singular, self.__plural)
 
     def __figure_out_plural (self, optional_plural):

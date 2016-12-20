@@ -201,6 +201,14 @@ class TestCountedWord (unittest.TestCase):
         self.init_counted_word("forum", "fora")
         self.assertEqual(repr(self.word), "<CountedWord forum/fora>")
 
+    def test_repr_on_child_class (self):
+        class SomeDerivativeOfCountedWord (CountedWord):
+            pass
+
+        w = SomeDerivativeOfCountedWord("rock")
+        self.assertEqual(repr(w),
+                "<SomeDerivativeOfCountedWord rock/rocks>")
+
 class TestTabularData (unittest.TestCase):
 
     def setUp (self):
