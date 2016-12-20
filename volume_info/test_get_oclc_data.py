@@ -167,6 +167,10 @@ class TestMissingPositionalArgsError (TestCustomTypeErrors):
                 "hello() missing 2 required positional arguments: "
                 "'missing1' and 'missing2'")
 
+        self.assert_error_equal("hello", "one", "two", "three",
+                "hello() missing 3 required positional arguments: "
+                "'one', 'two', and 'three'")
+
 class TestCountedWord (unittest.TestCase):
 
     def init_counted_word (self, *args):

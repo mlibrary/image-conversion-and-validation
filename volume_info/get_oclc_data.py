@@ -169,8 +169,16 @@ class MissingPositionalArgsError (TypeError):
     def __new__ (cls, function_name, *args):
         missing = CountedWord("required positional argument")
 
+        if len(args) > 2:
+            repr_args = list(map(repr, args))
+            repr_args.append("and " + repr_args.pop())
+            list_of_args = ", ".join(repr_args)
+
+        else:
+            list_of_args = " and ".join(map(repr, args))
+
         return TypeError("hello() missing {}: {}".format(
-                missing(len(args)), " and ".join(map(repr, args))))
+                missing(len(args)), list_of_args))
 
 ########################################################################
 ############################### Classes ################################
