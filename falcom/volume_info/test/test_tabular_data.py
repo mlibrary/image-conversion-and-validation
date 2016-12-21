@@ -245,7 +245,7 @@ class TestTabularDataFromFilePath (unittest.TestCase,
             # setup.
             obj.write(content)
 
-    def test_is_sequence (self):
+    def test_is_tabular_data (self):
         self.assertTrue(issubclass(TabularDataFromFilePath, TabularData))
 
 class TestExceptions (unittest.TestCase):
