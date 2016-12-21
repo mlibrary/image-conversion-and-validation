@@ -7,11 +7,7 @@ import os
 import unittest
 
 from ..tabular_data import TabularData
-from ...exceptions import \
-        CantDecodeEncoding, \
-        InconsistentColumnCounts, \
-        InconsistentNewlines, \
-        InvalidControls
+from ...exceptions import BaseError
 
 class TestTabularData (unittest.TestCase):
 
@@ -77,7 +73,7 @@ class TestTabularData (unittest.TestCase):
     def test_bad_bytes (self):
         for i in b"\x81\x8d\x8f\x90\x9d":
             self.write_file(i.to_bytes(1, "big"))
-            with self.assertRaises(CantDecodeEncoding):
+            with self.assertRaises(TabularData.CantDecodeEncoding):
                 data = self.init_tabular_data()
 
     def test_bad_control_characters (self):
@@ -92,25 +88,25 @@ class TestTabularData (unittest.TestCase):
             for i in range(low, high):
                 self.write_file("something{}something\n".format(chr(i)))
                 regex = "0x{:02x}".format(i)
-                with self.assertRaisesRegex(InvalidControls, regex):
+                with self.assertRaisesRegex(TabularData.InvalidControls, regex):
                     data = self.init_tabular_data()
 
     def test_error_on_stupid_newlines (self):
         self.write_file("first line\nsecond line\r\nthird line\rfourth")
 
-        with self.assertRaises(InconsistentNewlines):
+        with self.assertRaises(TabularData.InconsistentNewlines):
             data = self.init_tabular_data()
 
     def test_error_on_LF_and_CRLF (self):
         self.write_file("first line\nsecond line\r\nthird line")
 
-        with self.assertRaises(InconsistentNewlines):
+        with self.assertRaises(TabularData.InconsistentNewlines):
             data = self.init_tabular_data()
 
     def test_error_on_inconsistent_columns (self):
         self.write_file("shipment\tvolume\n1234567\t8974326\t7843927")
 
-        with self.assertRaises(InconsistentColumnCounts):
+        with self.assertRaises(TabularData.InconsistentColumnCounts):
             data = self.init_tabular_data()
 
     def set_to_3x3_grid (self):
@@ -218,3 +214,30 @@ class TestTabularData (unittest.TestCase):
                 + " ('first', 'second', 'third'),"
                 + " ('matthew', 'alexander', 'lachance'),"
                 + " ('un (french for one)', 'deux', 'trois')>")
+
+class TestExceptions (unittest.TestCase):
+
+    def test_input_file_error (self):
+        self.assertTrue(issubclass(
+            TabularData.InputFileError, BaseError))
+
+    def test_cant_decode_encoding (self):
+        with self.assertRaisesRegex(TabularData.InputFileError,
+                "Can't figure out file encoding for /path/to/file"):
+            raise TabularData.CantDecodeEncoding("/path/to/file")
+
+    def test_invalid_controls (self):
+        with self.assertRaisesRegex(TabularData.CantDecodeEncoding,
+                r"Unexpected control character \(0x0d\) in filename"):
+            raise TabularData.InvalidControls(13, "filename")
+
+    def test_inconsistent_newlines (self):
+        with self.assertRaisesRegex(TabularData.InputFileError,
+                "Some combination of LF, CR, and CRLFs in filename"):
+            raise TabularData.InconsistentNewlines("filename")
+
+    def test_inconsistent_column_counts (self):
+        with self.assertRaisesRegex(TabularData.InputFileError,
+                "Expected each row to have the same column count " \
+                "in filename"):
+            raise TabularData.InconsistentColumnCounts("filename")

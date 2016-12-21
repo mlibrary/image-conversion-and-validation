@@ -4,11 +4,7 @@
 from collections.abc import Sequence
 from re import compile as re_compile
 
-from ..exceptions import \
-        CantDecodeEncoding, \
-        InconsistentColumnCounts, \
-        InconsistentNewlines, \
-        InvalidControls
+from ..exceptions import BaseError
 
 class TabularData (Sequence):
     """A class to parse input files and hold their data meaningfully.
@@ -128,6 +124,26 @@ class TabularData (Sequence):
         >>> data[0]
         ('barcode', 'nickname', 'status')
     """
+
+    class InputFileError (BaseError):
+        """Generic input file error."""
+        pass
+
+    class CantDecodeEncoding (InputFileError):
+        """Can't figure out file encoding for {}"""
+        pass
+
+    class InvalidControls (CantDecodeEncoding):
+        """Unexpected control character (0x{:02x}) in {}"""
+        pass
+
+    class InconsistentNewlines (InputFileError):
+        """Some combination of LF, CR, and CRLFs in {}"""
+        pass
+
+    class InconsistentColumnCounts (InputFileError):
+        """Expected each row to have the same column count in {}"""
+        pass
 
     @property
     def rows (self):
@@ -284,7 +300,7 @@ class TabularData (Sequence):
 
         # If we never got a unicode str object, then we should raise
         # a unicode error.
-        raise CantDecodeEncoding(self.path)
+        raise self.CantDecodeEncoding(self.path)
 
     def __attempt_decode (self, bytes_obj, encoding):
         # Set our encoding.
@@ -333,7 +349,7 @@ class TabularData (Sequence):
             # It's not hopeless, but whatever's going on likely
             # necessitates further investigation by hand to fix the
             # problem.
-            raise InconsistentNewlines(self.path)
+            raise self.InconsistentNewlines(self.path)
 
         else:
             # All newlines are CRLFs, so it's time to replace each with
@@ -346,7 +362,7 @@ class TabularData (Sequence):
 
         if match is not None:
             # We found one! That's tooooo bad.
-            raise InvalidControls(ord(match.group(0)), self.path)
+            raise self.InvalidControls(ord(match.group(0)), self.path)
 
     def __parse_text (self, text):
         # Our internal row storage starts with no data.
@@ -387,7 +403,7 @@ class TabularData (Sequence):
             # This row isn't the same length as the first row. That
             # means we have inconsistent column counts in this file, and
             # we can't use it.
-            raise InconsistentColumnCounts(self.path)
+            raise self.InconsistentColumnCounts(self.path)
 
     def __getitem_but_skip_header (self, key):
         if isinstance(key, slice):

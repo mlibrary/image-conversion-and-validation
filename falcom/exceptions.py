@@ -70,26 +70,6 @@ class BaseError (RuntimeError):
             # tuple as the value.
             self.value = args
 
-class InputFileError (BaseError):
-    """Generic input file error."""
-    pass
-
-class CantDecodeEncoding (InputFileError):
-    """Can't figure out file encoding for {}"""
-    pass
-
-class InvalidControls (CantDecodeEncoding):
-    """Unexpected control character (0x{:02x}) in {}"""
-    pass
-
-class InconsistentNewlines (InputFileError):
-    """Some combination of LF, CR, and CRLFs in {}"""
-    pass
-
-class InconsistentColumnCounts (InputFileError):
-    """Expected each row to have the same column count in {}"""
-    pass
-
 class TooManyArgumentsError (TypeError):
 
     def __new__ (cls, function_name, expected, received):
