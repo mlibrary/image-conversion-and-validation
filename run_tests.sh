@@ -56,19 +56,35 @@ run_tests() {
   python3 -m unittest
 }
 
+echo_green() {
+  echo -n "[1;37;42m                 Refactor or begin writing a new "
+  echo "test.                  [0m"
+}
+
+echo_red_normal() {
+  echo -n "[1;37;41m                             Fix your code!"
+  echo "                             [0m"
+}
+
+echo_red_slow() {
+  echo -n "[1;37;41m                        Fix your "
+  echo -n "[1;36;41mslow-test[1;37;41m code!"
+  echo "                        [0m"
+}
+
 run_from_cwd() {
   echogood "Running tests (skipping any marked as slow) ..."
   if run_tests; then
     echogood "Running again, including slow tests ..."
     if SLOW_TESTS=1 run_tests; then
-      echogood "Refactor or begin writing a new test."
+      echo_green
 
     else
-      echobad "Fix your slow test code!"
+      echo_red_slow
     fi
 
   else
-    echobad "Fix your code!"
+    echo_red_normal
   fi
 }
 
