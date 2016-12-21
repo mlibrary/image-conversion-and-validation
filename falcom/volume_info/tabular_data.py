@@ -48,20 +48,16 @@ class TabularData (Sequence):
             # The colcount matches the length of the first row.
             return len(self[0])
 
-    def __init__ (self, path_to_file):
-        """Initialize input data based on path to file.
-
-        Raises InputFileError or OSError.
-        """
-
-        # I want to store the path to the file.
-        self.path = path_to_file
-
-        # By default, we do not have a header row.
+    def __init__ (self, bytes_or_str, optional_path_label = "(input)"):
+        """Initialize input data based on path to file."""
+        self.path = optional_path_label
         self.header = False
 
-        # Open the file.
-        self.__open_file()
+        if isinstance(bytes_or_str, str):
+            self.__parse_text(bytes_or_str)
+
+        else:
+            self.__parse_text(self.__bytes_to_str(bytes_or_str))
 
     def __getitem__ (self, key):
         """Return the row at the given index."""
@@ -145,18 +141,6 @@ class TabularData (Sequence):
     # I'm considering all control characters (except HT and LF, that is,
     # 0x09 and 0x0a) to be invalid.
     __re_bad_controls = re_compile(r"[\0-\x08\x0b-\x1f\x7f-\x9f]")
-
-    def __open_file (self):
-        with open(self.path, "rb") as input_file:
-            # Read the entire contents of the file into memory.
-            bytes_obj = input_file.read()
-
-        # Convert the bytes object to str.
-        text = self.__bytes_to_str(bytes_obj)
-
-        # We have a valid unicode str. All that's left is to parse it
-        # into rows of columns.
-        self.__parse_text(text)
 
     def __bytes_to_str (self, bytes_obj):
         # Figure out the bytestring's encoding, and use that to convert
@@ -321,4 +305,11 @@ class TabularData (Sequence):
             return self.__rows[key]
 
 class TabularDataFromFilePath (TabularData):
-    pass
+
+    def __init__ (self, path_to_file):
+        """Initialize input data based on path to file."""
+        with open(path_to_file, "rb") as input_file:
+            bytes_obj = input_file.read()
+
+        super(TabularDataFromFilePath, self).__init__(bytes_obj,
+                path_to_file)
