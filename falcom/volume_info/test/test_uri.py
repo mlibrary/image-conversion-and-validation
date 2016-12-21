@@ -4,14 +4,16 @@
 from http.client import HTTPResponse
 import unittest
 
-from ..uri import URI
 from ...general.slow_test import slow_test
+
+from ..argument_collector import ArgumentCollector
+from ..uri import URI
 
 class TestURI (unittest.TestCase):
 
     def test_get (self):
         base = "https://lib.umich.edu/"
-        uri = URI(base, "barcode", key="secret")
+        uri = URI(ArgumentCollector, base, "barcode", key="secret")
 
         result = uri.get_uri("hello")
 
@@ -27,7 +29,7 @@ class TestURI (unittest.TestCase):
 
     def test_post (self):
         base = "https://lib.umich.edu/"
-        uri = URI(base)
+        uri = URI(ArgumentCollector, base)
 
         result = uri.post_uri(matt="is cool")
         self.assertTrue(isinstance(result, tuple))
@@ -40,7 +42,7 @@ class TestURI (unittest.TestCase):
 
     def test_unicode (self):
         base = "https://lib.umich.edu/"
-        uri = URI(base)
+        uri = URI(ArgumentCollector, base)
 
         result = uri.get_uri(matt="💪")
         expected = base + "?matt=%F0%9F%92%AA"
@@ -49,7 +51,7 @@ class TestURI (unittest.TestCase):
 
     @slow_test
     def test_get_response (self):
-        uri = URI("http://lib.umich.edu/", "matt")
+        uri = URI(ArgumentCollector, "http://lib.umich.edu/", "matt")
 
         with uri.get("is cool") as response:
             self.assertTrue(isinstance(response, HTTPResponse))
@@ -59,7 +61,7 @@ class TestURI (unittest.TestCase):
 
     @slow_test
     def test_post_response (self):
-        uri = URI("http://lib.umich.edu/", "matt")
+        uri = URI(ArgumentCollector, "http://lib.umich.edu/", "matt")
 
         with uri.post("is cool") as response:
             self.assertTrue(isinstance(response, HTTPResponse))
@@ -68,7 +70,7 @@ class TestURI (unittest.TestCase):
             self.assertTrue(isinstance(response.read(), bytes))
 
     def test_data_in_uri (self):
-        uri = URI("http://lib.umich.edu/etc/{barcode}/",
+        uri = URI(ArgumentCollector, "http://lib.umich.edu/etc/{barcode}/",
                 "barcode")
 
         self.assertEqual(uri.get_uri("39015012345678"),

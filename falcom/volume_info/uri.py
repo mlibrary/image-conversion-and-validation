@@ -5,13 +5,12 @@ from urllib.parse import urlencode
 from urllib.request import urlopen
 
 from ..exceptions import MissingPositionalArgsError
-from .argument_collector import ArgumentCollector
 from .str_format import get_keys_required_by_format_str
 
 class URI:
     """URI object that handles GET and/or POST data."""
 
-    def __init__ (self, *args, **kwargs):
+    def __init__ (self, ArgumentCollector, *args, **kwargs):
         """Init URI with base, expected args, and default data."""
 
         # The base URI should be the first positional argument.
