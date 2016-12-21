@@ -6,7 +6,7 @@ from tempfile import mkstemp
 import os
 import unittest
 
-from ..tabular_data import TabularData
+from ..tabular_data import TabularData, TabularDataFromFilePath
 from ...exceptions import BaseError
 
 class TestTabularData (unittest.TestCase):
@@ -25,7 +25,7 @@ class TestTabularData (unittest.TestCase):
 
     def init_tabular_data (self):
         """Return TabularData initted with our temporary file."""
-        return TabularData(self.path)
+        return TabularDataFromFilePath(self.path)
 
     def set_header (self, data, value = True):
         """Set the header to the given value (or to True)."""
@@ -69,6 +69,7 @@ class TestTabularData (unittest.TestCase):
 
     def test_is_sequence (self):
         self.assertTrue(issubclass(TabularData, Sequence))
+        self.assertTrue(issubclass(TabularDataFromFilePath, TabularData))
 
     def test_bad_bytes (self):
         for i in b"\x81\x8d\x8f\x90\x9d":
@@ -210,7 +211,7 @@ class TestTabularData (unittest.TestCase):
     def test_repr (self):
         data = self.set_to_3x3_grid()
         self.assertEqual(repr(data),
-                "<TabularData header=False"
+                "<TabularDataFromFilePath header=False"
                 + " ('first', 'second', 'third'),"
                 + " ('matthew', 'alexander', 'lachance'),"
                 + " ('un (french for one)', 'deux', 'trois')>")

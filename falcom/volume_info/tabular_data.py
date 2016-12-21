@@ -319,3 +319,6 @@ class TabularData (Sequence):
             # the header row. Therefore, we can just pass it along. The
             # last row is still the last row.
             return self.__rows[key]
+
+class TabularDataFromFilePath (TabularData):
+    pass
