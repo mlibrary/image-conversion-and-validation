@@ -4,7 +4,7 @@
 from collections.abc import Sequence
 from re import compile as re_compile
 
-from ..exceptions import BaseError
+from ...exceptions import BaseError
 
 class TabularData (Sequence):
     """Parse tabular input files and hold their data."""
@@ -299,13 +299,3 @@ class TabularData (Sequence):
             # the header row. Therefore, we can just pass it along. The
             # last row is still the last row.
             return self.__rows[key]
-
-class TabularDataFromFilePath (TabularData):
-
-    def __init__ (self, path_to_file):
-        """Initialize input data based on path to file."""
-        with open(path_to_file, "rb") as input_file:
-            bytes_obj = input_file.read()
-
-        super(TabularDataFromFilePath, self).__init__(bytes_obj,
-                path_to_file)
