@@ -48,16 +48,13 @@ class TabularData (Sequence):
             # The colcount matches the length of the first row.
             return len(self[0])
 
-    def __init__ (self, bytes_or_str, optional_path_label = "(input)"):
-        """Initialize input data based on path to file."""
-        self.path = optional_path_label
+    def __init__ (self, bytes_or_str, optional_label = "(input)"):
+        """Initialize input data based on str or bytes."""
         self.header = False
 
-        if isinstance(bytes_or_str, str):
-            self.__parse_text(bytes_or_str)
+        self.__label = optional_label
 
-        else:
-            self.__parse_text(self.__bytes_to_str(bytes_or_str))
+        self.__figure_out_how_to_handle(bytes_or_str)
 
     def __getitem__ (self, key):
         """Return the row at the given index."""
@@ -142,17 +139,16 @@ class TabularData (Sequence):
     # 0x09 and 0x0a) to be invalid.
     __re_bad_controls = re_compile(r"[\0-\x08\x0b-\x1f\x7f-\x9f]")
 
-    def __bytes_to_str (self, bytes_obj):
-        # Figure out the bytestring's encoding, and use that to convert
-        # to unicode.
-        result = self.__find_unicode(bytes_obj)
+    def __figure_out_how_to_handle (self, strdata):
+        if not isinstance(strdata, str):
+            strdata = self.__bytes_to_str(strdata)
 
-        # Clean up weird newlines.
+        self.__parse_text(strdata)
+
+    def __bytes_to_str (self, bytes_obj):
+        result = self.__find_unicode(bytes_obj)
         result = self.__clean_newlines(result)
 
-        # Control characters (other than HT and LF) are signs of weird
-        # encoding issues that may not have been caught by using the
-        # 1252 codepage.
         self.__error_on_control_characters(result)
 
         return result
@@ -168,7 +164,7 @@ class TabularData (Sequence):
 
         # If we never got a unicode str object, then we should raise
         # a unicode error.
-        raise self.CantDecodeEncoding(self.path)
+        raise self.CantDecodeEncoding(self.__label)
 
     def __attempt_decode (self, bytes_obj, encoding):
         # Set our encoding.
@@ -217,7 +213,7 @@ class TabularData (Sequence):
             # It's not hopeless, but whatever's going on likely
             # necessitates further investigation by hand to fix the
             # problem.
-            raise self.InconsistentNewlines(self.path)
+            raise self.InconsistentNewlines(self.__label)
 
         else:
             # All newlines are CRLFs, so it's time to replace each with
@@ -230,7 +226,7 @@ class TabularData (Sequence):
 
         if match is not None:
             # We found one! That's tooooo bad.
-            raise self.InvalidControls(ord(match.group(0)), self.path)
+            raise self.InvalidControls(ord(match.group(0)), self.__label)
 
     def __parse_text (self, text):
         # Our internal row storage starts with no data.
@@ -271,7 +267,7 @@ class TabularData (Sequence):
             # This row isn't the same length as the first row. That
             # means we have inconsistent column counts in this file, and
             # we can't use it.
-            raise self.InconsistentColumnCounts(self.path)
+            raise self.InconsistentColumnCounts(self.__label)
 
     def __getitem_but_skip_header (self, key):
         if isinstance(key, slice):
