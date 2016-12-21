@@ -1,13 +1,9 @@
 # Copyright (c) 2016 The Regents of the University of Michigan.
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
-from collections.abc import Sequence
-from tempfile import mkstemp
-import os
 import unittest
 
-from ..tabular_data import TabularData, TabularDataFromFilePath
-from ...exceptions import BaseError
+from ..base import TabularData
 
 class BaseTabularDataTest:
 
@@ -176,101 +172,3 @@ class BaseTabularDataTest:
                 + " ('first', 'second', 'third'),"
                 + " ('matthew', 'alexander', 'lachance'),"
                 + " ('un (french for one)', 'deux', 'trois')>")
-
-class TestTabularData (unittest.TestCase, BaseTabularDataTest):
-
-    repr_class_name = "TabularData"
-
-    def setUp (self):
-        self.data_bytes = b""
-
-    def init_tabular_data (self):
-        """Return TabularData initted with our temporary file."""
-        return TabularData(self.data_bytes)
-
-    def write_file (self, content):
-        """Shortcut to write bytes or a str to a file."""
-
-        if isinstance(content, str):
-            # If the content is a str, then I can write all like normal
-            # at a high level.
-            self.data_bytes = content.encode("utf-8")
-
-        else:
-            # Otherwise, I need to write bytes, and I should ensure that
-            # I actually have bytes to write with.
-            assert isinstance(content, bytes)
-            self.data_bytes = content
-
-    def test_is_sequence (self):
-        self.assertTrue(issubclass(TabularData, Sequence))
-
-class TestTabularDataFromFilePath (unittest.TestCase,
-        BaseTabularDataTest):
-
-    repr_class_name = "TabularDataFromFilePath"
-
-    def setUp (self):
-        # The TabularData class needs a path in the filesystem, so I
-        # probably need to create a file.
-        fd, self.path = mkstemp(dir="/tmp", suffix=".txt")
-
-        # I don't want to deal with this low-level nonsense.
-        os.close(fd)
-
-    def tearDown (self):
-        # Delete the temporary file I created.
-        os.unlink(self.path)
-
-    def init_tabular_data (self):
-        """Return TabularData initted with our temporary file."""
-        return TabularDataFromFilePath(self.path)
-
-    def write_file (self, content):
-        """Shortcut to write bytes or a str to a file."""
-
-        if isinstance(content, str):
-            # If the content is a str, then I can write all like normal
-            # at a high level.
-            mode = "w"
-
-        else:
-            # Otherwise, I need to write bytes, and I should ensure that
-            # I actually have bytes to write with.
-            assert isinstance(content, bytes)
-            mode = "wb"
-
-        with open(self.path, mode) as obj:
-            # Write the content into the temporary file we've created at
-            # setup.
-            obj.write(content)
-
-    def test_is_tabular_data (self):
-        self.assertTrue(issubclass(TabularDataFromFilePath, TabularData))
-
-class TestExceptions (unittest.TestCase):
-
-    def test_input_file_error (self):
-        self.assertTrue(issubclass(
-            TabularData.InputFileError, BaseError))
-
-    def test_cant_decode_encoding (self):
-        with self.assertRaisesRegex(TabularData.InputFileError,
-                "Can't figure out file encoding for /path/to/file"):
-            raise TabularData.CantDecodeEncoding("/path/to/file")
-
-    def test_invalid_controls (self):
-        with self.assertRaisesRegex(TabularData.CantDecodeEncoding,
-                r"Unexpected control character \(0x0d\) in filename"):
-            raise TabularData.InvalidControls(13, "filename")
-
-    def test_inconsistent_newlines (self):
-        with self.assertRaisesRegex(TabularData.InputFileError,
-                "Some combination of LF, CR, and CRLFs in filename"):
-            raise TabularData.InconsistentNewlines("filename")
-
-    def test_inconsistent_column_counts (self):
-        with self.assertRaisesRegex(TabularData.InputFileError,
-                "Expected each row to have the same column count " \
-                "in filename"):
-            raise TabularData.InconsistentColumnCounts("filename")
