@@ -1,0 +1,137 @@
+<record xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+<controlfield tag="FMT">BK</controlfield>
+<controlfield tag="LDR">00000cam^^22004098a^4500</controlfield>
+<controlfield tag="001">011694516</controlfield>
+<controlfield tag="005">20120609074338.0</controlfield>
+<controlfield tag="008">111028s2012^^^^caua^^^^^b^^^s001^0beng^^</controlfield>
+<datafield tag="010" ind1=" " ind2=" ">
+<subfield code="a">2011042080</subfield>
+</datafield>
+<datafield tag="016" ind1="7" ind2=" ">
+<subfield code="a">015978384</subfield>
+<subfield code="2">Uk</subfield>
+</datafield>
+<datafield tag="020" ind1=" " ind2=" ">
+<subfield code="a">9780520270800</subfield>
+<subfield code="q">(hardback)</subfield>
+</datafield>
+<datafield tag="020" ind1=" " ind2=" ">
+<subfield code="a">0520270800</subfield>
+<subfield code="q">(hardback)</subfield>
+</datafield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(OCoLC)756167029</subfield>
+</datafield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(coutts)cts14574411</subfield>
+</datafield>
+<datafield tag="040" ind1=" " ind2=" ">
+<subfield code="a">DLC</subfield>
+<subfield code="b">eng</subfield>
+<subfield code="c">DLC</subfield>
+<subfield code="d">YDX</subfield>
+<subfield code="d">YDXCP</subfield>
+<subfield code="d">BTCTA</subfield>
+<subfield code="d">UKMGB</subfield>
+<subfield code="d">BDX</subfield>
+<subfield code="d">CUS</subfield>
+<subfield code="d">BWX</subfield>
+<subfield code="d">CDX</subfield>
+<subfield code="d">PUL</subfield>
+<subfield code="d">COO</subfield>
+</datafield>
+<datafield tag="042" ind1=" " ind2=" ">
+<subfield code="a">pcc</subfield>
+</datafield>
+<datafield tag="043" ind1=" " ind2=" ">
+<subfield code="a">n-us-ca</subfield>
+</datafield>
+<datafield tag="050" ind1="0" ind2="0">
+<subfield code="a">LD755.A87</subfield>
+<subfield code="b">P45 2012</subfield>
+</datafield>
+<datafield tag="082" ind1="0" ind2="0">
+<subfield code="a">378.0092</subfield>
+<subfield code="a">B</subfield>
+<subfield code="2">23</subfield>
+</datafield>
+<datafield tag="084" ind1=" " ind2=" ">
+<subfield code="a">EDU000000</subfield>
+<subfield code="2">bisacsh</subfield>
+</datafield>
+<datafield tag="100" ind1="1" ind2=" ">
+<subfield code="a">Pelfrey, Patricia A.</subfield>
+</datafield>
+<datafield tag="245" ind1="1" ind2="0">
+<subfield code="a">Entrepreneurial president :</subfield>
+<subfield code="b">Richard Atkinson and the University of California, 1995-2003 /</subfield>
+<subfield code="c">Patricia A. Pelfrey.</subfield>
+</datafield>
+<datafield tag="260" ind1=" " ind2=" ">
+<subfield code="a">Berkeley :</subfield>
+<subfield code="b">University of California Press,</subfield>
+<subfield code="c">c2012.</subfield>
+</datafield>
+<datafield tag="300" ind1=" " ind2=" ">
+<subfield code="a">xv, 233 p. :</subfield>
+<subfield code="b">ill. ;</subfield>
+<subfield code="c">24 cm.</subfield>
+</datafield>
+<datafield tag="504" ind1=" " ind2=" ">
+<subfield code="a">Includes bibliographical references and index.</subfield>
+</datafield>
+<datafield tag="520" ind1=" " ind2=" ">
+<subfield code="a">"Richard C. Atkinson was named president of the University of California in August 1995, barely four weeks after the UC Regents voted to end affirmative action. How he dealt with the admissions wars--the political, legal, and academic consequences of that historic and controversial decision, as well as the issue of governance--is discussed in this book. Another focus is the entrepreneurial university--the expansion of the University's research enterprise into new forms of scientific research with industry during Atkinson's presidency. The final crisis of his administration was the prolonged controversy over the University's management of the Los Alamos and Livermore nuclear weapons research laboratories that began with the arrest of Los Alamos scientist Wen Ho Lee on charges of espionage in 1999. Entrepreneurial President explains what was at stake during each of these episodes, how Atkinson addressed the issues, and why the outcomes matter to the University and to the people of California. Pelfrey's book provides an analysis of the challenges, perils, and limits of presidential leadership in the nation's leading public university, while bringing a historical perspective to bear on the current serious threats to its future as a university"--Provided by publisher.</subfield>
+</datafield>
+<datafield tag="520" ind1=" " ind2=" ">
+<subfield code="a">"This is a book about the University of California's seventeenth president, Richard C. Atkinson, and the ideas, issues, and political storms that shaped the University and his eight-year presidency (1995-2003): the transition to the post-affirmative action age, the full emergence of the entrepreneurial university, and the battle over the University's 60-year role in managing the nation's nuclear weapons laboratories"--Provided by publisher.</subfield>
+</datafield>
+<datafield tag="600" ind1="1" ind2="0">
+<subfield code="a">Atkinson, Richard C.</subfield>
+</datafield>
+<datafield tag="610" ind1="2" ind2="0">
+<subfield code="a">University of California (System)</subfield>
+<subfield code="x">History.</subfield>
+</datafield>
+<datafield tag="610" ind1="2" ind2="0">
+<subfield code="a">University of California (System)</subfield>
+<subfield code="x">Management.</subfield>
+</datafield>
+<datafield tag="650" ind1=" " ind2="0">
+<subfield code="a">University of California (System)</subfield>
+<subfield code="x">Presidents</subfield>
+<subfield code="v">Biography.</subfield>
+</datafield>
+<datafield tag="650" ind1=" " ind2="0">
+<subfield code="a">Nuclear energy</subfield>
+<subfield code="x">Research</subfield>
+<subfield code="x">Laboratories</subfield>
+<subfield code="x">Management.</subfield>
+</datafield>
+<datafield tag="650" ind1=" " ind2="7">
+<subfield code="a">EDUCATION / General.</subfield>
+<subfield code="2">bisacsh</subfield>
+</datafield>
+<datafield tag="997" ind1=" " ind2=" ">
+<subfield code="a">MARS</subfield>
+</datafield>
+<datafield tag="937" ind1=" " ind2=" ">
+<subfield code="a">14574411</subfield>
+</datafield>
+<datafield tag="955" ind1="0" ind2=" ">
+<subfield code="0">cts14574411</subfield>
+<subfield code="a">MiU</subfield>
+<subfield code="h">LD755.A87 P45 2012</subfield>
+<subfield code="p">39015090867675</subfield>
+</datafield>
+<datafield tag="980" ind1=" " ind2=" ">
+<subfield code="e">49.95</subfield>
+<subfield code="f">14574411</subfield>
+</datafield>
+<datafield tag="MDP" ind1=" " ind2=" ">
+<subfield code="h">LD755.A87 P45 2012</subfield>
+<subfield code="b">HATCH</subfield>
+<subfield code="c">GRAD</subfield>
+<subfield code="a">39015090867675</subfield>
+</datafield>
+</record>

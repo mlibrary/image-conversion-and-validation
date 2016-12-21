@@ -1,0 +1,82 @@
+<record xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+<controlfield tag="FMT">BK</controlfield>
+<controlfield tag="LDR">00000ntm^^2200253^a^4500</controlfield>
+<controlfield tag="001">002601791</controlfield>
+<controlfield tag="005">20100303163527.0</controlfield>
+<controlfield tag="006">m^^^^^^^^d^^^^^^^^</controlfield>
+<controlfield tag="007">cr^bn^---auaua</controlfield>
+<controlfield tag="008">930310s16uu^^^^xx^^^^^^^^^^^^00||^^ara^d</controlfield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(RLIN)MIUH93-A31</subfield>
+</datafield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(OCoLC)706055947</subfield>
+</datafield>
+<datafield tag="040" ind1=" " ind2=" ">
+<subfield code="a">MiU</subfield>
+<subfield code="c">MiU</subfield>
+<subfield code="e">appm</subfield>
+<subfield code="d">MiU</subfield>
+</datafield>
+<datafield tag="245" ind1="0" ind2="0">
+<subfield code="a">Astronomical tables :</subfield>
+<subfield code="k">manuscript,</subfield>
+<subfield code="f">[17th century?].</subfield>
+</datafield>
+<datafield tag="300" ind1=" " ind2=" ">
+<subfield code="a">1</subfield>
+<subfield code="f">v. ([12] p.) ;</subfield>
+<subfield code="c">18 cm.</subfield>
+</datafield>
+<datafield tag="520" ind1=" " ind2=" ">
+<subfield code="a">Tables for timekeeping for each day of the 12 months of the Gregorian calendar.</subfield>
+</datafield>
+<datafield tag="500" ind1=" " ind2=" ">
+<subfield code="a">No rubrication.</subfield>
+</datafield>
+<datafield tag="500" ind1=" " ind2=" ">
+<subfield code="a">In Maghribī script.</subfield>
+</datafield>
+<datafield tag="561" ind1=" " ind2=" ">
+<subfield code="a">Purchased in Cairo, 1933/34.</subfield>
+</datafield>
+<datafield tag="541" ind1=" " ind2=" ">
+<subfield code="d">07/--/36</subfield>
+<subfield code="3">Manuscript</subfield>
+<subfield code="a">McGregor Fund</subfield>
+<subfield code="c">Purchase, 1933/34</subfield>
+</datafield>
+<datafield tag="538" ind1=" " ind2=" ">
+<subfield code="a">Mode of access: Internet.</subfield>
+</datafield>
+<datafield tag="650" ind1=" " ind2="0">
+<subfield code="a">Manuscripts, Arabic</subfield>
+<subfield code="z">Michigan</subfield>
+<subfield code="z">Ann Arbor.</subfield>
+</datafield>
+<datafield tag="650" ind1=" " ind2="0">
+<subfield code="a">Astronomy, Arab</subfield>
+<subfield code="x">Tables.</subfield>
+</datafield>
+<datafield tag="650" ind1=" " ind2="0">
+<subfield code="a">Calendar, Gregorian</subfield>
+<subfield code="x">Tables.</subfield>
+</datafield>
+<datafield tag="773" ind1="0" ind2=" ">
+<subfield code="7">unbc</subfield>
+<subfield code="a">Tracy W. McGregor Collection of Arabic, Persian, and Turkish Mathematical and Astronomical Manuscripts.</subfield>
+<subfield code="w">(CStRLIN)MIUH92-A20.</subfield>
+</datafield>
+<datafield tag="998" ind1=" " ind2=" ">
+<subfield code="s">9554</subfield>
+</datafield>
+<datafield tag="m01" ind1=" " ind2=" ">
+<subfield code="a">ULANU8905</subfield>
+</datafield>
+<datafield tag="MDP" ind1=" " ind2=" ">
+<subfield code="h">Isl. Ms. 782</subfield>
+<subfield code="u">mdp.39015081447313</subfield>
+<subfield code="b">SPEC</subfield>
+<subfield code="c">ISLM</subfield>
+</datafield>
+</record>
