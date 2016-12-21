@@ -11,11 +11,36 @@ from ..uri import URI
 
 class TestURI (unittest.TestCase):
 
+    def set_uri (self, *args, **kwargs):
+        self.uri = URI(ArgumentCollector, *args, **kwargs)
+
+    def get_variadic (func):
+        def result (self, *args, **kwargs):
+            return func(self.uri)(*args, **kwargs)
+
+        return result
+
+    @get_variadic
+    def get_GET_uri (uri):
+        return uri.get_uri
+
+    @get_variadic
+    def get_POST_uri (uri):
+        return uri.post_uri
+
+    @get_variadic
+    def get_GET_data (uri):
+        return uri.get
+
+    @get_variadic
+    def get_POST_data (uri):
+        return uri.post
+
     def test_get (self):
         base = "https://lib.umich.edu/"
-        uri = URI(ArgumentCollector, base, "barcode", key="secret")
+        self.set_uri(base, "barcode", key="secret")
 
-        result = uri.get_uri("hello")
+        result = self.get_GET_uri("hello")
 
         barcode_hello = "barcode=hello".encode("ascii")
         key_secret = "key=secret".encode("ascii")
@@ -29,9 +54,9 @@ class TestURI (unittest.TestCase):
 
     def test_post (self):
         base = "https://lib.umich.edu/"
-        uri = URI(ArgumentCollector, base)
+        self.set_uri(base)
 
-        result = uri.post_uri(matt="is cool")
+        result = self.get_POST_uri(matt="is cool")
         self.assertTrue(isinstance(result, tuple))
         self.assertEqual(len(result), 2)
 
@@ -42,18 +67,18 @@ class TestURI (unittest.TestCase):
 
     def test_unicode (self):
         base = "https://lib.umich.edu/"
-        uri = URI(ArgumentCollector, base)
+        self.set_uri(base)
 
-        result = uri.get_uri(matt="💪")
+        result = self.get_GET_uri(matt="💪")
         expected = base + "?matt=%F0%9F%92%AA"
 
         self.assertEqual(result, expected.encode("ascii"))
 
     @slow_test
     def test_get_response (self):
-        uri = URI(ArgumentCollector, "http://lib.umich.edu/", "matt")
+        self.set_uri("http://lib.umich.edu/", "matt")
 
-        with uri.get("is cool") as response:
+        with self.get_GET_data("is cool") as response:
             self.assertTrue(isinstance(response, HTTPResponse))
             self.assertTrue(response.geturl().endswith(
                     "lib.umich.edu/?matt=is+cool"))
@@ -61,19 +86,19 @@ class TestURI (unittest.TestCase):
 
     @slow_test
     def test_post_response (self):
-        uri = URI(ArgumentCollector, "http://lib.umich.edu/", "matt")
+        self.set_uri("http://lib.umich.edu/", "matt")
 
-        with uri.post("is cool") as response:
+        with self.get_POST_data("is cool") as response:
             self.assertTrue(isinstance(response, HTTPResponse))
             self.assertTrue(response.geturl().endswith(
                     "lib.umich.edu/"))
             self.assertTrue(isinstance(response.read(), bytes))
 
     def test_data_in_uri (self):
-        uri = URI(ArgumentCollector, "http://lib.umich.edu/etc/{barcode}/",
+        self.set_uri("http://lib.umich.edu/etc/{barcode}/",
                 "barcode")
 
-        self.assertEqual(uri.get_uri("39015012345678"),
+        self.assertEqual(self.get_GET_uri("39015012345678"),
                 b"http://lib.umich.edu/etc/39015012345678/")
-        self.assertEqual(uri.get_uri("39015012345679", a="b"),
+        self.assertEqual(self.get_GET_uri("39015012345679", a="b"),
                 b"http://lib.umich.edu/etc/39015012345679/?a=b")
