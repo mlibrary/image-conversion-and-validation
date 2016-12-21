@@ -169,7 +169,17 @@ class BaseTabularDataTest:
         self.set_header(data)
         self.assertTrue(isinstance(data[:], list))
 
+    def test_repr (self):
+        data = self.set_to_3x3_grid()
+        self.assertEqual(repr(data),
+                "<{} header=False".format(self.repr_class_name)
+                + " ('first', 'second', 'third'),"
+                + " ('matthew', 'alexander', 'lachance'),"
+                + " ('un (french for one)', 'deux', 'trois')>")
+
 class TestTabularData (unittest.TestCase, BaseTabularDataTest):
+
+    repr_class_name = "TabularData"
 
     def setUp (self):
         self.data_bytes = b""
@@ -195,16 +205,10 @@ class TestTabularData (unittest.TestCase, BaseTabularDataTest):
     def test_is_sequence (self):
         self.assertTrue(issubclass(TabularData, Sequence))
 
-    def test_repr (self):
-        data = self.set_to_3x3_grid()
-        self.assertEqual(repr(data),
-                "<TabularData header=False"
-                + " ('first', 'second', 'third'),"
-                + " ('matthew', 'alexander', 'lachance'),"
-                + " ('un (french for one)', 'deux', 'trois')>")
-
 class TestTabularDataFromFilePath (unittest.TestCase,
         BaseTabularDataTest):
+
+    repr_class_name = "TabularDataFromFilePath"
 
     def setUp (self):
         # The TabularData class needs a path in the filesystem, so I
@@ -243,14 +247,6 @@ class TestTabularDataFromFilePath (unittest.TestCase,
 
     def test_is_sequence (self):
         self.assertTrue(issubclass(TabularDataFromFilePath, TabularData))
-
-    def test_repr (self):
-        data = self.set_to_3x3_grid()
-        self.assertEqual(repr(data),
-                "<TabularDataFromFilePath header=False"
-                + " ('first', 'second', 'third'),"
-                + " ('matthew', 'alexander', 'lachance'),"
-                + " ('un (french for one)', 'deux', 'trois')>")
 
 class TestExceptions (unittest.TestCase):
 
