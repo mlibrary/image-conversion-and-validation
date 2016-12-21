@@ -2,7 +2,7 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
-from ..general.counted_word import CountedWord
+from ..counted_word import CountedWord
 
 class MissingPositionalArgsError (TypeError):
 

@@ -4,7 +4,7 @@
 from urllib.parse import urlencode
 from urllib.request import urlopen
 
-from ..exceptions import MissingPositionalArgsError
+from ..general.exceptions.type_errors import MissingPositionalArgsError
 from .str_format import get_keys_required_by_format_str
 
 class URI:

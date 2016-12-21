@@ -3,7 +3,7 @@
 # BSD License. See LICENSE.txt for details.
 import unittest
 
-from ....exceptions import BaseError
+from ....general.exceptions.base_error import BaseError
 
 from ..base import TabularData
 

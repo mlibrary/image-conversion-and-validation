@@ -4,7 +4,7 @@
 from collections.abc import Sequence
 from re import compile as re_compile
 
-from ...exceptions import BaseError
+from ...general.exceptions.base_error import BaseError
 
 class TabularData (Sequence):
     """Parse tabular input files and hold their data."""

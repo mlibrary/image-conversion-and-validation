@@ -3,7 +3,7 @@
 # BSD License. See LICENSE.txt for details.
 from collections.abc import Sequence, Mapping
 
-from ..exceptions import \
+from ..general.exceptions.type_errors import \
         MultipleValuesOneArgError, \
         MissingPositionalArgsError, \
         TooManyArgumentsError
