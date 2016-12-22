@@ -19,18 +19,6 @@ class MARCData:
     xmlns = "http://www.loc.gov/MARC21/slim"
     description = None # should be datafield(MDP, z)
 
-    def __set_oclc (self):
-        self.oclc = self.__get_oclc()
-
-    def __get_oclc (self):
-        for value in self.__find_all_datafields("035", "a"):
-            match = RE_MARC_OCLC.match(value)
-
-            if match is not None:
-                return match.group(1)
-
-        return None
-
     def __init__ (self, xml):
         self.__root = ET.fromstring(xml)
         self.bib = self.__get_controlfield("001")
@@ -42,15 +30,21 @@ class MARCData:
         self.__set_oclc()
 
     def __get_controlfield (self, tag):
-        return self.__get_text_if_not_none(
-                ".//{{{xmlns}}}controlfield[@tag='{}']".format(
-                        tag, xmlns=self.xmlns))
+        xpath = self.__get_control_xpath(tag)
+        return self.__get_text_if_not_none(xpath)
+
+    def __get_control_xpath (self, tag):
+        return ".//{{{xmlns}}}controlfield[@tag='{}']".format(
+                        tag, xmlns=self.xmlns)
 
     def __get_datafield (self, tag, code):
-        return self.__get_text_if_not_none(
-                ".//{{{xmlns}}}datafield[@tag='{}']/"
+        xpath = self.__get_data_xpath(tag, code)
+        return self.__get_text_if_not_none(xpath)
+
+    def __get_data_xpath (self, tag, code):
+        return ".//{{{xmlns}}}datafield[@tag='{}']/" \
                 "{{{xmlns}}}subfield[@code='{}']".format(
-                        tag, code, xmlns=self.xmlns))
+                        tag, code, xmlns=self.xmlns)
 
     def __get_text_if_not_none (self, xpath):
         elt = self.__root.find(xpath)
@@ -58,10 +52,8 @@ class MARCData:
         return getattr(elt, "text", None)
 
     def __find_all_datafields (self, tag, code):
-        return self.__find_all_texts(
-                ".//{{{xmlns}}}datafield[@tag='{}']/"
-                "{{{xmlns}}}subfield[@code='{}']".format(
-                        tag, code, xmlns=self.xmlns))
+        xpath = self.__get_data_xpath(tag, code)
+        return self.__find_all_texts(xpath)
 
     def __find_all_texts (self, xpath):
         for elt in self.__root.findall(xpath):
@@ -85,3 +77,15 @@ class MARCData:
                 NUMBER_OF_CHARS_IN_A_YEAR]
 
         return None if result == MARC_NULL_YEAR else result
+
+    def __set_oclc (self):
+        self.oclc = self.__get_oclc()
+
+    def __get_oclc (self):
+        for value in self.__find_all_datafields("035", "a"):
+            match = RE_MARC_OCLC.match(value)
+
+            if match is not None:
+                return match.group(1)
+
+        return None
