@@ -3,6 +3,11 @@
 # BSD License. See LICENSE.txt for details.
 import xml.etree.ElementTree as ET
 
+INDEX_OF_FIRST_YEAR_SUBSTR = 7
+INDEX_OF_SECOND_YEAR_SUBSTR = 11
+NUMBER_OF_CHARS_IN_A_YEAR = 4
+MARC_NULL_YEAR = "^^^^"
+
 class MARCData:
 
     xmlns = "http://www.loc.gov/MARC21/slim"
@@ -34,13 +39,20 @@ class MARCData:
         return getattr(elt, "text", None)
 
     def __set_years (self):
-        full_008_str = self.__get_controlfield("008")
-        year1 = self.__get_year_substr(full_008_str, 7)
-        year2 = self.__get_year_substr(full_008_str, 11)
+        full_str = self.__get_controlfield("008")
+        self.years = self.__get_first_year(full_str), \
+                self.__get_second_year(full_str)
 
-        self.years = year1, year2
+    def __get_first_year (self, full_str):
+        return self.__get_year_substr(full_str,
+                INDEX_OF_FIRST_YEAR_SUBSTR)
 
-    def __get_year_substr (self, full_008_str, start_index):
-        result = full_008_str[start_index:start_index+4]
+    def __get_second_year (self, full_str):
+        return self.__get_year_substr(full_str,
+                INDEX_OF_SECOND_YEAR_SUBSTR)
 
-        return None if result == "^^^^" else result
+    def __get_year_substr (self, full_str, start_index):
+        result = full_str[start_index:start_index +
+                NUMBER_OF_CHARS_IN_A_YEAR]
+
+        return None if result == MARC_NULL_YEAR else result
