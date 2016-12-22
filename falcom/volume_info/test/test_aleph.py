@@ -75,3 +75,6 @@ class TestMARCData (unittest.TestCase):
 
         with self.assertRaises(AttributeError):
             self.marc.bib = "012345678"
+
+        with self.assertRaises(AttributeError):
+            self.marc.callno = "some other callno"

@@ -21,10 +21,13 @@ class MARCData:
     @property
     def bib (self): return self.__bib
 
+    @property
+    def callno (self): return self.__callno
+
     def __init__ (self, xml):
         self.__root = ET.fromstring(xml)
         self.__bib = self.__get_controlfield("001")
-        self.callno = self.__get_datafield("MDP", "h")
+        self.__callno = self.__get_datafield("MDP", "h")
         self.author = self.__get_datafield("100", "a")
         self.title = self.__get_datafield("245", "a")
         self.description = self.__get_datafield("MDP", "z")
