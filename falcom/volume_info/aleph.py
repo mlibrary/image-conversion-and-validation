@@ -5,18 +5,26 @@ import xml.etree.ElementTree as ET
 
 class MARCData:
 
-    def __init__ (self, xml):
-        root = ET.fromstring(xml)
-        self.bib = root.find(".//{http://www.loc.gov/MARC21/slim}"
-                "controlfield[@tag='001']").text
-        self.callno = root.find(".//{http://www.loc.gov/MARC21/slim}"
-                "datafield[@tag='MDP']/{http://www.loc.gov/MARC21/slim}"
-                "subfield[@code='h']").text
-        author_tag = root.find(".//{http://www.loc.gov/MARC21/slim}"
-                "datafield[@tag='100']/{http://www.loc.gov/MARC21/slim}"
-                "subfield[@code='a']")
+    xmlns = "http://www.loc.gov/MARC21/slim"
 
-        if author_tag is None:
-            self.author = None
-        else:
-            self.author = author_tag.text
+    def __init__ (self, xml):
+        self.__root = ET.fromstring(xml)
+        self.bib = self.__get_controlfield("001")
+        self.callno = self.__get_datafield("MDP", "h")
+        self.author = self.__get_datafield("100", "a")
+
+    def __get_controlfield (self, tag):
+        return self.__get_text_if_not_none(
+                ".//{{{xmlns}}}controlfield[@tag='{}']".format(
+                        tag, xmlns=self.xmlns))
+
+    def __get_datafield (self, tag, code):
+        return self.__get_text_if_not_none(
+                ".//{{{xmlns}}}datafield[@tag='{}']/"
+                "{{{xmlns}}}subfield[@code='{}']".format(
+                        tag, code, xmlns=self.xmlns))
+
+    def __get_text_if_not_none (self, xpath):
+        elt = self.__root.find(xpath)
+
+        return getattr(elt, "text", None)
