@@ -31,14 +31,16 @@ class TestMARCData (unittest.TestCase):
                 bib="006822264",
                 callno="Isl. Ms. 402",
                 author=None,
-                title=None)
+                title="[Calligraphic specimen,")
 
         self.assert_marc_values(EG_MARC_ASTRO,
                 bib="002601791",
                 callno="Isl. Ms. 782",
-                author=None)
+                author=None,
+                title="Astronomical tables :")
 
         self.assert_marc_values(EG_MARC_BUSINESS,
                 bib="011694516",
                 callno="LD755.A87 P45 2012",
-                author="Pelfrey, Patricia A.")
+                author="Pelfrey, Patricia A.",
+                title="Entrepreneurial president :")
