@@ -44,6 +44,8 @@ class TestMARCData (unittest.TestCase):
                 years=("1790", "1791"),
                 oclc=None)
 
+        self.assertTrue(bool(self.marc))
+
     def test_astro_xml (self):
         self.assert_marc_values(EG_MARC_ASTRO,
                 bib="002601791",
