@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 
 class MARCData:
 
-    author = ""
+    author = None
 
     def __init__ (self, xml):
         root = ET.fromstring(xml)

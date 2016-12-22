@@ -30,9 +30,9 @@ class TestMARCData (unittest.TestCase):
         self.assert_marc_values(EG_MARC_ISMAN,
                 bib="006822264",
                 callno="Isl. Ms. 402",
-                author="")
+                author=None)
 
         self.assert_marc_values(EG_MARC_ASTRO,
                 bib="002601791",
                 callno="Isl. Ms. 782",
-                author="")
+                author=None)
