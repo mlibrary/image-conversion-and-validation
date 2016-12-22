@@ -44,6 +44,9 @@ class MARCData:
         self.__store_xml_element_tree(xml)
         self.__get_values_from_xml()
 
+    def __bool__ (self):
+        return False
+
     def __store_xml_element_tree (self, xml):
         self.__root = ET.fromstring(xml)
 

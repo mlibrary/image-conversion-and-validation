@@ -88,3 +88,5 @@ class TestMARCData (unittest.TestCase):
     def test_not_found_truthiness_is_false (self):
         self.init_marc_data(
                 "<error>id 39015071755825 not found</error>")
+
+        self.assertFalse(bool(self.marc))
