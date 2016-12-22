@@ -45,15 +45,10 @@ class MARCData:
         self.__get_values_from_xml()
 
     def __bool__ (self):
-        return self.__we_have_a_valid_record
+        return self.__root.tag == "{{{}}}record".format(self.xmlns)
 
     def __store_xml_element_tree (self, xml):
         self.__root = ET.fromstring(xml)
-        self.__validate_marc_xml()
-
-    def __validate_marc_xml (self):
-        self.__we_have_a_valid_record = \
-                (self.__root.tag == "{{{}}}record".format(self.xmlns))
 
     def __get_values_from_xml (self):
         self.__get_controlfield_values()
