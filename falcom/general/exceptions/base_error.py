@@ -3,67 +3,63 @@
 # BSD License. See LICENSE.txt for details.
 from re import compile as re_compile
 
-class BaseError (RuntimeError):
-    """Catchall exception to sire all others in this script."""
+RE_INDENT = re_compile(r"\n +")
 
-    __re_indent = re_compile(r"\n +")
+class BaseError (RuntimeError):
+    """Catchall exception to sire all others in this script.
+
+    The idea here is that the docstring of any child exceptions will be
+    used as the message string. Also, it'll ignore everything after the
+    first paragraph (i.e. anything after a double-newline).
+
+    So, if you implement this exception directly, its message should
+    simply be:
+
+        Catchall exception to sire all others in this script.
+
+    If you want to format the message string, you can pass args at init,
+    and the'll be passed to the docstring with a str.format() call.
+
+    I don't do anything for keyword arguments. I'm not trying to make
+    this complicated.
+    """
 
     def __init__ (self, *args):
         """Set the internal message and value."""
 
-        if len(args) == 0:
-            # If there aren't any args, then we want default values.
-            self.__default_values()
+        if args:
+            self.__parse_args_and_set_values(args)
 
         else:
-            # If there are any args, then we'll want to format the
-            # message based on them.
-            self.message = self.__prep_docstr().format(*args)
-
-            # The value will depend on the number of args.
-            self.__set_value(args)
+            self.__set_default_values()
 
     def __str__ (self):
         """Return the str message."""
         return self.message
 
-    def __prep_docstr (self):
-        # First, we strip away any indentations so that each line begins
-        # with no leading whitespace.
-        no_indents = self.__re_indent.sub("\n", self.__doc__)
+    def __set_default_values (self):
+        self.message = self.__get_summary()
+        self.value = None
 
-        # Second, we look for a double newline, and strip it away along
-        # with anything following it. This way, we ignore any paragraphs
-        # following the summary that we actually want to use.
-        relevant_piece = self.__strip_double_newline(no_indents)
+    def __parse_args_and_set_values (self, args):
+        summary = self.__get_summary()
+        self.message = summary.format(*args)
+        self.__set_value(args)
 
-        # Finally, we separate lines by spaces instead of newlines.
-        return relevant_piece.replace("\n", " ")
+    def __get_summary (self):
+        docstr_without_indents = RE_INDENT.sub("\n", self.__doc__)
+        first_paragraph = self.__strip_double_newline(
+                docstr_without_indents)
+        return first_paragraph.replace("\n", " ")
 
     def __strip_double_newline (self, text):
-        # Find a double-newline.
         i = text.find("\n\n")
 
-        if i == -1:
-            # Couldn't find one. That means we use the entire text.
-            return text
-
-        else:
-            # Found one! Use everything leading up to the first double
-            # newline.
-            return text[:i]
-
-    def __default_values (self):
-        # By default, we just use the docstring with a null value.
-        self.message = self.__prep_docstr()
-        self.value = None
+        return text if i == -1 else text[:i]
 
     def __set_value (self, args):
         if len(args) == 1:
-            # If there's a single argument, then we can just use it.
             self.value = args[0]
 
         else:
-            # If there's more than one, then we should use the entire
-            # tuple as the value.
             self.value = args
