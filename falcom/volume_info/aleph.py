@@ -40,15 +40,19 @@ class MARCData:
     def oclc (self): return self.__oclc
 
     def __init__ (self, xml):
-        self.__root = ET.fromstring(xml)
-        self.__bib = self.__get_controlfield("001")
-        self.__callno = self.__get_datafield("MDP", "h")
-        self.__author = self.__get_datafield("100", "a")
-        self.__title = self.__get_datafield("245", "a")
-        self.__description = self.__get_datafield("MDP", "z")
+        self.__store_xml_element_tree(xml)
+        self.__get_values_from_xml()
 
-        self.__set_years()
-        self.__set_oclc()
+    def __store_xml_element_tree (self, xml):
+        self.__root = ET.fromstring(xml)
+
+    def __get_values_from_xml (self):
+        self.__get_controlfield_values()
+        self.__get_datafield_values()
+        self.__get_more_complicated_values()
+
+    def __get_controlfield_values (self):
+        self.__bib = self.__get_controlfield("001")
 
     def __get_controlfield (self, tag):
         xpath = self.__get_control_xpath(tag)
@@ -57,6 +61,12 @@ class MARCData:
     def __get_control_xpath (self, tag):
         return ".//{{{xmlns}}}controlfield[@tag='{}']".format(
                         tag, xmlns=self.xmlns)
+
+    def __get_datafield_values (self):
+        self.__callno = self.__get_datafield("MDP", "h")
+        self.__author = self.__get_datafield("100", "a")
+        self.__title = self.__get_datafield("245", "a")
+        self.__description = self.__get_datafield("MDP", "z")
 
     def __get_datafield (self, tag, code):
         xpath = self.__get_data_xpath(tag, code)
@@ -67,18 +77,9 @@ class MARCData:
                 "{{{xmlns}}}subfield[@code='{}']".format(
                         tag, code, xmlns=self.xmlns)
 
-    def __get_text_if_not_none (self, xpath):
-        elt = self.__root.find(xpath)
-
-        return getattr(elt, "text", None)
-
-    def __find_all_datafields (self, tag, code):
-        xpath = self.__get_data_xpath(tag, code)
-        return self.__find_all_texts(xpath)
-
-    def __find_all_texts (self, xpath):
-        for elt in self.__root.findall(xpath):
-            yield elt.text
+    def __get_more_complicated_values (self):
+        self.__set_years()
+        self.__set_oclc()
 
     def __set_years (self):
         full_str = self.__get_controlfield("008")
@@ -110,3 +111,16 @@ class MARCData:
                 return "{:>09}".format(match.group(1))
 
         return None
+
+    def __find_all_datafields (self, tag, code):
+        xpath = self.__get_data_xpath(tag, code)
+        return self.__find_all_texts(xpath)
+
+    def __find_all_texts (self, xpath):
+        for elt in self.__root.findall(xpath):
+            yield elt.text
+
+    def __get_text_if_not_none (self, xpath):
+        elt = self.__root.find(xpath)
+
+        return getattr(elt, "text", None)
