@@ -33,7 +33,7 @@ class TestMARCData (unittest.TestCase):
                 author=None,
                 title="[Calligraphic specimen,",
                 description=None,
-                years=(None, None))
+                years=("1790", "1791"))
 
     def test_astro_xml (self):
         self.assert_marc_values(EG_MARC_ASTRO,
@@ -42,7 +42,7 @@ class TestMARCData (unittest.TestCase):
                 author=None,
                 title="Astronomical tables :",
                 description=None,
-                years=(None, None))
+                years=("16uu", None))
 
     def test_business_xml (self):
         self.assert_marc_values(EG_MARC_BUSINESS,
@@ -51,4 +51,4 @@ class TestMARCData (unittest.TestCase):
                 author="Pelfrey, Patricia A.",
                 title="Entrepreneurial president :",
                 description=None,
-                years=(None, None))
+                years=("2012", None))
