@@ -17,6 +17,7 @@ def readfile (filename):
 EG_MARC_ISMAN = readfile("39015079130699.xml")
 EG_MARC_ASTRO = readfile("39015081447313.xml")
 EG_MARC_BUSINESS = readfile("39015090867675.xml")
+EG_MARC_MIDAILY = readfile("39015071755826.xml")
 
 class TestMARCData (unittest.TestCase):
 
@@ -53,4 +54,15 @@ class TestMARCData (unittest.TestCase):
                 author="Pelfrey, Patricia A.",
                 title="Entrepreneurial president :",
                 description=None,
-                years=("2012", None))
+                years=("2012", None),
+                oclc="756167029")
+
+    def test_midaily_xml (self):
+        self.assert_marc_values(EG_MARC_MIDAILY,
+                bib="002751011",
+                callno="FImu F3g Outsize",
+                author=None,
+                title="The Michigan daily.",
+                description="1927 Sept 20 - 1928 Jan 8",
+                years=("1903", "9999"),
+                oclc="009651208")

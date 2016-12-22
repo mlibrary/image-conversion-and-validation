@@ -17,7 +17,6 @@ RE_MARC_OCLC = re_compile(r"^\(OCoLC\).*?([0-9]+)$")
 class MARCData:
 
     xmlns = "http://www.loc.gov/MARC21/slim"
-    description = None # should be datafield(MDP, z)
 
     def __init__ (self, xml):
         self.__root = ET.fromstring(xml)
@@ -25,6 +24,7 @@ class MARCData:
         self.callno = self.__get_datafield("MDP", "h")
         self.author = self.__get_datafield("100", "a")
         self.title = self.__get_datafield("245", "a")
+        self.description = self.__get_datafield("MDP", "z")
 
         self.__set_years()
         self.__set_oclc()
@@ -86,6 +86,6 @@ class MARCData:
             match = RE_MARC_OCLC.match(value)
 
             if match is not None:
-                return match.group(1)
+                return "{:>09}".format(match.group(1))
 
         return None
