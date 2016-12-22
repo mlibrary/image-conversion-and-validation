@@ -2,6 +2,7 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 from http.client import HTTPResponse
+from urllib.error import HTTPError
 import unittest
 
 from ...general.slow_test import slow_test
@@ -35,6 +36,20 @@ class TestURI (unittest.TestCase):
     @get_variadic
     def get_POST_data (uri):
         return uri.post
+
+    def slow_http_request_with_errors (self, request, endswith_str):
+        try:
+            self.slow_http_request(request, endswith_str)
+
+        except HTTPError as e:
+            raise unittest.SkipTest("Inconclusive due to HTTPError " \
+                    + str(e))
+
+    def slow_http_request (self, request, endswith_str):
+        with request as response:
+            self.assertTrue(isinstance(response, HTTPResponse))
+            self.assertTrue(response.geturl().endswith(endswith_str))
+            self.assertTrue(isinstance(response.read(), bytes))
 
     def test_get (self):
         base = "https://lib.umich.edu/"
@@ -78,21 +93,17 @@ class TestURI (unittest.TestCase):
     def test_get_response (self):
         self.set_uri("http://lib.umich.edu/", "matt")
 
-        with self.get_GET_data("is cool") as response:
-            self.assertTrue(isinstance(response, HTTPResponse))
-            self.assertTrue(response.geturl().endswith(
-                    "lib.umich.edu/?matt=is+cool"))
-            self.assertTrue(isinstance(response.read(), bytes))
+        self.slow_http_request_with_errors(
+                self.get_GET_data("is cool"),
+                "lib.umich.edu/?matt=is+cool")
 
     @slow_test
     def test_post_response (self):
         self.set_uri("http://lib.umich.edu/", "matt")
 
-        with self.get_POST_data("is cool") as response:
-            self.assertTrue(isinstance(response, HTTPResponse))
-            self.assertTrue(response.geturl().endswith(
-                    "lib.umich.edu/"))
-            self.assertTrue(isinstance(response.read(), bytes))
+        self.slow_http_request_with_errors(
+                self.get_POST_data("is cool"),
+                "lib.umich.edu/")
 
     def test_data_in_uri (self):
         self.set_uri("http://lib.umich.edu/etc/{barcode}/",
