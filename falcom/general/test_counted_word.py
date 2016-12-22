@@ -36,7 +36,7 @@ class TestCountedWord (unittest.TestCase):
 
         self.init_counted_word("holler")
         self.assertEqual(repr(self.word),
-                "<CountedWord holler/hollers>")
+                         "<CountedWord holler/hollers>")
 
         self.init_counted_word("forum", "fora")
         self.assertEqual(repr(self.word), "<CountedWord forum/fora>")
@@ -47,4 +47,4 @@ class TestCountedWord (unittest.TestCase):
 
         w = SomeDerivativeOfCountedWord("rock")
         self.assertEqual(repr(w),
-                "<SomeDerivativeOfCountedWord rock/rocks>")
+                         "<SomeDerivativeOfCountedWord rock/rocks>")

@@ -31,10 +31,9 @@ class CountedWord:
     def __repr__ (self):
         """Return informataive representation of CountedWord object."""
 
-        return "<{} {}/{}>".format(
-                self.__class__.__name__,
-                self.__singular,
-                self.__plural)
+        return "<{} {}/{}>".format(self.__class__.__name__,
+                                   self.__singular,
+                                   self.__plural)
 
     def __figure_out_plural (self, optional_plural):
         if optional_plural is None:

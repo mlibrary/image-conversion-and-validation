@@ -42,15 +42,16 @@ class MissingPositionalArgsError (TypeError):
 class MultipleValuesOneArgError (TypeError):
 
     def __new__ (cls, function_name, arg):
-        return TypeError(
-                "{}() got multiple values for keyword argument '{}'"
-                        .format(function_name, arg))
+        msg = "{}() got multiple values for keyword argument '{}'"
+        return TypeError(msg.format(function_name, arg))
 
 class TooManyArgumentsError (TypeError):
 
     def __new__ (cls, function_name, expected, received):
+        msg = "{}() takes {} but {} given"
         args = CountedWord("positional argument")
         were = CountedWord("was", "were")
 
-        return TypeError("{}() takes {} but {} given".format(
-                function_name, args(expected), were(received)))
+        return TypeError(msg.format(function_name,
+                                    args(expected),
+                                    were(received)))
