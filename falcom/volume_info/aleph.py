@@ -1,6 +1,7 @@
 # Copyright (c) 2016 The Regents of the University of Michigan.
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
+from re import compile as re_compile
 import xml.etree.ElementTree as ET
 
 INDEX_OF_FIRST_YEAR_SUBSTR = 7
@@ -8,13 +9,27 @@ INDEX_OF_SECOND_YEAR_SUBSTR = 11
 NUMBER_OF_CHARS_IN_A_YEAR = 4
 MARC_NULL_YEAR = "^^^^"
 
+# I expect OCLC text values to look like `(OCoLC)ocm15015690`. It'll
+# always start with `(OCoLC)`, and I'm always only interested in the
+# decimal digits at the end.
+RE_MARC_OCLC = re_compile(r"^\(OCoLC\).*?([0-9]+)$")
+
 class MARCData:
 
     xmlns = "http://www.loc.gov/MARC21/slim"
     description = None # should be datafield(MDP, z)
-    oclc = None # should be datafield(035, a) and should match
-                # /^\(OCoLC\).*?([0-9]+)$/ where we're only interested
-                # in the digits at the end.
+
+    def __set_oclc (self):
+        self.oclc = self.__get_oclc()
+
+    def __get_oclc (self):
+        for value in self.__find_all_datafields("035", "a"):
+            match = RE_MARC_OCLC.match(value)
+
+            if match is not None:
+                return match.group(1)
+
+        return None
 
     def __init__ (self, xml):
         self.__root = ET.fromstring(xml)
@@ -24,6 +39,7 @@ class MARCData:
         self.title = self.__get_datafield("245", "a")
 
         self.__set_years()
+        self.__set_oclc()
 
     def __get_controlfield (self, tag):
         return self.__get_text_if_not_none(
@@ -40,6 +56,16 @@ class MARCData:
         elt = self.__root.find(xpath)
 
         return getattr(elt, "text", None)
+
+    def __find_all_datafields (self, tag, code):
+        return self.__find_all_texts(
+                ".//{{{xmlns}}}datafield[@tag='{}']/"
+                "{{{xmlns}}}subfield[@code='{}']".format(
+                        tag, code, xmlns=self.xmlns))
+
+    def __find_all_texts (self, xpath):
+        for elt in self.__root.findall(xpath):
+            yield elt.text
 
     def __set_years (self):
         full_str = self.__get_controlfield("008")

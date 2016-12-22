@@ -43,7 +43,8 @@ class TestMARCData (unittest.TestCase):
                 author=None,
                 title="Astronomical tables :",
                 description=None,
-                years=("16uu", None))
+                years=("16uu", None),
+                oclc="706055947")
 
     def test_business_xml (self):
         self.assert_marc_values(EG_MARC_BUSINESS,
