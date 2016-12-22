@@ -30,6 +30,10 @@ class TestMARCData (unittest.TestCase):
         for key, value in kwargs.items():
             self.assertEqual(getattr(self.marc, key), value)
 
+    def assert_cant_set_attr (self, attr, value):
+        with self.assertRaises(AttributeError):
+            setattr(self.marc, attr, value)
+
     def test_isman_xml (self):
         self.assert_marc_values(EG_MARC_ISMAN,
                 bib="006822264",
@@ -70,12 +74,13 @@ class TestMARCData (unittest.TestCase):
                 years=("1903", "9999"),
                 oclc="009651208")
 
-    def assert_cant_set_attr (self, attr, value):
-        with self.assertRaises(AttributeError):
-            setattr(self.marc, attr, value)
-
     def test_cant_set_attrs (self):
         self.init_marc_data(EG_MARC_MIDAILY)
 
         self.assert_cant_set_attr("bib", "012345678")
         self.assert_cant_set_attr("callno", "some other callno")
+        self.assert_cant_set_attr("author", "some author")
+        self.assert_cant_set_attr("title", "some title")
+        self.assert_cant_set_attr("description", "a book of wonders")
+        self.assert_cant_set_attr("years", ("1234", "5678"))
+        self.assert_cant_set_attr("oclc", "987654321")

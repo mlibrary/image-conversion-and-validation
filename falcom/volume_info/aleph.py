@@ -24,13 +24,28 @@ class MARCData:
     @property
     def callno (self): return self.__callno
 
+    @property
+    def author (self): return self.__author
+
+    @property
+    def title (self): return self.__title
+
+    @property
+    def description (self): return self.__description
+
+    @property
+    def years (self): return self.__years
+
+    @property
+    def oclc (self): return self.__oclc
+
     def __init__ (self, xml):
         self.__root = ET.fromstring(xml)
         self.__bib = self.__get_controlfield("001")
         self.__callno = self.__get_datafield("MDP", "h")
-        self.author = self.__get_datafield("100", "a")
-        self.title = self.__get_datafield("245", "a")
-        self.description = self.__get_datafield("MDP", "z")
+        self.__author = self.__get_datafield("100", "a")
+        self.__title = self.__get_datafield("245", "a")
+        self.__description = self.__get_datafield("MDP", "z")
 
         self.__set_years()
         self.__set_oclc()
@@ -67,7 +82,7 @@ class MARCData:
 
     def __set_years (self):
         full_str = self.__get_controlfield("008")
-        self.years = self.__get_first_year(full_str), \
+        self.__years = self.__get_first_year(full_str), \
                 self.__get_second_year(full_str)
 
     def __get_first_year (self, full_str):
@@ -85,7 +100,7 @@ class MARCData:
         return None if result == MARC_NULL_YEAR else result
 
     def __set_oclc (self):
-        self.oclc = self.__get_oclc()
+        self.__oclc = self.__get_oclc()
 
     def __get_oclc (self):
         for value in self.__find_all_datafields("035", "a"):
