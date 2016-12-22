@@ -84,3 +84,7 @@ class TestMARCData (unittest.TestCase):
         self.assert_cant_set_attr("description", "a book of wonders")
         self.assert_cant_set_attr("years", ("1234", "5678"))
         self.assert_cant_set_attr("oclc", "987654321")
+
+    def test_not_found_truthiness_is_false (self):
+        self.init_marc_data(
+                "<error>id 39015071755825 not found</error>")

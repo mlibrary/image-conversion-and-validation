@@ -15,6 +15,7 @@ MARC_NULL_YEAR = "^^^^"
 RE_MARC_OCLC = re_compile(r"^\(OCoLC\).*?([0-9]+)$")
 
 class MARCData:
+    """Data structure to parse MARC data."""
 
     xmlns = "http://www.loc.gov/MARC21/slim"
 
@@ -23,6 +24,9 @@ class MARCData:
 
     @property
     def callno (self): return self.__callno
+
+    @property
+    def oclc (self): return self.__oclc
 
     @property
     def author (self): return self.__author
@@ -35,9 +39,6 @@ class MARCData:
 
     @property
     def years (self): return self.__years
-
-    @property
-    def oclc (self): return self.__oclc
 
     def __init__ (self, xml):
         self.__store_xml_element_tree(xml)
@@ -95,6 +96,9 @@ class MARCData:
                 INDEX_OF_SECOND_YEAR_SUBSTR)
 
     def __get_year_substr (self, full_str, start_index):
+        if full_str is None:
+            return None
+
         result = full_str[start_index:start_index +
                 NUMBER_OF_CHARS_IN_A_YEAR]
 
