@@ -21,11 +21,14 @@ EG_MARC_MIDAILY = readfile("39015071755826.xml")
 
 class TestMARCData (unittest.TestCase):
 
-    def assert_marc_values (self, xml_data, **kwargs):
-        marc = MARCData(xml_data)
+    def init_marc_data (self, marc_xml):
+        self.marc = MARCData(marc_xml)
+
+    def assert_marc_values (self, marc_xml, **kwargs):
+        self.init_marc_data(marc_xml)
 
         for key, value in kwargs.items():
-            self.assertEqual(getattr(marc, key), value)
+            self.assertEqual(getattr(self.marc, key), value)
 
     def test_isman_xml (self):
         self.assert_marc_values(EG_MARC_ISMAN,
@@ -66,3 +69,9 @@ class TestMARCData (unittest.TestCase):
                 description="1927 Sept 20 - 1928 Jan 8",
                 years=("1903", "9999"),
                 oclc="009651208")
+
+    def test_cant_set_attrs (self):
+        self.init_marc_data(EG_MARC_MIDAILY)
+
+        with self.assertRaises(AttributeError):
+            self.marc.bib = "012345678"
