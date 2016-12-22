@@ -12,6 +12,9 @@ class MARCData:
 
     xmlns = "http://www.loc.gov/MARC21/slim"
     description = None # should be datafield(MDP, z)
+    oclc = None # should be datafield(035, a) and should match
+                # /^\(OCoLC\).*?([0-9]+)$/ where we're only interested
+                # in the digits at the end.
 
     def __init__ (self, xml):
         self.__root = ET.fromstring(xml)

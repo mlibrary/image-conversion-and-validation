@@ -33,7 +33,8 @@ class TestMARCData (unittest.TestCase):
                 author=None,
                 title="[Calligraphic specimen,",
                 description=None,
-                years=("1790", "1791"))
+                years=("1790", "1791"),
+                oclc=None)
 
     def test_astro_xml (self):
         self.assert_marc_values(EG_MARC_ASTRO,
