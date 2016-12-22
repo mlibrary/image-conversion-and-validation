@@ -56,6 +56,8 @@ class TestMARCData (unittest.TestCase):
                 years=("16uu", None),
                 oclc="706055947")
 
+        self.assertTrue(bool(self.marc))
+
     def test_business_xml (self):
         self.assert_marc_values(EG_MARC_BUSINESS,
                 bib="011694516",
@@ -66,6 +68,8 @@ class TestMARCData (unittest.TestCase):
                 years=("2012", None),
                 oclc="756167029")
 
+        self.assertTrue(bool(self.marc))
+
     def test_midaily_xml (self):
         self.assert_marc_values(EG_MARC_MIDAILY,
                 bib="002751011",
@@ -75,6 +79,8 @@ class TestMARCData (unittest.TestCase):
                 description="1927 Sept 20 - 1928 Jan 8",
                 years=("1903", "9999"),
                 oclc="009651208")
+
+        self.assertTrue(bool(self.marc))
 
     def test_cant_set_attrs (self):
         self.init_marc_data(EG_MARC_MIDAILY)
