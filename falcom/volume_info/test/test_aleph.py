@@ -70,11 +70,12 @@ class TestMARCData (unittest.TestCase):
                 years=("1903", "9999"),
                 oclc="009651208")
 
+    def assert_cant_set_attr (self, attr, value):
+        with self.assertRaises(AttributeError):
+            setattr(self.marc, attr, value)
+
     def test_cant_set_attrs (self):
         self.init_marc_data(EG_MARC_MIDAILY)
 
-        with self.assertRaises(AttributeError):
-            self.marc.bib = "012345678"
-
-        with self.assertRaises(AttributeError):
-            self.marc.callno = "some other callno"
+        self.assert_cant_set_attr("bib", "012345678")
+        self.assert_cant_set_attr("callno", "some other callno")
