@@ -47,6 +47,10 @@ class MARCData:
     def __bool__ (self):
         return self.__root.tag == "{{{}}}record".format(self.xmlns)
 
+    ################################################################
+    ################ Private Properties and Methods ################
+    ################################################################
+
     def __store_xml_element_tree (self, xml):
         self.__root = ET.fromstring(xml)
 
