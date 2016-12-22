@@ -75,9 +75,9 @@ class MARCData:
                         tag, xmlns=self.xmlns)
 
     def __get_datafield_values (self):
-        self.__callno = self.__get_datafield("MDP", "h")
         self.__author = self.__get_datafield("100", "a")
         self.__title = self.__get_datafield("245", "a")
+        self.__callno = self.__get_datafield("MDP", "h")
         self.__description = self.__get_datafield("MDP", "z")
 
     def __get_datafield (self, tag, code):
