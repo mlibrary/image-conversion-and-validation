@@ -6,6 +6,7 @@ import xml.etree.ElementTree as ET
 class MARCData:
 
     xmlns = "http://www.loc.gov/MARC21/slim"
+    description = None
 
     def __init__ (self, xml):
         self.__root = ET.fromstring(xml)

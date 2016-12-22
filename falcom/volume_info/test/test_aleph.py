@@ -26,21 +26,26 @@ class TestMARCData (unittest.TestCase):
         for key, value in kwargs.items():
             self.assertEqual(getattr(marc, key), value)
 
-    def test_degenerate (self):
+    def test_isman_xml (self):
         self.assert_marc_values(EG_MARC_ISMAN,
                 bib="006822264",
                 callno="Isl. Ms. 402",
                 author=None,
-                title="[Calligraphic specimen,")
+                title="[Calligraphic specimen,",
+                description=None)
 
+    def test_astro_xml (self):
         self.assert_marc_values(EG_MARC_ASTRO,
                 bib="002601791",
                 callno="Isl. Ms. 782",
                 author=None,
-                title="Astronomical tables :")
+                title="Astronomical tables :",
+                description=None)
 
+    def test_business_xml (self):
         self.assert_marc_values(EG_MARC_BUSINESS,
                 bib="011694516",
                 callno="LD755.A87 P45 2012",
                 author="Pelfrey, Patricia A.",
-                title="Entrepreneurial president :")
+                title="Entrepreneurial president :",
+                description=None)
