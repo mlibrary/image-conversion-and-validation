@@ -105,3 +105,6 @@ class TestMARCData (unittest.TestCase):
                 oclc=None)
 
         self.assertFalse(bool(self.marc))
+
+    def test_invalid_xml_is_false (self):
+        self.init_marc_data("not xml at all")

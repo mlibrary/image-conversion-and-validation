@@ -52,7 +52,11 @@ class MARCData:
     ################################################################
 
     def __store_xml_element_tree (self, xml):
-        self.__root = ET.fromstring(xml)
+        try:
+            self.__root = ET.fromstring(xml)
+
+        except ET.ParseError:
+            self.__root = ET.fromstring("<error/>")
 
     def __get_values_from_xml (self):
         self.__get_controlfield_values()
