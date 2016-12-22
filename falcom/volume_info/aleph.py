@@ -7,6 +7,7 @@ class MARCData:
 
     xmlns = "http://www.loc.gov/MARC21/slim"
     description = None # should be datafield(MDP, z)
+    years = (None, None) # should be substr of controlfield(008)
 
     def __init__ (self, xml):
         self.__root = ET.fromstring(xml)

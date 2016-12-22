@@ -32,7 +32,8 @@ class TestMARCData (unittest.TestCase):
                 callno="Isl. Ms. 402",
                 author=None,
                 title="[Calligraphic specimen,",
-                description=None)
+                description=None,
+                years=(None, None))
 
     def test_astro_xml (self):
         self.assert_marc_values(EG_MARC_ASTRO,
@@ -40,7 +41,8 @@ class TestMARCData (unittest.TestCase):
                 callno="Isl. Ms. 782",
                 author=None,
                 title="Astronomical tables :",
-                description=None)
+                description=None,
+                years=(None, None))
 
     def test_business_xml (self):
         self.assert_marc_values(EG_MARC_BUSINESS,
@@ -48,4 +50,5 @@ class TestMARCData (unittest.TestCase):
                 callno="LD755.A87 P45 2012",
                 author="Pelfrey, Patricia A.",
                 title="Entrepreneurial president :",
-                description=None)
+                description=None,
+                years=(None, None))
