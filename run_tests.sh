@@ -57,8 +57,8 @@ run_tests() {
 }
 
 echo_green() {
-  echo -n "[1;37;42m                 Refactor or begin writing a new "
-  echo "test.                  [0m"
+  echo -n "[1;37;42m                 [1;37;44mRefactor[1;37;42m"
+  echo " or begin writing a new test.                  [0m"
 }
 
 echo_red_normal() {
