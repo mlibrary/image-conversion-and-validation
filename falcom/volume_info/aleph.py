@@ -12,6 +12,7 @@ class MARCData:
         self.bib = self.__get_controlfield("001")
         self.callno = self.__get_datafield("MDP", "h")
         self.author = self.__get_datafield("100", "a")
+        self.title = None
 
     def __get_controlfield (self, tag):
         return self.__get_text_if_not_none(
