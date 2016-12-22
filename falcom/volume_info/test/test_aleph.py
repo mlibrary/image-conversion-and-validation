@@ -36,3 +36,8 @@ class TestMARCData (unittest.TestCase):
                 bib="002601791",
                 callno="Isl. Ms. 782",
                 author=None)
+
+        self.assert_marc_values(EG_MARC_BUSINESS,
+                bib="011694516",
+                callno="LD755.A87 P45 2012",
+                author="Pelfrey, Patricia A.")
