@@ -3,39 +3,40 @@
 # BSD License. See LICENSE.txt for details.
 from hamcrest.core.base_matcher import BaseMatcher
 
-class IsDictWithExpectedKeys (BaseMatcher):
+class HasTruthiness (BaseMatcher):
 
-    def __init__ (self, description, *args):
-        self.description = description
-        self.fields = args
+    def __init__ (self, expected):
+        self.expected = expected
 
     def _matches (self, item):
-        try:
-            first_test = all(x in item for x in self.fields) \
-                    and len(item) == len(self.fields)
-
-            if first_test:
-                values = [item[x] for x in self.fields]
-
-            return first_test
-
-        except:
-            return False
+        return self.__get_bool_for(item) == self.expected
 
     def describe_to (self, description):
-        field_list = ", ".join(repr(x) for x in self.fields)
-        text = "a dictionary containing {} and only {} (i.e {})".format(
-                self.description, self.description, field_list)
+        description.append_text("an object with {} truthiness".format(
+                repr(self.expected)))
 
-        description.append_text(text)
+    def describe_mismatch (self, item, description):
+        actual = self.__get_bool_for(item)
 
-def contains_marc_fields():
-    return IsDictWithExpectedKeys(
-            "MARC fields",
-            "bib",
-            "callno",
-            "oclc",
-            "author",
-            "title",
-            "description",
-            "years")
+        if actual is None:
+            description.append_text("no truthiness ") \
+                    .append_description_of(item)
+
+        else:
+            description.append_text("was {} ".format(actual)) \
+                    .append_description_of(item)
+
+    def __get_bool_for (self, item):
+        try:
+            result = bool(item)
+            if result is True or result is False:
+                return result
+
+        except:
+            pass
+
+def evaluates_to_true():
+    return HasTruthiness(True)
+
+def evaluates_to_false():
+    return HasTruthiness(False)
