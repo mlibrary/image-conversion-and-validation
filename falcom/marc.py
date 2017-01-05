@@ -9,5 +9,5 @@ def get_marc_data_from_xml (xml):
             "author": None,
             "title": None,
             "description": None,
-            "years": None,
+            "years": (None, None),
     }
