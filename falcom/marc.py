@@ -2,4 +2,12 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 def get_marc_data_from_xml (xml):
-    pass
+    return {
+            "bib": None,
+            "callno": None,
+            "oclc": None,
+            "author": None,
+            "title": None,
+            "description": None,
+            "years": None,
+    }
