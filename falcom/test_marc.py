@@ -4,10 +4,12 @@
 from hamcrest import *
 import unittest
 
+from .marc import *
+
 class NothingTest (unittest.TestCase):
 
     def test_nothing (self):
-        pass
+        marc_data = get_marc_data_from_xml(None)
 
 if __name__ == "__main__":
     unittest.main()
