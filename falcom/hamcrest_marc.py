@@ -11,8 +11,13 @@ class IsDictWithExpectedKeys (BaseMatcher):
 
     def _matches (self, item):
         try:
-            return all(x in item for x in self.fields) \
+            first_test = all(x in item for x in self.fields) \
                     and len(item) == len(self.fields)
+
+            if first_test:
+                values = [item[x] for x in self.fields]
+
+            return first_test
 
         except:
             return False
