@@ -27,16 +27,7 @@ class ParseMarcXml:
         marc["bib"] = self.__controlfield("001")
         marc["callno"] = self.__datafield("MDP", "h")
         marc["title"] = self.__datafield("245", "a")
-
-        oclcs = self.xml.findall(".//{{{xmlns}}}datafield[@tag='035']/" \
-                         "{{{xmlns}}}subfield[@code='a']".format(
-                                xmlns=self.xmlns))
-
-        for maybe in oclcs:
-            match = re.match(r"^\(OCoLC\).*?([0-9]+)$", maybe.text)
-            if match:
-                marc["oclc"] = match.group(1)
-                break
+        marc["oclc"] = self.__get_oclc()
 
         years = self.__controlfield("008")
 
@@ -47,6 +38,16 @@ class ParseMarcXml:
             marc["years"] = (year1, year2)
 
         return MARCData(**marc)
+
+    def __get_oclc (self):
+        oclcs = self.xml.findall(".//{{{xmlns}}}datafield[@tag='035']/" \
+                         "{{{xmlns}}}subfield[@code='a']".format(
+                                xmlns=self.xmlns))
+
+        for maybe in oclcs:
+            match = re.match(r"^\(OCoLC\).*?([0-9]+)$", maybe.text)
+            if match:
+                return match.group(1)
 
     def __datafield (self, tag, code):
         return self.__text_or_null(
