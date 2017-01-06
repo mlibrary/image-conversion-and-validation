@@ -2,6 +2,7 @@
 PROG="$0"
 USAGE="[-h]"
 BASE="$(dirname "$0")"
+RUN_FAST_FIRST=false
 
 # Colorful logging.
 echogood() { echo "[1;32m *[0m $@"; }
@@ -72,19 +73,33 @@ echo_red_slow() {
   echo "                        [0m"
 }
 
-run_from_cwd() {
+run_slow_tests() {
+  if SLOW_TESTS=1 run_tests; then
+    echo_green
+
+  else
+    echo_red_slow
+  fi
+}
+
+run_fast_tests_first() {
   echogood "Running tests (skipping any marked as slow) ..."
   if run_tests; then
     echogood "Running again, including slow tests ..."
-    if SLOW_TESTS=1 run_tests; then
-      echo_green
-
-    else
-      echo_red_slow
-    fi
+    run_slow_tests
 
   else
     echo_red_normal
+  fi
+}
+
+run_from_cwd() {
+  if $RUN_FAST_FIRST; then
+    run_fast_tests_first
+
+  else
+    echogood "Running all tests ..."
+    run_slow_tests
   fi
 }
 
