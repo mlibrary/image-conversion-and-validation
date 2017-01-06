@@ -1,0 +1,21 @@
+{
+   "title":"Astronomical tables",
+   "author":"",
+   "publisher":"",
+   "date":"",
+   "OCLCnumber":"706055947",
+   "library":[
+      {
+         "institutionName":"University of Michigan",
+         "streetAddress1":"818 Hatcher Graduate Library",
+         "streetAddress2":"913 S. University Avenue",
+         "city":"Ann Arbor",
+         "state":"MI",
+         "country":"United States",
+         "postalCode":"48109",
+         "opacUrl":"http://www.worldcat.org/wcpa/oclc/706055947?page=frame&url=http%3A%2F%2Fmirlyn.lib.umich.edu%2FSearch%2FHome%3Fcheckspelling%3Dtrue%26inst%3D%26submit%3DFind%26type%3Disn%26lookfor%3D706055947%26checksum%3D8c3b4b6f4c6cd7129aded26c609878b6&title=University+of+Michigan&linktype=opac&detail=EYM%3AUniversity+of+Michigan%3AAcademic Library&app=wcapi&id=EYM-",
+         "oclcSymbol":"EYM",
+         "distance":"2.3"
+      }
+   ]
+}
