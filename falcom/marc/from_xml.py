@@ -1,10 +1,12 @@
 # Copyright (c) 2017 The Regents of the University of Michigan.
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
-import re
+from re import compile as re_compile
 import xml.etree.ElementTree as ET
 
 from .marcdata import MARCData
+
+RE_OCLC = re_compile(r"^\(OCoLC\).*?([0-9]+)$")
 
 class ParseMarcXml:
 
@@ -69,7 +71,7 @@ class ParseMarcXml:
                                 xmlns=self.xmlns))
 
         for maybe in oclcs:
-            match = re.match(r"^\(OCoLC\).*?([0-9]+)$", maybe.text)
+            match = RE_OCLC.match(maybe.text)
             if match:
                 return match.group(1)
 
