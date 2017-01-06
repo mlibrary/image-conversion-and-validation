@@ -43,9 +43,10 @@ class HasAttrs (BaseMatcher):
 
         self.desc = description_text
         self.kwargs = kwargs
-        self.problem = None
 
     def _matches (self, item):
+        self.problem = None
+
         try:
             for key, value in self.kwargs.items():
                 if not hasattr(item, key) \
