@@ -3,6 +3,7 @@
 # BSD License. See LICENSE.txt for details.
 from hamcrest import *
 import unittest
+import xml.etree.ElementTree as ET
 
 from .marc import *
 from .hamcrest_marc import ComposedAssertion, \
@@ -36,12 +37,18 @@ def is_empty_marc_data():
 class NothingTest (unittest.TestCase):
 
     def test_marc_data_of_None_yields_empty_MARC_data (self):
-        marc_data = get_marc_data_from_xml(None)
-        assert_that(marc_data, is_empty_marc_data())
+        assert_that(get_marc_data_from_xml(None),
+                    is_empty_marc_data())
 
     def test_marc_data_of_empty_str_yields_empty_MARC_data (self):
-        marc_data = get_marc_data_from_xml("")
-        assert_that(marc_data, is_empty_marc_data())
+        assert_that(get_marc_data_from_xml(""),
+                    is_empty_marc_data())
+
+    def test_marc_data_of_empty_xml_yields_empty_MARC_data (self):
+        empty_etree = ET.fromstring("<empty/>")
+
+        assert_that(get_marc_data_from_xml(empty_etree),
+                    is_empty_marc_data())
 
 if __name__ == "__main__":
     unittest.main()
