@@ -48,6 +48,9 @@ def is_empty_marc_data():
                                 description=None,
                                 years=(None, None))
 
+def has_marc_data(**kwargs):
+    return IsParticularMarcData(True, **kwargs)
+
 class MARCDataTest (unittest.TestCase):
 
     def test_marc_data_of_None_yields_empty_MARC_data (self):
@@ -65,10 +68,8 @@ class MARCDataTest (unittest.TestCase):
                     is_empty_marc_data())
 
     def test_correct_marc_data_from_isman_xml (self):
-        marc = get_marc_data_from_xml(EG_MARC_ISMAN)
-
-        assert_that(marc, evaluates_to_true())
-        assert_that(marc, has_marc_attrs(bib="006822264"))
+        assert_that(get_marc_data_from_xml(EG_MARC_ISMAN),
+                    has_marc_data(bib="006822264"))
 
 if __name__ == "__main__":
     unittest.main()
