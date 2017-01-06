@@ -66,12 +66,20 @@ class ParseMarcXml:
             return year1, year2
 
     def __get_oclc (self):
-        oclcs = self.xml.findall(self.__datafiend_xpath("035", "a"))
+        for oclc in self.__iterate_through_valid_oclcs():
+            return oclc
 
-        for maybe in oclcs:
-            match = RE_OCLC.match(maybe.text)
-            if match:
-                return match.group(1)
+    def __iterate_through_valid_oclcs (self):
+        return (m.group(1)
+                for m in self.__iterate_through_oclc_matches()
+                if m)
+
+    def __iterate_through_oclc_matches (self):
+        return (RE_OCLC.match(e.text)
+                for e in self.__get_all_oclc_elts())
+
+    def __get_all_oclc_elts (self):
+        return self.xml.findall(self.__datafiend_xpath("035", "a"))
 
     def __find_datafield (self, tag, code):
         return self.__text_or_null(self.xml.find(
