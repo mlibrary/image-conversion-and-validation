@@ -50,14 +50,14 @@ class ParseMarcXml:
         return True
 
     def __extract_xml (self):
-        return MARCData(bib=self.__controlfield("001"),
-                        callno=self.__datafield("MDP", "h"),
-                        title=self.__datafield("245", "a"),
+        return MARCData(bib=self.__find_controlfield("001"),
+                        callno=self.__find_datafield("MDP", "h"),
+                        title=self.__find_datafield("245", "a"),
                         oclc=self.__get_oclc(),
                         years=self.__get_years())
 
     def __get_years (self):
-        years = self.__controlfield("008")
+        years = self.__find_controlfield("008")
 
         if years is not None:
             year1, year2 = years[7:11], years[11:15]
@@ -75,16 +75,26 @@ class ParseMarcXml:
             if match:
                 return match.group(1)
 
-    def __datafield (self, tag, code):
-        return self.__text_or_null(
-                self.xml.find(".//{{{xmlns}}}datafield[@tag='{}']/" \
-                        "{{{xmlns}}}subfield[@code='{}']".format(
-                                tag, code, xmlns=self.xmlns)))
+    def __find_datafield (self, tag, code):
+        return self.__text_or_null(self.xml.find(
+                self.__datafiend_xpath(tag, code)))
 
-    def __controlfield (self, tag):
-        return self.__text_or_null(
-                self.xml.find(".//{{{}}}controlfield[@tag='{}']".format(
-                        self.xmlns, tag)))
+    def __find_controlfield (self, tag):
+        return self.__text_or_null(self.xml.find(
+                self.__controlfiend_xpath(tag)))
+
+    def __datafiend_xpath (self, tag, code):
+        return self.__generate_xpath(("datafield", "tag", tag),
+                                     ("subfield", "code", code))
+
+    def __controlfiend_xpath (self, tag):
+        return self.__generate_xpath(("controlfield", "tag", tag))
+
+    def __generate_xpath (self, *triples):
+        return ".//" + "/".join(
+                "{{{}}}{}[@{}='{}']".format(
+                        self.xmlns, field, attr, value)
+                for field, attr, value in triples)
 
     def __text_or_null (self, obj):
         return getattr(obj, "text", None)
