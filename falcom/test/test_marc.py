@@ -77,5 +77,33 @@ class MARCDataTest (unittest.TestCase):
                                   years=("1790", "1791"),
                                   oclc=None))
 
+    def test_correct_marc_data_from_astro_xml (self):
+        assert_that(get_marc_data_from_xml(EG_MARC_ASTRO),
+                    has_marc_data(bib="002601791",
+                                  callno="Isl. Ms. 782",
+                                  author=None,
+                                  title="Astronomical tables :",
+                                  description=None,
+                                  years=("16uu", None),
+                                  oclc="706055947"))
+
+    def later (self):
+        self.assert_marc_values(EG_MARC_BUSINESS,
+                bib="011694516",
+                callno="LD755.A87 P45 2012",
+                author="Pelfrey, Patricia A.",
+                title="Entrepreneurial president :",
+                description=None,
+                years=("2012", None),
+                oclc="756167029")
+        self.assert_marc_values(EG_MARC_MIDAILY,
+                bib="002751011",
+                callno="FImu F3g Outsize",
+                author=None,
+                title="The Michigan daily.",
+                description="1927 Sept 20 - 1928 Jan 8",
+                years=("1903", "9999"),
+                oclc="009651208")
+
 if __name__ == "__main__":
     unittest.main()
