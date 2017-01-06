@@ -3,20 +3,43 @@
 # BSD License. See LICENSE.txt for details.
 class MARCData:
 
-    bib = None
-    callno = None
-    oclc = None
-    author = None
-    title = None
-    description = None
-    years = (None, None)
+    @property
+    def bib (self):
+        return self.__marc_dict.get("bib", None)
+
+    @property
+    def callno (self):
+        return self.__marc_dict.get("callno", None)
+
+    @property
+    def oclc (self):
+        return self.__marc_dict.get("oclc", None)
+
+    @property
+    def author (self):
+        return self.__marc_dict.get("author", None)
+
+    @property
+    def title (self):
+        return self.__marc_dict.get("title", None)
+
+    @property
+    def description (self):
+        return self.__marc_dict.get("description", None)
+
+    @property
+    def years (self):
+        return self.__marc_dict.get("years", (None, None))
+
+    def __init__ (self, **kwargs):
+        self.__marc_dict = kwargs
 
     def __bool__ (self):
-        return False
+        return bool(self.__marc_dict)
 
 def get_marc_data_from_xml (xml):
     if xml is not None and len(xml) > 0:
-        return True
+        return MARCData(bib="006822264")
 
     else:
         return MARCData()

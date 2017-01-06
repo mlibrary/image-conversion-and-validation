@@ -68,6 +68,7 @@ class MARCDataTest (unittest.TestCase):
         marc = get_marc_data_from_xml(EG_MARC_ISMAN)
 
         assert_that(marc, evaluates_to_true())
+        assert_that(marc, has_marc_attrs(bib="006822264"))
 
 if __name__ == "__main__":
     unittest.main()
