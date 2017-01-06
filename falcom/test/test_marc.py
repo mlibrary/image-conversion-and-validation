@@ -97,7 +97,7 @@ class MARCDataTest (unittest.TestCase):
                                   years=("2012", None),
                                   oclc="756167029"))
 
-    def later (self):
+    def test_correct_marc_data_from_midaily_xml (self):
         assert_that(get_marc_data_from_xml(EG_MARC_MIDAILY),
                     has_marc_data(bib="002751011",
                                   callno="FImu F3g Outsize",

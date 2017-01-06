@@ -54,6 +54,7 @@ class ParseMarcXml:
                         callno=self.__find_datafield("MDP", "h"),
                         author=self.__find_datafield("100", "a"),
                         title=self.__find_datafield("245", "a"),
+                        description=self.__find_datafield("MDP", "z"),
                         oclc=self.__get_oclc(),
                         years=self.__get_years())
 
@@ -72,7 +73,7 @@ class ParseMarcXml:
 
     def __get_oclc (self):
         for oclc in self.__iterate_through_valid_oclcs():
-            return oclc
+            return "{:>09}".format(oclc)
 
     def __iterate_through_valid_oclcs (self):
         return (m.group(1)
