@@ -11,19 +11,40 @@ class ParseMarcXml:
     xmlns = "http://www.loc.gov/MARC21/slim"
 
     def __call__ (self, xml):
-        if xml is None:
-            return MARCData()
-
-        if not isinstance(xml, ET.Element):
-            try:
-                xml = ET.fromstring(xml)
-
-            except ET.ParseError:
-                return MARCData()
-
-        marc = { }
         self.xml = xml
 
+        return self.__get_marc_data_if_we_have_xml()
+
+    def __get_marc_data_if_we_have_xml (self):
+        if self.__xml_is_empty():
+            return MARCData()
+
+        else:
+            return self.__extract_xml()
+
+    def __xml_is_empty (self):
+        if self.xml is None:
+            return True
+
+        else:
+            return self.__we_dont_have_xml()
+
+    def __we_dont_have_xml (self):
+        if isinstance(self.xml, ET.Element):
+            return False
+
+        else:
+            return self.__cant_parse_xml()
+
+    def __cant_parse_xml (self):
+        try:
+            self.xml = ET.fromstring(self.xml)
+
+        except ET.ParseError:
+            return True
+
+    def __extract_xml (self):
+        marc = { }
         marc["bib"] = self.__controlfield("001")
         marc["callno"] = self.__datafield("MDP", "h")
         marc["title"] = self.__datafield("245", "a")
