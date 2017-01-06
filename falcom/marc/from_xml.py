@@ -57,13 +57,17 @@ class ParseMarcXml:
                         years=self.__get_years())
 
     def __get_years (self):
-        years = self.__find_controlfield("008")
+        long_year_str = self.__find_controlfield("008")
 
-        if years is not None:
-            year1, year2 = years[7:11], years[11:15]
-            if year1 == "^^^^": year1 = None
-            if year2 == "^^^^": year2 = None
-            return year1, year2
+        if long_year_str:
+            return tuple(self.__extract_year(long_year_str, x)
+                    for x in (7, 11))
+
+    def __extract_year (self, long_year_str, i):
+        result = long_year_str[i:i+4]
+
+        if result != "^^^^":
+            return result
 
     def __get_oclc (self):
         for oclc in self.__iterate_through_valid_oclcs():
