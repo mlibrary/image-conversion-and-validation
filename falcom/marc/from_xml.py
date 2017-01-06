@@ -23,21 +23,18 @@ class ParseMarcXml:
 
         marc = { }
 
-        marc["bib"] = getattr(
-                xml.find(".//{{{}}}controlfield[@tag='001']".format(self.xmlns)),
-                "text", None)
+        marc["bib"] = self.__text_or_null(
+                xml.find(".//{{{}}}controlfield[@tag='001']".format(self.xmlns)))
 
-        marc["callno"] = getattr(
+        marc["callno"] = self.__text_or_null(
                 xml.find(".//{{{xmlns}}}datafield[@tag='MDP']/" \
                          "{{{xmlns}}}subfield[@code='h']".format(
-                                xmlns=self.xmlns)),
-                "text", None)
+                                xmlns=self.xmlns)))
 
-        marc["title"] = getattr(
+        marc["title"] = self.__text_or_null(
                 xml.find(".//{{{xmlns}}}datafield[@tag='245']/" \
                          "{{{xmlns}}}subfield[@code='a']".format(
-                                xmlns=self.xmlns)),
-                "text", None)
+                                xmlns=self.xmlns)))
 
         oclcs = xml.findall(".//{{{xmlns}}}datafield[@tag='035']/" \
                          "{{{xmlns}}}subfield[@code='a']".format(
@@ -58,5 +55,8 @@ class ParseMarcXml:
             marc["years"] = (year1, year2)
 
         return MARCData(**marc)
+
+    def __text_or_null (self, obj):
+        return getattr(obj, "text", None)
 
 get_marc_data_from_xml = ParseMarcXml()
