@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 PROG="$0"
-USAGE="[-h]"
+USAGE="[-hv] [-b BASE] [-1 | -2]"
+VERBOSE=false
 BASE="$(dirname "$0")"
-RUN_FAST_FIRST=false
+RUN_TWICE=false
 
 # Colorful logging.
 echogood() { echo "[1;32m *[0m $@"; }
@@ -19,6 +20,11 @@ errorout() {
 
 # Echo the expected usage along with a detailed help message.
 printhelp() {
+  local once="run all tests once"
+  local twice="run only fast tests first"
+  $RUN_TWICE && local twice="$twice (default)" \
+             || local once="$once (default)"
+
   cat <<EOF
 usage: ${PROG} $USAGE
 
@@ -26,12 +32,15 @@ Run tests for this project.
 
 optional arguments:
  -h           show this help message and exit
+ -v           verbose logging
  -b BASE      base dir to run tests (default $BASE)
+ -1           $once
+ -2           $twice
 EOF
 }
 
 # Parse any arguments.
-while getopts ":h" opt; do
+while getopts ":hvb:12" opt; do
   case "$opt" in
     h)
       # Just print the help message and exit happily.
@@ -39,8 +48,20 @@ while getopts ":h" opt; do
       exit 0
       ;;
 
+    v)
+      VERBOSE=true
+      ;;
+
     b)
       BASE="$OPTARG"
+      ;;
+
+    1)
+      RUN_TWICE=false
+      ;;
+
+    2)
+      RUN_TWICE=true
       ;;
 
     ?)
@@ -53,8 +74,15 @@ done
 # Shift so that the first "real" argument is $1.
 shift $((OPTIND - 1))
 
+if $VERBOSE; then
+  V_FLAG="-v"
+
+else
+  V_FLAG=""
+fi
+
 run_tests() {
-  python3 -m unittest
+  python3 -m unittest $V_FLAG
 }
 
 echo_green() {
@@ -94,7 +122,7 @@ run_fast_tests_first() {
 }
 
 run_from_cwd() {
-  if $RUN_FAST_FIRST; then
+  if $RUN_TWICE; then
     run_fast_tests_first
 
   else
