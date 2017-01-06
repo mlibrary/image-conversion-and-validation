@@ -25,16 +25,8 @@ class ParseMarcXml:
         self.xml = xml
 
         marc["bib"] = self.__controlfield("001")
-
-        marc["callno"] = self.__text_or_null(
-                self.xml.find(".//{{{xmlns}}}datafield[@tag='MDP']/" \
-                         "{{{xmlns}}}subfield[@code='h']".format(
-                                xmlns=self.xmlns)))
-
-        marc["title"] = self.__text_or_null(
-                self.xml.find(".//{{{xmlns}}}datafield[@tag='245']/" \
-                         "{{{xmlns}}}subfield[@code='a']".format(
-                                xmlns=self.xmlns)))
+        marc["callno"] = self.__datafield("MDP", "h")
+        marc["title"] = self.__datafield("245", "a")
 
         oclcs = self.xml.findall(".//{{{xmlns}}}datafield[@tag='035']/" \
                          "{{{xmlns}}}subfield[@code='a']".format(
@@ -55,6 +47,12 @@ class ParseMarcXml:
             marc["years"] = (year1, year2)
 
         return MARCData(**marc)
+
+    def __datafield (self, tag, code):
+        return self.__text_or_null(
+                self.xml.find(".//{{{xmlns}}}datafield[@tag='{}']/" \
+                        "{{{xmlns}}}subfield[@code='{}']".format(
+                                tag, code, xmlns=self.xmlns)))
 
     def __controlfield (self, tag):
         return self.__text_or_null(
