@@ -22,21 +22,21 @@ class ParseMarcXml:
                 return MARCData()
 
         marc = { }
+        self.xml = xml
 
-        marc["bib"] = self.__text_or_null(
-                xml.find(".//{{{}}}controlfield[@tag='001']".format(self.xmlns)))
+        marc["bib"] = self.__controlfield("001")
 
         marc["callno"] = self.__text_or_null(
-                xml.find(".//{{{xmlns}}}datafield[@tag='MDP']/" \
+                self.xml.find(".//{{{xmlns}}}datafield[@tag='MDP']/" \
                          "{{{xmlns}}}subfield[@code='h']".format(
                                 xmlns=self.xmlns)))
 
         marc["title"] = self.__text_or_null(
-                xml.find(".//{{{xmlns}}}datafield[@tag='245']/" \
+                self.xml.find(".//{{{xmlns}}}datafield[@tag='245']/" \
                          "{{{xmlns}}}subfield[@code='a']".format(
                                 xmlns=self.xmlns)))
 
-        oclcs = xml.findall(".//{{{xmlns}}}datafield[@tag='035']/" \
+        oclcs = self.xml.findall(".//{{{xmlns}}}datafield[@tag='035']/" \
                          "{{{xmlns}}}subfield[@code='a']".format(
                                 xmlns=self.xmlns))
 
@@ -46,15 +46,20 @@ class ParseMarcXml:
                 marc["oclc"] = match.group(1)
                 break
 
-        years = xml.find(".//{{{}}}controlfield[@tag='008']".format(self.xmlns))
+        years = self.__controlfield("008")
 
         if years is not None:
-            year1, year2 = years.text[7:11], years.text[11:15]
+            year1, year2 = years[7:11], years[11:15]
             if year1 == "^^^^": year1 = None
             if year2 == "^^^^": year2 = None
             marc["years"] = (year1, year2)
 
         return MARCData(**marc)
+
+    def __controlfield (self, tag):
+        return self.__text_or_null(
+                self.xml.find(".//{{{}}}controlfield[@tag='{}']".format(
+                        self.xmlns, tag)))
 
     def __text_or_null (self, obj):
         return getattr(obj, "text", None)
