@@ -1,0 +1,37 @@
+{
+   "records":{
+      "002601791":{
+         "recordURL":"https:\/\/catalog.hathitrust.org\/Record\/002601791",
+         "titles":[
+            "Astronomical tables : manuscript, [17th century?]."
+         ],
+         "isbns":[
+
+         ],
+         "issns":[
+
+         ],
+         "oclcs":[
+            "706055947"
+         ],
+         "lccns":[
+
+         ],
+         "publishDates":[
+            "1600"
+         ]
+      }
+   },
+   "items":[
+      {
+         "orig":"University of Michigan",
+         "fromRecord":"002601791",
+         "htid":"mdp.39015081447313",
+         "itemURL":"https:\/\/hdl.handle.net\/2027\/mdp.39015081447313",
+         "rightsCode":"pd",
+         "lastUpdate":"20161108",
+         "enumcron":false,
+         "usRightsString":"Full view"
+      }
+   ]
+}

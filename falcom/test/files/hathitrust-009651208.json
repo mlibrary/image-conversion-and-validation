@@ -1,0 +1,38 @@
+{
+   "records":{
+      "000060897":{
+         "recordURL":"https:\/\/catalog.hathitrust.org\/Record\/000060897",
+         "titles":[
+            "The Michigan daily.",
+            "Michigan daily."
+         ],
+         "isbns":[
+
+         ],
+         "issns":[
+            "745967x"
+         ],
+         "oclcs":[
+            "9651208"
+         ],
+         "lccns":[
+            "sn83009192"
+         ],
+         "publishDates":[
+            "1903"
+         ]
+      }
+   },
+   "items":[
+      {
+         "orig":"University of Michigan",
+         "fromRecord":"000060897",
+         "htid":"mdp.39015071754159",
+         "itemURL":"https:\/\/hdl.handle.net\/2027\/mdp.39015071754159",
+         "rightsCode":"ic",
+         "lastUpdate":"20161118",
+         "enumcron":"1969 Aug 27 - 1969 Dec 10",
+         "usRightsString":"Limited (search-only)"
+      }
+   ]
+}
