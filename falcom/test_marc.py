@@ -5,7 +5,8 @@ from hamcrest import *
 import unittest
 
 from .marc import *
-from .hamcrest_marc import evaluates_to_true, evaluates_to_false
+from .hamcrest_marc import has_marc_attrs, \
+        evaluates_to_true, evaluates_to_false
 
 class NothingTest (unittest.TestCase):
 
@@ -13,7 +14,14 @@ class NothingTest (unittest.TestCase):
         marc_data = get_marc_data_from_xml(None)
 
         assert_that(marc_data, evaluates_to_false())
-        assert_that(marc_data.bib, is_(none()))
+        assert_that(marc_data, has_marc_attrs(
+                bib=None,
+                callno=None,
+                oclc=None,
+                author=None,
+                title=None,
+                description=None,
+                years=(None, None)))
 
 if __name__ == "__main__":
     unittest.main()

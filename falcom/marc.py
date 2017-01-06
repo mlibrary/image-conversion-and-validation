@@ -4,6 +4,12 @@
 class MARCData:
 
     bib = None
+    callno = None
+    oclc = None
+    author = None
+    title = None
+    description = None
+    years = (None, None)
 
     def __bool__ (self):
         return False
