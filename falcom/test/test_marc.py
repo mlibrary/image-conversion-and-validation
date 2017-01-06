@@ -5,7 +5,7 @@ from hamcrest import *
 import unittest
 import xml.etree.ElementTree as ET
 
-from .marc import *
+from ..marc import *
 from .hamcrest_marc import ComposedAssertion, \
         has_marc_attrs, evaluates_to_true, evaluates_to_false
 
