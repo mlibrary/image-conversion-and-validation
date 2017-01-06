@@ -28,16 +28,18 @@ class ParseMarcXml:
         marc["callno"] = self.__datafield("MDP", "h")
         marc["title"] = self.__datafield("245", "a")
         marc["oclc"] = self.__get_oclc()
+        marc["years"] = self.__get_years()
 
+        return MARCData(**marc)
+
+    def __get_years (self):
         years = self.__controlfield("008")
 
         if years is not None:
             year1, year2 = years[7:11], years[11:15]
             if year1 == "^^^^": year1 = None
             if year2 == "^^^^": year2 = None
-            marc["years"] = (year1, year2)
-
-        return MARCData(**marc)
+            return year1, year2
 
     def __get_oclc (self):
         oclcs = self.xml.findall(".//{{{xmlns}}}datafield[@tag='035']/" \
