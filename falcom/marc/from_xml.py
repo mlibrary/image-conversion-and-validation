@@ -66,9 +66,7 @@ class ParseMarcXml:
             return year1, year2
 
     def __get_oclc (self):
-        oclcs = self.xml.findall(".//{{{xmlns}}}datafield[@tag='035']/" \
-                         "{{{xmlns}}}subfield[@code='a']".format(
-                                xmlns=self.xmlns))
+        oclcs = self.xml.findall(self.__datafiend_xpath("035", "a"))
 
         for maybe in oclcs:
             match = RE_OCLC.match(maybe.text)
