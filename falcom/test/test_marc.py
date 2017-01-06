@@ -87,23 +87,25 @@ class MARCDataTest (unittest.TestCase):
                                   years=("16uu", None),
                                   oclc="706055947"))
 
+    def test_correct_marc_data_from_business_xml (self):
+        assert_that(get_marc_data_from_xml(EG_MARC_BUSINESS),
+                    has_marc_data(bib="011694516",
+                                  callno="LD755.A87 P45 2012",
+                                  author="Pelfrey, Patricia A.",
+                                  title="Entrepreneurial president :",
+                                  description=None,
+                                  years=("2012", None),
+                                  oclc="756167029"))
+
     def later (self):
-        self.assert_marc_values(EG_MARC_BUSINESS,
-                bib="011694516",
-                callno="LD755.A87 P45 2012",
-                author="Pelfrey, Patricia A.",
-                title="Entrepreneurial president :",
-                description=None,
-                years=("2012", None),
-                oclc="756167029")
-        self.assert_marc_values(EG_MARC_MIDAILY,
-                bib="002751011",
-                callno="FImu F3g Outsize",
-                author=None,
-                title="The Michigan daily.",
-                description="1927 Sept 20 - 1928 Jan 8",
-                years=("1903", "9999"),
-                oclc="009651208")
+        assert_that(get_marc_data_from_xml(EG_MARC_MIDAILY),
+                    has_marc_data(bib="002751011",
+                                  callno="FImu F3g Outsize",
+                                  author=None,
+                                  title="The Michigan daily.",
+                                  description="1927 Sept 20 - 1928 Jan 8",
+                                  years=("1903", "9999"),
+                                  oclc="009651208"))
 
 if __name__ == "__main__":
     unittest.main()

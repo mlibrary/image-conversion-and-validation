@@ -52,6 +52,7 @@ class ParseMarcXml:
     def __extract_xml (self):
         return MARCData(bib=self.__find_controlfield("001"),
                         callno=self.__find_datafield("MDP", "h"),
+                        author=self.__find_datafield("100", "a"),
                         title=self.__find_datafield("245", "a"),
                         oclc=self.__get_oclc(),
                         years=self.__get_years())
