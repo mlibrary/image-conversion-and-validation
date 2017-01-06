@@ -16,32 +16,36 @@ class ParseMarcXml:
         return self.__get_marc_data_if_we_have_xml()
 
     def __get_marc_data_if_we_have_xml (self):
-        if self.__xml_is_empty():
-            return MARCData()
-
-        else:
+        if self.__we_have_xml():
             return self.__extract_xml()
 
-    def __xml_is_empty (self):
-        if self.xml is None:
-            return True
-
         else:
-            return self.__we_dont_have_xml()
+            return MARCData()
 
-    def __we_dont_have_xml (self):
-        if isinstance(self.xml, ET.Element):
+    def __we_have_xml (self):
+        if self.xml is None:
             return False
 
         else:
-            return self.__cant_parse_xml()
+            return self.__we_have_an_etree()
 
-    def __cant_parse_xml (self):
+    def __we_have_an_etree (self):
+        if isinstance(self.xml, ET.Element):
+            return True
+
+        else:
+            return self.__we_can_parse_xml()
+
+    def __we_can_parse_xml (self):
         try:
-            self.xml = ET.fromstring(self.xml)
+            return self.__parse_the_xml_str()
 
         except ET.ParseError:
-            return True
+            return False
+
+    def __parse_the_xml_str (self):
+        self.xml = ET.fromstring(self.xml)
+        return True
 
     def __extract_xml (self):
         marc = { }
