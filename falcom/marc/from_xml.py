@@ -48,14 +48,11 @@ class ParseMarcXml:
         return True
 
     def __extract_xml (self):
-        marc = { }
-        marc["bib"] = self.__controlfield("001")
-        marc["callno"] = self.__datafield("MDP", "h")
-        marc["title"] = self.__datafield("245", "a")
-        marc["oclc"] = self.__get_oclc()
-        marc["years"] = self.__get_years()
-
-        return MARCData(**marc)
+        return MARCData(bib=self.__controlfield("001"),
+                        callno=self.__datafield("MDP", "h"),
+                        title=self.__datafield("245", "a"),
+                        oclc=self.__get_oclc(),
+                        years=self.__get_years())
 
     def __get_years (self):
         years = self.__controlfield("008")
