@@ -69,7 +69,13 @@ class MARCDataTest (unittest.TestCase):
 
     def test_correct_marc_data_from_isman_xml (self):
         assert_that(get_marc_data_from_xml(EG_MARC_ISMAN),
-                    has_marc_data(bib="006822264"))
+                    has_marc_data(bib="006822264",
+                                  callno="Isl. Ms. 402",
+                                  author=None,
+                                  title="[Calligraphic specimen,",
+                                  description=None,
+                                  years=("1790", "1791"),
+                                  oclc=None))
 
 if __name__ == "__main__":
     unittest.main()

@@ -39,7 +39,10 @@ class MARCData:
 
 def get_marc_data_from_xml (xml):
     if xml is not None and len(xml) > 0:
-        return MARCData(bib="006822264")
+        return MARCData(bib="006822264",
+                        callno="Isl. Ms. 402",
+                        title="[Calligraphic specimen,",
+                        years=("1790", "1791"))
 
     else:
         return MARCData()
