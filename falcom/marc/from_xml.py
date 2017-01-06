@@ -6,52 +6,56 @@ import xml.etree.ElementTree as ET
 
 from .marcdata import MARCData
 
-def get_marc_data_from_xml (xml):
-    if xml is None:
-        return MARCData()
+class ParseMarcXml:
 
-    if not isinstance(xml, ET.Element):
-        try:
-            xml = ET.fromstring(xml)
-
-        except ET.ParseError:
+    def __call__ (self, xml):
+        if xml is None:
             return MARCData()
 
-    marc = { }
-    xmlns = "http://www.loc.gov/MARC21/slim"
+        if not isinstance(xml, ET.Element):
+            try:
+                xml = ET.fromstring(xml)
 
-    marc["bib"] = getattr(
-            xml.find(".//{{{}}}controlfield[@tag='001']".format(xmlns)),
-            "text", None)
+            except ET.ParseError:
+                return MARCData()
 
-    marc["callno"] = getattr(
-            xml.find(".//{{{xmlns}}}datafield[@tag='MDP']/" \
-                     "{{{xmlns}}}subfield[@code='h']".format(
-                            xmlns=xmlns)),
-            "text", None)
+        marc = { }
+        xmlns = "http://www.loc.gov/MARC21/slim"
 
-    marc["title"] = getattr(
-            xml.find(".//{{{xmlns}}}datafield[@tag='245']/" \
-                     "{{{xmlns}}}subfield[@code='a']".format(
-                            xmlns=xmlns)),
-            "text", None)
+        marc["bib"] = getattr(
+                xml.find(".//{{{}}}controlfield[@tag='001']".format(xmlns)),
+                "text", None)
 
-    oclcs = xml.findall(".//{{{xmlns}}}datafield[@tag='035']/" \
-                     "{{{xmlns}}}subfield[@code='a']".format(
-                            xmlns=xmlns))
+        marc["callno"] = getattr(
+                xml.find(".//{{{xmlns}}}datafield[@tag='MDP']/" \
+                         "{{{xmlns}}}subfield[@code='h']".format(
+                                xmlns=xmlns)),
+                "text", None)
 
-    for maybe in oclcs:
-        match = re.match(r"^\(OCoLC\).*?([0-9]+)$", maybe.text)
-        if match:
-            marc["oclc"] = match.group(1)
-            break
+        marc["title"] = getattr(
+                xml.find(".//{{{xmlns}}}datafield[@tag='245']/" \
+                         "{{{xmlns}}}subfield[@code='a']".format(
+                                xmlns=xmlns)),
+                "text", None)
 
-    years = xml.find(".//{{{}}}controlfield[@tag='008']".format(xmlns))
+        oclcs = xml.findall(".//{{{xmlns}}}datafield[@tag='035']/" \
+                         "{{{xmlns}}}subfield[@code='a']".format(
+                                xmlns=xmlns))
 
-    if years is not None:
-        year1, year2 = years.text[7:11], years.text[11:15]
-        if year1 == "^^^^": year1 = None
-        if year2 == "^^^^": year2 = None
-        marc["years"] = (year1, year2)
+        for maybe in oclcs:
+            match = re.match(r"^\(OCoLC\).*?([0-9]+)$", maybe.text)
+            if match:
+                marc["oclc"] = match.group(1)
+                break
 
-    return MARCData(**marc)
+        years = xml.find(".//{{{}}}controlfield[@tag='008']".format(xmlns))
+
+        if years is not None:
+            year1, year2 = years.text[7:11], years.text[11:15]
+            if year1 == "^^^^": year1 = None
+            if year2 == "^^^^": year2 = None
+            marc["years"] = (year1, year2)
+
+        return MARCData(**marc)
+
+get_marc_data_from_xml = ParseMarcXml()
