@@ -8,6 +8,8 @@ from .marcdata import MARCData
 
 class ParseMarcXml:
 
+    xmlns = "http://www.loc.gov/MARC21/slim"
+
     def __call__ (self, xml):
         if xml is None:
             return MARCData()
@@ -20,27 +22,26 @@ class ParseMarcXml:
                 return MARCData()
 
         marc = { }
-        xmlns = "http://www.loc.gov/MARC21/slim"
 
         marc["bib"] = getattr(
-                xml.find(".//{{{}}}controlfield[@tag='001']".format(xmlns)),
+                xml.find(".//{{{}}}controlfield[@tag='001']".format(self.xmlns)),
                 "text", None)
 
         marc["callno"] = getattr(
                 xml.find(".//{{{xmlns}}}datafield[@tag='MDP']/" \
                          "{{{xmlns}}}subfield[@code='h']".format(
-                                xmlns=xmlns)),
+                                xmlns=self.xmlns)),
                 "text", None)
 
         marc["title"] = getattr(
                 xml.find(".//{{{xmlns}}}datafield[@tag='245']/" \
                          "{{{xmlns}}}subfield[@code='a']".format(
-                                xmlns=xmlns)),
+                                xmlns=self.xmlns)),
                 "text", None)
 
         oclcs = xml.findall(".//{{{xmlns}}}datafield[@tag='035']/" \
                          "{{{xmlns}}}subfield[@code='a']".format(
-                                xmlns=xmlns))
+                                xmlns=self.xmlns))
 
         for maybe in oclcs:
             match = re.match(r"^\(OCoLC\).*?([0-9]+)$", maybe.text)
@@ -48,7 +49,7 @@ class ParseMarcXml:
                 marc["oclc"] = match.group(1)
                 break
 
-        years = xml.find(".//{{{}}}controlfield[@tag='008']".format(xmlns))
+        years = xml.find(".//{{{}}}controlfield[@tag='008']".format(self.xmlns))
 
         if years is not None:
             year1, year2 = years.text[7:11], years.text[11:15]
