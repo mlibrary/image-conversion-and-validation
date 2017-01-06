@@ -15,4 +15,8 @@ class MARCData:
         return False
 
 def get_marc_data_from_xml (xml):
-    return MARCData()
+    if xml is not None and len(xml) > 0:
+        return True
+
+    else:
+        return MARCData()

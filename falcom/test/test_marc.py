@@ -64,5 +64,10 @@ class MARCDataTest (unittest.TestCase):
         assert_that(get_marc_data_from_xml(empty_etree),
                     is_empty_marc_data())
 
+    def test_correct_marc_data_from_isman_xml (self):
+        marc = get_marc_data_from_xml(EG_MARC_ISMAN)
+
+        assert_that(marc, evaluates_to_true())
+
 if __name__ == "__main__":
     unittest.main()
