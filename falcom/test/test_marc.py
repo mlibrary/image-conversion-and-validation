@@ -2,12 +2,26 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 from hamcrest import *
+import os
 import unittest
 import xml.etree.ElementTree as ET
 
 from ..marc import *
 from .hamcrest_marc import ComposedAssertion, \
         has_marc_attrs, evaluates_to_true, evaluates_to_false
+
+FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
+
+def readfile (filename):
+    with open(os.path.join(FILE_BASE, filename), "r") as f:
+        result = f.read()
+
+    return result
+
+EG_MARC_ISMAN = readfile("39015079130699.xml")
+EG_MARC_ASTRO = readfile("39015081447313.xml")
+EG_MARC_BUSINESS = readfile("39015090867675.xml")
+EG_MARC_MIDAILY = readfile("39015071755826.xml")
 
 class IsParticularMarcData (ComposedAssertion):
 
@@ -34,7 +48,7 @@ def is_empty_marc_data():
                                 description=None,
                                 years=(None, None))
 
-class NothingTest (unittest.TestCase):
+class MARCDataTest (unittest.TestCase):
 
     def test_marc_data_of_None_yields_empty_MARC_data (self):
         assert_that(get_marc_data_from_xml(None),
