@@ -1,0 +1,82 @@
+<record xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+<controlfield tag="FMT">BK</controlfield>
+<controlfield tag="LDR">^^^^^nam^^22002651^^4500</controlfield>
+<controlfield tag="001">000327282</controlfield>
+<controlfield tag="005">19880718000000.0</controlfield>
+<controlfield tag="006">m^^^^^^^^d^^^^^^^^</controlfield>
+<controlfield tag="007">cr^bn^---auaua</controlfield>
+<controlfield tag="008">880718m18321833it^f^^^^^^^^^^00010^ita^d</controlfield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(RLIN)MIUG85-B1601</subfield>
+</datafield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(CaOTULAS)160623871</subfield>
+</datafield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(OCoLC)ocm19941361</subfield>
+</datafield>
+<datafield tag="040" ind1=" " ind2=" ">
+<subfield code="a">MiU</subfield>
+<subfield code="c">MiU</subfield>
+</datafield>
+<datafield tag="110" ind1="1" ind2=" ">
+<subfield code="a">Chiusi.</subfield>
+<subfield code="b">Museo Etrusco.</subfield>
+</datafield>
+<datafield tag="245" ind1="0" ind2="0">
+<subfield code="a">Etrusco museo chiusino dai suoi possessori</subfield>
+<subfield code="c">pubblicato con aggiunta di alcuni ragionamenti del prof. Domenico Valeriani, e con brevi esposizioni del cav. F. Inghirami.</subfield>
+</datafield>
+<datafield tag="260" ind1=" " ind2=" ">
+<subfield code="a">[Florence]</subfield>
+<subfield code="b">Poligrafia fiesolana,</subfield>
+<subfield code="c">1832-33.</subfield>
+</datafield>
+<datafield tag="300" ind1=" " ind2=" ">
+<subfield code="a">2 v.</subfield>
+<subfield code="b">pl. (1 col.)</subfield>
+<subfield code="c">34 cm.</subfield>
+</datafield>
+<datafield tag="500" ind1=" " ind2=" ">
+<subfield code="a">Vol. 2 has title: Etrusco museo chiusino ... con brevi esposizioni del cav. Francesco Inghirami e colle iscrizioni etrusche interpetrate dal prof. G. B. Vermiglioli, 1832.</subfield>
+</datafield>
+<datafield tag="590" ind1=" " ind2=" ">
+<subfield code="a">Bookplate: Mure of Caldwell.</subfield>
+</datafield>
+<datafield tag="538" ind1=" " ind2=" ">
+<subfield code="a">Mode of access: Internet.</subfield>
+</datafield>
+<datafield tag="650" ind1=" " ind2="0">
+<subfield code="a">Art, Etruscan</subfield>
+</datafield>
+<datafield tag="700" ind1="1" ind2=" ">
+<subfield code="a">Valeriani, Domenico.</subfield>
+</datafield>
+<datafield tag="700" ind1="1" ind2=" ">
+<subfield code="a">Inghirami, Francesco,</subfield>
+<subfield code="d">1772-1846.</subfield>
+</datafield>
+<datafield tag="700" ind1="1" ind2=" ">
+<subfield code="a">Vermiglioli, Giovanni Battista,</subfield>
+<subfield code="d">1769-1848.</subfield>
+</datafield>
+<datafield tag="700" ind1="1" ind2=" ">
+<subfield code="a">Mure, William,</subfield>
+<subfield code="d">1799-1860.</subfield>
+<subfield code="4">PRO</subfield>
+</datafield>
+<datafield tag="998" ind1=" " ind2=" ">
+<subfield code="c">SMB</subfield>
+<subfield code="s">9124</subfield>
+</datafield>
+<datafield tag="m01" ind1=" " ind2=" ">
+<subfield code="a">ULABK4538</subfield>
+</datafield>
+<datafield tag="MDP" ind1=" " ind2=" ">
+<subfield code="z">v.2</subfield>
+<subfield code="h">N5750 .C54</subfield>
+<subfield code="u">mdp.39015084510513</subfield>
+<subfield code="b">BUHR</subfield>
+<subfield code="c">GRAD</subfield>
+</datafield>
+</record>
