@@ -59,16 +59,13 @@ class ParseMarcXml:
                         years=self.__get_years())
 
     def __get_author (self):
-        result = self.__find_datafield("100", "a")
+        for fields in ((("100", "a"),), (("110", "a"), ("110", "b"))):
+            words = [ ]
+            for tag, code in fields:
+                words.append(self.__find_datafield(tag, code))
 
-        if result is None:
-            first = self.__find_datafield("110", "a")
-            last = self.__find_datafield("110", "b")
-
-            if first is not None and last is not None:
-                result = "{} {}".format(first, last)
-
-        return result
+            if all(words):
+                return " ".join(words)
 
     def __get_years (self):
         long_year_str = self.__find_controlfield("008")
