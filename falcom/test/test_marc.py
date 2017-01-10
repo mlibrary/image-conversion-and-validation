@@ -7,9 +7,8 @@ import unittest
 import xml.etree.ElementTree as ET
 
 from ..marc import *
-from .hamcrest import ComposedAssertion
-from .hamcrest_marc import \
-        has_marc_attrs, evaluates_to_true, evaluates_to_false
+from .hamcrest import ComposedAssertion, HasAttrs, \
+        evaluates_to_true, evaluates_to_false
 
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
 
@@ -27,6 +26,9 @@ EG_MARC_MIDAILY = readfile("39015071755826.xml")
 EG_MARC_AUTHOR_110 = readfile("39015084510513.xml")
 EG_MARC_AUTHOR_111 = readfile("author_111_39015090867675.xml")
 EG_MARC_AUTHOR_130 = readfile("author_130_39015090867675.xml")
+
+def has_marc_attrs(**kwargs):
+    return HasAttrs("MARC attrs", **kwargs)
 
 class IsParticularMarcData (ComposedAssertion):
 
