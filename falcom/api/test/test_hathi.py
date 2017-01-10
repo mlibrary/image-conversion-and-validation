@@ -24,4 +24,4 @@ EG_HATHI_MIDAILY = readfile("hathitrust-009651208.json")
 class NothingTest (unittest.TestCase):
 
     def test_exists (self):
-        pass
+        result = get_oclc_counts_from_json(None)
