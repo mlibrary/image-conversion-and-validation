@@ -2,5 +2,9 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
+class WorldcatData:
+
+    title = None
+
 def get_worldcat_data_from_json (json_data):
-    pass
+    return WorldcatData()
