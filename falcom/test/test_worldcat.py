@@ -30,6 +30,19 @@ class yields_empty_worldcat_data (ComposedAssertion):
         yield list(data), is_(equal_to([]))
         yield data.title, is_(none()), "title"
 
+class yields_worldcat_data (ComposedAssertion):
+
+    def __init__ (self, title, libraries):
+        self.title = title
+        self.libraries = libraries
+
+    def assertion (self, item):
+        data = get_worldcat_data_from_json(item)
+
+        yield data,         evaluates_to_true()
+        yield data.title,   is_(equal_to(self.title)),      "title"
+        yield list(data),   is_(equal_to(self.libraries))
+
 class WorldcatDataTest (unittest.TestCase):
 
     def test_null_yields_empty_data (self):
@@ -42,7 +55,5 @@ class WorldcatDataTest (unittest.TestCase):
         assert_that("{{{", yields_empty_worldcat_data())
 
     def test_astro_has_title (self):
-        data = get_worldcat_data_from_json(EG_OCLC_ASTRO)
-        assert_that(data.title, is_(equal_to("Astronomical tables")))
-        assert_that(data, evaluates_to_true())
-        assert_that(list(data), is_(equal_to(["EYM"])))
+        assert_that(EG_OCLC_ASTRO, yields_worldcat_data(
+                "Astronomical tables", ["EYM"]))
