@@ -10,20 +10,8 @@ class ComposedAssertion (BaseMatcher):
         self.mismatch_item = None
         self.extra_message = None
 
-        for possible_tuple in self.assertion(item):
-            true_item = item
-            extra_message = None
-
-            if isinstance(possible_tuple, tuple):
-                if len(possible_tuple) == 3:
-                    true_item, matcher, extra_message = possible_tuple
-
-                else:
-                    true_item, matcher = possible_tuple
-
-            else:
-                matcher = possible_tuple
-
+        for true_item, matcher, extra_message in \
+                self.__assertion_triples(item):
             if not matcher.matches(true_item):
                 self.failed_matcher = matcher
                 self.mismatch_item = true_item
@@ -41,3 +29,22 @@ class ComposedAssertion (BaseMatcher):
     def describe_mismatch (self, item, description):
         self.failed_matcher.describe_mismatch(self.mismatch_item,
                                               description)
+
+    def __assertion_triples (self, item):
+        return (self.__get_triple(x, item)
+                        for x in self.assertion(item))
+
+    def __get_triple (self, possible_tuple, item):
+        if isinstance(possible_tuple, tuple):
+            return self.__get_triple_from_tuple(possible_tuple, item)
+
+        else:
+            return item, possible_tuple, None
+
+    def __get_triple_from_tuple (self, definite_tuple, item):
+        if len(definite_tuple) == 3:
+            return definite_tuple
+
+        else:
+            assert len(definite_tuple) == 2
+            return definite_tuple + (None,)
