@@ -4,7 +4,7 @@
 from re import compile as re_compile
 import xml.etree.ElementTree as ET
 
-from .marcdata import MARCData
+from .data import MARCData
 
 RE_OCLC = re_compile(r"^\(OCoLC\).*?([0-9]+)$")
 
