@@ -19,6 +19,9 @@ class WorldcatData:
         for key in null_keys:
             del kwargs[key]
 
+    def __bool__ (self):
+        return False
+
 def get_worldcat_data_from_json (json_data):
     try:
         data = json.loads(json_data)
