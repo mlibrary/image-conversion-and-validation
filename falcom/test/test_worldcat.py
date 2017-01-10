@@ -54,6 +54,31 @@ class WorldcatDataTest (unittest.TestCase):
     def test_invalid_json_yields_empty_data (self):
         assert_that("{{{", yields_empty_worldcat_data())
 
-    def test_astro_has_title (self):
+    def test_astro_has_particular_data (self):
         assert_that(EG_OCLC_ASTRO, yields_worldcat_data(
                 "Astronomical tables", ["EYM"]))
+
+    def test_business_has_particular_data (self):
+        assert_that(EG_OCLC_BUSINESS, yields_worldcat_data(
+                "Entrepreneurial president : Richard Atkinson and"
+                        " the University of California, 1995-2003",
+                ["EWV", "EYM", "EYL", "EYW", "EES", "EEM", "EEI",
+                 "ITS", "R2A", "EZC", "ITC", "IMX", "FW8", "CWR",
+                 "CHS", "IME", "EXS", "IGR", "IHH", "IMN", "AKR",
+                 "ITU", "OH1", "INA", "IEC", "AVL", "WFN", "IGB",
+                 "CGU", "JAX", "INU", "IAL", "IAY", "GZC", "IIB",
+                 "IMI", "III", "WMO", "H9Z", "IWC", "IFC", "DUQ",
+                 "REC", "UTO", "CNTCS", "IDU", "PWA", "IUL", "PZI",
+                 "IHC"]))
+
+    def test_midaily_has_particular_data (self):
+        assert_that(EG_OCLC_MIDAILY, yields_worldcat_data(
+                "The Michigan daily.",
+                ["HATHI", "EYM", "BEU", "EYL", "ERR", "EYW", "EEM",
+                 "EUQ", "EEX", "BGU", "EXK", "EXC", "EXQ", "HV6",
+                 "EXH", "UWO", "IND", "I3U", "EXN", "WOO", "EZU",
+                 "OTC", "OSU", "IU0", "CDC", "IVU", "IEH", "CRL",
+                 "CGU", "IBZ", "IAY", "IAA", "ICS", "IHT", "IUP",
+                 "OUN", "ICG", "ICX", "PQA", "WEZ", "IUL", "JYJ",
+                 "EZL", "EZB", "GZM", "YGM", "VQT", "RVE", "UPM",
+                 "IDB"]))
