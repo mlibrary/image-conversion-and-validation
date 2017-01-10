@@ -19,12 +19,14 @@ class WorldcatData:
         return bool(self.__wc_dict)
 
     def __iter__ (self):
-        return iter(())
+        return iter(self.__wc_dict.get("libraries", ()))
 
 def get_worldcat_data_from_json (json_data):
     try:
         data = json.loads(json_data)
-        return WorldcatData(title=data["title"])
+        return WorldcatData(title=data["title"],
+                            libraries=[l["oclcSymbol"]
+                                        for l in data["library"]])
 
     except TypeError:
         return WorldcatData()

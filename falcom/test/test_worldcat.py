@@ -32,3 +32,4 @@ class WorldcatDataTest (unittest.TestCase):
         data = get_worldcat_data_from_json(EG_OCLC_ASTRO)
         assert_that(data.title, is_(equal_to("Astronomical tables")))
         assert_that(data, evaluates_to_true())
+        assert_that(list(data), is_(equal_to(["EYM"])))
