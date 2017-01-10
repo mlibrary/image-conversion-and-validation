@@ -26,3 +26,15 @@ class NothingTest (unittest.TestCase):
     def test_null_yields_0_0 (self):
         assert_that(get_oclc_counts_from_json(None),
                     is_(equal_to((0, 0))))
+
+    def test_empty_str_yields_0_0 (self):
+        assert_that(get_oclc_counts_from_json(""),
+                    is_(equal_to((0, 0))))
+
+    def test_invalid_json_yields_0_0 (self):
+        assert_that(get_oclc_counts_from_json("{{{{"),
+                    is_(equal_to((0, 0))))
+
+    def test_astro_json_yields_1_0 (self):
+        assert_that(get_oclc_counts_from_json(EG_HATHI_ASTRO),
+                    is_(equal_to((1, 0))))
