@@ -21,26 +21,25 @@ EG_OCLC_ASTRO = readfile("worldcat-706055947.json")
 EG_OCLC_BUSINESS = readfile("worldcat-756167029.json")
 EG_OCLC_MIDAILY = readfile("worldcat-009651208.json")
 
-class is_empty_worldcat_data (ComposedAssertion):
+class yields_empty_worldcat_data (ComposedAssertion):
 
     def assertion (self, item):
-        yield evaluates_to_false()
-        yield list(item), is_(equal_to([]))
-        yield item.title, is_(none()), "title"
+        data = get_worldcat_data_from_json(item)
+
+        yield data, evaluates_to_false()
+        yield list(data), is_(equal_to([]))
+        yield data.title, is_(none()), "title"
 
 class WorldcatDataTest (unittest.TestCase):
 
     def test_null_yields_empty_data (self):
-        assert_that(get_worldcat_data_from_json(None),
-                    is_empty_worldcat_data())
+        assert_that(None, yields_empty_worldcat_data())
 
     def test_empty_str_yields_empty_data (self):
-        assert_that(get_worldcat_data_from_json(""),
-                    is_empty_worldcat_data())
+        assert_that("", yields_empty_worldcat_data())
 
     def test_invalid_json_yields_empty_data (self):
-        assert_that(get_worldcat_data_from_json("{{{"),
-                    is_empty_worldcat_data())
+        assert_that("{{{", yields_empty_worldcat_data())
 
     def test_astro_has_title (self):
         data = get_worldcat_data_from_json(EG_OCLC_ASTRO)
