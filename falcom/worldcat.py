@@ -5,6 +5,7 @@
 class WorldcatData:
 
     title = None
+    libraries = ()
 
 def get_worldcat_data_from_json (json_data):
     return WorldcatData()
