@@ -16,9 +16,9 @@ def readfile (filename):
 
     return result
 
-EG_HATHI_ASTRO = readfile("worldcat-706055947.json")
-EG_HATHI_BUSINESS = readfile("worldcat-756167029.json")
-EG_HATHI_MIDAILY = readfile("worldcat-009651208.json")
+EG_HATHI_ASTRO = readfile("hathitrust-706055947.json")
+EG_HATHI_BUSINESS = readfile("hathitrust-756167029.json")
+EG_HATHI_MIDAILY = readfile("hathitrust-009651208.json")
 
 class NothingTest (unittest.TestCase):
 
