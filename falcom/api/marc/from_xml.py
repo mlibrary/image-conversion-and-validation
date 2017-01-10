@@ -2,130 +2,83 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 from re import compile as re_compile
-import xml.etree.ElementTree as ET
 
 from .data import MARCData
+from .mapping import MARCMapping
 
 RE_OCLC = re_compile(r"^\(OCoLC\).*?([0-9]+)$")
 
 class ParseMarcXml:
 
-    xmlns = "http://www.loc.gov/MARC21/slim"
+    easy_data = (
+        ("bib",         ("001",)),
+        ("title",       (("245", "a"),)),
+        ("callno",      (("MDP", "h"),)),
+        ("description", (("MDP", "z"),)),
+        ("author",      (("100", "a"),)),
+        ("author",      (("110", "a"), ("110", "b"))),
+        ("author",      (("111", "a"),)),
+        ("author",      (("130", "a"),)),
+    )
 
     def __call__ (self, xml):
-        self.xml = xml
+        self.marc = MARCMapping(xml)
 
-        return self.__get_marc_data_if_we_have_xml()
+        self.fill_in_data()
 
-    def __get_marc_data_if_we_have_xml (self):
-        if self.__we_have_xml():
-            return self.__extract_xml()
+        return MARCData(**self.data)
 
-        else:
-            return MARCData()
+    def fill_in_data (self):
+        self.data = { }
 
-    def __we_have_xml (self):
-        if self.xml is None:
-            return False
+        self.fill_in_easy_data()
+        self.fill_in_oclc()
+        self.fill_in_years()
 
-        else:
-            return self.__we_have_an_etree()
+    def fill_in_easy_data (self):
+        for name, addresses in self.easy_data:
+            self.add_value_if_we_dont_have_it(name, addresses)
 
-    def __we_have_an_etree (self):
-        if isinstance(self.xml, ET.Element):
-            return True
+    def add_value_if_we_dont_have_it (self, name, addresses):
+        if name not in self.data:
+            self.try_to_get_addresses(name, addresses)
 
-        else:
-            return self.__we_can_parse_xml()
-
-    def __we_can_parse_xml (self):
+    def try_to_get_addresses (self, name, addresses):
         try:
-            return self.__parse_the_xml_str()
+            self.data[name] = self.get_all_values(addresses)
 
-        except ET.ParseError:
-            return False
+        except StopIteration:
+            pass
 
-    def __parse_the_xml_str (self):
-        self.xml = ET.fromstring(self.xml)
-        return True
+    def get_all_values (self, addresses):
+        values = [ ]
+        for address in addresses:
+            values.append(next(self.marc[address]))
 
-    def __extract_xml (self):
-        return MARCData(bib=self.__find_controlfield("001"),
-                        callno=self.__find_datafield("MDP", "h"),
-                        title=self.__find_datafield("245", "a"),
-                        description=self.__find_datafield("MDP", "z"),
-                        author=self.__get_author(),
-                        oclc=self.__get_oclc(),
-                        years=self.__get_years())
+        return " ".join(values)
 
-    def __get_author (self):
-        for fields in ((("100", "a"),),
-                       (("110", "a"), ("110", "b")),
-                       (("111", "a"),),
-                       (("130", "a"),)):
-            words = self.__get_multiple_datafields(fields)
+    def fill_in_oclc (self):
+        for x in self.marc["035", "a"]:
+            match = RE_OCLC.match(x)
 
-            if all(words):
-                return " ".join(words)
+            if match:
+                self.data["oclc"] = "{:>09}".format(match.group(1))
+                break
 
-    def __get_multiple_datafields (self, fields):
-        words = [ ]
-        for tag, code in fields:
-            words.append(self.__find_datafield(tag, code))
+    def fill_in_years (self):
+        try:
+            long_year_str = next(self.marc["008"])
 
-        return words
+            self.data["years"] = tuple(self.extract_year(
+                            long_year_str, x) for x in (7, 11))
 
-    def __get_years (self):
-        long_year_str = self.__find_controlfield("008")
+        except StopIteration:
+            pass
 
-        if long_year_str:
-            return tuple(self.__extract_year(long_year_str, x)
-                    for x in (7, 11))
-
-    def __extract_year (self, long_year_str, i):
+    def extract_year (self, long_year_str, i):
         result = long_year_str[i:i+4]
 
         if result != "^^^^":
             return result
-
-    def __get_oclc (self):
-        for oclc in self.__iterate_through_valid_oclcs():
-            return "{:>09}".format(oclc)
-
-    def __iterate_through_valid_oclcs (self):
-        return (m.group(1)
-                for m in self.__iterate_through_oclc_matches()
-                if m)
-
-    def __iterate_through_oclc_matches (self):
-        return (RE_OCLC.match(e.text)
-                for e in self.__get_all_oclc_elts())
-
-    def __get_all_oclc_elts (self):
-        return self.xml.findall(self.__datafiend_xpath("035", "a"))
-
-    def __find_datafield (self, tag, code):
-        return self.__text_or_null(self.xml.find(
-                self.__datafiend_xpath(tag, code)))
-
-    def __find_controlfield (self, tag):
-        return self.__text_or_null(self.xml.find(
-                self.__controlfiend_xpath(tag)))
-
-    def __datafiend_xpath (self, tag, code):
-        return self.__generate_xpath(("datafield", "tag", tag),
-                                     ("subfield", "code", code))
-
-    def __controlfiend_xpath (self, tag):
-        return self.__generate_xpath(("controlfield", "tag", tag))
-
-    def __generate_xpath (self, *triples):
-        return ".//" + "/".join(
-                "{{{}}}{}[@{}='{}']".format(
-                        self.xmlns, field, attr, value)
-                for field, attr, value in triples)
-
-    def __text_or_null (self, obj):
-        return getattr(obj, "text", None)
 
 get_marc_data_from_xml = ParseMarcXml()
