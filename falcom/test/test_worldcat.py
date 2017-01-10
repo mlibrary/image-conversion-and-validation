@@ -5,7 +5,9 @@ from hamcrest import *
 import os
 import unittest
 
-from .hamcrest_marc import evaluates_to_false, evaluates_to_true
+from .hamcrest import ComposedAssertion
+from .hamcrest_marc import \
+        evaluates_to_false, evaluates_to_true
 from ..worldcat import *
 
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
@@ -20,13 +22,18 @@ EG_OCLC_ASTRO = readfile("worldcat-706055947.json")
 EG_OCLC_BUSINESS = readfile("worldcat-756167029.json")
 EG_OCLC_MIDAILY = readfile("worldcat-009651208.json")
 
+class is_empty_worldcat_data (ComposedAssertion):
+
+    def assertion (self, item):
+        yield evaluates_to_false()
+        yield list(item), is_(equal_to([]))
+        yield item.title, is_(none()), "title"
+
 class WorldcatDataTest (unittest.TestCase):
 
     def test_nothing (self):
         data = get_worldcat_data_from_json(None)
-        assert_that(data.title, is_(none()))
-        assert_that(list(data), is_(equal_to([])))
-        assert_that(data, evaluates_to_false())
+        assert_that(data, is_empty_worldcat_data())
 
     def test_astro_has_title (self):
         data = get_worldcat_data_from_json(EG_OCLC_ASTRO)

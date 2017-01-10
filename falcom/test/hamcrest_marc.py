@@ -3,26 +3,6 @@
 # BSD License. See LICENSE.txt for details.
 from hamcrest.core.base_matcher import BaseMatcher
 
-class ComposedAssertion (BaseMatcher):
-
-    def _matches (self, item):
-        self.particular_matcher = None
-        for matcher in self.assertion(item):
-            self.particular_matcher = matcher
-
-            if matcher.matches(item):
-                continue
-
-            return False
-
-        return True
-
-    def describe_to (self, description):
-        self.particular_matcher.describe_to(description)
-
-    def describe_mismatch (self, item, description):
-        self.particular_matcher.describe_mismatch(item, description)
-
 class HasTruthiness (BaseMatcher):
 
     def __init__ (self, expected):
