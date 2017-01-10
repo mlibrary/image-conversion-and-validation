@@ -7,6 +7,7 @@ import unittest
 
 from .hamcrest import ComposedAssertion, \
         evaluates_to_false, evaluates_to_true
+from ..hathi import get_oclc_counts_from_json
 
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
 
