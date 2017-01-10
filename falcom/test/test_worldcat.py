@@ -5,7 +5,7 @@ from hamcrest import *
 import os
 import unittest
 
-from .hamcrest_marc import evaluates_to_false
+from .hamcrest_marc import evaluates_to_false, evaluates_to_true
 from ..worldcat import *
 
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
@@ -31,3 +31,4 @@ class WorldcatDataTest (unittest.TestCase):
     def test_astro_has_title (self):
         data = get_worldcat_data_from_json(EG_OCLC_ASTRO)
         assert_that(data.title, is_(equal_to("Astronomical tables")))
+        assert_that(data, evaluates_to_true())

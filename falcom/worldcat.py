@@ -20,7 +20,7 @@ class WorldcatData:
             del kwargs[key]
 
     def __bool__ (self):
-        return False
+        return bool(self.__wc_dict)
 
 def get_worldcat_data_from_json (json_data):
     try:
