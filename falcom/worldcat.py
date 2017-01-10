@@ -28,5 +28,5 @@ def get_worldcat_data_from_json (json_data):
                             libraries=[l["oclcSymbol"]
                                         for l in data["library"]])
 
-    except TypeError:
+    except:
         return WorldcatData()

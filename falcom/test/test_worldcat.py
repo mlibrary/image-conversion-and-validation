@@ -30,8 +30,12 @@ class is_empty_worldcat_data (ComposedAssertion):
 
 class WorldcatDataTest (unittest.TestCase):
 
-    def test_nothing (self):
+    def test_null_yields_empty_data (self):
         data = get_worldcat_data_from_json(None)
+        assert_that(data, is_empty_worldcat_data())
+
+    def test_empty_str_yields_empty_data (self):
+        data = get_worldcat_data_from_json("")
         assert_that(data, is_empty_worldcat_data())
 
     def test_astro_has_title (self):
