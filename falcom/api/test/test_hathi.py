@@ -5,8 +5,7 @@ from hamcrest import *
 import os
 import unittest
 
-from .hamcrest import ComposedAssertion, \
-        evaluates_to_false, evaluates_to_true
+from .hamcrest import ComposedAssertion
 from ..hathi import get_oclc_counts_from_json
 
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
@@ -21,28 +20,31 @@ EG_HATHI_ASTRO = readfile("hathitrust-706055947.json")
 EG_HATHI_BUSINESS = readfile("hathitrust-756167029.json")
 EG_HATHI_MIDAILY = readfile("hathitrust-009651208.json")
 
+class yields_oclc_counts (ComposedAssertion):
+
+    def __init__ (self, mdp, other):
+        self.expected = (mdp, other)
+
+    def assertion (self, item):
+        actual = get_oclc_counts_from_json(item)
+        yield actual, is_(equal_to(self.expected))
+
 class NothingTest (unittest.TestCase):
 
     def test_null_yields_0_0 (self):
-        assert_that(get_oclc_counts_from_json(None),
-                    is_(equal_to((0, 0))))
+        assert_that(None, yields_oclc_counts(0, 0))
 
     def test_empty_str_yields_0_0 (self):
-        assert_that(get_oclc_counts_from_json(""),
-                    is_(equal_to((0, 0))))
+        assert_that("", yields_oclc_counts(0, 0))
 
     def test_invalid_json_yields_0_0 (self):
-        assert_that(get_oclc_counts_from_json("{{{{"),
-                    is_(equal_to((0, 0))))
+        assert_that("{{{{", yields_oclc_counts(0, 0))
 
     def test_astro_json_yields_1_0 (self):
-        assert_that(get_oclc_counts_from_json(EG_HATHI_ASTRO),
-                    is_(equal_to((1, 0))))
+        assert_that(EG_HATHI_ASTRO, yields_oclc_counts(1, 0))
 
     def test_business_json_yields_0_0 (self):
-        assert_that(get_oclc_counts_from_json(EG_HATHI_BUSINESS),
-                    is_(equal_to((0, 0))))
+        assert_that(EG_HATHI_BUSINESS, yields_oclc_counts(0, 0))
 
     def test_midaily_json_yields_1_0 (self):
-        assert_that(get_oclc_counts_from_json(EG_HATHI_MIDAILY),
-                    is_(equal_to((1, 0))))
+        assert_that(EG_HATHI_MIDAILY, yields_oclc_counts(1, 0))
