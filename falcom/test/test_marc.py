@@ -45,6 +45,9 @@ class IsParticularMarcData (ComposedAssertion):
 
         yield has_marc_attrs(**self.kwargs)
 
+def has_marc_data(**kwargs):
+    return IsParticularMarcData(True, **kwargs)
+
 def is_empty_marc_data():
     return IsParticularMarcData(False,
                                 bib=None,
@@ -54,9 +57,6 @@ def is_empty_marc_data():
                                 title=None,
                                 description=None,
                                 years=(None, None))
-
-def has_marc_data(**kwargs):
-    return IsParticularMarcData(True, **kwargs)
 
 class MARCDataTest (unittest.TestCase):
 
