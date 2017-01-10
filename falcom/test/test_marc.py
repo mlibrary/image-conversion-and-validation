@@ -24,6 +24,8 @@ EG_MARC_BUSINESS = readfile("39015090867675.xml")
 EG_MARC_MIDAILY = readfile("39015071755826.xml")
 
 EG_MARC_AUTHOR_110 = readfile("39015084510513.xml")
+EG_MARC_AUTHOR_111 = readfile("author_111_39015090867675.xml")
+EG_MARC_AUTHOR_130 = readfile("author_130_39015090867675.xml")
 
 class IsParticularMarcData (ComposedAssertion):
 
@@ -112,6 +114,14 @@ class MARCDataTest (unittest.TestCase):
     def test_author_can_pull_from_datafield_110 (self):
         assert_that(get_marc_data_from_xml(EG_MARC_AUTHOR_110),
                     has_marc_data(author="Chiusi. Museo Etrusco."))
+
+    def test_author_can_pull_from_datafield_111 (self):
+        assert_that(get_marc_data_from_xml(EG_MARC_AUTHOR_111),
+                    has_marc_data(author="Pelfrey, Patricia A."))
+
+    def test_author_can_pull_from_datafield_130 (self):
+        assert_that(get_marc_data_from_xml(EG_MARC_AUTHOR_130),
+                    has_marc_data(author="Pelfrey, Patricia A."))
 
 if __name__ == "__main__":
     unittest.main()

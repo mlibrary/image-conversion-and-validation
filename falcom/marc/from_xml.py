@@ -60,7 +60,9 @@ class ParseMarcXml:
 
     def __get_author (self):
         for fields in ((("100", "a"),),
-                       (("110", "a"), ("110", "b"))):
+                       (("110", "a"), ("110", "b")),
+                       (("111", "a"),),
+                       (("130", "a"),)):
             words = self.__get_multiple_datafields(fields)
 
             if all(words):
