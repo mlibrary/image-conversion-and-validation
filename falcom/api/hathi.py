@@ -3,4 +3,4 @@
 # BSD License. See LICENSE.txt for details.
 
 def get_oclc_counts_from_json (json_data):
-    pass
+    return 0, 0
