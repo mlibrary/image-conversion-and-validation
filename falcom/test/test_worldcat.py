@@ -25,7 +25,7 @@ class WorldcatDataTest (unittest.TestCase):
     def test_nothing (self):
         data = get_worldcat_data_from_json(None)
         assert_that(data.title, is_(none()))
-        assert_that(list(data.libraries), is_(equal_to([])))
+        assert_that(list(data), is_(equal_to([])))
         assert_that(data, evaluates_to_false())
 
     def test_astro_has_title (self):

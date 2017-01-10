@@ -9,10 +9,6 @@ class WorldcatData:
     def title (self):
         return self.__wc_dict.get("title", None)
 
-    @property
-    def libraries (self):
-        return self.__wc_dict.get("libraries", ())
-
     def __init__ (self, **kwargs):
         self.__wc_dict = kwargs
         null_keys = [k for k, v in kwargs.items() if v is None]
@@ -21,6 +17,9 @@ class WorldcatData:
 
     def __bool__ (self):
         return bool(self.__wc_dict)
+
+    def __iter__ (self):
+        return iter(())
 
 def get_worldcat_data_from_json (json_data):
     try:
