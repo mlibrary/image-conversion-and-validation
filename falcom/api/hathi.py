@@ -6,7 +6,7 @@ import json
 def get_oclc_counts_from_json (json_data):
     try:
         data = json.loads(json_data)
-        return 1, 0
+        return len(data["items"]), 0
 
     except:
         return 0, 0

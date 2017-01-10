@@ -38,3 +38,7 @@ class NothingTest (unittest.TestCase):
     def test_astro_json_yields_1_0 (self):
         assert_that(get_oclc_counts_from_json(EG_HATHI_ASTRO),
                     is_(equal_to((1, 0))))
+
+    def test_business_json_yields_0_0 (self):
+        assert_that(get_oclc_counts_from_json(EG_HATHI_BUSINESS),
+                    is_(equal_to((0, 0))))
