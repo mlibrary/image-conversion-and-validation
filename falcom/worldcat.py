@@ -3,23 +3,16 @@
 # BSD License. See LICENSE.txt for details.
 import json
 
-class WorldcatData:
+from .common import ReadOnlyDataStructure
+
+class WorldcatData (ReadOnlyDataStructure):
 
     @property
     def title (self):
-        return self.__wc_dict.get("title", None)
-
-    def __init__ (self, **kwargs):
-        self.__wc_dict = kwargs
-        null_keys = [k for k, v in kwargs.items() if v is None]
-        for key in null_keys:
-            del kwargs[key]
-
-    def __bool__ (self):
-        return bool(self.__wc_dict)
+        return self.get("title")
 
     def __iter__ (self):
-        return iter(self.__wc_dict.get("libraries", ()))
+        return iter(self.get("libraries", ()))
 
 def get_worldcat_data_from_json (json_data):
     try:

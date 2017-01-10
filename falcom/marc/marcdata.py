@@ -2,41 +2,34 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
-class MARCData:
+from ..common import ReadOnlyDataStructure
+
+class MARCData (ReadOnlyDataStructure):
 
     @property
     def bib (self):
-        return self.__marc_dict.get("bib", None)
+        return self.get("bib")
 
     @property
     def callno (self):
-        return self.__marc_dict.get("callno", None)
+        return self.get("callno")
 
     @property
     def oclc (self):
-        return self.__marc_dict.get("oclc", None)
+        return self.get("oclc")
 
     @property
     def author (self):
-        return self.__marc_dict.get("author", None)
+        return self.get("author")
 
     @property
     def title (self):
-        return self.__marc_dict.get("title", None)
+        return self.get("title")
 
     @property
     def description (self):
-        return self.__marc_dict.get("description", None)
+        return self.get("description")
 
     @property
     def years (self):
-        return self.__marc_dict.get("years", (None, None))
-
-    def __init__ (self, **kwargs):
-        self.__marc_dict = kwargs
-        null_keys = [k for k, v in kwargs.items() if v is None]
-        for key in null_keys:
-            del kwargs[key]
-
-    def __bool__ (self):
-        return bool(self.__marc_dict)
+        return self.get("years", (None, None))
