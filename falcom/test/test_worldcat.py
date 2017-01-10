@@ -5,6 +5,8 @@ from hamcrest import *
 import os
 import unittest
 
+from ..worldcat import *
+
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
 
 def readfile (filename):
@@ -17,7 +19,7 @@ EG_OCLC_ASTRO = readfile("worldcat-706055947.json")
 EG_OCLC_BUSINESS = readfile("worldcat-756167029.json")
 EG_OCLC_MIDAILY = readfile("worldcat-009651208.json")
 
-class Nothing (unittest.TestCase):
+class WorldcatDataTest (unittest.TestCase):
 
     def test_nothing (self):
-        pass
+        data = get_worldcat_data_from_json(None)
