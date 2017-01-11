@@ -13,8 +13,16 @@ from ..uri import URI
 # http://mirlyn-aleph.lib.umich.edu/cgi-bin/bc2meta?id=[BARCODE]&type=bc&schema=marcxml
 # http://www.worldcat.org/webservices/catalog/content/libraries/[OCLC]?wskey=[WC_KEY]&format=json&maximumLibraries=50
 
-class NothingTest (unittest.TestCase):
+class URITest (unittest.TestCase):
 
-    def test_null_uri_returns_empty_string (self):
+    def test_null_uri_yields_empty_string (self):
         uri = URI(None)
         assert_that(uri(), is_(equal_to("")))
+
+    def test_empty_uri_yields_empty_string (self):
+        uri = URI("")
+        assert_that(uri(), is_(equal_to("")))
+
+    def test_simple_uri_yields_itself (self):
+        uri = URI("hello")
+        assert_that(uri(), is_(equal_to("hello")))

@@ -5,7 +5,11 @@
 class URI:
 
     def __init__ (self, uri_base):
-        pass
+        if uri_base is None:
+            self.base = ""
+
+        else:
+            self.base = uri_base
 
     def __call__ (self):
-        return ""
+        return self.base
