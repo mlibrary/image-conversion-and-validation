@@ -19,10 +19,6 @@ class URITest (unittest.TestCase):
         uri = URI(None)
         assert_that(uri(), is_(equal_to("")))
 
-    def test_simple_uri_yields_itself (self):
-        uri = URI("hello")
-        assert_that(uri(), is_(equal_to("hello")))
-
 class GivenEmptyStrURI (unittest.TestCase):
 
     def setUp (self):
@@ -39,3 +35,11 @@ class GivenEmptyStrURI (unittest.TestCase):
         assert_that(self.uri(hi="hello", sup="what up"),
                     any_of(is_(equal_to("?hi=hello&sup=what+up")),
                            is_(equal_to("?sup=what+up&hi=hello"))))
+
+class GivenSimpleURI (unittest.TestCase):
+
+    def setUp (self):
+        self.uri = URI("hello")
+
+    def test_simple_uri_yields_itself (self):
+        assert_that(self.uri(), is_(equal_to("hello")))
