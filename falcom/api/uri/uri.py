@@ -49,7 +49,8 @@ class URI:
             self.__assert_that_we_have_all_required_kwargs(kwargs)
 
             base = self.__base.format_map(kwargs)
-            mapping = { }
+            mapping = dict((k, v) for k, v in kwargs.items()
+                            if k not in self.__required_args)
 
         else:
             base = self.__base

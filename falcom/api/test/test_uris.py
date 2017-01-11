@@ -86,3 +86,7 @@ class GivenComposedURI (unittest.TestCase):
     def test_when_called_with_args_uses_args (self):
         assert_that(self.uri(hello="hi", yes="yee"), is_(equal_to(
                 "http://coolsite.gov/api/hi/yee.json")))
+
+    def test_when_called_with_extra_args_uses_get_for_them (self):
+        assert_that(self.uri(hello="yo", yes="1", no="2"), is_(equal_to(
+                "http://coolsite.gov/api/yo/1.json?no=2")))
