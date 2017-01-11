@@ -56,18 +56,22 @@ class URI:
 
     def __get_base_and_extra_kwargs (self, kwargs):
         if self.__required_args:
-            self.__assert_that_we_have_all_required_kwargs(kwargs)
-
-            base = self.__base.format_map(kwargs)
-            mapping = dict((k, v) for k, v in kwargs.items()
-                            if k not in self.__required_args)
-
-            return base, mapping
+            return self.__get_formatted_base(kwargs), \
+                    self.__get_mapping_without_required_args(kwargs)
 
         else:
             return self.__base, kwargs
 
+    def __get_formatted_base (self, kwargs):
+        self.__assert_that_we_have_all_required_kwargs(kwargs)
+
+        return self.__base.format_map(kwargs)
+
+    def __get_mapping_without_required_args (self, kwargs):
+        return dict((k, v) for k, v in kwargs.items()
+                            if k not in self.__required_args)
+
     def __assert_that_we_have_all_required_kwargs (self, kwargs):
         for arg in self.__required_args:
             if arg not in kwargs:
-                raise self.MissingRequiredArg
+                raise self.MissingRequiredArg(arg)
