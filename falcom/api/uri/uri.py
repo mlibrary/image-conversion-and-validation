@@ -40,7 +40,8 @@ class URI:
 
     def __extract_required_args (self):
         recorder = FakeMappingThatRecordsAccessions()
-        junk = self.__base.format_map(recorder)
+        recorder.check_on_format_str(self.__base)
+
         self.__required_args = recorder.get_set()
 
     def __get_url_pieces (self, kwargs):

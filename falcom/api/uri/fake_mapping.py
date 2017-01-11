@@ -13,3 +13,6 @@ class FakeMappingThatRecordsAccessions:
 
     def get_set (self):
         return self.__set
+
+    def check_on_format_str (self, format_str):
+        format_str.format_map(self)
