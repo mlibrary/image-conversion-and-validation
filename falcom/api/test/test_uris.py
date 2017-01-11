@@ -43,6 +43,9 @@ class GivenEmptyStrURI (unittest.TestCase):
     def test_equals_null_uri (self):
         assert_that(self.uri, is_(equal_to(URI(None))))
 
+    def test_not_equal_to_simple_uri (self):
+        assert_that(self.uri, is_not(equal_to(URI("hi"))))
+
 class GivenSimpleURI (unittest.TestCase):
 
     def setUp (self):

@@ -7,20 +7,24 @@ class URI:
 
     def __init__ (self, uri_base):
         if uri_base is None:
-            self.base = ""
+            self.__base = ""
 
         else:
-            self.base = uri_base
+            self.__base = uri_base
 
     def __call__ (self, **kwargs):
         if kwargs:
             return "?" + urlencode(kwargs)
 
         else:
-            return self.base
+            return self.__base
 
     def __bool__ (self):
         return False
 
     def __eq__ (self, rhs):
-        return True
+        return self.__base == rhs.__base
+
+    def __repr__ (self):
+        return "<{} {}>".format(self.__class__.__name__,
+                                repr(self.__base))
