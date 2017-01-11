@@ -80,4 +80,5 @@ class GivenComposedURI (unittest.TestCase):
         self.uri = URI("http://coolsite.gov/api/{hello}/{yes}.json")
 
     def test_when_called_without_args_raises_error (self):
-        assert_that(calling(self.uri).with_args(), raises(URI.MissingRequiredArg))
+        assert_that(calling(self.uri).with_args(),
+                    raises(URI.MissingRequiredArg))

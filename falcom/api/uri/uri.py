@@ -3,17 +3,7 @@
 # BSD License. See LICENSE.txt for details.
 from urllib.parse import urlencode
 
-class FakeMapping:
-
-    def __init__ (self):
-        self.__set = set()
-
-    def __getitem__ (self, key):
-        self.__set.add(key)
-        return 0
-
-    def get_set (self):
-        return self.__set
+from .fake_mapping import FakeMappingThatRecordsAccessions
 
 class URI:
 
@@ -49,9 +39,9 @@ class URI:
             self.__base = uri_base
 
     def __extract_required_args (self):
-        fake_mapping = FakeMapping()
-        junk = self.__base.format_map(fake_mapping)
-        self.__required_args = fake_mapping.get_set()
+        recorder = FakeMappingThatRecordsAccessions()
+        junk = self.__base.format_map(recorder)
+        self.__required_args = recorder.get_set()
 
     def __get_url_pieces (self, kwargs):
         result = [self.__base]
