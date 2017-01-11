@@ -23,7 +23,11 @@ class URI:
         return False
 
     def __eq__ (self, rhs):
-        return self.__base == rhs.__base
+        try:
+            return self.__base == rhs.__base
+
+        except:
+            return False
 
     def __repr__ (self):
         return "<{} {}>".format(self.__class__.__name__,
