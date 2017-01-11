@@ -14,13 +14,13 @@ from ..uri import URI, APIQuerier
 # http://mirlyn-aleph.lib.umich.edu/cgi-bin/bc2meta?id=[BARCODE]&type=bc&schema=marcxml
 # http://www.worldcat.org/webservices/catalog/content/libraries/[OCLC]?wskey=[WC_KEY]&format=json&maximumLibraries=50
 
-class FunctionSpy:
+class AbstractSpy:
 
     def __init__ (self):
         self.calls = [ ]
 
-    def __call__ (self, *args, **kwargs):
-        self.calls.append((args, kwargs))
+    def append (self, func, args, kwargs):
+        self.calls.append((func, args, kwargs))
 
     def report (self):
         return self.calls
@@ -34,6 +34,21 @@ class FunctionSpy:
 
     def __len__ (self):
         return len(self.calls)
+
+class HTTPResponseSpy (AbstractSpy):
+
+    def read (self, *args, **kwargs):
+        self.append("read", args, kwargs)
+
+class UrlopenerSpy (AbstractSpy):
+
+    def __init__ (self):
+        super().__init__()
+        self.response_spy = HTTPResponseSpy()
+
+    def __call__ (self, *args, **kwargs):
+        self.append(None, args, kwargs)
+        return self.response_spy
 
 class URITest (unittest.TestCase):
 
@@ -119,5 +134,11 @@ class GivenComposedURI (unittest.TestCase):
 class APIQuerierTest (unittest.TestCase):
 
     def test_can_init_querier_with_url_opener (self):
-        spy = FunctionSpy()
+        spy = UrlopenerSpy()
         api = APIQuerier(URI("hello"), url_opener=spy)
+
+    def test_when_called_with_get_returns_get_urlopen_call (self):
+        spy = UrlopenerSpy()
+        api = APIQuerier(URI("hello"), url_opener=spy)
+
+        assert_that(api.get(), is_(none()))

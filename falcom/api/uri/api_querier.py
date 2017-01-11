@@ -6,3 +6,6 @@ class APIQuerier:
 
     def __init__ (self, uri, url_opener):
         pass
+
+    def get (self):
+        pass
