@@ -15,9 +15,17 @@ class URI:
         self.__extract_required_args()
 
     def __call__ (self, **kwargs):
-        base, mapping = self.__get_base_and_extra_kwargs(kwargs)
+        base, mapping = self.get_duple(kwargs)
 
         return self.join_uri_and_get_args(base, mapping)
+
+    def get_duple (self, kwargs):
+        if self.__required_args:
+            return self.__get_formatted_base(kwargs), \
+                    self.__get_mapping_without_required_args(kwargs)
+
+        else:
+            return self.__base, kwargs
 
     def __bool__ (self):
         return bool(self.__base)
@@ -53,14 +61,6 @@ class URI:
         recorder.check_on_format_str(self.__base)
 
         self.__required_args = recorder.get_set()
-
-    def __get_base_and_extra_kwargs (self, kwargs):
-        if self.__required_args:
-            return self.__get_formatted_base(kwargs), \
-                    self.__get_mapping_without_required_args(kwargs)
-
-        else:
-            return self.__base, kwargs
 
     def __get_formatted_base (self, kwargs):
         self.__assert_that_we_have_all_required_kwargs(kwargs)
