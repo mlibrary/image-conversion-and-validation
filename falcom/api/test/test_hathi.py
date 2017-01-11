@@ -29,7 +29,7 @@ class yields_oclc_counts (ComposedAssertion):
         actual = get_oclc_counts_from_json(item)
         yield actual, is_(equal_to(self.expected))
 
-class NothingTest (unittest.TestCase):
+class HathiJsonTest (unittest.TestCase):
 
     def test_null_yields_0_0 (self):
         assert_that(None, yields_oclc_counts(0, 0))
