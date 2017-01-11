@@ -165,5 +165,10 @@ class APIQuerierTest (unittest.TestCase):
         self.api.get()
         assert_that(len(self.spy.response_spy), is_(greater_than(2)))
 
-        enter, read, exit = self.spy.response_spy.report()[-3:]
-        assert_that(enter, is_(equal_to(("__enter__", (), {}))))
+        assert_that(self.spy.response_spy.report()[0],
+                    is_(equal_to(("__enter__", (), {}))))
+        assert_that(self.spy.response_spy.report()[-1],
+                    is_(equal_to(("__exit__", (None, None, None), {}))))
+
+        for func, args, kwargs in self.spy.response_spy.report()[1:-1]:
+            assert_that(func, is_(equal_to("read")))
