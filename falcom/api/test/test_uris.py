@@ -152,6 +152,15 @@ class APIQuerierTest (unittest.TestCase):
         self.api = APIQuerier(URI(), url_opener=self.spy)
 
     def test_when_called_with_get_returns_get_urlopen_call (self):
-        assert_that(self.api.get(), is_(none()))
+        self.api.get()
         assert_that(self.spy.most_recent(),
                     is_(equal_to((None, ("",), { }))))
+
+    def test_when_called_with_args_get_returns_urlopen_with_args (self):
+        self.api.get(matt="is cool")
+        assert_that(self.spy.most_recent(),
+                    is_(equal_to((None, ("?matt=is+cool",), { }))))
+
+    def test_when_calling_get_api_runs_read_in_a_context_manager (self):
+        self.api.get()
+        assert_that(len(self.spy.response_spy), is_(greater_than(2)))
