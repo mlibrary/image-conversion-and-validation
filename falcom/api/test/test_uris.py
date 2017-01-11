@@ -16,4 +16,4 @@ from ..uri import URI
 class NothingTest (unittest.TestCase):
 
     def test_nothing (self):
-        pass
+        uri = URI(None)
