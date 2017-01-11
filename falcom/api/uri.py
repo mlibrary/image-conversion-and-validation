@@ -21,3 +21,6 @@ class URI:
 
     def __bool__ (self):
         return False
+
+    def __eq__ (self, rhs):
+        return True
