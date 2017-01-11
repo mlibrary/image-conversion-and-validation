@@ -5,7 +5,7 @@ from urllib.parse import urlencode
 
 class URI:
 
-    def __init__ (self, uri_base):
+    def __init__ (self, uri_base = None):
         if uri_base is None:
             self.__base = ""
 

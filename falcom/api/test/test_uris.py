@@ -20,6 +20,10 @@ class URITest (unittest.TestCase):
         uri = URI(None)
         assert_that(uri(), is_(equal_to("")))
 
+    def test_no_arg_uri_yields_empty_string (self):
+        uri = URI()
+        assert_that(uri(), is_(equal_to("")))
+
 class GivenEmptyStrURI (unittest.TestCase):
 
     def setUp (self):
