@@ -90,3 +90,7 @@ class GivenComposedURI (unittest.TestCase):
     def test_when_called_with_extra_args_uses_get_for_them (self):
         assert_that(self.uri(hello="yo", yes="1", no="2"), is_(equal_to(
                 "http://coolsite.gov/api/yo/1.json?no=2")))
+
+    def test_spaces_are_not_pluses_for_composed_args (self):
+        assert_that(self.uri(hello="a b", yes="c d e"), is_(equal_to(
+                "http://coolsite.gov/api/a b/c d e.json")))
