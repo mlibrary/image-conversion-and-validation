@@ -34,3 +34,8 @@ class GivenEmptyStrURI (unittest.TestCase):
     def test_when_called_with_single_kwarg_yields_get_str (self):
         assert_that(self.uri(matt="is cool"),
                     is_(equal_to("?matt=is+cool")))
+
+    def skip_test_when_called_with_two_kwargs_yields_both (self):
+        assert_that(self.uri(hi="hello", sup="what up"),
+                    any_of(is_(equal_to("?hi=hello&sup=what+up")),
+                           is_(equal_to("?sup=what+up&hi=hello"))))

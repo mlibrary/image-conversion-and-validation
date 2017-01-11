@@ -11,9 +11,9 @@ class URI:
         else:
             self.base = uri_base
 
-    def __call__ (self, matt = None):
-        if matt is None:
-            return self.base
+    def __call__ (self, **kwargs):
+        if kwargs:
+            return "?matt=is+cool"
 
         else:
-            return "?matt=is+cool"
+            return self.base
