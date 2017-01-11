@@ -6,3 +6,6 @@ class URI:
 
     def __init__ (self, uri_base):
         pass
+
+    def __call__ (self):
+        return ""

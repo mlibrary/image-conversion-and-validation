@@ -15,5 +15,6 @@ from ..uri import URI
 
 class NothingTest (unittest.TestCase):
 
-    def test_nothing (self):
+    def test_null_uri_returns_empty_string (self):
         uri = URI(None)
+        assert_that(uri(), is_(equal_to("")))
