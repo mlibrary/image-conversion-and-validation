@@ -19,7 +19,13 @@ class AbstractSpy:
     def __init__ (self):
         self.calls = [ ]
 
-    def append (self, func, args, kwargs):
+    def append (self, func, args = None, kwargs = None):
+        if args is None:
+            args = ()
+
+        if kwargs is None:
+            kwargs = {}
+
         self.calls.append((func, args, kwargs))
 
     def report (self):
@@ -34,6 +40,14 @@ class AbstractSpy:
 
     def __len__ (self):
         return len(self.calls)
+
+    def __enter__ (self):
+        self.append("__enter__")
+        return self
+
+    def __exit__ (self, exc_type, exc_value, traceback):
+        self.append("__exit__", (exc_type, exc_value, traceback))
+        return False
 
 class HTTPResponseSpy (AbstractSpy):
 
@@ -133,12 +147,11 @@ class GivenComposedURI (unittest.TestCase):
 
 class APIQuerierTest (unittest.TestCase):
 
-    def test_can_init_querier_with_url_opener (self):
-        spy = UrlopenerSpy()
-        api = APIQuerier(URI("hello"), url_opener=spy)
+    def setUp (self):
+        self.spy = UrlopenerSpy()
+        self.api = APIQuerier(URI(), url_opener=self.spy)
 
     def test_when_called_with_get_returns_get_urlopen_call (self):
-        spy = UrlopenerSpy()
-        api = APIQuerier(URI("hello"), url_opener=spy)
-
-        assert_that(api.get(), is_(none()))
+        assert_that(self.api.get(), is_(none()))
+        assert_that(self.spy.most_recent(),
+                    is_(equal_to((None, ("",), { }))))

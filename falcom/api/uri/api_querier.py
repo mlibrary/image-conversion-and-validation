@@ -5,7 +5,7 @@
 class APIQuerier:
 
     def __init__ (self, uri, url_opener):
-        pass
+        self.url_opener = url_opener
 
     def get (self):
-        pass
+        self.url_opener("")
