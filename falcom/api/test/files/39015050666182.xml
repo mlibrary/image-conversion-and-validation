@@ -1,0 +1,59 @@
+<record xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+<controlfield tag="FMT">BK</controlfield>
+<controlfield tag="LDR">^^^^^nam^^22002171^^4500</controlfield>
+<controlfield tag="001">001205209</controlfield>
+<controlfield tag="005">19890623000000.0</controlfield>
+<controlfield tag="008">890623s1910^^^^fr^^^^^^^^^^^^00010^fre^d</controlfield>
+<datafield tag="010" ind1=" " ind2=" ">
+<subfield code="a">11011756</subfield>
+</datafield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(CaOTULAS)176203381</subfield>
+</datafield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(SAZTEC)175000790</subfield>
+</datafield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(OCoLC)ocm07981296</subfield>
+</datafield>
+<datafield tag="040" ind1=" " ind2=" ">
+<subfield code="c">CarP</subfield>
+</datafield>
+<datafield tag="050" ind1="0" ind2=" ">
+<subfield code="a">PQ1441</subfield>
+<subfield code="b">.C56 1910</subfield>
+</datafield>
+<datafield tag="130" ind1="0" ind2=" ">
+<subfield code="a">Châtelaine de Vergi.</subfield>
+</datafield>
+<datafield tag="245" ind1="0" ind2="3">
+<subfield code="a">La chastelaine de Vergi, poème du XIIIe siécle,</subfield>
+</datafield>
+<datafield tag="260" ind1=" " ind2=" ">
+<subfield code="a">Paris,</subfield>
+<subfield code="b">H. Champion,</subfield>
+<subfield code="c">1910.</subfield>
+</datafield>
+<datafield tag="300" ind1=" " ind2=" ">
+<subfield code="a">viii, 30 p., 1 l.</subfield>
+<subfield code="c">19 cm.</subfield>
+</datafield>
+<datafield tag="700" ind1="1" ind2=" ">
+<subfield code="a">Raynaud, Gaston,</subfield>
+<subfield code="d">1850-1911,</subfield>
+<subfield code="e">ed.</subfield>
+</datafield>
+<datafield tag="998" ind1=" " ind2=" ">
+<subfield code="c">UTL</subfield>
+<subfield code="s">9662</subfield>
+</datafield>
+<datafield tag="m01" ind1=" " ind2=" ">
+<subfield code="a">ULAFD0012</subfield>
+</datafield>
+<datafield tag="MDP" ind1=" " ind2=" ">
+<subfield code="h">848 C488 R27</subfield>
+<subfield code="u">mdp.39015050666182</subfield>
+<subfield code="b">BUHR</subfield>
+<subfield code="c">GRAD</subfield>
+</datafield>
+</record>
