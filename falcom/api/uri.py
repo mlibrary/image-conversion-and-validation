@@ -18,3 +18,6 @@ class URI:
 
         else:
             return self.base
+
+    def __bool__ (self):
+        return False

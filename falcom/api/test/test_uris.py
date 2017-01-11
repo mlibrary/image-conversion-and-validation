@@ -4,7 +4,8 @@
 from hamcrest import *
 import unittest
 
-from .hamcrest import ComposedAssertion
+from .hamcrest import ComposedAssertion, \
+        evaluates_to_true, evaluates_to_false
 from ..uri import URI
 
 # There are three URIs that I need to use:
@@ -35,6 +36,9 @@ class GivenEmptyStrURI (unittest.TestCase):
         assert_that(self.uri(hi="hello", sup="what up"),
                     any_of(is_(equal_to("?hi=hello&sup=what+up")),
                            is_(equal_to("?sup=what+up&hi=hello"))))
+
+    def test_evaluates_to_false (self):
+        assert_that(self.uri, evaluates_to_false())
 
 class GivenSimpleURI (unittest.TestCase):
 
