@@ -5,6 +5,7 @@ from hamcrest import *
 import unittest
 
 from .hamcrest import ComposedAssertion
+from ..uri import URI
 
 # There are three URIs that I need to use:
 #
