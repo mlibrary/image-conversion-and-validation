@@ -48,8 +48,12 @@ class URI:
         if self.__required_args:
             self.__assert_that_we_have_all_required_kwargs(kwargs)
 
-        base = self.__base
-        mapping = kwargs
+            base = self.__base.format_map(kwargs)
+            mapping = { }
+
+        else:
+            base = self.__base
+            mapping = kwargs
 
         result = [base]
 
