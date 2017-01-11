@@ -67,3 +67,9 @@ class GivenSimpleURI (unittest.TestCase):
     def test_when_called_with_single_kwarg_yields_get_str (self):
         assert_that(self.uri(matt="is cool"),
                     is_(equal_to("hello?matt=is+cool")))
+
+    def test_equals_same_simple_uri (self):
+        assert_that(self.uri, is_(equal_to(URI("hello"))))
+
+    def test_does_not_equal_some_other_uri (self):
+        assert_that(self.uri, is_not(equal_to(URI("hi"))))
