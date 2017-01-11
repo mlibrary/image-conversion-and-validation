@@ -14,6 +14,27 @@ from ..uri import URI, APIQuerier
 # http://mirlyn-aleph.lib.umich.edu/cgi-bin/bc2meta?id=[BARCODE]&type=bc&schema=marcxml
 # http://www.worldcat.org/webservices/catalog/content/libraries/[OCLC]?wskey=[WC_KEY]&format=json&maximumLibraries=50
 
+class FunctionSpy:
+
+    def __init__ (self):
+        self.calls = [ ]
+
+    def __call__ (self, *args, **kwargs):
+        self.calls.append((args, kwargs))
+
+    def report (self):
+        return self.calls
+
+    def most_recent (self):
+        if len(self.calls) == 0:
+            return None
+
+        else:
+            return self.calls[-1]
+
+    def __len__ (self):
+        return len(self.calls)
+
 class URITest (unittest.TestCase):
 
     def test_null_uri_yields_empty_string (self):
@@ -94,3 +115,9 @@ class GivenComposedURI (unittest.TestCase):
     def test_spaces_are_not_pluses_for_composed_args (self):
         assert_that(self.uri(hello="a b", yes="c d e"), is_(equal_to(
                 "http://coolsite.gov/api/a b/c d e.json")))
+
+class APIQuerierTest (unittest.TestCase):
+
+    def test_can_init_querier_with_url_opener (self):
+        spy = FunctionSpy()
+        api = APIQuerier(URI("hello"), url_opener=spy)
