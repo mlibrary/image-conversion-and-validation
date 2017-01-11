@@ -6,11 +6,8 @@ from urllib.parse import urlencode
 class URI:
 
     def __init__ (self, uri_base = None):
-        if uri_base is None:
-            self.__base = ""
 
-        else:
-            self.__base = uri_base
+        self.__set_uri_base(uri_base)
 
     def __call__ (self, **kwargs):
         return "?".join(self.__get_url_pieces(kwargs))
@@ -28,6 +25,13 @@ class URI:
     def __repr__ (self):
         return "<{} {}>".format(self.__class__.__name__,
                                 repr(self.__base))
+
+    def __set_uri_base (self, uri_base):
+        if uri_base is None:
+            self.__base = ""
+
+        else:
+            self.__base = uri_base
 
     def __get_url_pieces (self, kwargs):
         result = [self.__base]
