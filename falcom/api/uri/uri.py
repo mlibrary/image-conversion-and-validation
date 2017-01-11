@@ -45,13 +45,16 @@ class URI:
         self.__required_args = recorder.get_set()
 
     def __get_url_pieces (self, kwargs):
-        result = [self.__base]
+        self.__assert_that_we_have_all_required_kwargs(kwargs)
 
-        for arg in self.__required_args:
-            if arg not in kwargs:
-                raise self.MissingRequiredArg
+        result = [self.__base]
 
         if kwargs:
             result.append(urlencode(kwargs))
 
         return result
+
+    def __assert_that_we_have_all_required_kwargs (self, kwargs):
+        for arg in self.__required_args:
+            if arg not in kwargs:
+                raise self.MissingRequiredArg
