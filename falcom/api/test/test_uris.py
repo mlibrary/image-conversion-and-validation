@@ -6,7 +6,7 @@ import unittest
 
 from .hamcrest import ComposedAssertion, \
         evaluates_to_true, evaluates_to_false
-from ..uri import URI
+from ..uri import URI, APIQuerier
 
 # There are three URIs that I need to use:
 #
