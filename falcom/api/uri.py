@@ -13,11 +13,7 @@ class URI:
             self.__base = uri_base
 
     def __call__ (self, **kwargs):
-        if kwargs:
-            return "{}?{}".format(self.__base, urlencode(kwargs))
-
-        else:
-            return self.__base
+        return "?".join(self.__get_url_pieces(kwargs))
 
     def __bool__ (self):
         return bool(self.__base)
@@ -32,3 +28,11 @@ class URI:
     def __repr__ (self):
         return "<{} {}>".format(self.__class__.__name__,
                                 repr(self.__base))
+
+    def __get_url_pieces (self, kwargs):
+        result = [self.__base]
+
+        if kwargs:
+            result.append(urlencode(kwargs))
+
+        return result
