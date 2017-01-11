@@ -63,3 +63,7 @@ class GivenSimpleURI (unittest.TestCase):
 
     def test_evaluates_to_true (self):
         assert_that(self.uri, evaluates_to_true())
+
+    def test_when_called_with_single_kwarg_yields_get_str (self):
+        assert_that(self.uri(matt="is cool"),
+                    is_(equal_to("hello?matt=is+cool")))

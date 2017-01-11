@@ -14,7 +14,7 @@ class URI:
 
     def __call__ (self, **kwargs):
         if kwargs:
-            return "?" + urlencode(kwargs)
+            return "{}?{}".format(self.__base, urlencode(kwargs))
 
         else:
             return self.__base
