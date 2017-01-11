@@ -19,10 +19,14 @@ class URITest (unittest.TestCase):
         uri = URI(None)
         assert_that(uri(), is_(equal_to("")))
 
-    def test_empty_uri_yields_empty_string (self):
-        uri = URI("")
-        assert_that(uri(), is_(equal_to("")))
-
     def test_simple_uri_yields_itself (self):
         uri = URI("hello")
         assert_that(uri(), is_(equal_to("hello")))
+
+class GivenEmptyStrURI (unittest.TestCase):
+
+    def setUp (self):
+        self.uri = URI("")
+
+    def test_when_called_without_args_yields_empty_str (self):
+        assert_that(self.uri(), is_(equal_to("")))
