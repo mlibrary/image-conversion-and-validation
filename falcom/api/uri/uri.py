@@ -15,7 +15,9 @@ class URI:
         self.__extract_required_args()
 
     def __call__ (self, **kwargs):
-        return "?".join(self.__get_uri_pieces(kwargs))
+        base, mapping = self.__get_base_and_extra_kwargs(kwargs)
+
+        return self.join_uri_and_get_args(base, mapping)
 
     def __bool__ (self):
         return bool(self.__base)
@@ -26,6 +28,14 @@ class URI:
 
         except:
             return False
+
+    @staticmethod
+    def join_uri_and_get_args (base_uri, arg_dict):
+        if arg_dict:
+            return "?".join((base_uri, urlencode(arg_dict)))
+
+        else:
+            return base_uri
 
     def __repr__ (self):
         return "<{} {}>".format(self.__class__.__name__,
@@ -43,16 +53,6 @@ class URI:
         recorder.check_on_format_str(self.__base)
 
         self.__required_args = recorder.get_set()
-
-    def __get_uri_pieces (self, kwargs):
-        base, mapping = self.__get_base_and_extra_kwargs(kwargs)
-
-        result = [base]
-
-        if mapping:
-            result.append(urlencode(mapping))
-
-        return result
 
     def __get_base_and_extra_kwargs (self, kwargs):
         if self.__required_args:
