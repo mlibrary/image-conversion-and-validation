@@ -1,6 +1,7 @@
 # Copyright (c) 2017 The Regents of the University of Michigan.
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
+from urllib.parse import urlencode
 
 class URI:
 
@@ -13,7 +14,7 @@ class URI:
 
     def __call__ (self, **kwargs):
         if kwargs:
-            return "?matt=is+cool"
+            return "?" + urlencode(kwargs)
 
         else:
             return self.base
