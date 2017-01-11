@@ -15,7 +15,7 @@ class URI:
         self.__extract_required_args()
 
     def __call__ (self, **kwargs):
-        return "?".join(self.__get_url_pieces(kwargs))
+        return "?".join(self.__get_uri_pieces(kwargs))
 
     def __bool__ (self):
         return bool(self.__base)
@@ -44,17 +44,8 @@ class URI:
 
         self.__required_args = recorder.get_set()
 
-    def __get_url_pieces (self, kwargs):
-        if self.__required_args:
-            self.__assert_that_we_have_all_required_kwargs(kwargs)
-
-            base = self.__base.format_map(kwargs)
-            mapping = dict((k, v) for k, v in kwargs.items()
-                            if k not in self.__required_args)
-
-        else:
-            base = self.__base
-            mapping = kwargs
+    def __get_uri_pieces (self, kwargs):
+        base, mapping = self.__get_base_and_extra_kwargs(kwargs)
 
         result = [base]
 
@@ -62,6 +53,19 @@ class URI:
             result.append(urlencode(mapping))
 
         return result
+
+    def __get_base_and_extra_kwargs (self, kwargs):
+        if self.__required_args:
+            self.__assert_that_we_have_all_required_kwargs(kwargs)
+
+            base = self.__base.format_map(kwargs)
+            mapping = dict((k, v) for k, v in kwargs.items()
+                            if k not in self.__required_args)
+
+            return base, mapping
+
+        else:
+            return self.__base, kwargs
 
     def __assert_that_we_have_all_required_kwargs (self, kwargs):
         for arg in self.__required_args:
