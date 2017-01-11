@@ -30,3 +30,7 @@ class GivenEmptyStrURI (unittest.TestCase):
 
     def test_when_called_without_args_yields_empty_str (self):
         assert_that(self.uri(), is_(equal_to("")))
+
+    def test_when_called_with_single_kwarg_yields_get_str (self):
+        assert_that(self.uri(matt="is cool"),
+                    is_(equal_to("?matt=is+cool")))
