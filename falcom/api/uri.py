@@ -3,11 +3,26 @@
 # BSD License. See LICENSE.txt for details.
 from urllib.parse import urlencode
 
+class FakeMapping:
+
+    def __init__ (self):
+        self.__set = set()
+
+    def __getitem__ (self, key):
+        self.__set.add(key)
+        return 0
+
+    def get_set (self):
+        return self.__set
+
 class URI:
 
-    def __init__ (self, uri_base = None):
+    class MissingRequiredArg (RuntimeError):
+        pass
 
+    def __init__ (self, uri_base = None):
         self.__set_uri_base(uri_base)
+        self.__extract_required_args()
 
     def __call__ (self, **kwargs):
         return "?".join(self.__get_url_pieces(kwargs))
@@ -33,8 +48,17 @@ class URI:
         else:
             self.__base = uri_base
 
+    def __extract_required_args (self):
+        fake_mapping = FakeMapping()
+        junk = self.__base.format_map(fake_mapping)
+        self.__required_args = fake_mapping.get_set()
+
     def __get_url_pieces (self, kwargs):
         result = [self.__base]
+
+        for arg in self.__required_args:
+            if arg not in kwargs:
+                raise self.MissingRequiredArg
 
         if kwargs:
             result.append(urlencode(kwargs))

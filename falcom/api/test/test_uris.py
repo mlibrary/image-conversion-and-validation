@@ -73,3 +73,11 @@ class GivenSimpleURI (unittest.TestCase):
 
     def test_does_not_equal_some_other_uri (self):
         assert_that(self.uri, is_not(equal_to(URI("hi"))))
+
+class GivenComposedURI (unittest.TestCase):
+
+    def setUp (self):
+        self.uri = URI("http://coolsite.gov/api/{hello}/{yes}.json")
+
+    def test_when_called_without_args_raises_error (self):
+        assert_that(calling(self.uri).with_args(), raises(URI.MissingRequiredArg))
