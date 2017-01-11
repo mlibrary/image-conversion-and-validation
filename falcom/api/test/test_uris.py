@@ -56,3 +56,6 @@ class GivenSimpleURI (unittest.TestCase):
 
     def test_simple_uri_yields_itself (self):
         assert_that(self.uri(), is_(equal_to("hello")))
+
+    def test_evaluates_to_true (self):
+        assert_that(self.uri, evaluates_to_true())

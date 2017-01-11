@@ -20,7 +20,7 @@ class URI:
             return self.__base
 
     def __bool__ (self):
-        return False
+        return bool(self.__base)
 
     def __eq__ (self, rhs):
         try:
