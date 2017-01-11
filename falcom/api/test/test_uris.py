@@ -164,3 +164,6 @@ class APIQuerierTest (unittest.TestCase):
     def test_when_calling_get_api_runs_read_in_a_context_manager (self):
         self.api.get()
         assert_that(len(self.spy.response_spy), is_(greater_than(2)))
+
+        enter, read, exit = self.spy.response_spy.report()[-3:]
+        assert_that(enter, is_(equal_to(("__enter__", (), {}))))

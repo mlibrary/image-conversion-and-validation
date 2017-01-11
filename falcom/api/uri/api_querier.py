@@ -9,7 +9,5 @@ class APIQuerier:
         self.url_opener = url_opener
 
     def get (self, **kwargs):
-        response = self.url_opener(self.uri(**kwargs))
-        response.read()
-        response.read()
-        response.read()
+        with self.url_opener(self.uri(**kwargs)) as response:
+            response.read()
