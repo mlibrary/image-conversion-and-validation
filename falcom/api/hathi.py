@@ -6,7 +6,17 @@ import json
 def get_oclc_counts_from_json (json_data, barcode = ""):
     try:
         data = json.loads(json_data)
-        return len(data["items"]), 0
+        a = 0
+        b = 0
+
+        for item in data["items"]:
+            if item["htid"] == "mdp." + barcode:
+                a += 1
+
+            else:
+                b += 1
+
+        return a, b
 
     except:
         return 0, 0

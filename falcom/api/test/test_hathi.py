@@ -49,5 +49,5 @@ class HathiJsonTest (unittest.TestCase):
     def test_business_json_yields_0_0 (self):
         assert_that(EG_HATHI_BUSINESS, yields_oclc_counts(0, 0))
 
-    def test_midaily_json_yields_1_0 (self):
-        assert_that(EG_HATHI_MIDAILY, yields_oclc_counts(1, 0))
+    def test_midaily_json_yields_0_1 (self):
+        assert_that(EG_HATHI_MIDAILY, yields_oclc_counts(0, 1))
