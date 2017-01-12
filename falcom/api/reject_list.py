@@ -31,6 +31,11 @@ class VolumeDataFromBarcode:
                         type="bc",
                         schema="marcxml"))
 
+        if not self.marc:
+            self.marc = get_marc_data_from_xml(aleph_api.get(
+                            id="mdp." + barcode,
+                            schema="marcxml"))
+
         if self.marc.oclc is None:
             worldcat, hathi = None, None
 
