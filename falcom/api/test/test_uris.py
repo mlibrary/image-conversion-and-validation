@@ -64,6 +64,28 @@ class UrlopenerSpy (AbstractSpy):
         self.append(None, args, kwargs)
         return self.response_spy
 
+class UrlopenerStub:
+
+    class HTTPResponseStub:
+
+        def __init__ (self, output_data):
+            self.output_data = output_data
+
+        def read (self, *args, **kwargs):
+            return self.output_data
+
+        def __enter__ (self):
+            return self
+
+        def __exit__ (self, exc_type, exc_value, traceback):
+            pass
+
+    def __init__ (self, output_data):
+        self.output_data = output_data
+
+    def __call__ (self, *args, **kwargs):
+        return self.HTTPResponseStub(self.output_data)
+
 class URITest (unittest.TestCase):
 
     def test_null_uri_yields_empty_string (self):
@@ -145,11 +167,20 @@ class GivenComposedURI (unittest.TestCase):
         assert_that(self.uri(hello="a b", yes="c d e"), is_(equal_to(
                 "http://coolsite.gov/api/a b/c d e.json")))
 
-class APIQuerierTest (unittest.TestCase):
+class APIQuerierTestHelpers (unittest.TestCase):
+
+    def set_api_spy (self, uri):
+        self.spy = UrlopenerSpy()
+        self.api = APIQuerier(URI(uri), url_opener=self.spy)
+
+    def set_api_stub (self, output_data):
+        self.api = APIQuerier(URI(),
+                              url_opener=UrlopenerStub(output_data))
+
+class APIQuerierTest (APIQuerierTestHelpers):
 
     def setUp (self):
-        self.spy = UrlopenerSpy()
-        self.api = APIQuerier(URI(), url_opener=self.spy)
+        self.set_api_spy("")
 
     def test_when_called_with_get_returns_get_urlopen_call (self):
         self.api.get()
@@ -172,3 +203,9 @@ class APIQuerierTest (unittest.TestCase):
 
         for func, args, kwargs in self.spy.response_spy.report()[1:-1]:
             assert_that(func, is_(equal_to("read")))
+
+class APIQuerierDataTest (APIQuerierTestHelpers):
+
+    def test_when_calling_get_api_returns_response_read_data (self):
+        self.set_api_stub("hello")
+        assert_that(self.api.get(), is_(equal_to("hello")))
