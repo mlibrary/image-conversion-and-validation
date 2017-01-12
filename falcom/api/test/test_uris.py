@@ -8,12 +8,6 @@ from .hamcrest import ComposedAssertion, \
         evaluates_to_true, evaluates_to_false
 from ..uri import URI, APIQuerier
 
-# There are three URIs that I need to use:
-#
-# http://catalog.hathitrust.org/api/volumes/brief/oclc/[OCLC].json
-# http://mirlyn-aleph.lib.umich.edu/cgi-bin/bc2meta?id=[BARCODE]&type=bc&schema=marcxml
-# http://www.worldcat.org/webservices/catalog/content/libraries/[OCLC]?wskey=[WC_KEY]&format=json&maximumLibraries=50
-
 class AbstractSpy:
 
     def __init__ (self):
