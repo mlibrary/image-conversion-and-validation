@@ -4,15 +4,8 @@
 import json
 
 def get_counts_from_item_list (items, barcode):
-    a = 0
-    b = 0
-
-    for item in items:
-        if item["htid"] == "mdp." + barcode:
-            a += 1
-
-        else:
-            b += 1
+    a = len([x for x in items if x["htid"] == "mdp." + barcode])
+    b = len(items) - a
 
     return a, b
 
