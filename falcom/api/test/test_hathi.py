@@ -17,13 +17,13 @@ def readfile (filename):
     return result
 
 EG_HATHI_ASTRO = (readfile("hathitrust-706055947.json"),
-                  "39015081447313")
+                  "mdp.39015081447313")
 EG_HATHI_BUSINESS = (readfile("hathitrust-756167029.json"),
-                     "39015090867675")
+                     "mdp.39015090867675")
 EG_HATHI_MIDAILY = (readfile("hathitrust-009651208.json"),
-                    "39015071755826")
+                    "mdp.39015071755826")
 EG_MULTI = (readfile("hathitrust-multi-eg.json"),
-            "39015071754159")
+            "mdp.39015071754159")
 
 class yields_oclc_counts (ComposedAssertion):
 

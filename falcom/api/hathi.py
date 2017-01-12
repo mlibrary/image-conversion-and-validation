@@ -3,16 +3,16 @@
 # BSD License. See LICENSE.txt for details.
 import json
 
-def get_counts_from_item_list (items, barcode):
-    a = len([x for x in items if x["htid"] == "mdp." + barcode])
+def get_counts_from_item_list (items, htid):
+    a = len([x for x in items if x["htid"] == htid])
     b = len(items) - a
 
     return a, b
 
-def get_oclc_counts_from_json (json_data, barcode = ""):
+def get_oclc_counts_from_json (json_data, htid = ""):
     try:
         data = json.loads(json_data)
-        return get_counts_from_item_list(data["items"], barcode)
+        return get_counts_from_item_list(data["items"], htid)
 
     except:
         return 0, 0
