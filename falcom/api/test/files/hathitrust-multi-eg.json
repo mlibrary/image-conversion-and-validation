@@ -1,0 +1,32 @@
+{
+   "records":{
+      "000060897":{
+         "recordURL":"https:\/\/catalog.hathitrust.org\/Record\/000060897",
+         "titles":[
+            "The Michigan daily.",
+            "Michigan daily."
+         ],
+         "isbns":[
+
+         ],
+         "issns":[
+            "745967x"
+         ],
+         "oclcs":[
+            "9651208"
+         ],
+         "lccns":[
+            "sn83009192"
+         ],
+         "publishDates":[
+            "1903"
+         ]
+      }
+   },
+   "items":[
+      { "htid":"mdp.39015071754159" },
+      { "htid":"mdp.39015000000000" },
+      { "htid":"otherid" },
+      { "htid":"yetanotherid" }
+   ]
+}

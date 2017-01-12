@@ -16,9 +16,12 @@ def readfile (filename):
 
     return result
 
-EG_HATHI_ASTRO = readfile("hathitrust-706055947.json")
-EG_HATHI_BUSINESS = readfile("hathitrust-756167029.json")
-EG_HATHI_MIDAILY = readfile("hathitrust-009651208.json")
+EG_HATHI_ASTRO = (readfile("hathitrust-706055947.json"),
+                  "39015081447313")
+EG_HATHI_BUSINESS = (readfile("hathitrust-756167029.json"),
+                     "39015090867675")
+EG_HATHI_MIDAILY = (readfile("hathitrust-009651208.json"),
+                    "39015071755826")
 
 class yields_oclc_counts (ComposedAssertion):
 
@@ -26,19 +29,19 @@ class yields_oclc_counts (ComposedAssertion):
         self.expected = (mdp, other)
 
     def assertion (self, item):
-        actual = get_oclc_counts_from_json(item)
+        actual = get_oclc_counts_from_json(*item)
         yield actual, is_(equal_to(self.expected))
 
 class HathiJsonTest (unittest.TestCase):
 
     def test_null_yields_0_0 (self):
-        assert_that(None, yields_oclc_counts(0, 0))
+        assert_that((None,), yields_oclc_counts(0, 0))
 
     def test_empty_str_yields_0_0 (self):
-        assert_that("", yields_oclc_counts(0, 0))
+        assert_that(("",), yields_oclc_counts(0, 0))
 
     def test_invalid_json_yields_0_0 (self):
-        assert_that("{{{{", yields_oclc_counts(0, 0))
+        assert_that(("{{{{",), yields_oclc_counts(0, 0))
 
     def test_astro_json_yields_1_0 (self):
         assert_that(EG_HATHI_ASTRO, yields_oclc_counts(1, 0))

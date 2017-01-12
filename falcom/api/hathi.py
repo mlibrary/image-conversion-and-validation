@@ -3,7 +3,7 @@
 # BSD License. See LICENSE.txt for details.
 import json
 
-def get_oclc_counts_from_json (json_data):
+def get_oclc_counts_from_json (json_data, barcode = ""):
     try:
         data = json.loads(json_data)
         return len(data["items"]), 0
