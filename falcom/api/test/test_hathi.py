@@ -22,6 +22,8 @@ EG_HATHI_BUSINESS = (readfile("hathitrust-756167029.json"),
                      "39015090867675")
 EG_HATHI_MIDAILY = (readfile("hathitrust-009651208.json"),
                     "39015071755826")
+EG_MULTI = (readfile("hathitrust-multi-eg.json"),
+            "39015071754159")
 
 class yields_oclc_counts (ComposedAssertion):
 
@@ -51,3 +53,6 @@ class HathiJsonTest (unittest.TestCase):
 
     def test_midaily_json_yields_0_1 (self):
         assert_that(EG_HATHI_MIDAILY, yields_oclc_counts(0, 1))
+
+    def test_multi_json_yields_1_3 (self):
+        assert_that(EG_MULTI, yields_oclc_counts(1, 3))
