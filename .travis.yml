@@ -5,4 +5,5 @@ python:
 - "3.6"
 - "nightly"
 - "pypy3"
+install: pip install PyHamcrest
 script: python -m unittest
