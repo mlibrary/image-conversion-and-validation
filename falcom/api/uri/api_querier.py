@@ -10,6 +10,14 @@ class APIQuerier:
 
     def get (self, **kwargs):
         with self.url_opener(self.uri(**kwargs)) as response:
-            result = response.read()
+            result = self.utf8(response.read())
 
         return result
+
+    @staticmethod
+    def utf8 (str_or_bytes):
+        if isinstance(str_or_bytes, bytes):
+            return str_or_bytes.decode("utf_8")
+
+        else:
+            return str_or_bytes

@@ -206,3 +206,7 @@ class APIQuerierDataTest (APIQuerierTestHelpers):
 
         self.set_api_stub("something else")
         assert_that(self.api.get(), is_(equal_to("something else")))
+
+    def test_bytes_are_converted_to_str_via_utf_8 (self):
+        self.set_api_stub("💪".encode("utf_8"))
+        assert_that(self.api.get(), is_(equal_to("💪")))
