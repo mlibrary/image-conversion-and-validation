@@ -177,7 +177,7 @@ class APIQuerierTestHelpers (unittest.TestCase):
         self.api = APIQuerier(URI(),
                               url_opener=UrlopenerStub(output_data))
 
-class APIQuerierTest (APIQuerierTestHelpers):
+class APIQuerierSpyTest (APIQuerierTestHelpers):
 
     def setUp (self):
         self.set_api_spy("")
@@ -209,3 +209,6 @@ class APIQuerierDataTest (APIQuerierTestHelpers):
     def test_when_calling_get_api_returns_response_read_data (self):
         self.set_api_stub("hello")
         assert_that(self.api.get(), is_(equal_to("hello")))
+
+        self.set_api_stub("something else")
+        assert_that(self.api.get(), is_(equal_to("something else")))

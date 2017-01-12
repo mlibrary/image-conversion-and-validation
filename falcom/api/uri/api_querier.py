@@ -10,6 +10,6 @@ class APIQuerier:
 
     def get (self, **kwargs):
         with self.url_opener(self.uri(**kwargs)) as response:
-            response.read()
+            result = response.read()
 
-        return "hello"
+        return result
