@@ -14,6 +14,13 @@ class ReadOnlyDataStructure:
     def __bool__ (self):
         return bool(self.__internal)
 
+    def __repr__ (self):
+        dictstr = [self.__class__.__name__]
+        for key, value in self.__internal.items():
+            dictstr.append("{}={}".format(key, repr(value)))
+
+        return "<{}>".format(" ".join(dictstr))
+
     def __remove_null_keys (self):
         null_keys = [k for k, v in self.__internal.items() if v is None]
 
