@@ -15,6 +15,8 @@ WorldCatURI = URI("http://www.worldcat.org/webservices/catalog"
                   "/content/libraries/{oclc}")
 HathiURI = URI("http://catalog.hathitrust.org/api/volumes/brief"
                "/oclc/{oclc}.json")
+BibURI = URI("http://catalog.hathitrust.org/api/volumes/brief"
+             "/recordnumber/{bib}.json")
 
 aleph_api = APIQuerier(AlephURI, url_opener=urlopen)
 worldcat_api = APIQuerier(WorldCatURI, url_opener=urlopen)
