@@ -6,7 +6,7 @@ import os
 import unittest
 
 from .hamcrest import ComposedAssertion
-from ..hathi import get_oclc_counts_from_json
+from ..hathi import get_oclc_counts_from_json, get_hathi_data_from_json
 
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
 
@@ -34,7 +34,7 @@ class yields_oclc_counts (ComposedAssertion):
         actual = get_oclc_counts_from_json(*item)
         yield actual, is_(equal_to(self.expected))
 
-class HathiJsonTest (unittest.TestCase):
+class HathiOclcCountsTest (unittest.TestCase):
 
     def test_null_yields_0_0 (self):
         assert_that((None,), yields_oclc_counts(0, 0))
