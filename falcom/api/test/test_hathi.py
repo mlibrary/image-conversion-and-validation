@@ -88,3 +88,7 @@ class HathiRecordDataTest (unittest.TestCase):
     def test_json_with_no_data_yields_no_data (self):
         assert_that('{"records":{},"items":[]}',
                     yields_empty_hathi_data())
+
+    def test_astro_json_yields_one_title_and_one_htid (self):
+        data = get_hathi_data_from_json(EG_HATHI_ASTRO[0])
+        assert_that(data.titles, has_length(1))

@@ -30,4 +30,14 @@ def get_oclc_counts_from_json (json_data, htid = ""):
         return 0, 0
 
 def get_hathi_data_from_json (json_data = ""):
-    return HathiData()
+    try:
+        data = json.loads(json_data)
+        titles = [ ]
+        for x in data.get("records", {}).values():
+            titles.extend(x.get("titles", ()))
+
+        assert titles
+        return HathiData(titles=titles)
+
+    except:
+        return HathiData()
