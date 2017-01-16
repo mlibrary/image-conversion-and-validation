@@ -35,6 +35,18 @@ class yields_oclc_counts (ComposedAssertion):
         actual = get_oclc_counts_from_json(*item)
         yield actual, is_(equal_to(self.expected))
 
+class empty_hathi_data (ComposedAssertion):
+
+    def assertion (self, item):
+        yield item, evaluates_to_false()
+        yield item.titles, empty()
+        yield item.htids, empty()
+
+class yields_empty_hathi_data (ComposedAssertion):
+
+    def assertion (self, item):
+        yield get_hathi_data_from_json(item), is_(empty_hathi_data())
+
 class HathiOclcCountsTest (unittest.TestCase):
 
     def test_null_yields_0_0 (self):
@@ -62,3 +74,17 @@ class HathiRecordDataTest (unittest.TestCase):
 
     def test_no_args_yields_no_data (self):
         data = get_hathi_data_from_json()
+        assert_that(data, is_(empty_hathi_data()))
+
+    def test_null_yields_no_data (self):
+        assert_that(None, yields_empty_hathi_data())
+
+    def test_empty_str_yields_no_data (self):
+        assert_that("", yields_empty_hathi_data())
+
+    def test_invalid_json_yields_no_data (self):
+        assert_that("{{{{]]", yields_empty_hathi_data())
+
+    def test_json_with_no_data_yields_no_data (self):
+        assert_that('{"records":{},"items":[]}',
+                    yields_empty_hathi_data())

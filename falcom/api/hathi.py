@@ -5,7 +5,7 @@ import json
 
 from .common.read_only_data_structure import ReadOnlyDataStructure
 
-class HathiData:
+class HathiData (ReadOnlyDataStructure):
 
     @property
     def titles (self):
