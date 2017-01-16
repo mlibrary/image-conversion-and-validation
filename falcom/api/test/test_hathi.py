@@ -92,3 +92,4 @@ class HathiRecordDataTest (unittest.TestCase):
     def test_astro_json_yields_one_title_and_one_htid (self):
         data = get_hathi_data_from_json(EG_HATHI_ASTRO[0])
         assert_that(data.titles, has_length(1))
+        assert_that(data.htids, has_length(1))

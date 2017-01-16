@@ -43,6 +43,15 @@ def get_titles_from_data (data):
 
     return result if result else None
 
+def get_htids_from_data (data):
+    result = [ ]
+    for x in data.get("items", [ ]):
+        if "htid" in x:
+            result.append(x["htid"])
+
+    return result if result else None
+
 def get_hathi_data_from_json (json_data = ""):
     data = load_json(json_data, { })
-    return HathiData(titles=get_titles_from_data(data))
+    return HathiData(titles=get_titles_from_data(data),
+                     htids=get_htids_from_data(data))
