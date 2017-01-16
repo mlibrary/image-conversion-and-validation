@@ -15,19 +15,11 @@ class HathiData (ReadOnlyDataStructure):
     def htids (self):
         return self.get("htids", ())
 
-def get_counts_from_item_list (items, htid):
-    a = len([x for x in items if x["htid"] == htid])
-    b = len(items) - a
+    def get_item_counts (self, htid):
+        matching_count = len([x for x in self.htids if x == htid])
+        nonmatching_count = len(self.htids) - matching_count
 
-    return a, b
-
-def get_oclc_counts_from_json (json_data, htid = ""):
-    try:
-        data = json.loads(json_data)
-        return get_counts_from_item_list(data["items"], htid)
-
-    except:
-        return 0, 0
+        return matching_count, nonmatching_count
 
 def load_json (json_data, default):
     try:
@@ -59,3 +51,7 @@ def get_hathi_data_from_json (json_data = ""):
     data = load_json(json_data, { })
     return HathiData(titles=get_titles_from_data(data),
                      htids=get_htids_from_data(data))
+
+def get_oclc_counts_from_json (json_data, htid = ""):
+    data = get_hathi_data_from_json(json_data)
+    return data.get_item_counts(htid)
