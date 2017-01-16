@@ -28,5 +28,5 @@ def get_oclc_counts_from_json (json_data, htid = ""):
     except:
         return 0, 0
 
-def get_hathi_data_from_json ():
+def get_hathi_data_from_json (json_data = ""):
     return HathiItems()

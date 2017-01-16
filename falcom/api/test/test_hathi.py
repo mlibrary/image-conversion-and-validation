@@ -67,6 +67,10 @@ class HathiOclcCountsTest (unittest.TestCase):
 
 class HathiRecordDataTest (unittest.TestCase):
 
-    def test_nothing (self):
+    def test_no_args_yields_empty_sequence (self):
         data = get_hathi_data_from_json()
+        assert_that(data, is_(an_empty_sequence()))
+
+    def test_None_yields_empty_sequence (self):
+        data = get_hathi_data_from_json(None)
         assert_that(data, is_(an_empty_sequence()))
