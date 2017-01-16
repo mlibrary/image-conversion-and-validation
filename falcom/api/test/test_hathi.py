@@ -5,8 +5,9 @@ from hamcrest import *
 import os
 import unittest
 
-from .hamcrest import ComposedAssertion
-from ..hathi import get_oclc_counts_from_json
+from .hamcrest import ComposedAssertion, \
+        evaluates_to_true, evaluates_to_false
+from ..hathi import get_oclc_counts_from_json, get_hathi_data_from_json
 
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
 
@@ -34,7 +35,19 @@ class yields_oclc_counts (ComposedAssertion):
         actual = get_oclc_counts_from_json(*item)
         yield actual, is_(equal_to(self.expected))
 
-class HathiJsonTest (unittest.TestCase):
+class empty_hathi_data (ComposedAssertion):
+
+    def assertion (self, item):
+        yield item, evaluates_to_false()
+        yield item.titles, empty()
+        yield item.htids, empty()
+
+class yields_empty_hathi_data (ComposedAssertion):
+
+    def assertion (self, item):
+        yield get_hathi_data_from_json(item), is_(empty_hathi_data())
+
+class HathiOclcCountsTest (unittest.TestCase):
 
     def test_null_yields_0_0 (self):
         assert_that((None,), yields_oclc_counts(0, 0))
@@ -56,3 +69,27 @@ class HathiJsonTest (unittest.TestCase):
 
     def test_multi_json_yields_1_3 (self):
         assert_that(EG_MULTI, yields_oclc_counts(1, 3))
+
+class HathiRecordDataTest (unittest.TestCase):
+
+    def test_no_args_yields_no_data (self):
+        data = get_hathi_data_from_json()
+        assert_that(data, is_(empty_hathi_data()))
+
+    def test_null_yields_no_data (self):
+        assert_that(None, yields_empty_hathi_data())
+
+    def test_empty_str_yields_no_data (self):
+        assert_that("", yields_empty_hathi_data())
+
+    def test_invalid_json_yields_no_data (self):
+        assert_that("{{{{]]", yields_empty_hathi_data())
+
+    def test_json_with_no_data_yields_no_data (self):
+        assert_that('{"records":{},"items":[]}',
+                    yields_empty_hathi_data())
+
+    def test_astro_json_yields_one_title_and_one_htid (self):
+        data = get_hathi_data_from_json(EG_HATHI_ASTRO[0])
+        assert_that(data.titles, has_length(1))
+        assert_that(data.htids, has_length(1))
