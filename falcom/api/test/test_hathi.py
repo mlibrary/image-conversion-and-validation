@@ -5,7 +5,8 @@ from hamcrest import *
 import os
 import unittest
 
-from .hamcrest import ComposedAssertion
+from .hamcrest import ComposedAssertion, \
+        evaluates_to_true, evaluates_to_false
 from ..hathi import get_oclc_counts_from_json, get_hathi_data_from_json
 
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
@@ -61,3 +62,5 @@ class HathiRecordDataTest (unittest.TestCase):
 
     def test_nothing (self):
         data = get_hathi_data_from_json()
+        assert_that(data, evaluates_to_false())
+        assert_that(data, has_length(0))
