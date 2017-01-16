@@ -3,24 +3,17 @@
 # BSD License. See LICENSE.txt for details.
 import json
 
-class HathiItems:
+from .common.read_only_data_structure import ReadOnlyDataStructure
 
-    def __init__ (self, json_data):
-        try:
-            self.data = json.loads(json_data).get("items", ())
+class HathiData:
 
-        except:
-            self.data = ()
+    @property
+    def titles (self):
+        return self.get("titles", ())
 
-    def __len__ (self):
-        return len(self.data)
-
-    def __iter__ (self):
-        return iter(())
-
-    def __repr__ (self):
-        return "<{} {}>".format(self.__class__.__name__,
-                                repr(self.data))
+    @property
+    def htids (self):
+        return self.get("htids", ())
 
 def get_counts_from_item_list (items, htid):
     a = len([x for x in items if x["htid"] == htid])
@@ -37,4 +30,4 @@ def get_oclc_counts_from_json (json_data, htid = ""):
         return 0, 0
 
 def get_hathi_data_from_json (json_data = ""):
-    return HathiItems(json_data)
+    return HathiData()

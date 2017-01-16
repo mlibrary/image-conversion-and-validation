@@ -35,19 +35,6 @@ class yields_oclc_counts (ComposedAssertion):
         actual = get_oclc_counts_from_json(*item)
         yield actual, is_(equal_to(self.expected))
 
-class an_empty_sequence (ComposedAssertion):
-
-    def assertion (self, item):
-        yield evaluates_to_false()
-        yield has_length(0)
-        yield list(item), is_(equal_to([]))
-
-class yields_an_empty_sequence (ComposedAssertion):
-
-    def assertion (self, item):
-        data = get_hathi_data_from_json(item)
-        yield data, is_(an_empty_sequence())
-
 class HathiOclcCountsTest (unittest.TestCase):
 
     def test_null_yields_0_0 (self):
@@ -73,22 +60,5 @@ class HathiOclcCountsTest (unittest.TestCase):
 
 class HathiRecordDataTest (unittest.TestCase):
 
-    def test_no_args_yields_empty_sequence (self):
+    def test_no_args_yields_no_data (self):
         data = get_hathi_data_from_json()
-        assert_that(data, is_(an_empty_sequence()))
-
-    def test_None_yields_empty_sequence (self):
-        assert_that(None, yields_an_empty_sequence())
-
-    def test_empty_str_yields_empty_sequence (self):
-        assert_that("", yields_an_empty_sequence())
-
-    def test_invalid_json_yields_empty_sequence (self):
-        assert_that("{{{{{]]]", yields_an_empty_sequence())
-
-    def test_valid_empty_items_yields_empty_sequence (self):
-        assert_that('{"items":[]}', yields_an_empty_sequence())
-
-    def test_astro_json_yields_one_item (self):
-        data = get_hathi_data_from_json(EG_HATHI_ASTRO[0])
-        assert_that(data, evaluates_to_true())
