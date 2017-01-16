@@ -3,6 +3,14 @@
 # BSD License. See LICENSE.txt for details.
 import json
 
+class HathiItems:
+
+    def __init__ (self):
+        pass
+
+    def __len__ (self):
+        return 0
+
 def get_counts_from_item_list (items, htid):
     a = len([x for x in items if x["htid"] == htid])
     b = len(items) - a
@@ -18,4 +26,4 @@ def get_oclc_counts_from_json (json_data, htid = ""):
         return 0, 0
 
 def get_hathi_data_from_json ():
-    return ()
+    return HathiItems()
