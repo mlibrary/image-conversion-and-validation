@@ -5,14 +5,22 @@ import json
 
 class HathiItems:
 
-    def __init__ (self):
-        pass
+    def __init__ (self, json_data):
+        try:
+            self.data = json.loads(json_data)
+
+        except:
+            self.data = ()
 
     def __len__ (self):
-        return 0
+        return len(self.data)
 
     def __iter__ (self):
         return iter(())
+
+    def __repr__ (self):
+        return "<{} {}>".format(self.__class__.__name__,
+                                repr(self.data))
 
 def get_counts_from_item_list (items, htid):
     a = len([x for x in items if x["htid"] == htid])
@@ -29,4 +37,4 @@ def get_oclc_counts_from_json (json_data, htid = ""):
         return 0, 0
 
 def get_hathi_data_from_json (json_data = ""):
-    return HathiItems()
+    return HathiItems(json_data)
