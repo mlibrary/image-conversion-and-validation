@@ -2,7 +2,7 @@
 PROG="$0"
 USAGE="[-hv] [-b BASE] [-1 | -2]"
 VERBOSE=false
-BASE="$(dirname "$0")"
+BASE="$(dirname "$(dirname "$0")")"
 RUN_TWICE=false
 
 # Colorful logging.
