@@ -36,12 +36,15 @@ def load_json (json_data, default):
     except:
         return default
 
+def get_None_if_empty (container):
+    return container if container else None
+
 def get_titles_from_data (data):
     result = [ ]
     for x in data.get("records", { }).values():
         result.extend(x.get("titles", ()))
 
-    return result if result else None
+    return get_None_if_empty(result)
 
 def get_htids_from_data (data):
     result = [ ]
@@ -49,7 +52,7 @@ def get_htids_from_data (data):
         if "htid" in x:
             result.append(x["htid"])
 
-    return result if result else None
+    return get_None_if_empty(result)
 
 def get_hathi_data_from_json (json_data = ""):
     data = load_json(json_data, { })
