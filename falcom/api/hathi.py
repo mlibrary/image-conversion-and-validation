@@ -11,6 +11,9 @@ class HathiItems:
     def __len__ (self):
         return 0
 
+    def __iter__ (self):
+        return iter(())
+
 def get_counts_from_item_list (items, htid):
     a = len([x for x in items if x["htid"] == htid])
     b = len(items) - a

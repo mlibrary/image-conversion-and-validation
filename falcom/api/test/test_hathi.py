@@ -64,3 +64,4 @@ class HathiRecordDataTest (unittest.TestCase):
         data = get_hathi_data_from_json()
         assert_that(data, evaluates_to_false())
         assert_that(data, has_length(0))
+        assert_that(list(data), is_(equal_to([])))
