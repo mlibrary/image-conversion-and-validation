@@ -7,7 +7,7 @@ class HathiItems:
 
     def __init__ (self, json_data):
         try:
-            self.data = json.loads(json_data)
+            self.data = json.loads(json_data).get("items", ())
 
         except:
             self.data = ()

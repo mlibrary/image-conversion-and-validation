@@ -86,6 +86,9 @@ class HathiRecordDataTest (unittest.TestCase):
     def test_invalid_json_yields_empty_sequence (self):
         assert_that("{{{{{]]]", yields_an_empty_sequence())
 
+    def test_valid_empty_items_yields_empty_sequence (self):
+        assert_that('{"items":[]}', yields_an_empty_sequence())
+
     def test_astro_json_yields_one_item (self):
         data = get_hathi_data_from_json(EG_HATHI_ASTRO[0])
         assert_that(data, evaluates_to_true())
