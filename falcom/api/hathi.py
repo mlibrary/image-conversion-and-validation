@@ -39,10 +39,13 @@ def load_json (json_data, default):
 def get_None_if_empty (container):
     return container if container else None
 
+def title_lists_in_data (data):
+    return (x.get("titles", ()) for x in data.get("records", {}).values())
+
 def get_titles_from_data (data):
     result = [ ]
-    for x in data.get("records", { }).values():
-        result.extend(x.get("titles", ()))
+    for title_list in title_lists_in_data(data):
+        result.extend(title_list)
 
     return get_None_if_empty(result)
 
