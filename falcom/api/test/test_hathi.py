@@ -56,3 +56,8 @@ class HathiOclcCountsTest (unittest.TestCase):
 
     def test_multi_json_yields_1_3 (self):
         assert_that(EG_MULTI, yields_oclc_counts(1, 3))
+
+class HathiRecordDataTest (unittest.TestCase):
+
+    def test_nothing (self):
+        data = get_hathi_data_from_json()
