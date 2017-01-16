@@ -42,6 +42,12 @@ class an_empty_sequence (ComposedAssertion):
         yield has_length(0)
         yield list(item), is_(equal_to([]))
 
+class yields_an_empty_sequence (ComposedAssertion):
+
+    def assertion (self, item):
+        data = get_hathi_data_from_json(item)
+        yield data, is_(an_empty_sequence())
+
 class HathiOclcCountsTest (unittest.TestCase):
 
     def test_null_yields_0_0 (self):
@@ -72,5 +78,4 @@ class HathiRecordDataTest (unittest.TestCase):
         assert_that(data, is_(an_empty_sequence()))
 
     def test_None_yields_empty_sequence (self):
-        data = get_hathi_data_from_json(None)
-        assert_that(data, is_(an_empty_sequence()))
+        assert_that(None, yields_an_empty_sequence())
