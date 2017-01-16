@@ -35,6 +35,13 @@ class yields_oclc_counts (ComposedAssertion):
         actual = get_oclc_counts_from_json(*item)
         yield actual, is_(equal_to(self.expected))
 
+class an_empty_sequence (ComposedAssertion):
+
+    def assertion (self, item):
+        yield evaluates_to_false()
+        yield has_length(0)
+        yield list(item), is_(equal_to([]))
+
 class HathiOclcCountsTest (unittest.TestCase):
 
     def test_null_yields_0_0 (self):
@@ -62,6 +69,4 @@ class HathiRecordDataTest (unittest.TestCase):
 
     def test_nothing (self):
         data = get_hathi_data_from_json()
-        assert_that(data, evaluates_to_false())
-        assert_that(data, has_length(0))
-        assert_that(list(data), is_(equal_to([])))
+        assert_that(data, is_(an_empty_sequence()))
