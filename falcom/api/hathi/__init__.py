@@ -3,7 +3,7 @@
 # BSD License. See LICENSE.txt for details.
 import json
 
-from .common.read_only_data_structure import ReadOnlyDataStructure
+from ..common.read_only_data_structure import ReadOnlyDataStructure
 
 class HathiData (ReadOnlyDataStructure):
 
