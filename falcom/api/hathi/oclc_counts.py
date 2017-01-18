@@ -3,4 +3,7 @@
 # BSD License. See LICENSE.txt for details.
 
 from .from_json import get_hathi_data_from_json
-from .oclc_counts import get_oclc_counts_from_json
+
+def get_oclc_counts_from_json (json_data, htid = ""):
+    data = get_hathi_data_from_json(json_data)
+    return data.get_item_counts(htid)

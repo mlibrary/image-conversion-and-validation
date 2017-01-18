@@ -35,7 +35,3 @@ def get_hathi_data_from_json (json_data = ""):
     data = load_json(json_data, { })
     return HathiData(titles=get_titles_from_data(data),
                      htids=get_htids_from_data(data))
-
-def get_oclc_counts_from_json (json_data, htid = ""):
-    data = get_hathi_data_from_json(json_data)
-    return data.get_item_counts(htid)
