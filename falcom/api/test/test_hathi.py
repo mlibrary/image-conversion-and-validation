@@ -89,7 +89,22 @@ class HathiRecordDataTest (unittest.TestCase):
         assert_that('{"records":{},"items":[]}',
                     yields_empty_hathi_data())
 
-    def test_astro_json_yields_one_title_and_one_htid (self):
-        data = get_hathi_data_from_json(EG_HATHI_ASTRO[0])
-        assert_that(data.titles, has_length(1))
-        assert_that(data.htids, has_length(1))
+class HathiRecordDataGivenAstroJson (unittest.TestCase):
+
+    def setUp (self):
+        self.data = get_hathi_data_from_json(EG_HATHI_ASTRO[0])
+
+    def test_yields_one_title_and_one_htid (self):
+        assert_that(self.data.titles, has_length(1))
+        assert_that(self.data.htids, has_length(1))
+
+    def test_yields_no_title_matching_hey_sup (self):
+        assert_that(not self.data.has_title("hey sup"))
+
+    def test_yields_true_for_an_exact_match (self):
+        assert_that(self.data.has_title(
+                "Astronomical tables : manuscript, [17th century?]."))
+
+    def test_yields_true_for_a_loose_match (self):
+        assert_that(self.data.has_title(
+                "astronomical tables manuscript 17th century"))

@@ -101,12 +101,21 @@ echo_red_slow() {
   echo "                        [0m"
 }
 
+echo_red_text() {
+  if $RUN_TWICE; then
+    echo_red_slow
+
+  else
+    echo_red_normal
+  fi
+}
+
 run_slow_tests() {
   if SLOW_TESTS=1 run_tests; then
     echo_green
 
   else
-    echo_red_slow
+    echo_red_text
   fi
 }
 
