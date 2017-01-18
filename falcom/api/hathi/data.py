@@ -27,11 +27,8 @@ class HathiData (ReadOnlyDataStructure):
     def has_title (self, title):
         soft_title = self.__soften(title)
 
-        for title_to_check in self.titles:
-            if self.__are_soft_equal(title_to_check, soft_title):
-                return True
-
-        return False
+        return any(self.__are_soft_equal(x, soft_title)
+                for x in self.titles)
 
     def __are_soft_equal (self, text, already_softened_text):
         return self.__soften(text) == already_softened_text
