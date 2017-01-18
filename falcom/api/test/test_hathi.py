@@ -93,3 +93,7 @@ class HathiRecordDataTest (unittest.TestCase):
         data = get_hathi_data_from_json(EG_HATHI_ASTRO[0])
         assert_that(data.titles, has_length(1))
         assert_that(data.htids, has_length(1))
+
+    def test_astro_json_yields_no_title_matching_hey_sup (self):
+        data = get_hathi_data_from_json(EG_HATHI_ASTRO[0])
+        assert_that(not data.has_title("hey sup"))

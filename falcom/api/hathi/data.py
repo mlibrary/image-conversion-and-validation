@@ -19,3 +19,6 @@ class HathiData (ReadOnlyDataStructure):
         nonmatching_count = len(self.htids) - matching_count
 
         return matching_count, nonmatching_count
+
+    def has_title (self, title):
+        pass
