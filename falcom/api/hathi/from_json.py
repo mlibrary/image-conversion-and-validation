@@ -3,23 +3,7 @@
 # BSD License. See LICENSE.txt for details.
 import json
 
-from .common.read_only_data_structure import ReadOnlyDataStructure
-
-class HathiData (ReadOnlyDataStructure):
-
-    @property
-    def titles (self):
-        return self.get("titles", ())
-
-    @property
-    def htids (self):
-        return self.get("htids", ())
-
-    def get_item_counts (self, htid):
-        matching_count = len([x for x in self.htids if x == htid])
-        nonmatching_count = len(self.htids) - matching_count
-
-        return matching_count, nonmatching_count
+from .data import HathiData
 
 def load_json (json_data, default):
     try:
@@ -51,7 +35,3 @@ def get_hathi_data_from_json (json_data = ""):
     data = load_json(json_data, { })
     return HathiData(titles=get_titles_from_data(data),
                      htids=get_htids_from_data(data))
-
-def get_oclc_counts_from_json (json_data, htid = ""):
-    data = get_hathi_data_from_json(json_data)
-    return data.get_item_counts(htid)

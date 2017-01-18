@@ -7,5 +7,7 @@ python:
 - "3.6"
 - "nightly"
 - "pypy3"
+
+# This dependency is only required for testing.
 install: pip install PyHamcrest
 script: python -m unittest
