@@ -97,3 +97,8 @@ class HathiRecordDataTest (unittest.TestCase):
     def test_astro_json_yields_no_title_matching_hey_sup (self):
         data = get_hathi_data_from_json(EG_HATHI_ASTRO[0])
         assert_that(not data.has_title("hey sup"))
+
+    def test_astro_json_yields_true_for_an_exact_match (self):
+        data = get_hathi_data_from_json(EG_HATHI_ASTRO[0])
+        assert_that(data.has_title(
+                "Astronomical tables : manuscript, [17th century?]."))

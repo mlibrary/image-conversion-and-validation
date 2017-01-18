@@ -21,4 +21,4 @@ class HathiData (ReadOnlyDataStructure):
         return matching_count, nonmatching_count
 
     def has_title (self, title):
-        pass
+        return title in self.titles
