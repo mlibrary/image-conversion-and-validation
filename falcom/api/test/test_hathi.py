@@ -104,3 +104,7 @@ class HathiRecordDataGivenAstroJson (unittest.TestCase):
     def test_yields_true_for_an_exact_match (self):
         assert_that(self.data.has_title(
                 "Astronomical tables : manuscript, [17th century?]."))
+
+    def test_yields_true_for_a_loose_match (self):
+        assert_that(self.data.has_title(
+                "astronomical tables manuscript 17th century"))
