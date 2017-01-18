@@ -25,15 +25,16 @@ class HathiData (ReadOnlyDataStructure):
         return matching_count, nonmatching_count
 
     def has_title (self, title):
-        query = self.__soften(title)
+        soft_title = self.__soften(title)
 
         for title_to_check in self.titles:
-            x = self.__soften(title_to_check)
-
-            if x == query:
+            if self.__are_soft_equal(title_to_check, soft_title):
                 return True
 
         return False
+
+    def __are_soft_equal (self, text, already_softened_text):
+        return self.__soften(text) == already_softened_text
 
     def __soften (self, text):
         return self.__re_spaces.sub(" ", self.__re_symbol.sub("", text)).lower()
