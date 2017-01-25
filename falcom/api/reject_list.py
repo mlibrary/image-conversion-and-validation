@@ -8,7 +8,6 @@ from .uri import URI, APIQuerier
 from .marc import get_marc_data_from_xml
 from .worldcat import get_worldcat_data_from_json
 from .hathi import get_oclc_counts_from_json
-from .common import ReadOnlyDataStructure
 
 AlephURI = URI("http://mirlyn-aleph.lib.umich.edu/cgi-bin/bc2meta")
 WorldCatURI = URI("http://www.worldcat.org/webservices/catalog"
