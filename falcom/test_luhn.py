@@ -6,7 +6,7 @@ import unittest
 
 from .luhn import get_check_digit
 
-class Nothing (unittest.TestCase):
+class LuhnTest (unittest.TestCase):
 
-    def test_working_test_environment (self):
-        pass
+    def test_degenerate (self):
+        digit = get_check_digit()
