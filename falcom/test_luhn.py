@@ -4,7 +4,7 @@
 from hamcrest import *
 import unittest
 
-from .api.test.hamcrest import ComposedAssertion
+from .hamcrest import ComposedAssertion
 from .luhn import get_check_digit
 
 class yields_null_check_digit (ComposedAssertion):
