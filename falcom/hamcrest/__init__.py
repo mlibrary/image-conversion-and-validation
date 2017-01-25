@@ -4,38 +4,7 @@
 from hamcrest.core.base_matcher import BaseMatcher
 
 from .composed_assertion import ComposedAssertion
-
-class HasTruthiness (BaseMatcher):
-
-    def __init__ (self, expected):
-        self.expected = expected
-
-    def _matches (self, item):
-        return self.__get_bool_for(item) == self.expected
-
-    def describe_to (self, description):
-        description.append_text("an object with {} truthiness".format(
-                repr(self.expected)))
-
-    def describe_mismatch (self, item, description):
-        actual = self.__get_bool_for(item)
-
-        if actual is None:
-            description.append_text("no truthiness ") \
-                    .append_description_of(item)
-
-        else:
-            description.append_text("was {} ".format(actual)) \
-                    .append_description_of(item)
-
-    def __get_bool_for (self, item):
-        try:
-            result = bool(item)
-            if result is True or result is False:
-                return result
-
-        except:
-            pass
+from .truthiness import evaluates_to_true, evaluates_to_false
 
 class HasAttrs (BaseMatcher):
 
@@ -83,9 +52,3 @@ class HasAttrs (BaseMatcher):
 
         else:
             description.append_text("didn't have s." + self.problem)
-
-def evaluates_to_true():
-    return HasTruthiness(True)
-
-def evaluates_to_false():
-    return HasTruthiness(False)
