@@ -24,3 +24,7 @@ class LuhnTest (unittest.TestCase):
 
     def test_empty_str_yields_null (self):
         assert_that("", yields_null_check_digit())
+
+    def test_single_digits (self):
+        digit = get_check_digit("0")
+        assert_that(digit, is_(equal_to(0)))

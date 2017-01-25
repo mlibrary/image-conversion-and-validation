@@ -3,4 +3,8 @@
 # BSD License. See LICENSE.txt for details.
 
 def get_check_digit (number = None):
-    pass
+    if number:
+        return 0
+
+    else:
+        return None
