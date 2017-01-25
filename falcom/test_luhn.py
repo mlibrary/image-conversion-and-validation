@@ -8,5 +8,9 @@ from .luhn import get_check_digit
 
 class LuhnTest (unittest.TestCase):
 
-    def test_degenerate (self):
+    def test_empty_yields_null (self):
         digit = get_check_digit()
+        assert_that(digit, is_(none()))
+
+    def test_null_yields_null (self):
+        digit = get_check_digit(None)
