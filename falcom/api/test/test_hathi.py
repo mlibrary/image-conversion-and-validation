@@ -5,7 +5,7 @@ from hamcrest import *
 import os
 import unittest
 
-from .hamcrest import ComposedAssertion, \
+from ...hamcrest import ComposedAssertion, \
         evaluates_to_true, evaluates_to_false
 from ..hathi import get_oclc_counts_from_json, get_hathi_data_from_json
 
