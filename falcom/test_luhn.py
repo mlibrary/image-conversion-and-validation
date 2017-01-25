@@ -4,7 +4,14 @@
 from hamcrest import *
 import unittest
 
+from .api.test.hamcrest import ComposedAssertion
 from .luhn import get_check_digit
+
+class yields_null_check_digit (ComposedAssertion):
+
+    def assertion (self, item):
+        digit = get_check_digit(item)
+        yield digit, is_(none())
 
 class LuhnTest (unittest.TestCase):
 
@@ -13,9 +20,7 @@ class LuhnTest (unittest.TestCase):
         assert_that(digit, is_(none()))
 
     def test_null_yields_null (self):
-        digit = get_check_digit(None)
-        assert_that(digit, is_(none()))
+        assert_that(None, yields_null_check_digit())
 
     def test_empty_str_yields_null (self):
-        digit = get_check_digit("")
-        assert_that(digit, is_(none()))
+        assert_that("", yields_null_check_digit())
