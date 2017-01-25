@@ -13,6 +13,14 @@ class yields_null_check_digit (ComposedAssertion):
         digit = get_check_digit(item)
         yield digit, is_(none())
 
+class yields_check_digit (ComposedAssertion):
+
+    def __init__ (self, digit):
+        self.digit = digit
+
+    def assertion (self, item):
+        yield get_check_digit(item), is_(equal_to(self.digit))
+
 class LuhnTest (unittest.TestCase):
 
     def test_empty_yields_null (self):
@@ -26,5 +34,4 @@ class LuhnTest (unittest.TestCase):
         assert_that("", yields_null_check_digit())
 
     def test_single_digits (self):
-        digit = get_check_digit("0")
-        assert_that(digit, is_(equal_to(0)))
+        assert_that("0", yields_check_digit(0))
