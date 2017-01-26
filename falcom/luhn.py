@@ -16,7 +16,13 @@ def add_two_digits (two_digits):
     return first_digit + rotate_digit(second_digit)
 
 def get_check_digit_from_checkable_int (number):
-    return (9 * add_two_digits(number)) % 10
+    total = 0
+
+    while number > 0:
+        total += add_two_digits(number % 100)
+        number //= 100
+
+    return (9 * total) % 10
 
 def get_check_digit (number = None):
     if number:

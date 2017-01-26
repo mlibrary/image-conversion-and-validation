@@ -74,3 +74,8 @@ class LuhnTest (unittest.TestCase):
         assert_that("77", yields_check_digit(8))
         assert_that("87", yields_check_digit(7))
         assert_that("97", yields_check_digit(6))
+
+    def test_some_example_barcodes (self):
+        assert_that(3901507463984, yields_check_digit(3))
+        assert_that(3901507463986, yields_check_digit(8))
+        assert_that(3901508742754, yields_check_digit(1))
