@@ -24,13 +24,16 @@ def get_check_digit_from_checkable_int (number):
 
     return (9 * total) % 10
 
+def get_check_digit_if_convertable_to_int (number):
+    try:
+        return get_check_digit_from_checkable_int(int(number))
+
+    except ValueError:
+        return None
+
 def get_check_digit (number = None):
     if is_luhn_checkable(number):
-        try:
-            return get_check_digit_from_checkable_int(int(number))
-
-        except ValueError:
-            return None
+        return get_check_digit_if_convertable_to_int(number)
 
     else:
         return None
