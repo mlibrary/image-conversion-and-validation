@@ -45,7 +45,7 @@ def get_check_digit (number = None):
 def verify_check_digit (number = None):
     if is_luhn_checkable(number):
         number = int(number)
-        return number == 0 or number > 9
+        return number % 10 == get_check_digit(number // 10)
 
     else:
         return False
