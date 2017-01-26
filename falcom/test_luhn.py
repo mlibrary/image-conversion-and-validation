@@ -86,13 +86,24 @@ class LuhnTest (unittest.TestCase):
         assert_that(3901507463986, yields_check_digit(8))
         assert_that(3901508742754, yields_check_digit(1))
 
+class CheckDigitVerifiesAs (ComposedAssertion):
+
+    def __init__ (self, expected):
+        self.__expected = expected
+
+    def assertion (self, item):
+        yield verify_check_digit(item), equal_to(self.__expected)
+
+def an_invalid_luhn_number():
+    return CheckDigitVerifiesAs(False)
+
 class VerifyTest (unittest.TestCase):
 
     def test_empty_yields_false (self):
         assert_that(verify_check_digit(), is_(equal_to(False)))
 
     def test_null_yields_false (self):
-        assert_that(verify_check_digit(None), is_(equal_to(False)))
+        assert_that(None, is_(an_invalid_luhn_number()))
 
     def test_empty_str_yields_false (self):
-        assert_that(verify_check_digit(""), is_(equal_to(False)))
+        assert_that("", is_(an_invalid_luhn_number()))
