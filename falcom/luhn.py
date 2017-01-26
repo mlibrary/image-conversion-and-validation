@@ -39,4 +39,4 @@ def get_check_digit (number = None):
         return None
 
 def verify_check_digit (number = None):
-    return False
+    return number == 0

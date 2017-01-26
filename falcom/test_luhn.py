@@ -97,6 +97,9 @@ class CheckDigitVerifiesAs (ComposedAssertion):
 def an_invalid_luhn_number():
     return CheckDigitVerifiesAs(False)
 
+def a_valid_luhn_number():
+    return CheckDigitVerifiesAs(True)
+
 class VerifyTest (unittest.TestCase):
 
     def test_empty_yields_false (self):
@@ -109,5 +112,8 @@ class VerifyTest (unittest.TestCase):
         assert_that("", is_(an_invalid_luhn_number()))
 
     def test_single_digit_yields_false (self):
-        for i in range(10):
+        for i in range(1, 10):
             assert_that(i, is_(an_invalid_luhn_number()))
+
+    def test_zero_is_valid (self):
+        assert_that(0, is_(a_valid_luhn_number()))
