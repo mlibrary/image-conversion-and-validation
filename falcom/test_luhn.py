@@ -117,3 +117,6 @@ class VerifyTest (unittest.TestCase):
 
     def test_zero_is_valid (self):
         assert_that(0, is_(a_valid_luhn_number()))
+
+    def test_some_valid_double_digits (self):
+        assert_that(18, is_(a_valid_luhn_number()))

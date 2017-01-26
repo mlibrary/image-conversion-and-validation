@@ -3,7 +3,11 @@
 # BSD License. See LICENSE.txt for details.
 
 def is_luhn_checkable (number):
-    return bool(number) and isinstance(number, (str, int))
+    if isinstance(number, str):
+        return bool(number)
+
+    else:
+        return isinstance(number, int)
 
 def rotate_digit (digit):
     result = digit * 2
@@ -39,4 +43,8 @@ def get_check_digit (number = None):
         return None
 
 def verify_check_digit (number = None):
-    return number == 0
+    if is_luhn_checkable(number):
+        return number == 0 or number > 9
+
+    else:
+        return False
