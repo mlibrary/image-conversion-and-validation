@@ -3,11 +3,8 @@
 # BSD License. See LICENSE.txt for details.
 
 def rotate_digit (digit):
-    if digit > 4:
-        return (digit * 2) - 9
-
-    else:
-        return digit * 2
+    result = digit * 2
+    return result if result < 10 else result - 9
 
 def add_two_digits (two_digits):
     first_digit = two_digits // 10
