@@ -9,7 +9,7 @@ class LuhnNumber:
 
     def get_check_digit (self):
         if self:
-            return self.__get_check_digit_from_checkable_int()
+            return self.__get_check_digit_from_int(self.number)
 
         else:
             return None
@@ -38,9 +38,8 @@ class LuhnNumber:
         except ValueError:
             self.number = None
 
-    def __get_check_digit_from_checkable_int (self):
+    def __get_check_digit_from_int (self, n):
         total = 0
-        n = self.number
 
         while n > 0:
             total += self.__add_two_digits(n % 100)
