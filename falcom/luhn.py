@@ -5,10 +5,13 @@
 class LuhnNumber:
 
     def __init__ (self, number = None):
-        pass
+        self.number = number
 
     def __bool__ (self):
-        return False
+        return self.number == 0
+
+    def __repr__ (self):
+        return "<{}>".format(self.__class__.__name__)
 
 def is_luhn_checkable (number):
     if isinstance(number, str):

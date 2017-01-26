@@ -4,7 +4,8 @@
 from hamcrest import *
 import unittest
 
-from .hamcrest import ComposedAssertion, evaluates_to_false
+from .hamcrest import ComposedAssertion, \
+        evaluates_to_false, evaluates_to_true
 from .luhn import get_check_digit, verify_check_digit, LuhnNumber
 
 class yields_null_check_digit (ComposedAssertion):
@@ -162,3 +163,6 @@ class LuhnNumberClassTest (unittest.TestCase):
 
     def test_invalid_str (self):
         assert_that("B9032", is_(invalid_luhn_number_input()))
+
+    def test_zero (self):
+        assert_that(LuhnNumber(0), evaluates_to_true())
