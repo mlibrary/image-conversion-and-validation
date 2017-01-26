@@ -40,3 +40,7 @@ class LuhnTest (unittest.TestCase):
         assert_that("3", yields_check_digit(4))
         assert_that("4", yields_check_digit(2))
         assert_that("5", yields_check_digit(9))
+        assert_that("6", yields_check_digit(7))
+        assert_that("7", yields_check_digit(5))
+        assert_that("8", yields_check_digit(3))
+        assert_that("9", yields_check_digit(1))
