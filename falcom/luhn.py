@@ -25,7 +25,7 @@ def get_check_digit_from_checkable_int (number):
     return (9 * total) % 10
 
 def get_check_digit (number = None):
-    if number:
+    if number and isinstance(number, (str, int)):
         return get_check_digit_from_checkable_int(int(number))
 
     else:
