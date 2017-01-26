@@ -107,3 +107,7 @@ class VerifyTest (unittest.TestCase):
 
     def test_empty_str_yields_false (self):
         assert_that("", is_(an_invalid_luhn_number()))
+
+    def test_single_digit_yields_false (self):
+        for i in range(10):
+            assert_that(i, is_(an_invalid_luhn_number()))
