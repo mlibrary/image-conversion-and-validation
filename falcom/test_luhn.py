@@ -142,4 +142,7 @@ class VerifyTest (unittest.TestCase):
         assert_that(33, is_(an_invalid_luhn_number()))
         assert_that(44, is_(an_invalid_luhn_number()))
 
+class LuhnNumberClassTest (unittest.TestCase):
 
+    def test_degenerate (self):
+        obj = LuhnNumber()
