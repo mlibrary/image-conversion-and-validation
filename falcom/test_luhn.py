@@ -121,3 +121,11 @@ class VerifyTest (unittest.TestCase):
 
     def test_some_valid_double_digits (self):
         assert_that(18, is_(a_valid_luhn_number()))
+        assert_that(26, is_(a_valid_luhn_number()))
+        assert_that(34, is_(a_valid_luhn_number()))
+        assert_that(42, is_(a_valid_luhn_number()))
+        assert_that(59, is_(a_valid_luhn_number()))
+        assert_that(67, is_(a_valid_luhn_number()))
+        assert_that(75, is_(a_valid_luhn_number()))
+        assert_that(83, is_(a_valid_luhn_number()))
+        assert_that(91, is_(a_valid_luhn_number()))
