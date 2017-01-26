@@ -85,3 +85,8 @@ class LuhnTest (unittest.TestCase):
         assert_that(3901507463984, yields_check_digit(3))
         assert_that(3901507463986, yields_check_digit(8))
         assert_that(3901508742754, yields_check_digit(1))
+
+class VerifyTest (unittest.TestCase):
+
+    def test_degenerate (self):
+        assert_that(verify_check_digit(), is_(equal_to(False)))

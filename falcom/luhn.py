@@ -38,4 +38,5 @@ def get_check_digit (number = None):
     else:
         return None
 
-verify_check_digit = None
+def verify_check_digit ():
+    return False
