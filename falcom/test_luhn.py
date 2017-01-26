@@ -164,6 +164,9 @@ class LuhnNumberClassTest (unittest.TestCase):
     def test_invalid_str (self):
         assert_that("B9032", is_(invalid_luhn_number_input()))
 
+    def test_float (self):
+        assert_that(41.7, is_(invalid_luhn_number_input()))
+
     def test_zero (self):
         assert_that(LuhnNumber(0), evaluates_to_true())
         assert_that(LuhnNumber("0"), evaluates_to_true())
