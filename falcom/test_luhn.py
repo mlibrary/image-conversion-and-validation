@@ -35,3 +35,4 @@ class LuhnTest (unittest.TestCase):
 
     def test_single_digits (self):
         assert_that("0", yields_check_digit(0))
+        assert_that("1", yields_check_digit(8))

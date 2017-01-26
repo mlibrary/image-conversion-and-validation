@@ -4,7 +4,7 @@
 
 def get_check_digit (number = None):
     if number:
-        return 0
+        return (8 * int(number)) % 10
 
     else:
         return None
