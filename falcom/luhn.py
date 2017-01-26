@@ -9,8 +9,14 @@ def rotate_digit (digit):
     else:
         return digit * 2
 
+def add_two_digits (two_digits):
+    first_digit = two_digits // 10
+    second_digit = two_digits % 10
+
+    return first_digit + rotate_digit(second_digit)
+
 def get_check_digit_from_checkable_int (number):
-    return (9 * ((number // 10) + rotate_digit(number % 10))) % 10
+    return (9 * add_two_digits(number)) % 10
 
 def get_check_digit (number = None):
     if number:
