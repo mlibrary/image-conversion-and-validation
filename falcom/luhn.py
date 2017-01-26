@@ -2,6 +2,13 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
+def convert_into_luhn_checkable_int (number):
+    if number:
+        return int(number)
+
+    else:
+        return None
+
 def rotate_digit (digit):
     if digit > 4:
         return (digit * 2) - 9
@@ -10,8 +17,9 @@ def rotate_digit (digit):
         return digit * 2
 
 def get_check_digit (number = None):
-    if number:
-        return (9 * ((int(number) // 10) + rotate_digit(int(number) % 10))) % 10
+    number = convert_into_luhn_checkable_int(number)
 
-    else:
+    if number is None:
         return None
+
+    return (9 * ((number // 10) + rotate_digit(number % 10))) % 10
