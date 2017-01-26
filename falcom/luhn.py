@@ -11,7 +11,7 @@ def rotate_digit (digit):
 
 def get_check_digit (number = None):
     if number:
-        return (9 * rotate_digit(int(number))) % 10
+        return (9 * ((int(number) // 10) + rotate_digit(int(number) % 10))) % 10
 
     else:
         return None
