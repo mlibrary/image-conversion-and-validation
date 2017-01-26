@@ -5,7 +5,7 @@ from hamcrest import *
 import unittest
 
 from .hamcrest import ComposedAssertion
-from .luhn import get_check_digit, verify_check_digit
+from .luhn import get_check_digit, verify_check_digit, LuhnNumber
 
 class yields_null_check_digit (ComposedAssertion):
 
@@ -141,3 +141,5 @@ class VerifyTest (unittest.TestCase):
         assert_that(22, is_(an_invalid_luhn_number()))
         assert_that(33, is_(an_invalid_luhn_number()))
         assert_that(44, is_(an_invalid_luhn_number()))
+
+

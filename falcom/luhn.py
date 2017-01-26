@@ -2,6 +2,8 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
+LuhnNumber = None
+
 def is_luhn_checkable (number):
     if isinstance(number, str):
         return bool(number)
