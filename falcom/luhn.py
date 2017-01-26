@@ -62,26 +62,6 @@ def is_luhn_checkable (number):
     else:
         return isinstance(number, int)
 
-def rotate_digit (digit):
-    result = digit * 2
-    return result if result < 10 else result - 9
-
-def add_two_digits (two_digits):
-    first_digit = two_digits // 10
-    second_digit = two_digits % 10
-
-    return first_digit + rotate_digit(second_digit)
-
-def get_check_digit_from_checkable_int (number):
-    pass
-
-def get_check_digit_if_convertable_to_int (number):
-    try:
-        return get_check_digit_from_checkable_int(int(number))
-
-    except ValueError:
-        return None
-
 def get_check_digit (number = None):
     n = LuhnNumber(number)
     return n.get_check_digit()
