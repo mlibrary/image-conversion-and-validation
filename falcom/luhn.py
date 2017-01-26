@@ -3,7 +3,9 @@
 # BSD License. See LICENSE.txt for details.
 
 class LuhnNumber:
-    pass
+
+    def __bool__ (self):
+        return False
 
 def is_luhn_checkable (number):
     if isinstance(number, str):
