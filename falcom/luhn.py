@@ -5,13 +5,22 @@
 class LuhnNumber:
 
     def __init__ (self, number = None):
-        self.number = number
+        if number is None:
+            self.number = None
+
+        else:
+            try:
+                self.number = int(number)
+
+            except ValueError:
+                self.number = None
 
     def __bool__ (self):
         return self.number == 0
 
     def __repr__ (self):
-        return "<{}>".format(self.__class__.__name__)
+        return "<{} {}>".format(self.__class__.__name__,
+                                repr(self.number))
 
 def is_luhn_checkable (number):
     if isinstance(number, str):
