@@ -5,6 +5,16 @@
 class LuhnNumber:
 
     def __init__ (self, number = None):
+        self.__set_number(number)
+
+    def __bool__ (self):
+        return self.number == 0
+
+    def __repr__ (self):
+        return "<{} {}>".format(self.__class__.__name__,
+                                repr(self.number))
+
+    def __set_number (self, number):
         if isinstance(number, int):
             self.number = number
 
@@ -13,13 +23,6 @@ class LuhnNumber:
 
         else:
             self.number = None
-
-    def __bool__ (self):
-        return self.number == 0
-
-    def __repr__ (self):
-        return "<{} {}>".format(self.__class__.__name__,
-                                repr(self.number))
 
     def __try_to_extract_number_from_str (self, number):
         try:
