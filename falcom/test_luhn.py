@@ -5,7 +5,7 @@ from hamcrest import *
 import unittest
 
 from .hamcrest import ComposedAssertion
-from .luhn import get_check_digit
+from .luhn import get_check_digit, verify_check_digit
 
 class yields_null_check_digit (ComposedAssertion):
 
@@ -38,6 +38,9 @@ class LuhnTest (unittest.TestCase):
 
     def test_non_int_str_yields_null (self):
         assert_that("B637281", yields_null_check_digit())
+
+    def test_zero_yields_zero (self):
+        assert_that(0, yields_check_digit(0))
 
     def test_single_digits (self):
         assert_that("0", yields_check_digit(0))
@@ -85,3 +88,56 @@ class LuhnTest (unittest.TestCase):
         assert_that(3901507463984, yields_check_digit(3))
         assert_that(3901507463986, yields_check_digit(8))
         assert_that(3901508742754, yields_check_digit(1))
+
+class CheckDigitVerifiesAs (ComposedAssertion):
+
+    def __init__ (self, expected):
+        self.__expected = expected
+
+    def assertion (self, item):
+        yield verify_check_digit(item), equal_to(self.__expected)
+
+def an_invalid_luhn_number():
+    return CheckDigitVerifiesAs(False)
+
+def a_valid_luhn_number():
+    return CheckDigitVerifiesAs(True)
+
+class VerifyTest (unittest.TestCase):
+
+    def test_empty_yields_false (self):
+        assert_that(verify_check_digit(), is_(equal_to(False)))
+
+    def test_null_yields_false (self):
+        assert_that(None, is_(an_invalid_luhn_number()))
+
+    def test_empty_str_yields_false (self):
+        assert_that("", is_(an_invalid_luhn_number()))
+
+    def test_non_int_str_yields_false (self):
+        assert_that("B127380", is_(an_invalid_luhn_number()))
+
+    def test_single_digit_yields_false (self):
+        for i in range(1, 10):
+            assert_that(i, is_(an_invalid_luhn_number()))
+
+    def test_zero_is_valid (self):
+        assert_that(0, is_(a_valid_luhn_number()))
+        assert_that("0", is_(a_valid_luhn_number()))
+
+    def test_some_valid_double_digits (self):
+        assert_that(18, is_(a_valid_luhn_number()))
+        assert_that(26, is_(a_valid_luhn_number()))
+        assert_that(34, is_(a_valid_luhn_number()))
+        assert_that(42, is_(a_valid_luhn_number()))
+        assert_that(59, is_(a_valid_luhn_number()))
+        assert_that(67, is_(a_valid_luhn_number()))
+        assert_that(75, is_(a_valid_luhn_number()))
+        assert_that(83, is_(a_valid_luhn_number()))
+        assert_that(91, is_(a_valid_luhn_number()))
+
+    def test_some_invalid_double_digits (self):
+        assert_that(11, is_(an_invalid_luhn_number()))
+        assert_that(22, is_(an_invalid_luhn_number()))
+        assert_that(33, is_(an_invalid_luhn_number()))
+        assert_that(44, is_(an_invalid_luhn_number()))
