@@ -42,13 +42,16 @@ def get_check_digit (number = None):
     else:
         return None
 
+def convert_to_int (number):
+    try:
+        return int(number)
+
+    except ValueError:
+        return 1
+
 def verify_check_digit (number = None):
     if is_luhn_checkable(number):
-        try:
-            number = int(number)
-
-        except ValueError:
-            return False
+        number = convert_to_int(number)
 
         return number % 10 == get_check_digit(number // 10)
 
