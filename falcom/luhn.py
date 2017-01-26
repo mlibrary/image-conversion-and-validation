@@ -9,7 +9,7 @@ class LuhnNumber:
 
     def get_check_digit (self):
         if self:
-            return get_check_digit_if_convertable_to_int(self.number)
+            return get_check_digit_from_checkable_int(self.number)
 
         else:
             return None
