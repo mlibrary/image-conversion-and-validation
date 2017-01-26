@@ -93,3 +93,6 @@ class VerifyTest (unittest.TestCase):
 
     def test_null_yields_false (self):
         assert_that(verify_check_digit(None), is_(equal_to(False)))
+
+    def test_empty_str_yields_false (self):
+        assert_that(verify_check_digit(""), is_(equal_to(False)))
