@@ -2,58 +2,71 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
-def is_luhn_checkable (number):
-    if isinstance(number, str):
-        return bool(number)
+class LuhnNumber:
 
-    else:
-        return isinstance(number, int)
+    def __init__ (self, number = None):
+        self.__set_number(number)
 
-def rotate_digit (digit):
-    result = digit * 2
-    return result if result < 10 else result - 9
+    def get_check_digit (self):
+        if self:
+            return self.__get_check_digit_from_int(self.number)
 
-def add_two_digits (two_digits):
-    first_digit = two_digits // 10
-    second_digit = two_digits % 10
+        else:
+            return None
 
-    return first_digit + rotate_digit(second_digit)
+    def has_valid_check_digit (self):
+        if self:
+            digit = self.number % 10
+            static = self.number // 10
+            return digit == self.__get_check_digit_from_int(static)
 
-def get_check_digit_from_checkable_int (number):
-    total = 0
+        else:
+            return False
 
-    while number > 0:
-        total += add_two_digits(number % 100)
-        number //= 100
+    def __bool__ (self):
+        return self.number is not None
 
-    return (9 * total) % 10
+    def __repr__ (self):
+        return "<{} {}>".format(self.__class__.__name__,
+                                repr(self.number))
 
-def get_check_digit_if_convertable_to_int (number):
-    try:
-        return get_check_digit_from_checkable_int(int(number))
+    def __set_number (self, number):
+        if isinstance(number, int):
+            self.number = number
 
-    except ValueError:
-        return None
+        elif isinstance(number, str):
+            self.__try_to_extract_number_from_str(number)
+
+        else:
+            self.number = None
+
+    def __try_to_extract_number_from_str (self, number):
+        try:
+            self.number = int(number)
+
+        except ValueError:
+            self.number = None
+
+    def __get_check_digit_from_int (self, n):
+        total = 0
+
+        while n > 0:
+            total += self.__add_two_digits(n % 100)
+            n //= 100
+
+        return (9 * total) % 10
+
+    def __add_two_digits (self, n):
+        return (n // 10) + self.__rotate_digit(n % 10)
+
+    def __rotate_digit (self, n):
+        result = n * 2
+        return result if result < 10 else result - 9
 
 def get_check_digit (number = None):
-    if is_luhn_checkable(number):
-        return get_check_digit_if_convertable_to_int(number)
-
-    else:
-        return None
-
-def convert_to_int (number):
-    try:
-        return int(number)
-
-    except ValueError:
-        return 1
+    n = LuhnNumber(number)
+    return n.get_check_digit()
 
 def verify_check_digit (number = None):
-    if is_luhn_checkable(number):
-        number = convert_to_int(number)
-
-        return number % 10 == get_check_digit(number // 10)
-
-    else:
-        return False
+    n = LuhnNumber(number)
+    return n.has_valid_check_digit()
