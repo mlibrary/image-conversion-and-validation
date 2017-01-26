@@ -7,6 +7,13 @@ class LuhnNumber:
     def __init__ (self, number = None):
         self.__set_number(number)
 
+    def get_check_digit (self):
+        if self:
+            return get_check_digit_if_convertable_to_int(self.number)
+
+        else:
+            return None
+
     def __bool__ (self):
         return self.number is not None
 
@@ -65,11 +72,8 @@ def get_check_digit_if_convertable_to_int (number):
         return None
 
 def get_check_digit (number = None):
-    if is_luhn_checkable(number):
-        return get_check_digit_if_convertable_to_int(number)
-
-    else:
-        return None
+    n = LuhnNumber(number)
+    return n.get_check_digit()
 
 def convert_to_int (number):
     try:
