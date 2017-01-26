@@ -5,15 +5,14 @@
 class LuhnNumber:
 
     def __init__ (self, number = None):
-        if number is None:
-            self.number = None
+        if isinstance(number, int):
+            self.number = number
+
+        elif isinstance(number, str):
+            self.__try_to_extract_number_from_str(number)
 
         else:
-            try:
-                self.number = int(number)
-
-            except ValueError:
-                self.number = None
+            self.number = None
 
     def __bool__ (self):
         return self.number == 0
@@ -21,6 +20,13 @@ class LuhnNumber:
     def __repr__ (self):
         return "<{} {}>".format(self.__class__.__name__,
                                 repr(self.number))
+
+    def __try_to_extract_number_from_str (self, number):
+        try:
+            self.number = int(number)
+
+        except ValueError:
+            self.number = None
 
 def is_luhn_checkable (number):
     if isinstance(number, str):
