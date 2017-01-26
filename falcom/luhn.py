@@ -14,16 +14,6 @@ class LuhnNumber:
         else:
             return None
 
-    def __get_check_digit_from_checkable_int (self):
-        total = 0
-        n = self.number
-
-        while n > 0:
-            total += add_two_digits(n % 100)
-            n //= 100
-
-        return (9 * total) % 10
-
     def __bool__ (self):
         return self.number is not None
 
@@ -47,6 +37,23 @@ class LuhnNumber:
 
         except ValueError:
             self.number = None
+
+    def __get_check_digit_from_checkable_int (self):
+        total = 0
+        n = self.number
+
+        while n > 0:
+            total += self.__add_two_digits(n % 100)
+            n //= 100
+
+        return (9 * total) % 10
+
+    def __add_two_digits (self, n):
+        return (n // 10) + self.__rotate_digit(n % 10)
+
+    def __rotate_digit (self, n):
+        result = n * 2
+        return result if result < 10 else result - 9
 
 def is_luhn_checkable (number):
     if isinstance(number, str):
