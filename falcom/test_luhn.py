@@ -144,10 +144,18 @@ class VerifyTest (unittest.TestCase):
 
 class LuhnNumberClassTest (unittest.TestCase):
 
-    def test_degenerate (self):
+    def test_no_args (self):
         obj = LuhnNumber()
         assert_that(obj, evaluates_to_false())
 
     def test_null (self):
         obj = LuhnNumber(None)
+        assert_that(obj, evaluates_to_false())
+
+    def test_empty_str (self):
+        obj = LuhnNumber("")
+        assert_that(obj, evaluates_to_false())
+
+    def test_invalid_str (self):
+        obj = LuhnNumber("B9032")
         assert_that(obj, evaluates_to_false())
