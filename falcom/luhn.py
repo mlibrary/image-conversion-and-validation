@@ -4,6 +4,9 @@
 
 class LuhnNumber:
 
+    def __init__ (self, number = None):
+        pass
+
     def __bool__ (self):
         return False
 

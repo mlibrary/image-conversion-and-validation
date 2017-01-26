@@ -147,3 +147,7 @@ class LuhnNumberClassTest (unittest.TestCase):
     def test_degenerate (self):
         obj = LuhnNumber()
         assert_that(obj, evaluates_to_false())
+
+    def test_null (self):
+        obj = LuhnNumber(None)
+        assert_that(obj, evaluates_to_false())
