@@ -142,6 +142,12 @@ class VerifyTest (unittest.TestCase):
         assert_that(33, is_(an_invalid_luhn_number()))
         assert_that(44, is_(an_invalid_luhn_number()))
 
+class invalid_luhn_number_input (ComposedAssertion):
+
+    def assertion (self, item):
+        obj = LuhnNumber(item)
+        yield obj, evaluates_to_false()
+
 class LuhnNumberClassTest (unittest.TestCase):
 
     def test_no_args (self):
@@ -149,13 +155,10 @@ class LuhnNumberClassTest (unittest.TestCase):
         assert_that(obj, evaluates_to_false())
 
     def test_null (self):
-        obj = LuhnNumber(None)
-        assert_that(obj, evaluates_to_false())
+        assert_that(None, is_(invalid_luhn_number_input()))
 
     def test_empty_str (self):
-        obj = LuhnNumber("")
-        assert_that(obj, evaluates_to_false())
+        assert_that("", is_(invalid_luhn_number_input()))
 
     def test_invalid_str (self):
-        obj = LuhnNumber("B9032")
-        assert_that(obj, evaluates_to_false())
+        assert_that("B9032", is_(invalid_luhn_number_input()))
