@@ -8,7 +8,7 @@ class LuhnNumber:
         self.__set_number(number)
 
     def __bool__ (self):
-        return self.number == 0
+        return self.number is not None
 
     def __repr__ (self):
         return "<{} {}>".format(self.__class__.__name__,

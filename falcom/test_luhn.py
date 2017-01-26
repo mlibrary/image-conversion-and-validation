@@ -170,3 +170,7 @@ class LuhnNumberClassTest (unittest.TestCase):
     def test_zero (self):
         assert_that(LuhnNumber(0), evaluates_to_true())
         assert_that(LuhnNumber("0"), evaluates_to_true())
+
+    def test_one (self):
+        assert_that(LuhnNumber(1), evaluates_to_true())
+        assert_that(LuhnNumber("1"), evaluates_to_true())
