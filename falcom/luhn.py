@@ -24,8 +24,11 @@ def get_check_digit_from_checkable_int (number):
 
     return (9 * total) % 10
 
+def is_luhn_checkable (number):
+    return bool(number) and isinstance(number, (str, int))
+
 def get_check_digit (number = None):
-    if number and isinstance(number, (str, int)):
+    if is_luhn_checkable(number):
         return get_check_digit_from_checkable_int(int(number))
 
     else:
