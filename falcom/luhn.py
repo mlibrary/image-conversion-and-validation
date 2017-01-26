@@ -14,6 +14,15 @@ class LuhnNumber:
         else:
             return None
 
+    def has_valid_check_digit (self):
+        if self:
+            digit = self.number % 10
+            static = self.number // 10
+            return digit == self.__get_check_digit_from_int(static)
+
+        else:
+            return False
+
     def __bool__ (self):
         return self.number is not None
 
@@ -54,29 +63,10 @@ class LuhnNumber:
         result = n * 2
         return result if result < 10 else result - 9
 
-def is_luhn_checkable (number):
-    if isinstance(number, str):
-        return bool(number)
-
-    else:
-        return isinstance(number, int)
-
 def get_check_digit (number = None):
     n = LuhnNumber(number)
     return n.get_check_digit()
 
-def convert_to_int (number):
-    try:
-        return int(number)
-
-    except ValueError:
-        return 1
-
 def verify_check_digit (number = None):
-    if is_luhn_checkable(number):
-        number = convert_to_int(number)
-
-        return number % 10 == get_check_digit(number // 10)
-
-    else:
-        return False
+    n = LuhnNumber(number)
+    return n.has_valid_check_digit()
