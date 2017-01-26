@@ -2,6 +2,9 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
+def is_luhn_checkable (number):
+    return bool(number) and isinstance(number, (str, int))
+
 def rotate_digit (digit):
     result = digit * 2
     return result if result < 10 else result - 9
@@ -21,12 +24,13 @@ def get_check_digit_from_checkable_int (number):
 
     return (9 * total) % 10
 
-def is_luhn_checkable (number):
-    return bool(number) and isinstance(number, (str, int))
-
 def get_check_digit (number = None):
     if is_luhn_checkable(number):
-        return get_check_digit_from_checkable_int(int(number))
+        try:
+            return get_check_digit_from_checkable_int(int(number))
+
+        except ValueError:
+            return None
 
     else:
         return None

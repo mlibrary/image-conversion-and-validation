@@ -36,6 +36,9 @@ class LuhnTest (unittest.TestCase):
     def test_float_yields_null (self):
         assert_that(5.5, yields_null_check_digit())
 
+    def test_non_int_str_yields_null (self):
+        assert_that("B637281", yields_null_check_digit())
+
     def test_single_digits (self):
         assert_that("0", yields_check_digit(0))
         assert_that("1", yields_check_digit(8))
