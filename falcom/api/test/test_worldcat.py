@@ -5,7 +5,7 @@ from hamcrest import *
 import os
 import unittest
 
-from ...hamcrest import ComposedAssertion, \
+from ...test.hamcrest import ComposedAssertion, \
         evaluates_to_false, evaluates_to_true
 from ..worldcat import *
 

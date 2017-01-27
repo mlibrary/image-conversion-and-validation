@@ -7,7 +7,7 @@ import unittest
 import xml.etree.ElementTree as ET
 
 from ..marc import *
-from ...hamcrest import ComposedAssertion, HasAttrs, \
+from ...test.hamcrest import ComposedAssertion, HasAttrs, \
         evaluates_to_true, evaluates_to_false
 
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
