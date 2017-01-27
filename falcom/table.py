@@ -10,5 +10,8 @@ class Table:
     def __iter__ (self):
         return iter(())
 
+    def __getitem__ (self, key):
+        raise IndexError
+
     def __repr__ (self):
         return "<{}>".format(self.__class__.__name__)
