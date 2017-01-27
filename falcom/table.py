@@ -3,4 +3,6 @@
 # BSD License. See LICENSE.txt for details.
 
 class Table:
-    pass
+
+    def __bool__ (self):
+        return False

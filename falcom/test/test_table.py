@@ -4,10 +4,12 @@
 from hamcrest import *
 import unittest
 
-from .hamcrest import ComposedAssertion
+from .hamcrest import ComposedAssertion, \
+        evaluates_to_false, evaluates_to_true
 from ..table import Table
 
 class TableTest (unittest.TestCase):
 
     def test_degenerate (self):
         table = Table()
+        assert_that(table, evaluates_to_false())
