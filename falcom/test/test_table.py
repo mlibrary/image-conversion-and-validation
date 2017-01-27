@@ -5,6 +5,7 @@ from hamcrest import *
 import unittest
 
 from .hamcrest import ComposedAssertion
+from ..table import Table
 
 class TableTest (unittest.TestCase):
 
