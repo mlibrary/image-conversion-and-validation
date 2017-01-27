@@ -4,6 +4,8 @@
 
 class Table:
 
+    rows = 0
+
     def __len__ (self):
         return 0
 
