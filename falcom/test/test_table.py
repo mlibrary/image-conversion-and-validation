@@ -9,5 +9,5 @@ from ..table import Table
 
 class TableTest (unittest.TestCase):
 
-    def test_working_environment (self):
-        pass
+    def test_degenerate (self):
+        table = Table()
