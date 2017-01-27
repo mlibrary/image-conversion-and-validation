@@ -2,14 +2,14 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
-class LuhnNumber:
+class CheckDigitNumber:
 
     def __init__ (self, number = None):
         self.__set_number(number)
 
     def get_check_digit (self):
         if self:
-            return self.__get_check_digit_from_int(self.number)
+            return self.generate_from_int(self.number)
 
         else:
             return None
@@ -18,7 +18,7 @@ class LuhnNumber:
         if self:
             digit = self.number % 10
             static = self.number // 10
-            return digit == self.__get_check_digit_from_int(static)
+            return digit == self.generate_from_int(static)
 
         else:
             return False
@@ -46,27 +46,3 @@ class LuhnNumber:
 
         except ValueError:
             self.number = None
-
-    def __get_check_digit_from_int (self, n):
-        total = 0
-
-        while n > 0:
-            total += self.__add_two_digits(n % 100)
-            n //= 100
-
-        return (9 * total) % 10
-
-    def __add_two_digits (self, n):
-        return (n // 10) + self.__rotate_digit(n % 10)
-
-    def __rotate_digit (self, n):
-        result = n * 2
-        return result if result < 10 else result - 9
-
-def get_check_digit (number = None):
-    n = LuhnNumber(number)
-    return n.get_check_digit()
-
-def verify_check_digit (number = None):
-    n = LuhnNumber(number)
-    return n.has_valid_check_digit()
