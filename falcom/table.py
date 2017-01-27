@@ -5,6 +5,7 @@
 class Table:
 
     rows = 0
+    cols = 0
 
     def __len__ (self):
         return 0
