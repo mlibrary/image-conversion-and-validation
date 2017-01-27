@@ -13,3 +13,4 @@ class TableTest (unittest.TestCase):
     def test_degenerate (self):
         table = Table()
         assert_that(table, evaluates_to_false())
+        assert_that(table, has_length(0))
