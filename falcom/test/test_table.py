@@ -22,5 +22,7 @@ class an_empty_table (ComposedAssertion):
 class TableTest (unittest.TestCase):
 
     def test_degenerate (self):
-        table = Table()
-        assert_that(table, is_(an_empty_table()))
+        assert_that(Table(), is_(an_empty_table()))
+
+    def test_None_yields_empty_table (self):
+        assert_that(Table(None), is_(an_empty_table()))

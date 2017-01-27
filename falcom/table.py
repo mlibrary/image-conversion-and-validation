@@ -7,6 +7,9 @@ class Table:
     rows = 0
     cols = 0
 
+    def __init__ (self, tabbed_text = None):
+        pass
+
     def __len__ (self):
         return 0
 
