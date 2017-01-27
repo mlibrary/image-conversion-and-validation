@@ -14,3 +14,4 @@ class TableTest (unittest.TestCase):
         table = Table()
         assert_that(table, evaluates_to_false())
         assert_that(table, has_length(0))
+        assert_that(list(table), is_(equal_to([])))
