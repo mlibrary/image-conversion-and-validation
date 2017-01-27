@@ -6,7 +6,7 @@ import unittest
 
 from .hamcrest import ComposedAssertion, \
         evaluates_to_false, evaluates_to_true
-from .luhn import get_check_digit, verify_check_digit, LuhnNumber
+from ..luhn import get_check_digit, verify_check_digit, LuhnNumber
 
 class yields_null_check_digit (ComposedAssertion):
 

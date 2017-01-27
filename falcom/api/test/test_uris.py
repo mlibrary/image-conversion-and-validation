@@ -4,7 +4,7 @@
 from hamcrest import *
 import unittest
 
-from ...hamcrest import ComposedAssertion, \
+from ...test.hamcrest import ComposedAssertion, \
         evaluates_to_true, evaluates_to_false
 from ..uri import URI, APIQuerier
 
