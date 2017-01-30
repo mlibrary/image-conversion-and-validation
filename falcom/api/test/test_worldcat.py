@@ -5,7 +5,7 @@ from hamcrest import *
 import os
 import unittest
 
-from ...test.hamcrest import ComposedAssertion, \
+from ...test.hamcrest import ComposedMatcher, \
         evaluates_to_false, evaluates_to_true
 from ..worldcat import *
 
@@ -21,7 +21,7 @@ EG_OCLC_ASTRO = readfile("worldcat-706055947.json")
 EG_OCLC_BUSINESS = readfile("worldcat-756167029.json")
 EG_OCLC_MIDAILY = readfile("worldcat-009651208.json")
 
-class yields_empty_worldcat_data (ComposedAssertion):
+class yields_empty_worldcat_data (ComposedMatcher):
 
     def assertion (self, item):
         data = get_worldcat_data_from_json(item)
@@ -30,7 +30,7 @@ class yields_empty_worldcat_data (ComposedAssertion):
         yield list(data), is_(equal_to([]))
         yield data.title, is_(none()), "title"
 
-class yields_worldcat_data (ComposedAssertion):
+class yields_worldcat_data (ComposedMatcher):
 
     def __init__ (self, title, libraries):
         self.title = title

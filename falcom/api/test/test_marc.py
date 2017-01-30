@@ -7,7 +7,7 @@ import unittest
 import xml.etree.ElementTree as ET
 
 from ..marc import *
-from ...test.hamcrest import ComposedAssertion, HasAttrs, \
+from ...test.hamcrest import ComposedMatcher, HasAttrs, \
         evaluates_to_true, evaluates_to_false
 
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
@@ -30,7 +30,7 @@ EG_MARC_AUTHOR_130 = readfile("39015050666182.xml")
 def has_marc_attrs(**kwargs):
     return HasAttrs("MARC attrs", **kwargs)
 
-class YieldsParticularMarcData (ComposedAssertion):
+class YieldsParticularMarcData (ComposedMatcher):
 
     def __init__ (self, eval_to_true = True, **kwargs):
         self.eval_to_true = eval_to_true

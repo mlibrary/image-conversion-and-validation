@@ -2,6 +2,6 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
-from .composed_assertion import ComposedAssertion
+from .composed_matcher import ComposedMatcher
 from .has_attrs import HasAttrs
 from .truthiness import evaluates_to_true, evaluates_to_false

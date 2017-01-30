@@ -4,20 +4,30 @@
 
 class Table:
 
-    rows = 0
-    cols = 0
+    def __init__ (self, tab_separated_text = None):
+        self.text = tab_separated_text
 
-    def __init__ (self, tabbed_text = None):
-        pass
+    @property
+    def rows (self):
+        return len(self)
+
+    @property
+    def cols (self):
+        return len(self)
 
     def __len__ (self):
-        return 0
+        return 1 if self.text else 0
 
     def __iter__ (self):
-        return iter(())
+        return iter(((self.text,),)) if self.text else iter(())
 
     def __getitem__ (self, key):
-        raise IndexError
+        if self.text and key == 0:
+            return (self.text,)
+
+        else:
+            raise IndexError
 
     def __repr__ (self):
-        return "<{}>".format(self.__class__.__name__)
+        return "<{} {}>".format(self.__class__.__name__,
+                                repr(self.text))

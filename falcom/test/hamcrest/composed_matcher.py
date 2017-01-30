@@ -3,7 +3,7 @@
 # BSD License. See LICENSE.txt for details.
 from hamcrest.core.base_matcher import BaseMatcher
 
-class ComposedAssertion (BaseMatcher):
+class ComposedMatcher (BaseMatcher):
 
     def _matches (self, item):
         self.failed_matcher = None

@@ -4,20 +4,56 @@
 from hamcrest import *
 import unittest
 
-from .hamcrest import ComposedAssertion, \
+from .hamcrest import ComposedMatcher, \
         evaluates_to_false, evaluates_to_true
 from ..table import Table
 
-class an_empty_table (ComposedAssertion):
+class an_internally_consistent_table (ComposedMatcher):
 
     def assertion (self, item):
+        expected_cols = 0
+
+        i = 0
+        for row in item:
+            yield row, is_(instance_of(tuple))
+            yield item[i], is_(equal_to(row))
+
+            if expected_cols:
+                yield row, has_length(expected_cols), \
+                        "same column counts in each row"
+
+            else:
+                yield row, has_length(greater_than(0)), \
+                        "rows must have at least one column"
+
+                expected_cols = len(row)
+
+            i += 1
+
+        if i:
+            yield item, evaluates_to_true()
+
+        else:
+            yield item, evaluates_to_false()
+
+        yield item, has_length(i), "length matches iteration"
+        yield item.rows, is_(equal_to(i)), "row count"
+        yield item.cols, is_(equal_to(expected_cols)), "column count"
+
+        yield calling(lambda t: t[i]).with_args(item), \
+              raises(IndexError), "no row with index {}".format(i)
+
+class an_empty_table (ComposedMatcher):
+
+    def assertion (self, item):
+        yield item, is_(an_internally_consistent_table())
         yield item, evaluates_to_false()
-        yield item, has_length(0)
-        yield item.rows, is_(equal_to(0))
-        yield item.cols, is_(equal_to(0))
-        yield list(item), is_(equal_to([]))
-        yield calling(lambda t: t[0]).with_args(item), \
-              raises(IndexError)
+
+class yields_an_empty_table (ComposedMatcher):
+
+    def assertion (self, item):
+        table = Table(item)
+        yield table, is_(an_empty_table())
 
 class TableTest (unittest.TestCase):
 
@@ -25,4 +61,13 @@ class TableTest (unittest.TestCase):
         assert_that(Table(), is_(an_empty_table()))
 
     def test_None_yields_empty_table (self):
-        assert_that(Table(None), is_(an_empty_table()))
+        assert_that(None, yields_an_empty_table())
+
+    def test_empty_str_yields_empty_table (self):
+        assert_that("", yields_an_empty_table())
+
+    def test_single_char_yields_1_row_1_col (self):
+        table = Table("a")
+        assert_that(table, is_(an_internally_consistent_table()))
+        assert_that(table, has_length(1))
+        assert_that(table[0][0], is_(equal_to("a")))
