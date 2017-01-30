@@ -103,3 +103,8 @@ class TableTest (unittest.TestCase):
         self.init_table("a\tb\nc\td\n")
         assert_that(self.table, has_length(2))
         assert_that(self.table, contains(("a", "b"), ("c", "d")))
+
+    @unittest.skip
+    def test_mismatched_column_counts_are_not_allowed (self):
+        assert_that(calling(self.init_table).with_args("\t\n\t\t"),
+                    raises(RuntimeError))
