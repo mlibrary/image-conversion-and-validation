@@ -16,7 +16,7 @@ class an_internally_consistent_table (ComposedMatcher):
         i = 0
         for row in item:
             yield row, is_(instance_of(tuple))
-            yield item[i], is_(equal_to(row))
+            yield item[i], is_(equal_to(row)), "row {:d}".format(i)
 
             if expected_cols:
                 yield row, has_length(expected_cols), \
@@ -57,8 +57,13 @@ class yields_an_empty_table (ComposedMatcher):
 
 class TableTest (unittest.TestCase):
 
+    def init_table (self, *args):
+        self.table = Table(*args)
+        assert_that(self.table, is_(an_internally_consistent_table()))
+
     def test_degenerate (self):
-        assert_that(Table(), is_(an_empty_table()))
+        self.init_table()
+        assert_that(self.table, is_(an_empty_table()))
 
     def test_None_yields_empty_table (self):
         assert_that(None, yields_an_empty_table())
@@ -66,8 +71,39 @@ class TableTest (unittest.TestCase):
     def test_empty_str_yields_empty_table (self):
         assert_that("", yields_an_empty_table())
 
+    def test_carriage_returns_are_not_allowed (self):
+        assert_that(calling(Table).with_args("\r"),
+                    raises(RuntimeError))
+        assert_that(calling(Table).with_args("buried\rin here"),
+                    raises(RuntimeError))
+
     def test_single_char_yields_1_row_1_col (self):
-        table = Table("a")
-        assert_that(table, is_(an_internally_consistent_table()))
-        assert_that(table, has_length(1))
-        assert_that(table[0][0], is_(equal_to("a")))
+        self.init_table("a")
+        assert_that(self.table, has_length(1))
+        assert_that(self.table[0][0], is_(equal_to("a")))
+
+    def test_HT_divides_2_columns (self):
+        self.init_table("a\tb")
+        assert_that(self.table, has_length(1))
+        assert_that(self.table.cols, is_(equal_to(2)))
+        assert_that(self.table[0], contains("a", "b"))
+
+    def test_HT_divides_3_columns (self):
+        self.init_table("a\tb\tc")
+        assert_that(self.table, has_length(1))
+        assert_that(self.table.cols, is_(equal_to(3)))
+        assert_that(self.table[0], contains("a", "b", "c"))
+
+    def test_2_rows_2_cols (self):
+        self.init_table("a\tb\nc\td")
+        assert_that(self.table, has_length(2))
+        assert_that(self.table, contains(("a", "b"), ("c", "d")))
+
+    def test_ignore_trailing_blank_lines (self):
+        self.init_table("a\tb\nc\td\n")
+        assert_that(self.table, has_length(2))
+        assert_that(self.table, contains(("a", "b"), ("c", "d")))
+
+    def test_mismatched_column_counts_are_not_allowed (self):
+        assert_that(calling(self.init_table).with_args("\t\n\t\t"),
+                    raises(RuntimeError))
