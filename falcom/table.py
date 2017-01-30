@@ -22,7 +22,11 @@ class Table:
         return iter(((self.text,),)) if self.text else iter(())
 
     def __getitem__ (self, key):
-        raise IndexError
+        if self.text and key == 0:
+            return self.text
+
+        else:
+            raise IndexError
 
     def __repr__ (self):
         return "<{} {}>".format(self.__class__.__name__,
