@@ -23,7 +23,7 @@ class Table:
 
     @property
     def cols (self):
-        return len(self.text.split("\n")[0].split("\t")) if self.text else 0
+        return len(self.__rows[0]) if self else 0
 
     def __len__ (self):
         return len(self.__rows)
