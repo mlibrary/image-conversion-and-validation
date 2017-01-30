@@ -96,3 +96,4 @@ class TableTest (unittest.TestCase):
         table = Table("a\tb\nc\td")
         assert_that(table, is_(an_internally_consistent_table()))
         assert_that(table, has_length(2))
+        assert_that(table, contains(("a", "b"), ("c", "d")))
