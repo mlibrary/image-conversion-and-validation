@@ -16,7 +16,7 @@ class an_internally_consistent_table (ComposedMatcher):
         i = 0
         for row in item:
             yield row, is_(instance_of(tuple))
-            yield item[i], is_(equal_to(row))
+            yield item[i], is_(equal_to(row)), "row {:d}".format(i)
 
             if expected_cols:
                 yield row, has_length(expected_cols), \
@@ -77,3 +77,9 @@ class TableTest (unittest.TestCase):
         assert_that(table, is_(an_internally_consistent_table()))
         assert_that(table, has_length(1))
         assert_that(table[0][0], is_(equal_to("a")))
+
+    def test_HT_divides_2_columns (self):
+        table = Table("a\tb")
+        assert_that(table, is_(an_internally_consistent_table()))
+        assert_that(table, has_length(1))
+        assert_that(table.cols, is_(equal_to(2)))
