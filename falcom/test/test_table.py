@@ -69,6 +69,8 @@ class TableTest (unittest.TestCase):
     def test_carriage_returns_are_not_allowed (self):
         assert_that(calling(Table).with_args("\r"),
                     raises(RuntimeError))
+        assert_that(calling(Table).with_args("buried\rin here"),
+                    raises(RuntimeError))
 
     def test_single_char_yields_1_row_1_col (self):
         table = Table("a")

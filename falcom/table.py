@@ -8,7 +8,7 @@ class Table:
         pass
 
     def __init__ (self, tab_separated_text = None):
-        if tab_separated_text == "\r":
+        if tab_separated_text and "\r" in tab_separated_text:
             raise self.InputStrContainsCarriageReturn
 
         self.text = tab_separated_text
