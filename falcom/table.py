@@ -9,11 +9,13 @@ class Table:
 
     def __init__ (self, tab_separated_text = None):
         if tab_separated_text:
-            self.text = tab_separated_text.rstrip("\n")
+            self.text = tab_separated_text
             self.__raise_error_if_carriage_returns()
 
         else:
             self.text = tab_separated_text
+
+        self.__create_internal_structure()
 
     @property
     def rows (self):
@@ -24,22 +26,13 @@ class Table:
         return len(self.text.split("\n")[0].split("\t")) if self.text else 0
 
     def __len__ (self):
-        return len(self.text.split("\n")) if self.text else 0
+        return len(self.__rows)
 
     def __iter__ (self):
-        if self.text:
-            for row in self.text.split("\n"):
-                yield(tuple(row.split("\t")))
-
-        else:
-            return iter(())
+        return iter(self.__rows)
 
     def __getitem__ (self, key):
-        if self.text:
-            return tuple(self.text.split("\n")[key].split("\t"))
-
-        else:
-            raise IndexError
+        return self.__rows[key]
 
     def __repr__ (self):
         return "<{} {}>".format(self.__class__.__name__,
@@ -48,3 +41,11 @@ class Table:
     def __raise_error_if_carriage_returns (self):
         if "\r" in self.text:
             raise self.InputStrContainsCarriageReturn
+
+    def __create_internal_structure (self):
+        if self.text:
+            self.__rows = [tuple(r.split("\t"))
+                    for r in self.text.rstrip("\n").split("\n")]
+
+        else:
+            self.__rows = []
