@@ -4,17 +4,17 @@
 from hamcrest import *
 import unittest
 
-from .hamcrest import ComposedAssertion, \
+from .hamcrest import ComposedMatcher, \
         evaluates_to_false, evaluates_to_true
 from ..luhn import get_check_digit, verify_check_digit, LuhnNumber
 
-class yields_null_check_digit (ComposedAssertion):
+class yields_null_check_digit (ComposedMatcher):
 
     def assertion (self, item):
         digit = get_check_digit(item)
         yield digit, is_(none())
 
-class yields_check_digit (ComposedAssertion):
+class yields_check_digit (ComposedMatcher):
 
     def __init__ (self, digit):
         self.digit = digit
@@ -90,7 +90,7 @@ class LuhnTest (unittest.TestCase):
         assert_that(3901507463986, yields_check_digit(8))
         assert_that(3901508742754, yields_check_digit(1))
 
-class CheckDigitVerifiesAs (ComposedAssertion):
+class CheckDigitVerifiesAs (ComposedMatcher):
 
     def __init__ (self, expected):
         self.__expected = expected
@@ -143,7 +143,7 @@ class VerifyTest (unittest.TestCase):
         assert_that(33, is_(an_invalid_luhn_number()))
         assert_that(44, is_(an_invalid_luhn_number()))
 
-class invalid_luhn_number_input (ComposedAssertion):
+class invalid_luhn_number_input (ComposedMatcher):
 
     def assertion (self, item):
         obj = LuhnNumber(item)

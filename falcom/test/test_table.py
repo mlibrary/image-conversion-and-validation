@@ -4,11 +4,11 @@
 from hamcrest import *
 import unittest
 
-from .hamcrest import ComposedAssertion, \
+from .hamcrest import ComposedMatcher, \
         evaluates_to_false, evaluates_to_true
 from ..table import Table
 
-class an_empty_table (ComposedAssertion):
+class an_empty_table (ComposedMatcher):
 
     def assertion (self, item):
         yield item, evaluates_to_false()

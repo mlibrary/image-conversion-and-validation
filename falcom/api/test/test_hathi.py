@@ -5,7 +5,7 @@ from hamcrest import *
 import os
 import unittest
 
-from ...test.hamcrest import ComposedAssertion, \
+from ...test.hamcrest import ComposedMatcher, \
         evaluates_to_true, evaluates_to_false
 from ..hathi import get_oclc_counts_from_json, get_hathi_data_from_json
 
@@ -26,7 +26,7 @@ EG_HATHI_MIDAILY = (readfile("hathitrust-009651208.json"),
 EG_MULTI = (readfile("hathitrust-multi-eg.json"),
             "mdp.39015071754159")
 
-class yields_oclc_counts (ComposedAssertion):
+class yields_oclc_counts (ComposedMatcher):
 
     def __init__ (self, mdp, other):
         self.expected = (mdp, other)
@@ -35,14 +35,14 @@ class yields_oclc_counts (ComposedAssertion):
         actual = get_oclc_counts_from_json(*item)
         yield actual, is_(equal_to(self.expected))
 
-class empty_hathi_data (ComposedAssertion):
+class empty_hathi_data (ComposedMatcher):
 
     def assertion (self, item):
         yield item, evaluates_to_false()
         yield item.titles, empty()
         yield item.htids, empty()
 
-class yields_empty_hathi_data (ComposedAssertion):
+class yields_empty_hathi_data (ComposedMatcher):
 
     def assertion (self, item):
         yield get_hathi_data_from_json(item), is_(empty_hathi_data())

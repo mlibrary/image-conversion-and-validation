@@ -4,8 +4,7 @@
 from hamcrest import *
 import unittest
 
-from ...test.hamcrest import ComposedAssertion, \
-        evaluates_to_true, evaluates_to_false
+from ...test.hamcrest import evaluates_to_true, evaluates_to_false
 from ..uri import URI, APIQuerier
 
 class AbstractSpy:
