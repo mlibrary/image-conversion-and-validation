@@ -39,3 +39,5 @@ class TableTest (unittest.TestCase):
     def test_single_char_yields_1_row_1_col (self):
         table = Table("a")
         assert_that(table, evaluates_to_true())
+        assert_that(table, has_length(1))
+        assert_that(table.rows, is_(equal_to(1)))
