@@ -9,10 +9,8 @@ class Table:
 
     def __init__ (self, tab_separated_text = None):
         if tab_separated_text:
-            if "\r" in tab_separated_text:
-                raise self.InputStrContainsCarriageReturn
-
             self.text = tab_separated_text.rstrip("\n")
+            self.__raise_error_if_carriage_returns()
 
         else:
             self.text = tab_separated_text
@@ -46,3 +44,7 @@ class Table:
     def __repr__ (self):
         return "<{} {}>".format(self.__class__.__name__,
                                 repr(self.text))
+
+    def __raise_error_if_carriage_returns (self):
+        if "\r" in self.text:
+            raise self.InputStrContainsCarriageReturn
