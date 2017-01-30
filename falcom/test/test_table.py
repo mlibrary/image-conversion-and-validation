@@ -101,3 +101,5 @@ class TableTest (unittest.TestCase):
 
     def test_ignore_trailing_blank_lines (self):
         self.init_table("a\tb\nc\td\n")
+        assert_that(self.table, has_length(2))
+        assert_that(self.table, contains(("a", "b"), ("c", "d")))
