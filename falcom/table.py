@@ -4,13 +4,15 @@
 
 class Table:
 
-    cols = 0
-
     def __init__ (self, tab_separated_text = None):
         self.text = tab_separated_text
 
     @property
     def rows (self):
+        return len(self)
+
+    @property
+    def cols (self):
         return len(self)
 
     def __len__ (self):
