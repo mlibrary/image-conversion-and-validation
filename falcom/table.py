@@ -13,6 +13,9 @@ class Table:
 
         self.text = tab_separated_text
 
+        if self.text:
+            self.text = self.text.rstrip("\n")
+
     @property
     def rows (self):
         return len(self)
