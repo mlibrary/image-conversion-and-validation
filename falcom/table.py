@@ -19,7 +19,7 @@ class Table:
         return 1 if self.text else 0
 
     def __iter__ (self):
-        return iter(())
+        return iter(((self.text,),)) if self.text else iter(())
 
     def __getitem__ (self, key):
         raise IndexError

@@ -42,3 +42,4 @@ class TableTest (unittest.TestCase):
         assert_that(table, has_length(1))
         assert_that(table.rows, is_(equal_to(1)))
         assert_that(table.cols, is_(equal_to(1)))
+        assert_that(list(table), is_(equal_to([("a",)])))
