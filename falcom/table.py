@@ -4,7 +4,13 @@
 
 class Table:
 
+    class InputStrContainsCarriageReturn (RuntimeError):
+        pass
+
     def __init__ (self, tab_separated_text = None):
+        if tab_separated_text == "\r":
+            raise self.InputStrContainsCarriageReturn
+
         self.text = tab_separated_text
 
     @property

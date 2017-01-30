@@ -66,6 +66,10 @@ class TableTest (unittest.TestCase):
     def test_empty_str_yields_empty_table (self):
         assert_that("", yields_an_empty_table())
 
+    def test_carriage_returns_are_not_allowed (self):
+        assert_that(calling(Table).with_args("\r"),
+                    raises(RuntimeError))
+
     def test_single_char_yields_1_row_1_col (self):
         table = Table("a")
         assert_that(table, is_(an_internally_consistent_table()))
