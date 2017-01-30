@@ -47,9 +47,18 @@ class Table:
 
     def __list_of_rows_from_text (self):
         result = []
+        cols = None
 
-        for row in self.__rows_from_text():
-            result.append(self.__split_row(row))
+        for row_text in self.__rows_from_text():
+            row = self.__split_row(row_text)
+
+            if cols is None:
+                cols = len(row)
+
+            elif len(row) != cols:
+                raise RuntimeError
+
+            result.append(row)
 
         return result
 
