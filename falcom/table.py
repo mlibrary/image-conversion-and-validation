@@ -40,8 +40,16 @@ class Table:
 
     def __create_internal_structure (self):
         if self.text:
-            self.__rows = [tuple(r.split("\t"))
-                    for r in self.text.rstrip("\n").split("\n")]
+            self.__rows = self.__list_of_rows_from_text()
 
         else:
             self.__rows = []
+
+    def __list_of_rows_from_text (self):
+        return [self.__split_row(r) for r in self.__rows_from_text()]
+
+    def __split_row (self, row_text):
+        return tuple(row_text.split("\t"))
+
+    def __rows_from_text (self):
+        return self.text.rstrip("\n").split("\n")
