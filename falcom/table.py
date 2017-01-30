@@ -8,13 +8,14 @@ class Table:
         pass
 
     def __init__ (self, tab_separated_text = None):
-        if tab_separated_text and "\r" in tab_separated_text:
-            raise self.InputStrContainsCarriageReturn
+        if tab_separated_text:
+            if "\r" in tab_separated_text:
+                raise self.InputStrContainsCarriageReturn
 
-        self.text = tab_separated_text
+            self.text = tab_separated_text.rstrip("\n")
 
-        if self.text:
-            self.text = self.text.rstrip("\n")
+        else:
+            self.text = tab_separated_text
 
     @property
     def rows (self):
