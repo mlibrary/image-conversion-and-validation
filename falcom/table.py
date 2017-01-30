@@ -8,13 +8,9 @@ class Table:
         pass
 
     def __init__ (self, tab_separated_text = None):
-        if tab_separated_text:
-            self.text = tab_separated_text
-            self.__raise_error_if_carriage_returns()
+        self.text = tab_separated_text
 
-        else:
-            self.text = tab_separated_text
-
+        self.__raise_error_if_carriage_returns()
         self.__create_internal_structure()
 
     @property
@@ -39,7 +35,7 @@ class Table:
                                 repr(self.text))
 
     def __raise_error_if_carriage_returns (self):
-        if "\r" in self.text:
+        if self.text and "\r" in self.text:
             raise self.InputStrContainsCarriageReturn
 
     def __create_internal_structure (self):
