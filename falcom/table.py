@@ -23,7 +23,7 @@ class Table:
 
     def __getitem__ (self, key):
         if self.text and key == 0:
-            return self.text
+            return (self.text,)
 
         else:
             raise IndexError
