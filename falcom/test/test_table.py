@@ -94,3 +94,8 @@ class TableTest (unittest.TestCase):
         assert_that(table[0][0], is_(equal_to("a")))
         assert_that(table[0][1], is_(equal_to("b")))
         assert_that(table[0][2], is_(equal_to("c")))
+
+    def test_2_rows_2_cols (self):
+        table = Table("a\tb\nc\td")
+        assert_that(table, is_(an_internally_consistent_table()))
+        assert_that(table, has_length(2))

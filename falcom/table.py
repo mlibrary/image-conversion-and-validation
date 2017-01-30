@@ -19,21 +19,22 @@ class Table:
 
     @property
     def cols (self):
-        return len(self.text.split("\t")) if self.text else 0
+        return len(self.text.split("\n")[0].split("\t")) if self.text else 0
 
     def __len__ (self):
-        return 1 if self.text else 0
+        return len(self.text.split("\n")) if self.text else 0
 
     def __iter__ (self):
         if self.text:
-            return iter((tuple(self.text.split("\t")),))
+            for row in self.text.split("\n"):
+                yield(tuple(row.split("\t")))
 
         else:
             return iter(())
 
     def __getitem__ (self, key):
-        if self.text and key == 0:
-            return tuple(self.text.split("\t"))
+        if self.text:
+            return tuple(self.text.split("\n")[key].split("\t"))
 
         else:
             raise IndexError
