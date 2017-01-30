@@ -46,7 +46,12 @@ class Table:
             self.__rows = []
 
     def __list_of_rows_from_text (self):
-        return [self.__split_row(r) for r in self.__rows_from_text()]
+        result = []
+
+        for row in self.__rows_from_text():
+            result.append(self.__split_row(row))
+
+        return result
 
     def __split_row (self, row_text):
         return tuple(row_text.split("\t"))
