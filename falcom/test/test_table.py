@@ -83,3 +83,14 @@ class TableTest (unittest.TestCase):
         assert_that(table, is_(an_internally_consistent_table()))
         assert_that(table, has_length(1))
         assert_that(table.cols, is_(equal_to(2)))
+        assert_that(table[0][0], is_(equal_to("a")))
+        assert_that(table[0][1], is_(equal_to("b")))
+
+    def test_HT_divides_3_columns (self):
+        table = Table("a\tb\tc")
+        assert_that(table, is_(an_internally_consistent_table()))
+        assert_that(table, has_length(1))
+        assert_that(table.cols, is_(equal_to(3)))
+        assert_that(table[0][0], is_(equal_to("a")))
+        assert_that(table[0][1], is_(equal_to("b")))
+        assert_that(table[0][2], is_(equal_to("c")))
