@@ -19,13 +19,23 @@ class an_empty_table (ComposedMatcher):
         yield calling(lambda t: t[0]).with_args(item), \
               raises(IndexError)
 
+class yields_an_empty_table (ComposedMatcher):
+
+    def assertion (self, item):
+        table = Table(item)
+        yield table, is_(an_empty_table())
+
 class TableTest (unittest.TestCase):
 
     def test_degenerate (self):
         assert_that(Table(), is_(an_empty_table()))
 
     def test_None_yields_empty_table (self):
-        assert_that(Table(None), is_(an_empty_table()))
+        assert_that(None, yields_an_empty_table())
 
     def test_empty_str_yields_empty_table (self):
-        assert_that(Table(""), is_(an_empty_table()))
+        assert_that("", yields_an_empty_table())
+
+    def test_single_char_yields_1_row_1_col (self):
+        table = Table("a")
+        assert_that(table, evaluates_to_true())
