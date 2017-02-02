@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+from collections import namedtuple
+from falcom.api.reject_list import VolumeDataFromBarcode
+
 UM_INSTITUTIONS = [
   "EYM",
   "BEU",
@@ -111,27 +114,45 @@ CIC_INSTITUTIONS = [
   "GZI",
 ]
 
-COLUMN_HEADERS = [
-  [:bib,      "bib"],
-  [:oclc,     "oclc"],
-  [:callno,   "callno"],
-  [:author,   "author"],
-  [:title,    "title"],
-  [:desc,     "desc"],
-  [:year1,    "pubdate"],
-  [:year2,    ""],
-  [:unique,   "unique"],
-  [:numcic,   "cic"],
-  [:numoth,   "noncic"],
-  [:numum,    "uofm"],
-  [:dumb,     "whocares"],
-  [:ht_mdp,   "hathitrust_mdp"],
-  [:ht_other, "hathitrust_other"],
-]
+DataRow = namedtuple("DataRow",
+                     ("bib",
+                      "oclc",
+                      "callno",
+                      "author",
+                      "title",
+                      "desc",
+                      "year1",
+                      "year2",
+                      "unique",
+                      "numcic",
+                      "numoth",
+                      "numum",
+                      "dumb",
+                      "ht_mdp",
+                      "ht_other"))
+
+header_row = DataRow(
+    "bib",
+    "oclc",
+    "callno",
+    "author",
+    "title",
+    "desc",
+    "pubdate",
+    "",
+    "unique",
+    "cic",
+    "noncic",
+    "uofm",
+    "whocares",
+    "hathitrust_mdp",
+    "hathitrust_other")
 
 REQUIRED_FIELDS = {
-  :bib    => "aleph bib number",
-  :callno => "call number",
-  :title  => "title",
-  :year1  => "dates",
+    "bib":    "aleph bib number",
+    "callno": "call number",
+    "title":  "title",
+    "year1":  "dates",
 }
+
+print(repr(header_row))
