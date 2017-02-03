@@ -166,7 +166,7 @@ args = parser.parse_args()
 
 tables = [ ]
 
-for spreadsheet in spreadsheets:
+for spreadsheet in args.spreadsheets:
     with open(spreadsheet, "r") as f:
         data = f.read().rstrip("\n")
 
