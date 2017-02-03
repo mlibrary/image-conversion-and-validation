@@ -71,7 +71,8 @@ class VolumeDataFromBarcode:
             return None, None
 
         else:
-            return self.__get_worldcat_json(), self.__get_hathi_json()
+            return self.__get_worldcat_json(), \
+                    self.__get_hathi_json_via_oclc()
 
     def __get_worldcat_json (self):
         return worldcat_api.get(
