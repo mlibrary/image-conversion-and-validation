@@ -164,7 +164,7 @@ parser = ArgumentParser(description="Extend spreadsheets")
 parser.add_argument("spreadsheets", nargs="+")
 args = parser.parse_args()
 
-tables = [ ]
+tables = { }
 
 for spreadsheet in args.spreadsheets:
     with open(spreadsheet, "r") as f:
@@ -195,8 +195,4 @@ for spreadsheet in args.spreadsheets:
                 "invalid status {} in {}".format(repr(row[-1]),
                                                  spreadsheet)
 
-    tables.append(table)
-
-for table in tables:
-    for row in table[1:]:
-        print("{}\t{}".format(row[0], row[-1]))
+    tables[spreadsheet] = table
