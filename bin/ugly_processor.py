@@ -210,7 +210,7 @@ for filename, table in tables.items():
         barcode = row[0]
         status = row[-1]
 
-        print("  {:< 14s} ({:d}/{:d}) ...".format(
+        print("  {:<14s} ({:d}/{:d}) ...".format(
                         barcode, i, len(table) - 1))
 
         data = VolumeDataFromBarcode(barcode)
