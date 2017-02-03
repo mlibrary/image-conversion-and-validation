@@ -26,6 +26,11 @@ wc_key = environ.get("MDP_REJECT_WC_KEY", "none")
 
 class VolumeDataFromBarcode:
 
+    barcode = None
+    marc = None
+    worldcat = None
+    oclc_counts = None
+
     def __init__ (self, barcode):
         self.barcode = barcode
         self.__get_marc_data()
