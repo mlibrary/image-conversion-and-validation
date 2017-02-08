@@ -117,4 +117,6 @@ class Given3x3Table (unittest.TestCase):
         assert_that(self.table, is_(an_internally_consistent_table()))
 
     def test_skipping_header_yields_last_two_rows (self):
-        assert_that(list(self.table.body()), has_length(2))
+        assert_that(list(self.table.body()),
+                    is_(equal_to([("d", "e", "f"),
+                                  ("g", "h", "i")])))

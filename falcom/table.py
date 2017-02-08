@@ -31,7 +31,9 @@ class Table:
         return len(self.__rows[0]) if self else 0
 
     def body (self):
-        return "aa"
+        body = iter(self)
+        header = next(body)
+        return body
 
     def __len__ (self):
         return len(self.__rows)
