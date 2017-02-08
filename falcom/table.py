@@ -32,7 +32,7 @@ class Table:
 
     def body (self):
         body = iter(self)
-        self.__skip_one_element(body)
+        next(body, None)
         return body
 
     def __len__ (self):
