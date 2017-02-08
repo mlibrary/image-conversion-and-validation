@@ -135,7 +135,8 @@ DataRow = namedtuple("DataRow",
                       "numum",
                       "dumb",
                       "ht_mdp",
-                      "ht_other"))
+                      "ht_other",
+                      "title_match"))
 
 header_row = DataRow(
     "bib",
@@ -152,7 +153,8 @@ header_row = DataRow(
     "uofm",
     "whocares",
     "hathitrust_mdp",
-    "hathitrust_other")
+    "hathitrust_other",
+    "title_match_percent")
 
 REQUIRED_FIELDS = {
     "bib":    "aleph bib number",
@@ -251,7 +253,8 @@ for filename, table in tables.items():
                     "{:d}".format(numum),
                     "{:d}".format(dumb),
                     "{:d}".format(data.oclc_counts[0]),
-                    "{:d}".format(data.oclc_counts[1]))
+                    "{:d}".format(data.oclc_counts[1]),
+                    data.hathi_title_match_percent())
 
             new_row = row + list(extension)
             new_table.append("" if x is None else x

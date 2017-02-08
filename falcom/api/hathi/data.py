@@ -1,6 +1,7 @@
 # Copyright (c) 2017 The Regents of the University of Michigan.
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
+from distance import levenshtein
 from re import compile as re_compile
 
 from ..common.read_only_data_structure import ReadOnlyDataStructure
@@ -25,13 +26,21 @@ class HathiData (ReadOnlyDataStructure):
         return matching_count, nonmatching_count
 
     def has_title (self, title):
+        return self.min_title_distance(title) < 0.01
+
+    def min_title_distance (self, title):
+        return min(self.__title_distances(title))
+
+    def __title_distances (self, title):
         soft_title = self.__soften(title)
 
-        return any(self.__are_soft_equal(x, soft_title)
-                for x in self.titles)
+        return (self.__soft_distance(t, soft_title)
+                for t in self.titles)
 
-    def __are_soft_equal (self, text, already_softened_text):
-        return self.__soften(text) == already_softened_text
+    def __soft_distance (self, text, already_softened_text):
+        return levenshtein(already_softened_text,
+                           self.__soften(text),
+                           normalized=True)
 
     def __soften (self, text):
         return self.__re_spaces.sub(" ", self.__re_symbol.sub("", text)).lower()

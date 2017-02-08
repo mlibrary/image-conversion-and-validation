@@ -7,7 +7,7 @@ python:
 - "3.6"
 - "nightly"
 - "pypy3"
-
-# This dependency is only required for testing.
-install: pip install PyHamcrest
+install:
+- pip install PyHamcrest # only required for testing
+- pip install Distance
 script: python -m unittest
