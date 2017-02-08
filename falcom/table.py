@@ -60,8 +60,8 @@ class Table:
 
     def __raise_error_unless_col_counts_are_consistent (self, matrix):
         rows = iter(matrix)
-        first_row = next(rows)
+        expected_len = len(next(rows))
 
         for row in rows:
-            if len(row) != len(first_row):
+            if len(row) != expected_len:
                 raise RuntimeError
