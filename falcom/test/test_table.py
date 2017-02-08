@@ -107,3 +107,11 @@ class TableTest (unittest.TestCase):
     def test_mismatched_column_counts_are_not_allowed (self):
         assert_that(calling(self.init_table).with_args("\t\n\t\t"),
                     raises(RuntimeError))
+
+class Given3x3Table (unittest.TestCase):
+
+    def setUp (self):
+        self.table = Table("a\tb\tc\nd\te\tf\ng\th\ti\n")
+
+    def test_table_is_internally_consistent (self):
+        assert_that(self.table, is_(an_internally_consistent_table()))
