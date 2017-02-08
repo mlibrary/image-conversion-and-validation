@@ -6,4 +6,4 @@ clean:
 	find . -name __pycache__ | xargs rm -r
 
 alltests:
-	python -m unittest
+	python -m unittest && find . -name '*.bats' | xargs bats
