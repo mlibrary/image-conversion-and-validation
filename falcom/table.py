@@ -66,10 +66,7 @@ class Table:
         return self.text.rstrip("\n").split("\n")
 
     def __raise_error_unless_col_counts_are_consistent (self):
-        rows = iter(self.__rows)
-        expected_len = len(next(rows))
-
-        for row in rows:
+        for row in self.__rows:
             self.__assert_valid_length(row)
 
     def __assert_valid_length (self, row):
