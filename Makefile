@@ -1,5 +1,5 @@
 test:
-	find . -name '*.bats' | xargs bats
+	find . -name '*.bats' | xargs bats -p
 
 clean:
 	touch __pycache__
