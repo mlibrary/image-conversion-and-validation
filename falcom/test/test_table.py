@@ -124,3 +124,6 @@ class Given3x3Table (unittest.TestCase):
         assert_that(list(self.table.body()),
                     is_(equal_to([("d", "e", "f"),
                                   ("g", "h", "i")])))
+
+    def test_can_add_header_row (self):
+        self.table.add_header("1", "2", "3")
