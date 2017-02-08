@@ -43,17 +43,15 @@ class Table:
 
     def __create_internal_structure (self):
         if self.text:
-            self.__rows = self.__list_of_rows_from_text()
+            self.__set_to_list_of_rows_from_text()
 
         else:
             self.__rows = []
 
-    def __list_of_rows_from_text (self):
-        result = [self.__split_row(r) for r in self.__rows_from_text()]
-
-        self.__raise_error_unless_col_counts_are_consistent(result)
-
-        return result
+    def __set_to_list_of_rows_from_text (self):
+        self.__rows = [self.__split_row(r)
+                       for r in self.__rows_from_text()]
+        self.__raise_error_unless_col_counts_are_consistent()
 
     def __split_row (self, row_text):
         return tuple(row_text.split("\t"))
@@ -61,8 +59,8 @@ class Table:
     def __rows_from_text (self):
         return self.text.rstrip("\n").split("\n")
 
-    def __raise_error_unless_col_counts_are_consistent (self, matrix):
-        rows = iter(matrix)
+    def __raise_error_unless_col_counts_are_consistent (self):
+        rows = iter(self.__rows)
         expected_len = len(next(rows))
 
         for row in rows:
