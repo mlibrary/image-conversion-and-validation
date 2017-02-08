@@ -36,9 +36,9 @@ class VolumeDataFromBarcode:
         self.__get_marc_data()
         self.__get_oclc_data()
 
-    def hathi_has_title (self):
+    def hathi_title_match_percent (self):
         if self.marc.title is None:
-            return False
+            return "0.0"
 
         else:
             return self.__hathi_bib_data_has_title(self.marc.title)
@@ -87,7 +87,9 @@ class VolumeDataFromBarcode:
     def __hathi_bib_data_has_title (self, title):
         hathi_json = self.__get_hathi_json_via_bib()
         hathi_data = get_hathi_data_from_json(hathi_json)
-        return hathi_data.has_title(title)
+
+        return "{:.1f}".format(
+                100 * (1 - hathi_data.min_title_distance(title)))
 
     def __get_hathi_json_via_bib (self):
         if self.marc.bib is None:
