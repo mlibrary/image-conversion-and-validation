@@ -26,10 +26,7 @@ class HathiData (ReadOnlyDataStructure):
         return matching_count, nonmatching_count
 
     def has_title (self, title):
-        soft_title = self.__soften(title)
-
-        return any(self.__are_soft_equal(x, soft_title)
-                for x in self.titles)
+        return self.min_title_distance(title) < 0.01
 
     def min_title_distance (self, title):
         return min(self.__title_distances(title))
