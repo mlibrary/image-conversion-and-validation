@@ -89,6 +89,11 @@ class HathiRecordDataTest (unittest.TestCase):
         assert_that('{"records":{},"items":[]}',
                     yields_empty_hathi_data())
 
+    def test_empty_data_has_title_distance_of_1 (self):
+        data = get_hathi_data_from_json()
+        assert_that(data.min_title_distance("anything"),
+                    is_(close_to(1, 0.001)))
+
 class HathiRecordDataGivenAstroJson (unittest.TestCase):
 
     def setUp (self):
