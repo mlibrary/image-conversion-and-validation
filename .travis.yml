@@ -9,5 +9,7 @@ python:
 - "pypy3"
 
 # This dependency is only required for testing.
-install: pip install PyHamcrest
+install:
+- pip install PyHamcrest
+- pip install Distance
 script: python -m unittest
