@@ -14,4 +14,4 @@ before_install:
 install:
 - pip install PyHamcrest # only required for testing
 - pip install Distance
-script: make alltests
+script: make test
