@@ -77,10 +77,3 @@ class Table:
     def __assert_valid_length (self, row):
         if len(row) != self.cols:
             raise Table.InconsistentColumnCounts(self.cols, row)
-
-    def __skip_one_element (self, iterator):
-        try:
-            element = next(iterator)
-
-        except StopIteration:
-            pass
