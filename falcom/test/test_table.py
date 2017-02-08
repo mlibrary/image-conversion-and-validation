@@ -108,6 +108,10 @@ class TableTest (unittest.TestCase):
         assert_that(calling(self.init_table).with_args("\t\n\t\t"),
                     raises(RuntimeError))
 
+    def test_empty_table_can_iterate_over_body (self):
+        self.init_table()
+        assert_that(list(self.table.body()), is_(equal_to([])))
+
 class Given3x3Table (unittest.TestCase):
 
     def setUp (self):

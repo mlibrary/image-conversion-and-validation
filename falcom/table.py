@@ -32,7 +32,13 @@ class Table:
 
     def body (self):
         body = iter(self)
-        header = next(body)
+
+        try:
+            header = next(body)
+
+        except StopIteration:
+            pass
+
         return body
 
     def __len__ (self):
