@@ -35,7 +35,8 @@ class Table:
         next(body, None)
         return body
 
-    def add_header (self, *args): pass
+    def add_header (self, *args):
+        self.__rows.append(None)
 
     def __len__ (self):
         return len(self.__rows)

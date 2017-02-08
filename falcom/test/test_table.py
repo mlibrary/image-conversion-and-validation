@@ -127,3 +127,4 @@ class Given3x3Table (unittest.TestCase):
 
     def test_can_add_header_row (self):
         self.table.add_header("1", "2", "3")
+        assert_that(self.table, has_length(4))
