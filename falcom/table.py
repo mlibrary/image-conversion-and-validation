@@ -47,15 +47,13 @@ class Table:
 
     def __list_of_rows_from_text (self):
         result = []
-        cols = None
+        rows = iter(self.__rows_from_text())
+        result.append(self.__split_row(next(rows)))
 
-        for row_text in self.__rows_from_text():
+        for row_text in rows:
             row = self.__split_row(row_text)
 
-            if cols is None:
-                cols = len(row)
-
-            elif len(row) != cols:
+            if len(row) != len(result[0]):
                 raise RuntimeError
 
             result.append(row)
