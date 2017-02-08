@@ -70,5 +70,8 @@ class Table:
         expected_len = len(next(rows))
 
         for row in rows:
-            if len(row) != expected_len:
-                raise Table.InconsistentColumnCounts(expected_len, row)
+            self.__assert_valid_length(row)
+
+    def __assert_valid_length (self, row):
+        if len(row) != self.cols:
+            raise Table.InconsistentColumnCounts(self.cols, row)
