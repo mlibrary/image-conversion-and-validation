@@ -1,5 +1,4 @@
 test:
-	python -m unittest
 	find . -name '*.bats' | xargs bats
 
 clean:
