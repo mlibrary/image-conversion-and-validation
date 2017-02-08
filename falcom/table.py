@@ -48,11 +48,7 @@ class Table:
     def __list_of_rows_from_text (self):
         result = [self.__split_row(r) for r in self.__rows_from_text()]
 
-        rows = iter(result)
-        first_row = next(rows)
-        for row in rows:
-            if len(row) != len(first_row):
-                raise RuntimeError
+        self.__raise_error_unless_col_counts_are_consistent(result)
 
         return result
 
@@ -61,3 +57,11 @@ class Table:
 
     def __rows_from_text (self):
         return self.text.rstrip("\n").split("\n")
+
+    def __raise_error_unless_col_counts_are_consistent (self, matrix):
+        rows = iter(matrix)
+        first_row = next(rows)
+
+        for row in rows:
+            if len(row) != len(first_row):
+                raise RuntimeError
