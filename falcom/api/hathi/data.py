@@ -32,11 +32,11 @@ class HathiData (ReadOnlyDataStructure):
                 for x in self.titles)
 
     def min_title_distance (self, title):
+        return min(self.__title_distances(title))
+
+    def __title_distances (self, title):
         soft_title = self.__soften(title)
 
-        return min(self.__title_distances(soft_title))
-
-    def __title_distances (self, soft_title):
         return (self.__soft_distance(t, soft_title)
                 for t in self.titles)
 
