@@ -107,3 +107,24 @@ class TableTest (unittest.TestCase):
     def test_mismatched_column_counts_are_not_allowed (self):
         assert_that(calling(self.init_table).with_args("\t\n\t\t"),
                     raises(RuntimeError))
+
+    def test_empty_table_can_iterate_over_body (self):
+        self.init_table()
+        assert_that(list(self.table.body()), is_(equal_to([])))
+
+class Given3x3Table (unittest.TestCase):
+
+    def setUp (self):
+        self.table = Table("a\tb\tc\nd\te\tf\ng\th\ti\n")
+
+    def test_table_is_internally_consistent (self):
+        assert_that(self.table, is_(an_internally_consistent_table()))
+
+    def test_skipping_header_yields_last_two_rows (self):
+        assert_that(list(self.table.body()),
+                    is_(equal_to([("d", "e", "f"),
+                                  ("g", "h", "i")])))
+
+    def test_can_add_header_row (self):
+        self.table.add_header("1", "2", "3")
+        assert_that(self.table, has_length(4))

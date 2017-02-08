@@ -8,7 +8,13 @@ class Table:
         pass
 
     class InconsistentColumnCounts (RuntimeError):
-        pass
+        def __init__ (self, expected_len, row):
+            self.expected_len = expected_len
+            self.row = row
+
+        def __str__ (self):
+            return "Expected every row to have len={:d}: {}".format(
+                    self.expected_len, repr(self.row))
 
     def __init__ (self, tab_separated_text = None):
         self.text = tab_separated_text
@@ -23,6 +29,14 @@ class Table:
     @property
     def cols (self):
         return len(self.__rows[0]) if self else 0
+
+    def body (self):
+        body = iter(self)
+        next(body, None)
+        return body
+
+    def add_header (self, *args):
+        self.__rows.append(None)
 
     def __len__ (self):
         return len(self.__rows)
@@ -60,11 +74,9 @@ class Table:
         return self.text.rstrip("\n").split("\n")
 
     def __raise_error_unless_col_counts_are_consistent (self):
-        rows = iter(self.__rows)
-        expected_len = len(next(rows))
+        for row in self.__rows:
+            self.__assert_valid_length(row)
 
-        for row in rows:
-            if len(row) != expected_len:
-                raise Table.InconsistentColumnCounts(
-                    "Expected every row to have len={:d}: {}".format(
-                        expected_len, repr(row)))
+    def __assert_valid_length (self, row):
+        if len(row) != self.cols:
+            raise Table.InconsistentColumnCounts(self.cols, row)
