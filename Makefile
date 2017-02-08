@@ -1,6 +1,6 @@
 test:
-	python -m unittest
-	find . -name '*.bats' | xargs bats
+	find . -name '*.bats' | xargs bats -p
+	python3 -m unittest 2>&1 | tail -n 3
 
 clean:
 	touch __pycache__
