@@ -2,6 +2,7 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 from os import environ
+from time import sleep
 from urllib.request import urlopen
 
 from .uri import URI, APIQuerier
@@ -33,8 +34,15 @@ class VolumeDataFromBarcode:
 
     def __init__ (self, barcode):
         self.barcode = barcode
-        self.__get_marc_data()
-        self.__get_oclc_data()
+
+        while True:
+            try:
+                self.__get_marc_data()
+                self.__get_oclc_data()
+                break
+
+            except ConnectionError:
+                sleep(60*30)
 
     def hathi_title_match_percent (self):
         if self.marc.title is None:
