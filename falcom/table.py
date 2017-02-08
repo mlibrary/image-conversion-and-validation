@@ -7,6 +7,9 @@ class Table:
     class InputStrContainsCarriageReturn (RuntimeError):
         pass
 
+    class InconsistentColumnCounts (RuntimeError):
+        pass
+
     def __init__ (self, tab_separated_text = None):
         self.text = tab_separated_text
 
@@ -64,6 +67,6 @@ class Table:
 
         for row in rows:
             if len(row) != expected_len:
-                raise RuntimeError(
+                raise Table.InconsistentColumnCounts(
                     "Expected every row to have len={:d}: {}".format(
                         expected_len, repr(row)))
