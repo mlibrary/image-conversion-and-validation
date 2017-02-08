@@ -30,6 +30,9 @@ class HathiData (ReadOnlyDataStructure):
         return any(self.__are_soft_equal(x, soft_title)
                 for x in self.titles)
 
+    def min_title_distance (self, title):
+        return 1
+
     def __are_soft_equal (self, text, already_softened_text):
         return self.__soften(text) == already_softened_text
 
