@@ -34,16 +34,12 @@ class HathiData (ReadOnlyDataStructure):
     def min_title_distance (self, title):
         soft_title = self.__soften(title)
 
-        minimum = 1
-        for title in self.titles:
-            distance = levenshtein(soft_title,
-                                   self.__soften(title),
-                                   normalized=True)
+        return min(self.__title_distances(soft_title))
 
-            if distance < minimum:
-                minimum = distance
-
-        return minimum
+    def __title_distances (self, soft_title):
+        return (levenshtein(soft_title,
+                            self.__soften(t),
+                            normalized=True) for t in self.titles)
 
     def __are_soft_equal (self, text, already_softened_text):
         return self.__soften(text) == already_softened_text
