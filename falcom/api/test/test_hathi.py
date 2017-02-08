@@ -112,3 +112,13 @@ class HathiRecordDataGivenAstroJson (unittest.TestCase):
     def test_hey_sup_more_than_fifty_percent_distant (self):
         assert_that(self.data.min_title_distance("hey sup"),
                     is_(greater_than(0.5)))
+
+    def test_exact_match_yields_0 (self):
+        title = "Astronomical tables : manuscript, [17th century?]."
+        assert_that(self.data.min_title_distance(title),
+                    is_(less_than(.001)))
+
+    def test_near_match_yields_small_number (self):
+        title = "Abtronomical tables : manuscript, [17th century?]."
+        assert_that(self.data.min_title_distance(title),
+                    all_of(greater_than(0), less_than(0.5)))
