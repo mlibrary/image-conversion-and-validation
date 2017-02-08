@@ -30,6 +30,9 @@ class Table:
     def cols (self):
         return len(self.__rows[0]) if self else 0
 
+    def body (self):
+        return "aa"
+
     def __len__ (self):
         return len(self.__rows)
 
