@@ -7,6 +7,9 @@ class Table:
     class InputStrContainsCarriageReturn (RuntimeError):
         pass
 
+    class InconsistentColumnCounts (RuntimeError):
+        pass
+
     def __init__ (self, tab_separated_text = None):
         self.text = tab_separated_text
 
@@ -40,30 +43,28 @@ class Table:
 
     def __create_internal_structure (self):
         if self.text:
-            self.__rows = self.__list_of_rows_from_text()
+            self.__set_to_list_of_rows_from_text()
 
         else:
             self.__rows = []
 
-    def __list_of_rows_from_text (self):
-        result = []
-        cols = None
-
-        for row_text in self.__rows_from_text():
-            row = self.__split_row(row_text)
-
-            if cols is None:
-                cols = len(row)
-
-            elif len(row) != cols:
-                raise RuntimeError
-
-            result.append(row)
-
-        return result
+    def __set_to_list_of_rows_from_text (self):
+        self.__rows = [self.__split_row(r)
+                       for r in self.__rows_from_text()]
+        self.__raise_error_unless_col_counts_are_consistent()
 
     def __split_row (self, row_text):
         return tuple(row_text.split("\t"))
 
     def __rows_from_text (self):
         return self.text.rstrip("\n").split("\n")
+
+    def __raise_error_unless_col_counts_are_consistent (self):
+        rows = iter(self.__rows)
+        expected_len = len(next(rows))
+
+        for row in rows:
+            if len(row) != expected_len:
+                raise Table.InconsistentColumnCounts(
+                    "Expected every row to have len={:d}: {}".format(
+                        expected_len, repr(row)))
