@@ -64,4 +64,6 @@ class Table:
 
         for row in rows:
             if len(row) != expected_len:
-                raise RuntimeError
+                raise RuntimeError(
+                    "Expected every row to have len={:d}: {}".format(
+                        expected_len, repr(row)))
