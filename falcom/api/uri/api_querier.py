@@ -5,7 +5,7 @@ from time import sleep
 
 class APIQuerier:
 
-    def __init__ (self, uri, url_opener, sleep_time=300):
+    def __init__ (self, uri, url_opener, sleep_time=300, max_tries=0):
         self.uri = uri
         self.url_opener = url_opener
         self.sleep_time = sleep_time

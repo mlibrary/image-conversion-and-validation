@@ -206,11 +206,15 @@ class APIQuerierTestHelpers (unittest.TestCase):
         self.api = APIQuerier(URI(),
                               url_opener=UrlopenerStub(output_data))
 
-    def set_api_error_fake (self, error, failures=3):
+    def set_api_error_fake (self,
+                            error=ConnectionError,
+                            failures=3,
+                            max_tries=0):
         self.api = APIQuerier(
                 URI(),
                 url_opener=UrlopenerErrorFake(failures, error),
-                sleep_time=0.01)
+                sleep_time=0.01,
+                max_tries=max_tries)
 
 class APIQuerierSpyTest (APIQuerierTestHelpers):
 
@@ -262,6 +266,9 @@ class APIQuerierTestErrors (APIQuerierTestHelpers):
         self.set_api_error_fake(ConnectionResetError)
         self.api.get() # should raise no error
 
-    def test_api_handles_connection_errors (self):
+    def test_api_raises_other_errors (self):
         self.set_api_error_fake(KeyError)
         assert_that(calling(self.api.get), raises(KeyError))
+
+    def test_silent_failure_after_max (self):
+        self.set_api_error_fake(failures=5, max_tries=3)
