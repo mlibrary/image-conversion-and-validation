@@ -254,3 +254,11 @@ class APIQuerierTestErrors (unittest.TestCase):
                 url_opener=UrlopenerErrorFake(3, ConnectionError),
                 sleep_time=0.01)
         self.api.get() # should raise no error
+
+    def test_api_handles_connection_errors (self):
+        self.api = APIQuerier(
+                URI(),
+                url_opener=UrlopenerErrorFake(3, KeyError),
+                sleep_time=0.01)
+
+        assert_that(calling(self.api.get), raises(KeyError))

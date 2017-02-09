@@ -18,7 +18,7 @@ class APIQuerier:
 
                 return result
 
-            except:
+            except ConnectionError:
                 sleep(self.sleep_time)
 
     @staticmethod
