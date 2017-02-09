@@ -206,6 +206,12 @@ class APIQuerierTestHelpers (unittest.TestCase):
         self.api = APIQuerier(URI(),
                               url_opener=UrlopenerStub(output_data))
 
+    def set_api_error_fake (self, error, failures=3):
+        self.api = APIQuerier(
+                URI(),
+                url_opener=UrlopenerErrorFake(failures, error),
+                sleep_time=0.01)
+
 class APIQuerierSpyTest (APIQuerierTestHelpers):
 
     def setUp (self):
@@ -246,26 +252,16 @@ class APIQuerierDataTest (APIQuerierTestHelpers):
         self.set_api_stub("💪".encode("utf_8"))
         assert_that(self.api.get(), is_(equal_to("💪")))
 
-class APIQuerierTestErrors (unittest.TestCase):
+class APIQuerierTestErrors (APIQuerierTestHelpers):
 
     def test_api_handles_connection_errors (self):
-        self.api = APIQuerier(
-                URI(),
-                url_opener=UrlopenerErrorFake(3, ConnectionError),
-                sleep_time=0.01)
+        self.set_api_error_fake(ConnectionError)
         self.api.get() # should raise no error
 
     def test_api_handles_connection_reset_errors (self):
-        self.api = APIQuerier(
-                URI(),
-                url_opener=UrlopenerErrorFake(3, ConnectionResetError),
-                sleep_time=0.01)
+        self.set_api_error_fake(ConnectionResetError)
         self.api.get() # should raise no error
 
     def test_api_handles_connection_errors (self):
-        self.api = APIQuerier(
-                URI(),
-                url_opener=UrlopenerErrorFake(3, KeyError),
-                sleep_time=0.01)
-
+        self.set_api_error_fake(KeyError)
         assert_that(calling(self.api.get), raises(KeyError))
