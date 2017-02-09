@@ -35,13 +35,16 @@ class APIQuerier:
                 self.result = self.__open_uri(kwargs)
 
             except ConnectionError:
-                sleep(self.sleep_time)
+                self.__sleep_and_prepare_for_next_try()
 
-                if self.attempt_number == self.max_tries:
-                    self.result = b""
+    def __sleep_and_prepare_for_next_try (self):
+        sleep(self.sleep_time)
 
-                else:
-                    self.attempt_number += 1
+        if self.attempt_number == self.max_tries:
+            self.result = b""
+
+        else:
+            self.attempt_number += 1
 
     def __open_uri (self, kwargs):
         with self.url_opener(self.uri(**kwargs)) as response:
