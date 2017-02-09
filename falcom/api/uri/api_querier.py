@@ -13,10 +13,7 @@ class APIQuerier:
     def get (self, **kwargs):
         while True:
             try:
-                with self.url_opener(self.uri(**kwargs)) as response:
-                    result = self.utf8(response.read())
-
-                return result
+                return self.__open_uri(kwargs)
 
             except ConnectionError:
                 sleep(self.sleep_time)
@@ -28,3 +25,9 @@ class APIQuerier:
 
         else:
             return str_or_bytes
+
+    def __open_uri (self, kwargs):
+        with self.url_opener(self.uri(**kwargs)) as response:
+            result = self.utf8(response.read())
+
+        return result
