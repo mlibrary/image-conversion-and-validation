@@ -245,3 +245,11 @@ class APIQuerierDataTest (APIQuerierTestHelpers):
     def test_bytes_are_converted_to_str_via_utf_8 (self):
         self.set_api_stub("💪".encode("utf_8"))
         assert_that(self.api.get(), is_(equal_to("💪")))
+
+class APIQuerierTestErrors (unittest.TestCase):
+
+    def test_api_handles_connection_errors (self):
+        self.api = APIQuerier(
+                URI(),
+                url_opener=UrlopenerErrorFake(3, ConnectionError),
+                sleep_time=0.01)

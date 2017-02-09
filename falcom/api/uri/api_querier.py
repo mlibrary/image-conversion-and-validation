@@ -4,7 +4,7 @@
 
 class APIQuerier:
 
-    def __init__ (self, uri, url_opener):
+    def __init__ (self, uri, url_opener, sleep_time=300):
         self.uri = uri
         self.url_opener = url_opener
 
