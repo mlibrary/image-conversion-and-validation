@@ -79,6 +79,42 @@ class UrlopenerStub:
     def __call__ (self, *args, **kwargs):
         return self.HTTPResponseStub(self.output_data)
 
+class UrlopenerErrorFake:
+
+    class HTTPResponseDummy:
+
+        def read (self, *args, **kwargs):
+            return b""
+
+        def __enter__ (self):
+            return self
+
+        def __exit__ (self, exc_type, exc_value, traceback):
+            pass
+
+    class HTTPErrorResponder:
+
+        def __init__ (self, error):
+            self.error = error
+
+        def __enter__ (self):
+            raise self.error
+
+        def __exit__ (self, exc_type, exc_value, traceback):
+            pass
+
+    def __init__ (self, failure_count, error):
+        self.failures_remaining = failure_count
+        self.error = error
+
+    def __call__ (self, *args, **kwargs):
+        if self.failures_remaining > 0:
+            self.failures_remaining -= 1
+            return self.HTTPResponseDummy()
+
+        else:
+            return self.HTTPResponseDummy()
+
 class URITest (unittest.TestCase):
 
     def test_null_uri_yields_empty_string (self):
