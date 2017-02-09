@@ -13,23 +13,23 @@ class APIQuerier:
 
     def get (self, **kwargs):
         class SpecialNull: pass
-        result = SpecialNull
-        i = 1
+        self.result = SpecialNull
+        self.attempt_number = 1
 
-        while result is SpecialNull:
+        while self.result is SpecialNull:
             try:
-                result = self.__open_uri(kwargs)
+                self.result = self.__open_uri(kwargs)
 
             except ConnectionError:
                 sleep(self.sleep_time)
 
-                if i == self.max_tries:
-                    result = b""
+                if self.attempt_number == self.max_tries:
+                    self.result = b""
 
                 else:
-                    i += 1
+                    self.attempt_number += 1
 
-        return result
+        return self.result
 
     @staticmethod
     def utf8 (str_or_bytes):
