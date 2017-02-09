@@ -255,6 +255,13 @@ class APIQuerierTestErrors (unittest.TestCase):
                 sleep_time=0.01)
         self.api.get() # should raise no error
 
+    def test_api_handles_connection_reset_errors (self):
+        self.api = APIQuerier(
+                URI(),
+                url_opener=UrlopenerErrorFake(3, ConnectionResetError),
+                sleep_time=0.01)
+        self.api.get() # should raise no error
+
     def test_api_handles_connection_errors (self):
         self.api = APIQuerier(
                 URI(),
