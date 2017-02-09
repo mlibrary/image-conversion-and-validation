@@ -12,23 +12,24 @@ class APIQuerier:
         self.max_tries = max_tries
 
     def get (self, **kwargs):
-        try:
-            return self.__open_uri(kwargs)
-
-        except ConnectionError:
-            sleep(self.sleep_time)
-
+        class SpecialNull: pass
+        result = SpecialNull
         i = 1
-        while i != self.max_tries:
-            i += 1
 
+        while result is SpecialNull:
             try:
-                return self.__open_uri(kwargs)
+                result = self.__open_uri(kwargs)
 
             except ConnectionError:
                 sleep(self.sleep_time)
 
-        return b""
+                if i == self.max_tries:
+                    result = b""
+
+                else:
+                    i += 1
+
+        return result
 
     @staticmethod
     def utf8 (str_or_bytes):
