@@ -213,7 +213,7 @@ class APIQuerierTestHelpers (unittest.TestCase):
         self.api = APIQuerier(
                 URI(),
                 url_opener=UrlopenerErrorFake(failures, error),
-                sleep_time=0.01,
+                sleep_time=0.001,
                 max_tries=max_tries)
 
 class APIQuerierSpyTest (APIQuerierTestHelpers):
@@ -273,3 +273,7 @@ class APIQuerierTestErrors (APIQuerierTestHelpers):
     def test_silent_failure_after_max (self):
         self.set_api_error_fake(failures=5, max_tries=3)
         assert_that(self.api.get(), is_(equal_to(b"")))
+
+    def test_when_max_is_zero_try_a_lot (self):
+        self.set_api_error_fake(failures=100, max_tries=0)
+        self.api.get() # should raise no error
