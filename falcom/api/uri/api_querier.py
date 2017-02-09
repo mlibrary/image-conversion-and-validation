@@ -9,14 +9,26 @@ class APIQuerier:
         self.uri = uri
         self.url_opener = url_opener
         self.sleep_time = sleep_time
+        self.max_tries = max_tries
 
     def get (self, **kwargs):
-        while True:
+        try:
+            return self.__open_uri(kwargs)
+
+        except ConnectionError:
+            sleep(self.sleep_time)
+
+        i = 1
+        while i != self.max_tries:
+            i += 1
+
             try:
                 return self.__open_uri(kwargs)
 
             except ConnectionError:
                 sleep(self.sleep_time)
+
+        return b""
 
     @staticmethod
     def utf8 (str_or_bytes):
