@@ -110,7 +110,7 @@ class UrlopenerErrorFake:
     def __call__ (self, *args, **kwargs):
         if self.failures_remaining > 0:
             self.failures_remaining -= 1
-            return self.HTTPResponseDummy()
+            return self.HTTPErrorResponder(self.error)
 
         else:
             return self.HTTPResponseDummy()
@@ -253,3 +253,4 @@ class APIQuerierTestErrors (unittest.TestCase):
                 URI(),
                 url_opener=UrlopenerErrorFake(3, ConnectionError),
                 sleep_time=0.01)
+        self.api.get() # should raise no error

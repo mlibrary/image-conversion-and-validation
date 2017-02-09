@@ -1,18 +1,25 @@
 # Copyright (c) 2017 The Regents of the University of Michigan.
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
+from time import sleep
 
 class APIQuerier:
 
     def __init__ (self, uri, url_opener, sleep_time=300):
         self.uri = uri
         self.url_opener = url_opener
+        self.sleep_time = sleep_time
 
     def get (self, **kwargs):
-        with self.url_opener(self.uri(**kwargs)) as response:
-            result = self.utf8(response.read())
+        while True:
+            try:
+                with self.url_opener(self.uri(**kwargs)) as response:
+                    result = self.utf8(response.read())
 
-        return result
+                return result
+
+            except:
+                sleep(self.sleep_time)
 
     @staticmethod
     def utf8 (str_or_bytes):
