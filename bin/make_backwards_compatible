@@ -5,4 +5,6 @@
 from argparse import ArgumentParser
 
 parser = ArgumentParser(description="Make backwards compatible")
+parser.add_argument("files")
+parser.add_argument("--version")
 args = parser.parse_args()

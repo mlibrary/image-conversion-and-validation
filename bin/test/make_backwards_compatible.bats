@@ -19,3 +19,10 @@ make_compatible() {
   [ "$status" -eq 0 ]
   [[ "$output" =~ "usage:" ]]
 }
+
+@test "ConnectionError becomes OSError in <3.3" {
+  echo "except ConnectionError:"  >> "$tmpfile"
+  echo "    pass"                 >> "$tmpfile"
+  run make_compatible --version 3.2.5 "$tmpfile"
+  [ "$status" -eq 0 ]
+}
