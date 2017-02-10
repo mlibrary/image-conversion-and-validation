@@ -28,3 +28,9 @@ make_compatible() {
   ! grep -q ConnectionError "$tmpfile"
   grep -q '^except OSError:$' "$tmpfile"
 }
+
+@test "No ConnectionError leaves file unchanged" {
+  echo "maaatt" >> "$tmpfile"
+  run make_compatible --version 3.2.5 "$tmpfile"
+  grep -q '^maaatt$' "$tmpfile"
+}

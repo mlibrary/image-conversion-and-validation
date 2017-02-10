@@ -10,5 +10,9 @@ parser.add_argument("--version")
 args = parser.parse_args()
 
 for filename in args.files:
-    with open(filename, "w") as f:
-        f.write("except OSError:\n")
+    with open(filename, "r") as f:
+        text = f.read()
+
+    if "ConnectionError" in text:
+        with open(filename, "w") as f:
+            f.write("except OSError:\n")
