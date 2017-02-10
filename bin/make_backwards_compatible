@@ -13,8 +13,11 @@ def fix_file (filename):
             f.write("except OSError:\n")
 
 parser = ArgumentParser(description="Make backwards compatible")
-parser.add_argument("files", nargs="*")
-parser.add_argument("--version")
+parser.add_argument("files",
+                    nargs="*",
+                    help="specific files to read")
+parser.add_argument("--version",
+                    help="python version to run against")
 args = parser.parse_args()
 
 for filename in args.files:
