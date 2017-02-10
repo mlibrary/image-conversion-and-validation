@@ -10,7 +10,7 @@ def fix_file(filename):
 
     if "ConnectionError" in text:
         with open(filename, "w") as f:
-            f.write("except OSError:\n")
+            f.write(text.replace("ConnectionError", "OSError"))
 
 def parse_args():
     parser = ArgumentParser(description="Make backwards compatible")

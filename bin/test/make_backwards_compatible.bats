@@ -27,6 +27,7 @@ make_compatible() {
   [ "$status" -eq 0 ]
   ! grep -q ConnectionError "$tmpfile"
   grep -q '^except OSError:$' "$tmpfile"
+  grep -q '^ \+pass$' "$tmpfile"
 }
 
 @test "No ConnectionError leaves file unchanged" {
