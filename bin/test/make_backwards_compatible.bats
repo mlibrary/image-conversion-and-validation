@@ -10,8 +10,12 @@ teardown() {
   rm "$tmpfile"
 }
 
+make_compatible() {
+  ./bin/make_backwards_compatible "$@"
+}
+
 @test "has help text" {
-  run ./bin/make_backwards_compatible -h
+  run make_compatible -h
   [ "$status" -eq 0 ]
   [[ "$output" =~ "usage:" ]]
 }
