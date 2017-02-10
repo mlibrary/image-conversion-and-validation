@@ -1,3 +1,4 @@
 @test "has help text" {
-  ./bin/make_backwards_compatible -h
+  run ./bin/make_backwards_compatible -h
+  [ "$status" -eq 0 ]
 }
