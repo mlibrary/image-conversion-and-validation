@@ -5,6 +5,10 @@
 from argparse import ArgumentParser
 
 parser = ArgumentParser(description="Make backwards compatible")
-parser.add_argument("files")
+parser.add_argument("files", nargs="*")
 parser.add_argument("--version")
 args = parser.parse_args()
+
+for filename in args.files:
+    with open(filename, "w") as f:
+        pass

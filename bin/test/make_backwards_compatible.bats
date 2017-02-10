@@ -25,4 +25,5 @@ make_compatible() {
   echo "    pass"                 >> "$tmpfile"
   run make_compatible --version 3.2.5 "$tmpfile"
   [ "$status" -eq 0 ]
+  ! grep -q ConnectionError "$tmpfile"
 }
