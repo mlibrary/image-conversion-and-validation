@@ -4,7 +4,7 @@
 # BSD License. See LICENSE.txt for details.
 from argparse import ArgumentParser
 
-def fix_file (filename):
+def fix_file(filename):
     with open(filename, "r") as f:
         text = f.read()
 
@@ -12,13 +12,16 @@ def fix_file (filename):
         with open(filename, "w") as f:
             f.write("except OSError:\n")
 
-parser = ArgumentParser(description="Make backwards compatible")
-parser.add_argument("files",
-                    nargs="*",
-                    help="specific files to read")
-parser.add_argument("--version",
-                    help="python version to run against")
-args = parser.parse_args()
+def parse_args():
+    parser = ArgumentParser(description="Make backwards compatible")
+    parser.add_argument("files",
+                        nargs="*",
+                        help="specific files to read")
+    parser.add_argument("--version",
+                        help="python version to run against")
+    return parser.parse_args()
+
+args = parse_args()
 
 for filename in args.files:
     fix_file(filename)
