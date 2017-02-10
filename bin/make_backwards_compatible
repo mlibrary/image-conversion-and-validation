@@ -11,4 +11,4 @@ args = parser.parse_args()
 
 for filename in args.files:
     with open(filename, "w") as f:
-        pass
+        f.write("except OSError:\n")
