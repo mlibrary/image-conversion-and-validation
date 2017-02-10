@@ -4,15 +4,18 @@
 # BSD License. See LICENSE.txt for details.
 from argparse import ArgumentParser
 
-parser = ArgumentParser(description="Make backwards compatible")
-parser.add_argument("files", nargs="*")
-parser.add_argument("--version")
-args = parser.parse_args()
-
-for filename in args.files:
+def fix_file (filename):
     with open(filename, "r") as f:
         text = f.read()
 
     if "ConnectionError" in text:
         with open(filename, "w") as f:
             f.write("except OSError:\n")
+
+parser = ArgumentParser(description="Make backwards compatible")
+parser.add_argument("files", nargs="*")
+parser.add_argument("--version")
+args = parser.parse_args()
+
+for filename in args.files:
+    fix_file(filename)
