@@ -27,15 +27,18 @@ def multi_replace (text, duple_iterator):
         text = text.replace(a, b)
     return text
 
-def fix_file(filename):
+def replace_os_errors (filename, text):
+    error_iterator = ((error, "OSError") for error in OS_ERRORS)
+    text = multi_replace(text, error_iterator)
+    write_to_file(filename, text)
+
+def fix_file (filename):
     text = read_file(filename)
 
     if any(error in text for error in OS_ERRORS):
-        error_iterator = ((error, "OSError") for error in OS_ERRORS)
-        text = multi_replace(text, error_iterator)
-        write_to_file(filename, text)
+        replace_os_errors(filename, text)
 
-def parse_args():
+def parse_args ():
     parser = ArgumentParser(description="Make backwards compatible")
     parser.add_argument("files",
                         nargs="*",
