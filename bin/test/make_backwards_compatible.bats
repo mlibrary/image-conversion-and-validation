@@ -14,6 +14,10 @@ make_compatible() {
   ./bin/make_backwards_compatible "$@"
 }
 
+not_grep() {
+  if grep -q "$@"; then false; else true; fi
+}
+
 @test "has help text" {
   run make_compatible -h
   [ "$status" -eq 0 ]
@@ -25,7 +29,7 @@ make_compatible() {
   echo "    pass"                 >> "$tmpfile"
   run make_compatible --version 3.2.5 "$tmpfile"
   [ "$status" -eq 0 ]
-  ! grep -q ConnectionError "$tmpfile"
+  not_grep ConnectionError "$tmpfile"
   grep -q '^except OSError:$' "$tmpfile"
   grep -q '^ \+pass$' "$tmpfile"
 }
@@ -35,7 +39,20 @@ make_compatible() {
   echo "    pass"                 >> "$tmpfile"
   run make_compatible --version 3.2.5 "$tmpfile"
   [ "$status" -eq 0 ]
-  ! grep -q BrokenPipe "$tmpfile"
+  not_grep BrokenPipe "$tmpfile"
+  grep -q '^except OSError:$' "$tmpfile"
+  grep -q '^ \+pass$' "$tmpfile"
+}
+
+@test "ConnectionError and BrokenPipe become OSError in <3.3" {
+  echo "except ConnectionError:"  >> "$tmpfile"
+  echo "    pass"                 >> "$tmpfile"
+  echo "except BrokenPipe:"       >> "$tmpfile"
+  echo "    pass"                 >> "$tmpfile"
+  run make_compatible --version 3.2.5 "$tmpfile"
+  [ "$status" -eq 0 ]
+  not_grep ConnectionError "$tmpfile"
+  not_grep BrokenPipe "$tmpfile"
   grep -q '^except OSError:$' "$tmpfile"
   grep -q '^ \+pass$' "$tmpfile"
 }

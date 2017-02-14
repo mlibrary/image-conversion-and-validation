@@ -12,13 +12,12 @@ def fix_file(filename):
     with open(filename, "r") as f:
         text = f.read()
 
-    if "ConnectionError" in text:
+    os_errors = ("ConnectionError", "BrokenPipe")
+    if any(error in text for error in os_errors):
+        for error in os_errors:
+            text = text.replace(error, "OSError")
         with open(filename, "w") as f:
-            f.write(text.replace("ConnectionError", "OSError"))
-
-    if "BrokenPipe" in text:
-        with open(filename, "w") as f:
-            f.write(text.replace("BrokenPipe", "OSError"))
+            f.write(text)
 
 def parse_args():
     parser = ArgumentParser(description="Make backwards compatible")
