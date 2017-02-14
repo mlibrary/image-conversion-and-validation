@@ -79,6 +79,42 @@ class UrlopenerStub:
     def __call__ (self, *args, **kwargs):
         return self.HTTPResponseStub(self.output_data)
 
+class UrlopenerErrorFake:
+
+    class HTTPResponseDummy:
+
+        def read (self, *args, **kwargs):
+            return b""
+
+        def __enter__ (self):
+            return self
+
+        def __exit__ (self, exc_type, exc_value, traceback):
+            pass
+
+    class HTTPErrorResponder:
+
+        def __init__ (self, error):
+            self.error = error
+
+        def __enter__ (self):
+            raise self.error
+
+        def __exit__ (self, exc_type, exc_value, traceback):
+            pass
+
+    def __init__ (self, failure_count, error):
+        self.failures_remaining = failure_count
+        self.error = error
+
+    def __call__ (self, *args, **kwargs):
+        if self.failures_remaining > 0:
+            self.failures_remaining -= 1
+            return self.HTTPErrorResponder(self.error)
+
+        else:
+            return self.HTTPResponseDummy()
+
 class URITest (unittest.TestCase):
 
     def test_null_uri_yields_empty_string (self):
@@ -170,6 +206,16 @@ class APIQuerierTestHelpers (unittest.TestCase):
         self.api = APIQuerier(URI(),
                               url_opener=UrlopenerStub(output_data))
 
+    def set_api_error_fake (self,
+                            error=ConnectionError,
+                            failures=3,
+                            max_tries=0):
+        self.api = APIQuerier(
+                URI(),
+                url_opener=UrlopenerErrorFake(failures, error),
+                sleep_time=0.001,
+                max_tries=max_tries)
+
 class APIQuerierSpyTest (APIQuerierTestHelpers):
 
     def setUp (self):
@@ -209,3 +255,25 @@ class APIQuerierDataTest (APIQuerierTestHelpers):
     def test_bytes_are_converted_to_str_via_utf_8 (self):
         self.set_api_stub("💪".encode("utf_8"))
         assert_that(self.api.get(), is_(equal_to("💪")))
+
+class APIQuerierTestErrors (APIQuerierTestHelpers):
+
+    def test_api_handles_connection_errors (self):
+        self.set_api_error_fake(ConnectionError)
+        self.api.get() # should raise no error
+
+    def test_api_handles_connection_reset_errors (self):
+        self.set_api_error_fake(ConnectionResetError)
+        self.api.get() # should raise no error
+
+    def test_api_raises_other_errors (self):
+        self.set_api_error_fake(KeyError)
+        assert_that(calling(self.api.get), raises(KeyError))
+
+    def test_silent_failure_after_max (self):
+        self.set_api_error_fake(failures=5, max_tries=3)
+        assert_that(self.api.get(), is_(equal_to(b"")))
+
+    def test_when_max_is_zero_try_a_lot (self):
+        self.set_api_error_fake(failures=100, max_tries=0)
+        self.api.get() # should raise no error

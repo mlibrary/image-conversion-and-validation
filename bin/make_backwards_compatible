@@ -1,0 +1,84 @@
+#!/usr/bin/env python3
+# Copyright (c) 2017 The Regents of the University of Michigan.
+# All Rights Reserved. Licensed according to the terms of the Revised
+# BSD License. See LICENSE.txt for details.
+from argparse import ArgumentParser
+from os import walk
+from os.path import join
+from sys import version_info
+
+OS_ERRORS = (
+    "ConnectionError",
+    "BrokenPipe",
+    "ConnectionAbortedError",
+    "ConnectionRefusedError",
+    "ConnectionResetError",
+)
+
+class Arguments:
+
+    def __init__ (self):
+        parser = ArgumentParser(description="Make backwards compatible")
+        parser.add_argument("files",
+                            nargs="*",
+                            help="specific files to read")
+        parser.add_argument("--version",
+                            help="python version to run against")
+        self.args = parser.parse_args()
+
+    @property
+    def version (self):
+        if self.args.version is None:
+            return version_info
+
+        else:
+            return tuple(int(i) for i in self.args.version.split("."))
+
+    @property
+    def files (self):
+        if self.args.files:
+            return self.args.files
+
+        else:
+            return self.flat_py_tree()
+
+    def flat_py_tree (self):
+        for root, directories, files in walk("falcom"):
+            for filename in files:
+                if filename.endswith(".py"):
+                    yield join(root, filename)
+
+def read_file (filename):
+    with open(filename, "r") as f:
+        text = f.read()
+    return text
+
+def write_to_file (filename, text):
+    with open(filename, "w") as f:
+        f.write(text)
+
+def iter_run (func, iterator):
+    for i in iterator:
+        func(i)
+
+def multi_replace (text, duple_iterator):
+    for a, b in duple_iterator:
+        text = text.replace(a, b)
+    return text
+
+def replace_os_errors (filename, text):
+    print("Swapping in OSErrors in {} ...".format(filename))
+    error_iterator = ((error, "OSError") for error in OS_ERRORS)
+    text = multi_replace(text, error_iterator)
+    write_to_file(filename, text)
+
+def fix_file (filename):
+    text = read_file(filename)
+
+    if any(error in text for error in OS_ERRORS):
+        replace_os_errors(filename, text)
+
+args = Arguments()
+
+if args.version < (3, 3):
+    iter_run(fix_file, args.files)
