@@ -4,6 +4,11 @@
 # BSD License. See LICENSE.txt for details.
 from argparse import ArgumentParser
 
+OS_ERRORS = (
+    "ConnectionError",
+    "BrokenPipe",
+)
+
 def iter_run (func, iterator):
     for i in iterator:
         func(i)
@@ -12,9 +17,8 @@ def fix_file(filename):
     with open(filename, "r") as f:
         text = f.read()
 
-    os_errors = ("ConnectionError", "BrokenPipe")
-    if any(error in text for error in os_errors):
-        for error in os_errors:
+    if any(error in text for error in OS_ERRORS):
+        for error in OS_ERRORS:
             text = text.replace(error, "OSError")
         with open(filename, "w") as f:
             f.write(text)
