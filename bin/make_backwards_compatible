@@ -15,6 +15,34 @@ OS_ERRORS = (
     "ConnectionResetError",
 )
 
+class Arguments:
+
+    def __init__ (self):
+        parser = ArgumentParser(description="Make backwards compatible")
+        parser.add_argument("files",
+                            nargs="*",
+                            help="specific files to read")
+        parser.add_argument("--version",
+                            help="python version to run against")
+        self.args = parser.parse_args()
+
+    @property
+    def version (self):
+        if self.args.version is None:
+            return version_info
+
+        else:
+            return tuple(int(i) for i in self.args.version.split("."))
+
+    @property
+    def files (self):
+        if self.args.files:
+            return self.args.files
+
+        else:
+            return (join(r, f) for r, d, f in walk("falcom")
+                                if f.endswith(".py"))
+
 def read_file (filename):
     with open(filename, "r") as f:
         text = f.read()
@@ -44,31 +72,7 @@ def fix_file (filename):
     if any(error in text for error in OS_ERRORS):
         replace_os_errors(filename, text)
 
-def parse_args ( ):
-    parser = ArgumentParser(description="Make backwards compatible")
-    parser.add_argument("files",
-                        nargs="*",
-                        help="specific files to read")
-    parser.add_argument("--version",
-                        help="python version to run against")
-    return parser.parse_args()
+args = Arguments()
 
-def get_version (args):
-    if args.version is None:
-        return version_info
-
-    else:
-        return tuple(int(i) for i in args.version.split("."))
-
-def get_file_iterator (args):
-    if args.files:
-        return args.files
-
-    else:
-        return (join(r, f) for r, d, f in walk("falcom")
-                            if f.endswith(".py"))
-
-args = parse_args()
-
-if get_version(args) < (3, 3):
-    iter_run(fix_file, get_file_iterator(args))
+if args.version < (3, 3):
+    iter_run(fix_file, args.files)
