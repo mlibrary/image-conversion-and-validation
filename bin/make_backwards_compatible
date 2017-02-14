@@ -44,8 +44,9 @@ class Arguments:
 
     def flat_py_tree (self):
         for root, directories, files in walk("falcom"):
-            yield from (join(root, f) for f in files
-                                       if f.endswith(".py"))
+            for filename in files:
+                if filename.endswith(".py"):
+                    yield join(root, filename)
 
 def read_file (filename):
     with open(filename, "r") as f:
