@@ -3,6 +3,8 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 from argparse import ArgumentParser
+from os import walk
+from os.path import join
 from sys import version_info
 
 OS_ERRORS = (
@@ -59,5 +61,13 @@ if args.version is None:
 else:
     version = tuple(int(i) for i in args.version.split("."))
 
+if args.files:
+    file_iterator = args.files
+
+else:
+    file_iterator = (join(r, f)
+                     for r, d, f in walk("falcom")
+                     if f.endswith(".py"))
+
 if version < (3, 3):
-    iter_run(fix_file, args.files)
+    iter_run(fix_file, file_iterator)
