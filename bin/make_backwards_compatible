@@ -44,7 +44,7 @@ def fix_file (filename):
     if any(error in text for error in OS_ERRORS):
         replace_os_errors(filename, text)
 
-def parse_args ():
+def parse_args ( ):
     parser = ArgumentParser(description="Make backwards compatible")
     parser.add_argument("files",
                         nargs="*",
@@ -53,21 +53,24 @@ def parse_args ():
                         help="python version to run against")
     return parser.parse_args()
 
+def get_version (args):
+    if args.version is None:
+        return version_info
+
+    else:
+        return tuple(int(i) for i in args.version.split("."))
+
+def get_file_iterator (args):
+    if args.files:
+        return args.files
+
+    else:
+        return (join(r, f) for r, d, f in walk("falcom")
+                            if f.endswith(".py"))
+
 args = parse_args()
-
-if args.version is None:
-    version = version_info
-
-else:
-    version = tuple(int(i) for i in args.version.split("."))
-
-if args.files:
-    file_iterator = args.files
-
-else:
-    file_iterator = (join(r, f)
-                     for r, d, f in walk("falcom")
-                     if f.endswith(".py"))
+version = get_version(args)
+file_iterator = get_file_iterator(args)
 
 if version < (3, 3):
     iter_run(fix_file, file_iterator)
