@@ -7,6 +7,9 @@ from argparse import ArgumentParser
 OS_ERRORS = (
     "ConnectionError",
     "BrokenPipe",
+    "ConnectionAbortedError",
+    "ConnectionRefusedError",
+    "ConnectionResetError",
 )
 
 def read_file (filename):
