@@ -69,8 +69,7 @@ def get_file_iterator (args):
                             if f.endswith(".py"))
 
 args = parse_args()
-version = get_version(args)
 file_iterator = get_file_iterator(args)
 
-if version < (3, 3):
+if get_version(args) < (3, 3):
     iter_run(fix_file, file_iterator)
