@@ -3,6 +3,7 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 from argparse import ArgumentParser
+from sys import version_info
 
 OS_ERRORS = (
     "ConnectionError",
@@ -52,7 +53,11 @@ def parse_args ():
 
 args = parse_args()
 
-version = tuple(int(i) for i in args.version.split("."))
+if args.version is None:
+    version = version_info
+
+else:
+    version = tuple(int(i) for i in args.version.split("."))
 
 if version < (3, 3):
     iter_run(fix_file, args.files)
