@@ -66,6 +66,7 @@ def multi_replace (text, duple_iterator):
     return text
 
 def replace_os_errors (filename, text):
+    print("Swapping in OSErrors in {} ...".format(filename))
     error_iterator = ((error, "OSError") for error in OS_ERRORS)
     text = multi_replace(text, error_iterator)
     write_to_file(filename, text)
