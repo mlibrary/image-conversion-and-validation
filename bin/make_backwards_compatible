@@ -16,6 +16,10 @@ def fix_file(filename):
         with open(filename, "w") as f:
             f.write(text.replace("ConnectionError", "OSError"))
 
+    if "BrokenPipe" in text:
+        with open(filename, "w") as f:
+            f.write(text.replace("BrokenPipe", "OSError"))
+
 def parse_args():
     parser = ArgumentParser(description="Make backwards compatible")
     parser.add_argument("files",
