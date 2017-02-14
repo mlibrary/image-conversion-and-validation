@@ -23,10 +23,7 @@ def parse_args():
 
 args = parse_args()
 
-l = [ ]
-for i in args.version.split("."):
-    l.append(int(i))
-version = tuple(l)
+version = tuple(int(i) for i in args.version.split("."))
 
 # 3.5.6 -> ("3", "5", "6") not (3, 5, 6)
 if version < (3, 3):
