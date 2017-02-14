@@ -9,6 +9,15 @@ OS_ERRORS = (
     "BrokenPipe",
 )
 
+def read_file (filename):
+    with open(filename, "r") as f:
+        text = f.read()
+    return text
+
+def write_to_file (filename, text):
+    with open(filename, "w") as f:
+        f.write(text)
+
 def iter_run (func, iterator):
     for i in iterator:
         func(i)
@@ -19,14 +28,12 @@ def multi_replace (text, duple_iterator):
     return text
 
 def fix_file(filename):
-    with open(filename, "r") as f:
-        text = f.read()
+    text = read_file(filename)
 
     if any(error in text for error in OS_ERRORS):
         error_iterator = ((error, "OSError") for error in OS_ERRORS)
         text = multi_replace(text, error_iterator)
-        with open(filename, "w") as f:
-            f.write(text)
+        write_to_file(filename, text)
 
 def parse_args():
     parser = ArgumentParser(description="Make backwards compatible")
