@@ -13,13 +13,18 @@ def iter_run (func, iterator):
     for i in iterator:
         func(i)
 
+def multi_replace (text, duple_iterator):
+    for a, b in duple_iterator:
+        text = text.replace(a, b)
+    return text
+
 def fix_file(filename):
     with open(filename, "r") as f:
         text = f.read()
 
     if any(error in text for error in OS_ERRORS):
-        for error in OS_ERRORS:
-            text = text.replace(error, "OSError")
+        text = multi_replace(text, ((error, "OSError")
+                                    for error in OS_ERRORS))
         with open(filename, "w") as f:
             f.write(text)
 
