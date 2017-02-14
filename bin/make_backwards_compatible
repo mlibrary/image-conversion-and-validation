@@ -40,8 +40,12 @@ class Arguments:
             return self.args.files
 
         else:
-            return (join(r, f) for r, d, f in walk("falcom")
-                                if f.endswith(".py"))
+            return self.flat_py_tree()
+
+    def flat_py_tree (self):
+        for root, directories, files in walk("falcom"):
+            yield from (join(root, f) for f in files
+                                       if f.endswith(".py"))
 
 def read_file (filename):
     with open(filename, "r") as f:
