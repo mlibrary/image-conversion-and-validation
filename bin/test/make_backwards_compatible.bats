@@ -35,3 +35,10 @@ make_compatible() {
   run make_compatible --version 3.2.5 "$tmpfile"
   grep -q '^maaatt$' "$tmpfile"
 }
+
+@test "ConnectionError is fine if python >=3.3" {
+  echo "except ConnectionError:"  >> "$tmpfile"
+  echo "    pass"                 >> "$tmpfile"
+  run make_compatible --version 3.3.0 "$tmpfile"
+  grep -q ConnectionError "$tmpfile"
+}
