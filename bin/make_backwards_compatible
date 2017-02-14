@@ -4,6 +4,10 @@
 # BSD License. See LICENSE.txt for details.
 from argparse import ArgumentParser
 
+def iter_run (func, iterator):
+    for i in iterator:
+        func(i)
+
 def fix_file(filename):
     with open(filename, "r") as f:
         text = f.read()
@@ -26,5 +30,4 @@ args = parse_args()
 version = tuple(int(i) for i in args.version.split("."))
 
 if version < (3, 3):
-    for filename in args.files:
-        fix_file(filename)
+    iter_run(fix_file, args.files)
