@@ -24,48 +24,8 @@ not_grep() {
   [[ "$output" =~ "usage:" ]]
 }
 
-@test "ConnectionError becomes OSError in <3.3" {
-  echo "except ConnectionError:"  >> "$tmpfile"
-  echo "    pass"                 >> "$tmpfile"
-  run make_compatible --version 3.2.5 "$tmpfile"
-  [ "$status" -eq 0 ]
-  not_grep ConnectionError "$tmpfile"
-  grep -q '^except OSError:$' "$tmpfile"
-  grep -q '^ \+pass$' "$tmpfile"
-}
-
-@test "BrokenPipe becomes OSError in <3.3" {
-  echo "except BrokenPipe:"       >> "$tmpfile"
-  echo "    pass"                 >> "$tmpfile"
-  run make_compatible --version 3.2.5 "$tmpfile"
-  [ "$status" -eq 0 ]
-  not_grep BrokenPipe "$tmpfile"
-  grep -q '^except OSError:$' "$tmpfile"
-  grep -q '^ \+pass$' "$tmpfile"
-}
-
-@test "ConnectionError and BrokenPipe become OSError in <3.3" {
-  echo "except ConnectionError:"  >> "$tmpfile"
-  echo "    pass"                 >> "$tmpfile"
-  echo "except BrokenPipe:"       >> "$tmpfile"
-  echo "    pass"                 >> "$tmpfile"
-  run make_compatible --version 3.2.5 "$tmpfile"
-  [ "$status" -eq 0 ]
-  not_grep ConnectionError "$tmpfile"
-  not_grep BrokenPipe "$tmpfile"
-  grep -q '^except OSError:$' "$tmpfile"
-  grep -q '^ \+pass$' "$tmpfile"
-}
-
 @test "No ConnectionError leaves file unchanged" {
   echo "maaatt" >> "$tmpfile"
   run make_compatible --version 3.2.5 "$tmpfile"
   grep -q '^maaatt$' "$tmpfile"
-}
-
-@test "ConnectionError is fine if python >=3.3" {
-  echo "except ConnectionError:"  >> "$tmpfile"
-  echo "    pass"                 >> "$tmpfile"
-  run make_compatible --version 3.3.0 "$tmpfile"
-  grep -q ConnectionError "$tmpfile"
 }
