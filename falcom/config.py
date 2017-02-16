@@ -5,6 +5,7 @@
 class Config:
 
     default_key = "default"
+    default = ( )
 
     def __len__ (self):
         return 0

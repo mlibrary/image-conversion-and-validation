@@ -26,3 +26,6 @@ class GivenEmptyConfig (unittest.TestCase):
         assert_that(self.config.default_key in self.config,
                     "{} in {}".format(repr(self.config.default_key),
                                       repr(self.config)))
+
+    def test_default_dict_is_empty (self):
+        assert_that(dict(self.config.default), is_(equal_to({})))
