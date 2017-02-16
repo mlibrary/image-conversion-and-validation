@@ -6,6 +6,7 @@ import unittest
 
 from .hamcrest import ComposedMatcher, \
         evaluates_to_false, evaluates_to_true
+from ..config import Config
 
 class NothingTest (unittest.TestCase):
 
