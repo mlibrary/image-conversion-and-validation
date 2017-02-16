@@ -7,17 +7,57 @@ from os import walk
 from os.path import join
 from sys import version_info
 
-OS_ERRORS = (
-    "ConnectionError",
-    "BrokenPipe",
-    "ConnectionAbortedError",
-    "ConnectionRefusedError",
-    "ConnectionResetError",
-)
+class SourceFileLessThan3_3:
+
+    os_errors = (
+        "ConnectionError",
+        "BrokenPipe",
+        "ConnectionAbortedError",
+        "ConnectionRefusedError",
+        "ConnectionResetError",
+    )
+
+    def __init__ (self, filename):
+        self.filename = filename
+        self.fix()
+
+    def fix (self):
+        self.read()
+        if any(error in self.text for error in self.os_errors):
+            self.replace_os_errors()
+
+    def replace_os_errors (self):
+        print("Swapping in OSErrors in {} ...".format(self.filename))
+        self.multi_replace()
+        self.write()
+
+    def read (self):
+        with open(self.filename, "r") as f:
+            self.text = f.read()
+
+    def write (self):
+        with open(self.filename, "w") as f:
+            f.write(self.text)
+
+    def multi_replace (self):
+        for a, b in ((error, "OSError") for error in self.os_errors):
+            self.text = self.text.replace(a, b)
 
 class Arguments:
 
     def __init__ (self):
+        self.parse_args()
+        self.make_backwards_compatible_if_less_than_3_3()
+
+    def make_backwards_compatible_if_less_than_3_3 (self):
+        if self.version() < (3, 3):
+            self.less_than_3_3()
+
+    def less_than_3_3 (self):
+        for filename in self.files():
+            SourceFileLessThan3_3(filename)
+
+    def parse_args (self):
         parser = ArgumentParser(description="Make backwards compatible")
         parser.add_argument("files",
                             nargs="*",
@@ -26,7 +66,6 @@ class Arguments:
                             help="python version to run against")
         self.args = parser.parse_args()
 
-    @property
     def version (self):
         if self.args.version is None:
             return version_info
@@ -34,7 +73,6 @@ class Arguments:
         else:
             return tuple(int(i) for i in self.args.version.split("."))
 
-    @property
     def files (self):
         if self.args.files:
             return self.args.files
@@ -44,41 +82,8 @@ class Arguments:
 
     def flat_py_tree (self):
         for root, directories, files in walk("falcom"):
-            for filename in files:
-                if filename.endswith(".py"):
-                    yield join(root, filename)
-
-def read_file (filename):
-    with open(filename, "r") as f:
-        text = f.read()
-    return text
-
-def write_to_file (filename, text):
-    with open(filename, "w") as f:
-        f.write(text)
-
-def iter_run (func, iterator):
-    for i in iterator:
-        func(i)
-
-def multi_replace (text, duple_iterator):
-    for a, b in duple_iterator:
-        text = text.replace(a, b)
-    return text
-
-def replace_os_errors (filename, text):
-    print("Swapping in OSErrors in {} ...".format(filename))
-    error_iterator = ((error, "OSError") for error in OS_ERRORS)
-    text = multi_replace(text, error_iterator)
-    write_to_file(filename, text)
-
-def fix_file (filename):
-    text = read_file(filename)
-
-    if any(error in text for error in OS_ERRORS):
-        replace_os_errors(filename, text)
+            for path in (join(root, f) for f in files
+                                        if f.endswith(".py")):
+                yield path
 
 args = Arguments()
-
-if args.version < (3, 3):
-    iter_run(fix_file, args.files)
