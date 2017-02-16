@@ -50,8 +50,8 @@ class Arguments:
         self.make_backwards_compatible_if_less_than_3_3()
 
     def make_backwards_compatible_if_less_than_3_3 (self):
-        if self.version < (3, 3):
-            for filename in self.files:
+        if self.version() < (3, 3):
+            for filename in self.files():
                 SourceFileLessThan3_3(filename)
 
     def parse_args (self):
@@ -63,7 +63,6 @@ class Arguments:
                             help="python version to run against")
         self.args = parser.parse_args()
 
-    @property
     def version (self):
         if self.args.version is None:
             return version_info
@@ -71,7 +70,6 @@ class Arguments:
         else:
             return tuple(int(i) for i in self.args.version.split("."))
 
-    @property
     def files (self):
         if self.args.files:
             return self.args.files
