@@ -47,6 +47,9 @@ class Arguments:
 
     def __init__ (self):
         self.parse_args()
+        self.make_backwards_compatible_if_less_than_3_3()
+
+    def make_backwards_compatible_if_less_than_3_3 (self):
         if self.version < (3, 3):
             for filename in self.files:
                 SourceFileLessThan3_3(filename)
