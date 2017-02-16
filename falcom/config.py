@@ -13,6 +13,9 @@ class Config:
     def __getitem__ (self, key):
         return ( )
 
+    def __iter__ (self):
+        return iter(())
+
     def __contains__ (self, key):
         return True
 

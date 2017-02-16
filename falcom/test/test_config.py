@@ -35,3 +35,9 @@ class GivenEmptyConfig (unittest.TestCase):
         key_accession = self.config[self.config.default_key]
 
         assert_that(key_accession, is_(equal_to(direct_accession)))
+
+    def test_is_iterable (self):
+        assert_that(list(self.config), is_(equal_to([])))
+
+    def test_no_other_keys_exist (self):
+        other_key = "not" + self.config.default_key
