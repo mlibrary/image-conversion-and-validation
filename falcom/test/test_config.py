@@ -12,3 +12,4 @@ class GivenNothing (unittest.TestCase):
 
     def test_can_init_config (self):
         config = Config()
+        assert_that(config, evaluates_to_false())
