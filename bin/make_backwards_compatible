@@ -53,6 +53,7 @@ class SourceFile:
     def __init__ (self, filename):
         self.filename = filename
         self.read()
+        self.fix()
 
     def fix (self):
         if any(error in self.text for error in OS_ERRORS):
@@ -80,4 +81,4 @@ args = Arguments()
 
 if args.version < (3, 3):
     for filename in args.files:
-        SourceFile(filename).fix()
+        SourceFile(filename)
