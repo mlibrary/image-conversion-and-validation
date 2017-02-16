@@ -10,6 +10,9 @@ class Config:
     def __len__ (self):
         return 0
 
+    def __getitem__ (self, key):
+        pass
+
     def __contains__ (self, key):
         return True
 
