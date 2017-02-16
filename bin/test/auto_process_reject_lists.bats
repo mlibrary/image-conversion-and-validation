@@ -7,3 +7,8 @@
   [ "$status" -eq 2 ]
   [[ ${lines[0]} =~ "usage:" ]]
 }
+
+@test "Can display help" {
+  run ./bin/auto_process_reject_lists -h
+  [ "$status" -eq 0 ]
+}
