@@ -52,27 +52,26 @@ class SourceFile:
 
     def __init__ (self, filename):
         self.filename = filename
+        self.text = self.read()
 
     def fix (self):
-        text = self.read()
+        if any(error in self.text for error in OS_ERRORS):
+            self.replace_os_errors()
 
-        if any(error in text for error in OS_ERRORS):
-            self.replace_os_errors(text)
-
-    def replace_os_errors (self, text):
+    def replace_os_errors (self):
         print("Swapping in OSErrors in {} ...".format(self.filename))
         error_iterator = ((error, "OSError") for error in OS_ERRORS)
-        text = multi_replace(text, error_iterator)
-        self.write(text)
+        self.text = multi_replace(self.text, error_iterator)
+        self.write()
 
     def read (self):
         with open(self.filename, "r") as f:
             text = f.read()
         return text
 
-    def write (self, text):
+    def write (self):
         with open(self.filename, "w") as f:
-            f.write(text)
+            f.write(self.text)
 
 def multi_replace (text, duple_iterator):
     for a, b in duple_iterator:
