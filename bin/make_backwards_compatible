@@ -52,10 +52,10 @@ class SourceFileLessThan3_3:
 
     def __init__ (self, filename):
         self.filename = filename
-        self.read()
         self.fix()
 
     def fix (self):
+        self.read()
         if any(error in self.text for error in OS_ERRORS):
             self.replace_os_errors()
 
