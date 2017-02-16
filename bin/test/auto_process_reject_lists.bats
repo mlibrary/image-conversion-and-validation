@@ -5,4 +5,5 @@
 @test "Script requires arguments" {
   run ./bin/auto_process_reject_lists
   [ "$status" -eq 2 ]
+  [[ ${lines[0]} =~ "usage:" ]]
 }
