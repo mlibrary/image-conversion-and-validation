@@ -41,6 +41,18 @@ teardown() {
   not_grep ConnectionAbortedError "$tmpfile"
 }
 
+@test "ConnectionRefusedError becomes OSError in <3.3" {
+  run make_compatible --version 3.2.5 "$tmpfile"
+  [ "$status" -eq 0 ]
+  not_grep ConnectionRefusedError "$tmpfile"
+}
+
+@test "ConnectionResetError becomes OSError in <3.3" {
+  run make_compatible --version 3.2.5 "$tmpfile"
+  [ "$status" -eq 0 ]
+  not_grep ConnectionResetError "$tmpfile"
+}
+
 @test "ConnectionError and BrokenPipe become OSError in <3.3" {
   run make_compatible --version 3.2.5 "$tmpfile"
   [ "$status" -eq 0 ]
