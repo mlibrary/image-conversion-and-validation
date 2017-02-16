@@ -74,10 +74,6 @@ class SourceFile:
         with open(self.filename, "w") as f:
             f.write(text)
 
-def iter_run (func, iterator):
-    for i in iterator:
-        func(i)
-
 def multi_replace (text, duple_iterator):
     for a, b in duple_iterator:
         text = text.replace(a, b)
