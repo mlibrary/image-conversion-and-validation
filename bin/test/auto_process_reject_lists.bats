@@ -8,6 +8,9 @@ auto_process() {
 
 setup() {
   tmpfile="$(mktemp config-XXXXXX.cfg)"
+  cat << EOF > "$tmpfile"
+maaatt
+EOF
 }
 
 teardown() {
@@ -23,4 +26,8 @@ teardown() {
 @test "Can display help" {
   run auto_process -h
   [ "$status" -eq 0 ]
+}
+
+@test "Setup file works" {
+  grep -q maaatt "$tmpfile"
 }
