@@ -82,8 +82,8 @@ class Arguments:
 
     def flat_py_tree (self):
         for root, directories, files in walk("falcom"):
-            for filename in files:
-                if filename.endswith(".py"):
-                    yield join(root, filename)
+            for path in (join(root, f) for f in files
+                                        if f.endswith(".py")):
+                yield path
 
 args = Arguments()
