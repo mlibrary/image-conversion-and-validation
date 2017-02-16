@@ -8,7 +8,7 @@ from .hamcrest import ComposedMatcher, \
         evaluates_to_false, evaluates_to_true
 from ..config import Config
 
-class NothingTest (unittest.TestCase):
+class GivenNothing (unittest.TestCase):
 
-    def test_working_environment (self):
-        pass
+    def test_can_init_config (self):
+        config = Config()
