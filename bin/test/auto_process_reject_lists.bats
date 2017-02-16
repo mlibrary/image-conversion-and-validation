@@ -2,13 +2,17 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
+auto_process() {
+  ./bin/auto_process_reject_lists "$@"
+}
+
 @test "Script requires arguments" {
-  run ./bin/auto_process_reject_lists
+  run auto_process
   [ "$status" -eq 2 ]
   [[ ${lines[0]} =~ "usage:" ]]
 }
 
 @test "Can display help" {
-  run ./bin/auto_process_reject_lists -h
+  run auto_process -h
   [ "$status" -eq 0 ]
 }
