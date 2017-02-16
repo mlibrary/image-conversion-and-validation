@@ -200,7 +200,7 @@ for spreadsheet in args.spreadsheets:
 
     tables[spreadsheet] = table
 
-barcode_filename = datetime.now().strftime("barcode-%Y%m%d.txt")
+barcode_filename = datetime.now().strftime("barcodes-%Y%m%d.txt")
 
 for filename, table in tables.items():
     print("Processing {} ...".format(filename))
