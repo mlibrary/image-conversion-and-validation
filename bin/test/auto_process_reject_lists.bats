@@ -6,6 +6,14 @@ auto_process() {
   ./bin/auto_process_reject_lists "$@"
 }
 
+setup() {
+  tmpfile="$(mktemp config-XXXXXX.cfg)"
+}
+
+teardown() {
+  rm "$tmpfile"
+}
+
 @test "Script requires arguments" {
   run auto_process
   [ "$status" -eq 2 ]
