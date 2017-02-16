@@ -9,5 +9,8 @@ class Config:
     def __len__ (self):
         return 0
 
+    def __contains__ (self, key):
+        return True
+
     def __repr__ (self):
         return "<{}>".format(self.__class__.__name__)
