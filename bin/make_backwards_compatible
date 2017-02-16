@@ -7,13 +7,41 @@ from os import walk
 from os.path import join
 from sys import version_info
 
-OS_ERRORS = (
-    "ConnectionError",
-    "BrokenPipe",
-    "ConnectionAbortedError",
-    "ConnectionRefusedError",
-    "ConnectionResetError",
-)
+class SourceFileLessThan3_3:
+
+    os_errors = (
+        "ConnectionError",
+        "BrokenPipe",
+        "ConnectionAbortedError",
+        "ConnectionRefusedError",
+        "ConnectionResetError",
+    )
+
+    def __init__ (self, filename):
+        self.filename = filename
+        self.fix()
+
+    def fix (self):
+        self.read()
+        if any(error in self.text for error in self.os_errors):
+            self.replace_os_errors()
+
+    def replace_os_errors (self):
+        print("Swapping in OSErrors in {} ...".format(self.filename))
+        self.multi_replace()
+        self.write()
+
+    def read (self):
+        with open(self.filename, "r") as f:
+            self.text = f.read()
+
+    def write (self):
+        with open(self.filename, "w") as f:
+            f.write(self.text)
+
+    def multi_replace (self):
+        for a, b in ((error, "OSError") for error in self.os_errors):
+            self.text = self.text.replace(a, b)
 
 class Arguments:
 
@@ -47,34 +75,6 @@ class Arguments:
             for filename in files:
                 if filename.endswith(".py"):
                     yield join(root, filename)
-
-class SourceFileLessThan3_3:
-
-    def __init__ (self, filename):
-        self.filename = filename
-        self.fix()
-
-    def fix (self):
-        self.read()
-        if any(error in self.text for error in OS_ERRORS):
-            self.replace_os_errors()
-
-    def replace_os_errors (self):
-        print("Swapping in OSErrors in {} ...".format(self.filename))
-        self.multi_replace()
-        self.write()
-
-    def read (self):
-        with open(self.filename, "r") as f:
-            self.text = f.read()
-
-    def write (self):
-        with open(self.filename, "w") as f:
-            f.write(self.text)
-
-    def multi_replace (self):
-        for a, b in ((error, "OSError") for error in OS_ERRORS):
-            self.text = self.text.replace(a, b)
 
 args = Arguments()
 
