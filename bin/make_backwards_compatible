@@ -61,7 +61,7 @@ class SourceFile:
     def replace_os_errors (self):
         print("Swapping in OSErrors in {} ...".format(self.filename))
         error_iterator = ((error, "OSError") for error in OS_ERRORS)
-        self.text = multi_replace(self.text, error_iterator)
+        self.multi_replace(error_iterator)
         self.write()
 
     def read (self):
@@ -72,10 +72,9 @@ class SourceFile:
         with open(self.filename, "w") as f:
             f.write(self.text)
 
-def multi_replace (text, duple_iterator):
-    for a, b in duple_iterator:
-        text = text.replace(a, b)
-    return text
+    def multi_replace (self, duple_iterator):
+        for a, b in duple_iterator:
+            self.text = self.text.replace(a, b)
 
 args = Arguments()
 
