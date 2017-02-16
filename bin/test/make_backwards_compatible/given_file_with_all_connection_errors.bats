@@ -5,10 +5,16 @@ source "bin/test/make_backwards_compatible/includes.sh"
 
 setup() {
   tmpfile="$(mktemp source_file_XXXXXX.py)"
-  echo "except ConnectionError:"  >> "$tmpfile"
-  echo "    pass"                 >> "$tmpfile"
-  echo "except BrokenPipe:"       >> "$tmpfile"
-  echo "    pass"                 >> "$tmpfile"
+  echo "except ConnectionError:"        >> "$tmpfile"
+  echo "    pass"                       >> "$tmpfile"
+  echo "except BrokenPipe:"             >> "$tmpfile"
+  echo "    pass"                       >> "$tmpfile"
+  echo "except ConnectionAbortedError:" >> "$tmpfile"
+  echo "    pass"                       >> "$tmpfile"
+  echo "except ConnectionRefusedError:" >> "$tmpfile"
+  echo "    pass"                       >> "$tmpfile"
+  echo "except ConnectionResetError:"   >> "$tmpfile"
+  echo "    pass"                       >> "$tmpfile"
 }
 
 teardown() {
