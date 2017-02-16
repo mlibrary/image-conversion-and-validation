@@ -11,7 +11,7 @@ class Config:
         return 0
 
     def __getitem__ (self, key):
-        pass
+        return ( )
 
     def __contains__ (self, key):
         return True

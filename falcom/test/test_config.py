@@ -33,3 +33,5 @@ class GivenEmptyConfig (unittest.TestCase):
     def test_default_dict_can_be_accessed_by_key (self):
         direct_accession = self.config.default
         key_accession = self.config[self.config.default_key]
+
+        assert_that(key_accession, is_(equal_to(direct_accession)))
