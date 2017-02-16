@@ -8,13 +8,14 @@ from .hamcrest import ComposedMatcher, \
         evaluates_to_false, evaluates_to_true
 from ..config import Config
 
-class GivenNothing (unittest.TestCase):
+class GivenEmptyConfig (unittest.TestCase):
+
+    def setUp (self):
+        self.config = Config()
 
     def test_can_init_config (self):
-        config = Config()
-        assert_that(config, evaluates_to_false())
-        assert_that(config, has_length(0))
+        assert_that(self.config, evaluates_to_false())
+        assert_that(self.config, has_length(0))
 
-    def test_default_text_is_default (self):
-        config = Config()
-        assert_that(config.default_key, is_(equal_to("default")))
+    def test_default_key_is_default (self):
+        assert_that(self.config.default_key, is_(equal_to("default")))
