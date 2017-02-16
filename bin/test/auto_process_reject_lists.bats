@@ -9,7 +9,10 @@ auto_process() {
 setup() {
   tmpfile="$(mktemp config-XXXXXX.cfg)"
   cat << EOF > "$tmpfile"
-maaatt
+[somename]
+dropbox = /some/path/to/dir
+ignore = README.txt, something_else.txt
+destination = /another/path/another/dir
 EOF
 }
 
@@ -26,8 +29,4 @@ teardown() {
 @test "Can display help" {
   run auto_process -h
   [ "$status" -eq 0 ]
-}
-
-@test "Setup file works" {
-  grep -q maaatt "$tmpfile"
 }
