@@ -52,7 +52,7 @@ class SourceFile:
 
     def __init__ (self, filename):
         self.filename = filename
-        self.text = self.read()
+        self.read()
 
     def fix (self):
         if any(error in self.text for error in OS_ERRORS):
@@ -66,8 +66,7 @@ class SourceFile:
 
     def read (self):
         with open(self.filename, "r") as f:
-            text = f.read()
-        return text
+            self.text = f.read()
 
     def write (self):
         with open(self.filename, "w") as f:
