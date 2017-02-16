@@ -14,3 +14,7 @@ class GivenNothing (unittest.TestCase):
         config = Config()
         assert_that(config, evaluates_to_false())
         assert_that(config, has_length(0))
+
+    def test_default_text_is_default (self):
+        config = Config()
+        assert_that(config.default_key, is_(equal_to("default")))
