@@ -2,7 +2,7 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
-@test "Script is executable" {
+@test "Script requires arguments" {
   run ./bin/auto_process_reject_lists
-  [ "$status" -eq 0 ]
+  [ "$status" -eq 2 ]
 }
