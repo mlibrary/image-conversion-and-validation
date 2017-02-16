@@ -48,7 +48,7 @@ class Arguments:
                 if filename.endswith(".py"):
                     yield join(root, filename)
 
-class SourceFile:
+class SourceFileLessThan3_3:
 
     def __init__ (self, filename):
         self.filename = filename
@@ -61,8 +61,7 @@ class SourceFile:
 
     def replace_os_errors (self):
         print("Swapping in OSErrors in {} ...".format(self.filename))
-        error_iterator = ((error, "OSError") for error in OS_ERRORS)
-        self.multi_replace(error_iterator)
+        self.multi_replace()
         self.write()
 
     def read (self):
@@ -73,12 +72,12 @@ class SourceFile:
         with open(self.filename, "w") as f:
             f.write(self.text)
 
-    def multi_replace (self, duple_iterator):
-        for a, b in duple_iterator:
+    def multi_replace (self):
+        for a, b in ((error, "OSError") for error in OS_ERRORS):
             self.text = self.text.replace(a, b)
 
 args = Arguments()
 
 if args.version < (3, 3):
     for filename in args.files:
-        SourceFile(filename)
+        SourceFileLessThan3_3(filename)
