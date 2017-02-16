@@ -17,7 +17,7 @@ class Config:
         return iter(())
 
     def __contains__ (self, key):
-        return True
+        return key == "default"
 
     def __repr__ (self):
         return "<{}>".format(self.__class__.__name__)

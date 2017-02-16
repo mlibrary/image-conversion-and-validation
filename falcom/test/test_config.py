@@ -41,3 +41,6 @@ class GivenEmptyConfig (unittest.TestCase):
 
     def test_no_other_keys_exist (self):
         other_key = "not" + self.config.default_key
+        assert_that(other_key not in self.config,
+                    "{} not in {}".format(repr(other_key),
+                                          repr(self.config)))
