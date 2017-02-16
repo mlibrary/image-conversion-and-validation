@@ -53,6 +53,12 @@ class SourceFile:
     def __init__ (self, filename):
         self.filename = filename
 
+    def fix (self):
+        text = self.read()
+
+        if any(error in text for error in OS_ERRORS):
+            replace_os_errors(self, text)
+
     def read (self):
         with open(self.filename, "r") as f:
             text = f.read()
@@ -80,15 +86,8 @@ def replace_os_errors (filename, text):
     text = multi_replace(text, error_iterator)
     filename.write(text)
 
-def fix_file (filename):
-    text = filename.read()
-
-    if any(error in text for error in OS_ERRORS):
-        replace_os_errors(filename, text)
-
 args = Arguments()
 
 if args.version < (3, 3):
     for filename in args.files:
-        f = SourceFile(filename)
-        fix_file(f)
+        SourceFile(filename).fix()
