@@ -51,8 +51,11 @@ class Arguments:
 
     def make_backwards_compatible_if_less_than_3_3 (self):
         if self.version() < (3, 3):
-            for filename in self.files():
-                SourceFileLessThan3_3(filename)
+            self.less_than_3_3()
+
+    def less_than_3_3 (self):
+        for filename in self.files():
+            SourceFileLessThan3_3(filename)
 
     def parse_args (self):
         parser = ArgumentParser(description="Make backwards compatible")
