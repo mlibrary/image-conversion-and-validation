@@ -48,14 +48,22 @@ class Arguments:
                 if filename.endswith(".py"):
                     yield join(root, filename)
 
-def read_file (filename):
-    with open(filename, "r") as f:
-        text = f.read()
-    return text
+class SourceFile:
 
-def write_to_file (filename, text):
-    with open(filename, "w") as f:
-        f.write(text)
+    def __init__ (self, filename):
+        self.filename = filename
+
+    def read (self):
+        with open(self.filename, "r") as f:
+            text = f.read()
+        return text
+
+    def write (self, text):
+        with open(self.filename, "w") as f:
+            f.write(text)
+
+    def __str__ (self):
+        return self.filename
 
 def iter_run (func, iterator):
     for i in iterator:
@@ -70,10 +78,10 @@ def replace_os_errors (filename, text):
     print("Swapping in OSErrors in {} ...".format(filename))
     error_iterator = ((error, "OSError") for error in OS_ERRORS)
     text = multi_replace(text, error_iterator)
-    write_to_file(filename, text)
+    filename.write(text)
 
 def fix_file (filename):
-    text = read_file(filename)
+    text = filename.read()
 
     if any(error in text for error in OS_ERRORS):
         replace_os_errors(filename, text)
@@ -81,4 +89,6 @@ def fix_file (filename):
 args = Arguments()
 
 if args.version < (3, 3):
-    iter_run(fix_file, args.files)
+    for filename in args.files:
+        f = SourceFile(filename)
+        fix_file(f)
