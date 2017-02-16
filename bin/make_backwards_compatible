@@ -47,6 +47,9 @@ class Arguments:
 
     def __init__ (self):
         self.parse_args()
+        if self.version < (3, 3):
+            for filename in self.files:
+                SourceFileLessThan3_3(filename)
 
     def parse_args (self):
         parser = ArgumentParser(description="Make backwards compatible")
@@ -80,7 +83,3 @@ class Arguments:
                     yield join(root, filename)
 
 args = Arguments()
-
-if args.version < (3, 3):
-    for filename in args.files:
-        SourceFileLessThan3_3(filename)
