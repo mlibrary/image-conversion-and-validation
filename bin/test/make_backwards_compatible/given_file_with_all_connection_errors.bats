@@ -33,8 +33,12 @@ teardown() {
   run make_compatible --version 3.2.5 "$tmpfile"
   [ "$status" -eq 0 ]
   not_grep BrokenPipe "$tmpfile"
-  grep -q '^except OSError:$' "$tmpfile"
-  grep -q '^ \+pass$' "$tmpfile"
+}
+
+@test "ConnectionAbortedError becomes OSError in <3.3" {
+  run make_compatible --version 3.2.5 "$tmpfile"
+  [ "$status" -eq 0 ]
+  not_grep ConnectionAbortedError "$tmpfile"
 }
 
 @test "ConnectionError and BrokenPipe become OSError in <3.3" {
