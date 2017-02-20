@@ -4,9 +4,12 @@
 
 class ReadOnlyDataStructure:
 
+    auto_properties = ( )
+
     def __init__ (self, **kwargs):
         self.__internal = kwargs
         self.__remove_null_keys()
+        self.__create_auto_properties()
 
     def get (self, key, default = None):
         return self.__internal.get(key, default)
@@ -26,3 +29,20 @@ class ReadOnlyDataStructure:
 
         for key in null_keys:
             del self.__internal[key]
+
+    def __create_auto_properties (self):
+        for p in self.auto_properties:
+            self.__examine_then_add_auto_property(p)
+
+    def __examine_then_add_auto_property (self, prop):
+        if isinstance(prop, tuple):
+            self.__add_auto_property(*prop)
+
+        else:
+            self.__add_auto_property(prop)
+
+    def __add_auto_property (self, prop_name, default = None):
+        def getp (self):
+            return self.get(prop_name, default)
+
+        setattr(self, prop_name, property(getp))
