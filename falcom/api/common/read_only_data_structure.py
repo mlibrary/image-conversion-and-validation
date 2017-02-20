@@ -45,4 +45,4 @@ class ReadOnlyDataStructure:
         def getp (self):
             return self.get(prop_name, default)
 
-        setattr(self, prop_name, property(getp))
+        setattr(self.__class__, prop_name, property(getp))
