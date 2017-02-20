@@ -5,6 +5,7 @@
 class ReadOnlyDataStructure:
 
     auto_properties = ( )
+    __subclasses = set()
 
     def __init__ (self, **kwargs):
         self.__internal = kwargs
@@ -31,8 +32,11 @@ class ReadOnlyDataStructure:
             del self.__internal[key]
 
     def __create_auto_properties (self):
-        for p in self.auto_properties:
-            self.__examine_then_add_auto_property(p)
+        if self.__class__ not in self.__subclasses:
+            for p in self.auto_properties:
+                self.__examine_then_add_auto_property(p)
+
+            self.__subclasses.add(self.__class__)
 
     def __examine_then_add_auto_property (self, prop):
         if isinstance(prop, tuple):
