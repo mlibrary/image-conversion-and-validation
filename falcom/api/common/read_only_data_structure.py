@@ -33,10 +33,13 @@ class ReadOnlyDataStructure:
 
     def __create_auto_properties (self):
         if self.__class__ not in self.__subclasses:
-            for p in self.auto_properties:
-                self.__examine_then_add_auto_property(p)
-
             self.__subclasses.add(self.__class__)
+            self.__add_each_auto_property()
+
+    def __add_each_auto_property (self):
+        for p in self.auto_properties:
+            self.__examine_then_add_auto_property(p)
+
 
     def __examine_then_add_auto_property (self, prop):
         if isinstance(prop, tuple):
