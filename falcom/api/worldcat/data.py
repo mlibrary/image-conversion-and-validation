@@ -6,9 +6,7 @@ from ..common import ReadOnlyDataStructure
 
 class WorldcatData (ReadOnlyDataStructure):
 
-    @property
-    def title (self):
-        return self.get("title")
+    auto_properties = ("title",)
 
     def __iter__ (self):
         return iter(self.get("libraries", ()))
