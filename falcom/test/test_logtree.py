@@ -6,7 +6,7 @@ import unittest
 
 from ..logtree import Tree
 
-class Nothing (unittest.TestCase):
+class TreeTest (unittest.TestCase):
 
-    def test_working_testfile (self):
-        pass
+    def test_degenerate (self):
+        t = Tree()
