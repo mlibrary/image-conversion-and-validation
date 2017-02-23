@@ -5,7 +5,15 @@
 class MutableTree:
 
     def __init__ (self):
-        self.value = None
+        self.__value = None
+
+    @property
+    def value (self):
+        return self.__value
+
+    @value.setter
+    def value (self, x):
+        self.__value = x
 
     def full_length (self):
         return 0
