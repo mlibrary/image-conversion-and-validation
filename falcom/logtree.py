@@ -7,5 +7,8 @@ class MutableTree:
     def __bool__ (self):
         return False
 
+    def __len__ (self):
+        return 0
+
     def __repr__ (self):
         return "<{}>".format(self.__class__.__name__)
