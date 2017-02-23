@@ -2,4 +2,7 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
-def Tree(): pass
+class Tree:
+
+    def __repr__ (self):
+        return "<{}>".format(self.__class__.__name__)

@@ -10,3 +10,4 @@ class TreeTest (unittest.TestCase):
 
     def test_degenerate (self):
         t = Tree()
+        assert_that(repr(t), starts_with("<Tree"))
