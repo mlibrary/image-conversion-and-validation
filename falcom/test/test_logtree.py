@@ -20,3 +20,6 @@ class GivenEmptyTree (unittest.TestCase):
 
     def test_has_length_of_zero (self):
         assert_that(self.tree, has_length(0))
+
+    def test_iterates_into_empty_list (self):
+        assert_that(list(self.tree), is_(equal_to([])))
