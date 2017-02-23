@@ -4,5 +4,8 @@
 
 class Tree:
 
+    def __bool__ (self):
+        return False
+
     def __repr__ (self):
         return "<{}>".format(self.__class__.__name__)
