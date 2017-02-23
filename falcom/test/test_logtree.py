@@ -5,15 +5,15 @@ from hamcrest import *
 import unittest
 
 from .hamcrest import evaluates_to_false
-from ..logtree import Tree
+from ..logtree import MutableTree
 
 class GivenEmptyTree (unittest.TestCase):
 
     def setUp (self):
-        self.tree = Tree()
+        self.tree = MutableTree()
 
     def test_tree_has_repr (self):
-        assert_that(repr(self.tree), starts_with("<Tree"))
+        assert_that(repr(self.tree), starts_with("<MutableTree"))
 
     def test_evaluates_to_false (self):
         assert_that(self.tree, evaluates_to_false())

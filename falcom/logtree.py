@@ -2,7 +2,7 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
-class Tree:
+class MutableTree:
 
     def __bool__ (self):
         return False
