@@ -44,12 +44,10 @@ class GivenEmptyTree (unittest.TestCase):
         self.tree.value = 235813
         assert_that(self.tree.value, is_(equal_to(235813)))
 
-    @unittest.skip
     def test_cannot_delete_value (self):
         assert_that(calling(delattr).with_args(self.tree, "value"),
                     raises(AttributeError))
 
-    @unittest.skip
     def test_when_value_changes_it_still_cannot_be_deleted (self):
         self.tree.value = "hello"
         assert_that(calling(delattr).with_args(self.tree, "value"),
