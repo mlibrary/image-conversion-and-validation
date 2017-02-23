@@ -23,3 +23,6 @@ class GivenEmptyTree (unittest.TestCase):
 
     def test_iterates_into_empty_list (self):
         assert_that(list(self.tree), is_(equal_to([])))
+
+    def test_walk_iterates_into_empty_list (self):
+        assert_that(list(self.tree.walk()), is_(equal_to([])))

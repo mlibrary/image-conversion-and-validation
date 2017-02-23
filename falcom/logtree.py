@@ -4,6 +4,9 @@
 
 class MutableTree:
 
+    def walk (self):
+        return iter(())
+
     def __len__ (self):
         return 0
 
