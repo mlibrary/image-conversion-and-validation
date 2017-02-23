@@ -36,3 +36,10 @@ class GivenEmptyTree (unittest.TestCase):
 
     def test_value_is_none (self):
         assert_that(self.tree.value, is_(none()))
+
+    def test_can_modify_value (self):
+        self.tree.value = "hello"
+        assert_that(self.tree.value, is_(equal_to("hello")))
+
+        self.tree.value = 235813
+        assert_that(self.tree.value, is_(equal_to(235813)))
