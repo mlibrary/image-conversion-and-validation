@@ -29,3 +29,7 @@ class GivenEmptyTree (unittest.TestCase):
 
     def test_walk_iterates_into_empty_list (self):
         assert_that(list(self.tree.walk()), is_(equal_to([])))
+
+    def test_has_no_first_item (self):
+        assert_that(calling(lambda x: x[0]).with_args(self.tree),
+                    raises(IndexError))
