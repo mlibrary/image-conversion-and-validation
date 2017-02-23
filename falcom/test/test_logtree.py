@@ -7,12 +7,13 @@ import unittest
 from .hamcrest import evaluates_to_false
 from ..logtree import Tree
 
-class TreeTest (unittest.TestCase):
+class GivenEmptyTree (unittest.TestCase):
 
-    def test_tree_is_a_class (self):
-        t = Tree()
-        assert_that(repr(t), starts_with("<Tree"))
+    def setUp (self):
+        self.tree = Tree()
 
-    def test_empty_tree_is_false (self):
-        t = Tree()
-        assert_that(t, evaluates_to_false())
+    def test_tree_has_repr (self):
+        assert_that(repr(self.tree), starts_with("<Tree"))
+
+    def test_evaluates_to_false (self):
+        assert_that(self.tree, evaluates_to_false())
