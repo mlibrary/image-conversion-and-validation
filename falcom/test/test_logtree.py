@@ -33,3 +33,6 @@ class GivenEmptyTree (unittest.TestCase):
     def test_has_no_first_item (self):
         assert_that(calling(lambda x: x[0]).with_args(self.tree),
                     raises(IndexError))
+
+    def test_value_is_none (self):
+        assert_that(self.tree.value, is_(none()))

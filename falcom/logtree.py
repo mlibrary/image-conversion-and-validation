@@ -4,6 +4,8 @@
 
 class MutableTree:
 
+    value = None
+
     def full_length (self):
         return 0
 
