@@ -5,7 +5,7 @@
 class MutableTree:
 
     def __init__ (self):
-        self.__value = None
+        self.value = None
 
     @property
     def value (self):
