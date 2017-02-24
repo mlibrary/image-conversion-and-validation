@@ -55,10 +55,15 @@ class APIQuerier:
         self.max_tries = max_tries
 
     def get (self, **kwargs):
+        return self.__new_query().get(kwargs)
+
+    def __new_query (self):
         query = APIQuery()
+        self.__copy_self_to_query(query)
+        return query
+
+    def __copy_self_to_query (self, query):
         query.uri = self.uri
         query.url_opener = self.url_opener
         query.sleep_time = self.sleep_time
         query.max_tries = self.max_tries
-
-        return query.get(kwargs)
