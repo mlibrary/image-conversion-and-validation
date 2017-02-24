@@ -32,7 +32,7 @@ class APIQuery:
                 sleep(self.sleep_time)
                 n += 1
 
-        return b""
+        return ""
 
     @staticmethod
     def utf8 (str_or_bytes):
