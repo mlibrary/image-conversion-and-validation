@@ -4,7 +4,7 @@
 from hamcrest import *
 import unittest
 
-from .hamcrest import evaluates_to_false
+from .hamcrest import evaluates_to
 from ..logtree import MutableTree
 
 class GivenEmptyTree (unittest.TestCase):
@@ -16,7 +16,7 @@ class GivenEmptyTree (unittest.TestCase):
         assert_that(repr(self.tree), starts_with("<MutableTree"))
 
     def test_evaluates_to_false (self):
-        assert_that(self.tree, evaluates_to_false())
+        assert_that(self.tree, evaluates_to(False))
 
     def test_has_length_of_zero (self):
         assert_that(self.tree, has_length(0))

@@ -7,8 +7,7 @@ import unittest
 import xml.etree.ElementTree as ET
 
 from ..marc import *
-from ...test.hamcrest import ComposedMatcher, HasAttrs, \
-        evaluates_to_true, evaluates_to_false
+from ...test.hamcrest import ComposedMatcher, HasAttrs, evaluates_to
 
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
 
@@ -40,10 +39,10 @@ class YieldsParticularMarcData (ComposedMatcher):
         data = get_marc_data_from_xml(item)
 
         if self.eval_to_true:
-            yield data, evaluates_to_true()
+            yield data, evaluates_to(True)
 
         else:
-            yield data, evaluates_to_false()
+            yield data, evaluates_to(False)
 
         yield data, has_marc_attrs(**self.kwargs)
 

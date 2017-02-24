@@ -4,8 +4,7 @@
 from hamcrest import *
 import unittest
 
-from .hamcrest import ComposedMatcher, \
-        evaluates_to_false, evaluates_to_true
+from .hamcrest import ComposedMatcher, evaluates_to
 from ..config import Config
 
 class GivenEmptyConfig (unittest.TestCase):
@@ -14,7 +13,7 @@ class GivenEmptyConfig (unittest.TestCase):
         self.config = Config()
 
     def test_evaluates_to_false (self):
-        assert_that(self.config, evaluates_to_false())
+        assert_that(self.config, evaluates_to(False))
 
     def test_has_zero_length (self):
         assert_that(self.config, has_length(0))
