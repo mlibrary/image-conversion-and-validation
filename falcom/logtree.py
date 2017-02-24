@@ -4,6 +4,20 @@
 
 class MutableTree:
 
+    def __init__ (self):
+        self.value = None
+
+    @property
+    def value (self):
+        return self.__value
+
+    @value.setter
+    def value (self, x):
+        self.__value = x
+
+    def full_length (self):
+        return 0
+
     def walk (self):
         return iter(())
 
@@ -12,6 +26,9 @@ class MutableTree:
 
     def __iter__ (self):
         return iter(())
+
+    def __getitem__ (self, index):
+        raise IndexError("tree index out of range")
 
     def __repr__ (self):
         return "<{}>".format(self.__class__.__name__)
