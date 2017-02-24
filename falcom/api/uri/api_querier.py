@@ -3,17 +3,11 @@
 # BSD License. See LICENSE.txt for details.
 from time import sleep
 
-class APIQuerier:
+class APIQuery:
 
     class __special_null: pass
 
-    def __init__ (self, uri, url_opener, sleep_time=300, max_tries=0):
-        self.uri = uri
-        self.url_opener = url_opener
-        self.sleep_time = sleep_time
-        self.max_tries = max_tries
-
-    def get (self, **kwargs): # not thread-safe :(
+    def get (self, kwargs):
         self.result = self.__special_null
         self.attempt_number = 1
 
@@ -51,3 +45,20 @@ class APIQuerier:
             result = self.utf8(response.read())
 
         return result
+
+class APIQuerier:
+
+    def __init__ (self, uri, url_opener, sleep_time=300, max_tries=0):
+        self.uri = uri
+        self.url_opener = url_opener
+        self.sleep_time = sleep_time
+        self.max_tries = max_tries
+
+    def get (self, **kwargs):
+        query = APIQuery()
+        query.uri = self.uri
+        query.url_opener = self.url_opener
+        query.sleep_time = self.sleep_time
+        query.max_tries = self.max_tries
+
+        return query.get(kwargs)
