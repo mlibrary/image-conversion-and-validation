@@ -272,7 +272,7 @@ class APIQuerierTestErrors (APIQuerierTestHelpers):
 
     def test_silent_failure_after_max (self):
         self.set_api_error_fake(failures=5, max_tries=3)
-        assert_that(self.api.get(), is_(equal_to(b"")))
+        assert_that(self.api.get(), is_(equal_to("")))
 
     def test_when_max_is_zero_try_a_lot (self):
         self.set_api_error_fake(failures=100, max_tries=0)
