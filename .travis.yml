@@ -14,5 +14,6 @@ before_install:
 install:
 - pip install PyHamcrest # only required for testing
 - pip install Distance
+- pip install promise
 - ./bin/make_backwards_compatible
 script: make test
