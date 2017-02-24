@@ -20,7 +20,7 @@ class APIQuery:
                 return self.__open_uri()
 
             except ConnectionError:
-                sleep(self.sleep_time)
+                self.__sleep()
 
     def __get_with_max (self):
         n = 0
@@ -29,10 +29,13 @@ class APIQuery:
                 return self.__open_uri()
 
             except ConnectionError:
-                sleep(self.sleep_time)
+                self.__sleep()
                 n += 1
 
         return ""
+
+    def __sleep (self):
+        sleep(self.sleep_time)
 
     @staticmethod
     def utf8 (str_or_bytes):
