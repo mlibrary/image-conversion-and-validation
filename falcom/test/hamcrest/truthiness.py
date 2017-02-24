@@ -35,8 +35,5 @@ class HasTruthiness (BaseMatcher):
         except:
             pass
 
-def evaluates_to_true():
-    return HasTruthiness(True)
-
-def evaluates_to_false():
-    return HasTruthiness(False)
+def evaluates_to (b):
+    return HasTruthiness(b)

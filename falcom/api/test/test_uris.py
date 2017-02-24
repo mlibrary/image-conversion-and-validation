@@ -4,7 +4,7 @@
 from hamcrest import *
 import unittest
 
-from ...test.hamcrest import evaluates_to_true, evaluates_to_false
+from ...test.hamcrest import evaluates_to
 from ..uri import URI, APIQuerier
 
 class AbstractSpy:
@@ -143,7 +143,7 @@ class GivenEmptyStrURI (unittest.TestCase):
                            is_(equal_to("?sup=what+up&hi=hello"))))
 
     def test_evaluates_to_false (self):
-        assert_that(self.uri, evaluates_to_false())
+        assert_that(self.uri, evaluates_to(False))
 
     def test_equals_null_uri (self):
         assert_that(self.uri, is_(equal_to(URI(None))))
@@ -163,7 +163,7 @@ class GivenSimpleURI (unittest.TestCase):
         assert_that(self.uri(), is_(equal_to("hello")))
 
     def test_evaluates_to_true (self):
-        assert_that(self.uri, evaluates_to_true())
+        assert_that(self.uri, evaluates_to(True))
 
     def test_when_called_with_single_kwarg_yields_get_str (self):
         assert_that(self.uri(matt="is cool"),

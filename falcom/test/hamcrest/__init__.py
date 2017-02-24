@@ -4,4 +4,4 @@
 
 from .composed_matcher import ComposedMatcher
 from .has_attrs import HasAttrs
-from .truthiness import evaluates_to_true, evaluates_to_false
+from .truthiness import evaluates_to

@@ -4,8 +4,7 @@
 from hamcrest import *
 import unittest
 
-from .hamcrest import ComposedMatcher, \
-        evaluates_to_false, evaluates_to_true
+from .hamcrest import ComposedMatcher, evaluates_to
 from ..table import Table
 
 class an_internally_consistent_table (ComposedMatcher):
@@ -31,10 +30,10 @@ class an_internally_consistent_table (ComposedMatcher):
             i += 1
 
         if i:
-            yield item, evaluates_to_true()
+            yield item, evaluates_to(True)
 
         else:
-            yield item, evaluates_to_false()
+            yield item, evaluates_to(False)
 
         yield item, has_length(i), "length matches iteration"
         yield item.rows, is_(equal_to(i)), "row count"
@@ -47,7 +46,7 @@ class an_empty_table (ComposedMatcher):
 
     def assertion (self, item):
         yield item, is_(an_internally_consistent_table())
-        yield item, evaluates_to_false()
+        yield item, evaluates_to(False)
 
 class yields_an_empty_table (ComposedMatcher):
 

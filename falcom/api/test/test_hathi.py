@@ -5,8 +5,7 @@ from hamcrest import *
 import os
 import unittest
 
-from ...test.hamcrest import ComposedMatcher, \
-        evaluates_to_true, evaluates_to_false
+from ...test.hamcrest import ComposedMatcher, evaluates_to
 from ..hathi import get_oclc_counts_from_json, get_hathi_data_from_json
 
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
@@ -38,7 +37,7 @@ class yields_oclc_counts (ComposedMatcher):
 class empty_hathi_data (ComposedMatcher):
 
     def assertion (self, item):
-        yield item, evaluates_to_false()
+        yield item, evaluates_to(False)
         yield item.titles, empty()
         yield item.htids, empty()
 

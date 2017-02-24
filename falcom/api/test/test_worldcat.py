@@ -5,8 +5,7 @@ from hamcrest import *
 import os
 import unittest
 
-from ...test.hamcrest import ComposedMatcher, \
-        evaluates_to_false, evaluates_to_true
+from ...test.hamcrest import ComposedMatcher, evaluates_to
 from ..worldcat import *
 
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
@@ -26,7 +25,7 @@ class yields_empty_worldcat_data (ComposedMatcher):
     def assertion (self, item):
         data = get_worldcat_data_from_json(item)
 
-        yield data, evaluates_to_false()
+        yield data, evaluates_to(False)
         yield list(data), is_(equal_to([]))
         yield data.title, is_(none()), "title"
 
@@ -39,7 +38,7 @@ class yields_worldcat_data (ComposedMatcher):
     def assertion (self, item):
         data = get_worldcat_data_from_json(item)
 
-        yield data,         evaluates_to_true()
+        yield data,         evaluates_to(True)
         yield data.title,   is_(equal_to(self.title)),      "title"
         yield list(data),   is_(equal_to(self.libraries))
 
