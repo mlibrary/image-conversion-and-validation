@@ -20,7 +20,7 @@ class APIQuery:
                 return self.__open_uri()
 
             except ConnectionError:
-                self.__sleep()
+                self.__pause_between_attempts()
 
     def __get_with_max (self):
         n = 0
@@ -29,12 +29,12 @@ class APIQuery:
                 return self.__open_uri()
 
             except ConnectionError:
-                self.__sleep()
+                self.__pause_between_attempts()
                 n += 1
 
         return ""
 
-    def __sleep (self):
+    def __pause_between_attempts (self):
         sleep(self.sleep_time)
 
     @staticmethod
