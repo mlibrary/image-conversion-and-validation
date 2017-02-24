@@ -5,15 +5,34 @@ from time import sleep
 
 class APIQuery:
 
-    class __special_null: pass
-
     def get (self, kwargs):
-        self.result = self.__special_null
-        self.attempt_number = 1
+        self.kwargs = kwargs
 
-        self.__try_to_get(kwargs)
+        if self.max_tries > 0:
+            return self.__get_with_max()
 
-        return self.result
+        else:
+            return self.__get_forever()
+
+    def __get_forever (self):
+        while True:
+            try:
+                return self.__open_uri()
+
+            except ConnectionError:
+                sleep(self.sleep_time)
+
+    def __get_with_max (self):
+        n = 0
+        while n < self.max_tries:
+            try:
+                return self.__open_uri()
+
+            except ConnectionError:
+                sleep(self.sleep_time)
+                n += 1
+
+        return b""
 
     @staticmethod
     def utf8 (str_or_bytes):
@@ -23,25 +42,8 @@ class APIQuery:
         else:
             return str_or_bytes
 
-    def __try_to_get (self, kwargs):
-        while self.result is self.__special_null:
-            try:
-                self.result = self.__open_uri(kwargs)
-
-            except ConnectionError:
-                self.__sleep_and_prepare_for_next_try()
-
-    def __sleep_and_prepare_for_next_try (self):
-        sleep(self.sleep_time)
-
-        if self.attempt_number == self.max_tries:
-            self.result = b""
-
-        else:
-            self.attempt_number += 1
-
-    def __open_uri (self, kwargs):
-        with self.url_opener(self.uri(**kwargs)) as response:
+    def __open_uri (self):
+        with self.url_opener(self.uri(**self.kwargs)) as response:
             result = self.utf8(response.read())
 
         return result
