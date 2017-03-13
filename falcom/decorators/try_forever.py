@@ -15,11 +15,7 @@ class TryForever:
 
         self.__set_pause_time(kwargs, 60)
 
-        # raise an error if we have an arg we don't understand
-        if kwargs:
-            key, value = kwargs.popitem()
-            raise TypeError(repr(key) + " is an invalid keyword " +
-                            "argument for this function")
+        self.__assert_no_remaining_keywords(kwargs)
 
     def __call__ (self, func):
         return func
@@ -39,6 +35,12 @@ class TryForever:
                     raise TypeError("choose only one time specifier")
 
         self.seconds_between_attempts = default if secs is None else secs
+
+    def __assert_no_remaining_keywords (self, kwargs):
+        if kwargs:
+            key, value = kwargs.popitem()
+            raise TypeError(repr(key) + " is an invalid keyword " +
+                            "argument for this function")
 
 def try_forever (*args, **kwargs):
     obj = TryForever(kwargs)
