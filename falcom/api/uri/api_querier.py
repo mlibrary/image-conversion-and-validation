@@ -3,6 +3,8 @@
 # BSD License. See LICENSE.txt for details.
 from ...decorators import try_forever
 
+EXPECTED_ERROR = ConnectionError
+
 class APIQuery:
 
     def get (self, kwargs):
@@ -12,39 +14,16 @@ class APIQuery:
         try:
             return try_to_get_data()
 
-        except ConnectionError:
+        except EXPECTED_ERROR:
             return ""
 
     def __get_forever_looper (self):
         decorator = try_forever(
                 seconds_between_attempts=self.sleep_time,
-                base_error=ConnectionError,
+                base_error=EXPECTED_ERROR,
                 limit=self.max_tries)
 
         return decorator(self.__open_uri)
-
-    def __get_forever (self):
-        while True:
-            try:
-                return self.__open_uri()
-
-            except ConnectionError:
-                self.__pause_between_attempts()
-
-    def __get_with_max (self):
-        n = 0
-        while n < self.max_tries:
-            try:
-                return self.__open_uri()
-
-            except ConnectionError:
-                self.__pause_between_attempts()
-                n += 1
-
-        return ""
-
-    def __pause_between_attempts (self):
-        sleep(self.sleep_time)
 
     @staticmethod
     def utf8 (str_or_bytes):
