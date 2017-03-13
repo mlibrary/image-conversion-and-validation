@@ -41,6 +41,10 @@ class DecoratorTest (unittest.TestCase):
         assert_that(calling(try_forever).with_args(1, 2),
                     raises(TypeError))
 
+    def test_can_set_limit (self):
+        obj = try_forever(limit=4)
+        assert_that(obj.limit, is_(equal_to(4)))
+
 class GivenDefaultTryForeverDecorator (unittest.TestCase):
 
     def setUp (self):

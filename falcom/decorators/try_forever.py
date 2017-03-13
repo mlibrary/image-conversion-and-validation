@@ -4,10 +4,10 @@
 
 class TryForever:
 
-    def __init__ (self):
+    def __init__ (self, kwargs):
         self.seconds_between_attempts = 60
         self.base_error = Exception
-        self.limit = 0
+        self.limit = kwargs.pop("limit", 0)
 
     def __call__ (self, func):
         return func
@@ -16,8 +16,10 @@ class TryForever:
         return "<{}>".format(self.__class__.__name__)
 
 def try_forever (*args, **kwargs):
+    obj = TryForever(kwargs)
+
     if args:
-        return TryForever()(*args)
+        return obj(*args)
 
     else:
-        return TryForever()
+        return obj
