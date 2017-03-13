@@ -41,9 +41,12 @@ class GivenDefaultTryForeverDecorator (unittest.TestCase):
     def test_is_callable (self):
         assert_that(self.decorator, is_(a_method()))
 
-    def test_waits_one_minute_by_default (self):
+    def test_will_wait_one_minute (self):
         assert_that(self.decorator.seconds_between_attempts,
                     is_(equal_to(60)))
+
+    def test_will_catch_any_normal_exception (self):
+        assert_that(self.decorator.base_error, is_(equal_to(Exception)))
 
     def test_can_be_used_as_a_decorator (self):
         @self.decorator
