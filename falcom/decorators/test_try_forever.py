@@ -58,6 +58,12 @@ class DecoratorTest (unittest.TestCase):
         obj = try_forever(minutes_between_attempts=5)
         assert_that(obj.seconds_between_attempts, is_(equal_to(300)))
 
+    def test_cannot_set_minutes_and_seconds (self):
+        assert_that(calling(try_forever)
+                    .with_args(seconds_between_attempts=10,
+                               minutes_between_attempts=5),
+                    raises(TypeError))
+
     def test_unknown_kwargs_raise_error (self):
         assert_that(calling(try_forever).with_args(hello="sup"),
                     raises(TypeError))
