@@ -45,6 +45,10 @@ class DecoratorTest (unittest.TestCase):
         obj = try_forever(limit=4)
         assert_that(obj.limit, is_(equal_to(4)))
 
+    def test_can_set_error (self):
+        obj = try_forever(base_error=RuntimeError)
+        assert_that(obj.base_error, is_(equal_to(RuntimeError)))
+
 class GivenDefaultTryForeverDecorator (unittest.TestCase):
 
     def setUp (self):

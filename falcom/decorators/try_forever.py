@@ -6,7 +6,7 @@ class TryForever:
 
     def __init__ (self, kwargs):
         self.seconds_between_attempts = 60
-        self.base_error = Exception
+        self.base_error = kwargs.pop("base_error", Exception)
         self.limit = kwargs.pop("limit", 0)
 
     def __call__ (self, func):
