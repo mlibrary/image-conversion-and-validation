@@ -112,7 +112,6 @@ class GivenMethodThatFailsThreeTimes (unittest.TestCase):
                                 seconds_between_attempts=0.001)
         return decorator(self.tough_method)
 
-    @unittest.skip
     def test_can_run_without_seeing_errors (self):
         looper = self.init_looper()
         looper() # raises no exception

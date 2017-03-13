@@ -1,6 +1,7 @@
 # Copyright (c) 2017 The Regents of the University of Michigan.
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
+from time import sleep
 
 class TryForever:
 
@@ -16,7 +17,12 @@ class TryForever:
 
     def __call__ (self, func):
         def result (*args, **kwargs):
-            return func(*args, **kwargs)
+            while True:
+                try:
+                    return func(*args, **kwargs)
+
+                except:
+                    sleep(self.seconds_between_attempts)
 
         return result
 
