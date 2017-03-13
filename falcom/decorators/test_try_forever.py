@@ -5,7 +5,7 @@ from hamcrest import *
 import unittest
 
 from ..test.hamcrest import ComposedMatcher, evaluates_to
-from .try_forever import try_forever
+from .try_forever import try_forever, TryForever
 
 class FailThenSucceed:
 
@@ -32,6 +32,11 @@ class DecoratorTest (unittest.TestCase):
             pass
 
         method()
+
+class TryForeverClassTest (unittest.TestCase):
+
+    def test_try_forever_returns_object (self):
+        obj = TryForever()
 
 class FailThenSucceedTest (unittest.TestCase):
 

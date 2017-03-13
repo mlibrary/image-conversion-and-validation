@@ -2,5 +2,7 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
+class TryForever: pass
+
 def try_forever (func):
     return func
