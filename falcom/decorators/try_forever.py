@@ -10,11 +10,7 @@ class TryForever:
     )
 
     def __init__ (self, kwargs):
-        self.base_error = kwargs.pop("base_error", Exception)
-        self.limit = kwargs.pop("limit", 0)
-
-        self.__set_pause_time(kwargs, 60)
-
+        self.__set_properties(kwargs)
         self.__assert_no_remaining_keywords(kwargs)
 
     def __call__ (self, func):
@@ -22,6 +18,12 @@ class TryForever:
 
     def __repr__ (self):
         return "<{}>".format(self.__class__.__name__)
+
+    def __set_properties (self, kwargs):
+        self.base_error = kwargs.pop("base_error", Exception)
+        self.limit = kwargs.pop("limit", 0)
+
+        self.__set_pause_time(kwargs, 60)
 
     def __set_pause_time (self, kwargs, default):
         all_times_given = self.__get_all_pause_times_from(kwargs)
