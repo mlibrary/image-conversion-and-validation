@@ -24,18 +24,21 @@ class TryForever:
         return "<{}>".format(self.__class__.__name__)
 
     def __set_pause_time (self, kwargs, default):
-        secs = [m * kwargs.pop(k)
-                for k, m in self.__time_specifiers
-                if k in kwargs]
+        all_times_given = self.__get_all_pause_times_from(kwargs)
 
-        if secs:
-            self.seconds_between_attempts = secs.pop(0)
+        if all_times_given:
+            self.seconds_between_attempts = all_times_given.pop(0)
 
-            if secs:
+            if all_times_given:
                 raise TypeError("choose only one time specifier")
 
         else:
             self.seconds_between_attempts = default
+
+    def __get_all_pause_times_from (self, kwargs):
+        return [m * kwargs.pop(k)
+                for k, m in self.__time_specifiers
+                if k in kwargs]
 
     def __assert_no_remaining_keywords (self, kwargs):
         if kwargs:
