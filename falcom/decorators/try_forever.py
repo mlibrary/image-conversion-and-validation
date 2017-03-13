@@ -17,7 +17,7 @@ class TryForever:
 
 def try_forever (*args):
     if args:
-        return args[0]
+        return TryForever()(*args)
 
     else:
         return TryForever()

@@ -37,6 +37,10 @@ class DecoratorTest (unittest.TestCase):
     def test_returns_object_without_positional_args (self):
         obj = try_forever()
 
+    def test_raises_exception_with_too_many_arguments (self):
+        assert_that(calling(try_forever).with_args(1, 2),
+                    raises(TypeError))
+
 class GivenDefaultTryForeverDecorator (unittest.TestCase):
 
     def setUp (self):
