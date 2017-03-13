@@ -24,6 +24,13 @@ class FailThenSucceed:
         self.countdown -= 1
         raise self.error
 
+class DecoratorTest (unittest.TestCase):
+
+    def test_can_set_decorator (self):
+        @try_forever
+        def method():
+            pass
+
 class FailThenSucceedTest (unittest.TestCase):
 
     def test_we_can_fail_then_succeed (self):
