@@ -27,10 +27,7 @@ class TryForever:
         all_times_given = self.__get_all_pause_times_from(kwargs)
 
         if all_times_given:
-            self.seconds_between_attempts = all_times_given.pop(0)
-
-            if all_times_given:
-                raise TypeError("choose only one time specifier")
+            self.__set_pause_time_from_list(all_times_given)
 
         else:
             self.seconds_between_attempts = default
@@ -39,6 +36,12 @@ class TryForever:
         return [m * kwargs.pop(k)
                 for k, m in self.__time_specifiers
                 if k in kwargs]
+
+    def __set_pause_time_from_list (self, all_times_given):
+        self.seconds_between_attempts = all_times_given.pop(0)
+
+        if all_times_given:
+            raise TypeError("choose only one time specifier")
 
     def __assert_no_remaining_keywords (self, kwargs):
         if kwargs:
