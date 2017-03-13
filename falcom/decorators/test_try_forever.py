@@ -31,6 +31,8 @@ class DecoratorTest (unittest.TestCase):
         def method():
             pass
 
+        method()
+
 class FailThenSucceedTest (unittest.TestCase):
 
     def test_we_can_fail_then_succeed (self):
