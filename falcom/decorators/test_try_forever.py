@@ -66,6 +66,13 @@ class GivenDefaultTryForeverDecorator (unittest.TestCase):
 
         assert_that(return_five(), is_(equal_to(5)))
 
+class GivenMethodThatFailsThreeTimes (unittest.TestCase):
+
+    def setUp (self):
+        self.method = try_forever(seconds_between_attempts = 0.001)
+
+    def test_setup_works (self): pass
+
 class FailThenSucceedTest (unittest.TestCase):
 
     def test_we_can_fail_then_succeed (self):

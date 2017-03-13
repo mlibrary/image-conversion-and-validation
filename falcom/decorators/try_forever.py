@@ -15,7 +15,7 @@ class TryForever:
     def __repr__ (self):
         return "<{}>".format(self.__class__.__name__)
 
-def try_forever (*args):
+def try_forever (*args, **kwargs):
     if args:
         return TryForever()(*args)
 
