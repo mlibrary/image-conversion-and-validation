@@ -26,6 +26,9 @@ class TryForever:
                 except self.base_error:
                     n -= 1
                     if n == 0:
+                        # We'll never get here if n starts at zero,
+                        # since it will already be negative. Otherwise,
+                        # we'll get here after n failures.
                         raise
 
                 sleep(self.seconds_between_attempts)

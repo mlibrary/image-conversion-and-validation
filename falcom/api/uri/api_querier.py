@@ -1,18 +1,27 @@
 # Copyright (c) 2017 The Regents of the University of Michigan.
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
-from time import sleep
+from ...decorators import try_forever
 
 class APIQuery:
 
     def get (self, kwargs):
         self.kwargs = kwargs
+        try_to_get_data = self.__get_forever_looper()
 
-        if self.max_tries > 0:
-            return self.__get_with_max()
+        try:
+            return try_to_get_data()
 
-        else:
-            return self.__get_forever()
+        except ConnectionError:
+            return ""
+
+    def __get_forever_looper (self):
+        decorator = try_forever(
+                seconds_between_attempts=self.sleep_time,
+                base_error=ConnectionError,
+                limit=self.max_tries)
+
+        return decorator(self.__open_uri)
 
     def __get_forever (self):
         while True:
