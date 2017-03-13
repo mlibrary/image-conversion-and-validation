@@ -17,14 +17,6 @@ class APIQuery:
         except EXPECTED_ERROR:
             return ""
 
-    def __get_forever_looper (self):
-        decorator = try_forever(
-                seconds_between_attempts=self.sleep_time,
-                base_error=EXPECTED_ERROR,
-                limit=self.max_tries)
-
-        return decorator(self.__open_uri)
-
     @staticmethod
     def utf8 (str_or_bytes):
         if isinstance(str_or_bytes, bytes):
@@ -32,6 +24,14 @@ class APIQuery:
 
         else:
             return str_or_bytes
+
+    def __get_forever_looper (self):
+        decorator = try_forever(
+                seconds_between_attempts=self.sleep_time,
+                base_error=EXPECTED_ERROR,
+                limit=self.max_tries)
+
+        return decorator(self.__open_uri)
 
     def __open_uri (self):
         with self.url_opener(self.uri(**self.kwargs)) as response:
