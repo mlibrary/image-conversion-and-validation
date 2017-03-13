@@ -48,6 +48,9 @@ class GivenDefaultTryForeverDecorator (unittest.TestCase):
     def test_will_catch_any_normal_exception (self):
         assert_that(self.decorator.base_error, is_(equal_to(Exception)))
 
+    def test_will_loop_without_limit (self):
+        assert_that(self.decorator.limit, is_(equal_to(0)))
+
     def test_can_be_used_as_a_decorator (self):
         @self.decorator
         def return_five():
