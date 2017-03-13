@@ -107,8 +107,9 @@ class GivenMethodThatFailsThreeTimes (unittest.TestCase):
     def setUp (self):
         self.tough_method = FailThenSucceed(3)
 
-    def init_looper (self, limit = 0):
+    def init_looper (self, limit = 0, error = Exception):
         decorator = try_forever(limit=limit,
+                                base_error=error,
                                 seconds_between_attempts=0.001)
         return decorator(self.tough_method)
 
