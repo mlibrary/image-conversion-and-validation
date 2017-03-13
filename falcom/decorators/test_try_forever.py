@@ -31,4 +31,9 @@ class FailThenSucceedTest (unittest.TestCase):
         for i in range(5):
             assert_that(calling(method), raises(RuntimeError))
 
-        method()
+        method() # raises no exception this time
+
+    def test_we_can_use_any_error (self):
+        method = FailThenSucceed(1, KeyError)
+        assert_that(calling(method), raises(KeyError))
+        method() # raises no exception this time
