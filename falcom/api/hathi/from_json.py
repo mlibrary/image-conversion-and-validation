@@ -5,12 +5,14 @@ import json
 
 from .data import HathiData
 
-def load_json (json_data, default):
+EMPTY_JSON_DATA = { }
+
+def load_json (json_data):
     try:
         return json.loads(json_data)
 
     except:
-        return default
+        return EMPTY_JSON_DATA
 
 def get_None_if_empty (container):
     return container if container else None
@@ -32,6 +34,6 @@ def get_htids_from_data (data):
     return get_None_if_empty(htids_in_data(data))
 
 def get_hathi_data_from_json (json_data = ""):
-    data = load_json(json_data, { })
+    data = load_json(json_data)
     return HathiData(titles=get_titles_from_data(data),
                      htids=get_htids_from_data(data))
