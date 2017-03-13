@@ -4,6 +4,9 @@
 
 class TryForever:
 
+    def __init__ (self):
+        self.seconds_between_attempts = 60
+
     def __call__ (self): pass
 
     def __repr__ (self):

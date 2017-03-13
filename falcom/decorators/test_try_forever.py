@@ -39,6 +39,10 @@ class TryForeverClassTest (unittest.TestCase):
         obj = TryForever()
         assert_that(obj, is_(a_method()))
 
+    def test_waits_one_minute_by_default (self):
+        obj = TryForever()
+        assert_that(obj.seconds_between_attempts, is_(equal_to(60)))
+
 class FailThenSucceedTest (unittest.TestCase):
 
     def test_we_can_fail_then_succeed (self):
