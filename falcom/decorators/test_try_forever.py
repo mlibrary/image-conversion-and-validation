@@ -54,6 +54,10 @@ class DecoratorTest (unittest.TestCase):
         assert_that(obj.seconds_between_attempts,
                     is_(close_to(2.5, 0.001)))
 
+    def test_unknown_kwargs_raise_error (self):
+        assert_that(calling(try_forever).with_args(hello="sup"),
+                    raises(TypeError))
+
 class GivenDefaultTryForeverDecorator (unittest.TestCase):
 
     def setUp (self):

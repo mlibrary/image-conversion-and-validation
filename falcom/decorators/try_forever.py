@@ -10,6 +10,12 @@ class TryForever:
         self.base_error = kwargs.pop("base_error", Exception)
         self.limit = kwargs.pop("limit", 0)
 
+        # raise an error if we have an arg we don't understand
+        if kwargs:
+            key, value = kwargs.popitem()
+            raise TypeError(repr(key) + " is an invalid keyword " +
+                            "argument for this function")
+
     def __call__ (self, func):
         return func
 
