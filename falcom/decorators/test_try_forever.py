@@ -37,6 +37,7 @@ class TryForeverClassTest (unittest.TestCase):
 
     def test_try_forever_returns_object (self):
         obj = TryForever()
+        assert_that(obj, is_(a_method()))
 
 class FailThenSucceedTest (unittest.TestCase):
 

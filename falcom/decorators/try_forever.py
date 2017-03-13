@@ -2,7 +2,12 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
-class TryForever: pass
+class TryForever:
+
+    def __call__ (self): pass
+
+    def __repr__ (self):
+        return "<{}>".format(self.__class__.__name__)
 
 def try_forever (func):
     return func
