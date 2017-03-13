@@ -33,15 +33,17 @@ class DecoratorTest (unittest.TestCase):
 
         method()
 
-class TryForeverClassTest (unittest.TestCase):
+class GivenDefaultTryForeverDecorator (unittest.TestCase):
+
+    def setUp (self):
+        self.decorator = TryForever()
 
     def test_try_forever_returns_object (self):
-        obj = TryForever()
-        assert_that(obj, is_(a_method()))
+        assert_that(self.decorator, is_(a_method()))
 
     def test_waits_one_minute_by_default (self):
-        obj = TryForever()
-        assert_that(obj.seconds_between_attempts, is_(equal_to(60)))
+        assert_that(self.decorator.seconds_between_attempts,
+                    is_(equal_to(60)))
 
 class FailThenSucceedTest (unittest.TestCase):
 
