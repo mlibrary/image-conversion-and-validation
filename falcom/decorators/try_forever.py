@@ -15,7 +15,10 @@ class TryForever:
         self.__assert_no_remaining_keywords(kwargs)
 
     def __call__ (self, func):
-        return func
+        def result (*args, **kwargs):
+            return func(*args, **kwargs)
+
+        return result
 
     def __repr__ (self):
         return "<{}>".format(self.__class__.__name__)

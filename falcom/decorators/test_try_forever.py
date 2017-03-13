@@ -105,10 +105,17 @@ class GivenDefaultTryForeverDecorator (unittest.TestCase):
 class GivenMethodThatFailsThreeTimes (unittest.TestCase):
 
     def setUp (self):
-        obj = try_forever(seconds_between_attempts = 0.001)
-        self.method = obj(FailThenSucceed(3))
+        self.tough_method = FailThenSucceed(3)
 
-    def test_setup_works (self): pass
+    def init_looper (self, limit = 0):
+        decorator = try_forever(limit=limit,
+                                seconds_between_attempts=0.001)
+        return decorator(self.tough_method)
+
+    @unittest.skip
+    def test_can_run_without_seeing_errors (self):
+        looper = self.init_looper()
+        looper() # raises no exception
 
 class FailThenSucceedTest (unittest.TestCase):
 
