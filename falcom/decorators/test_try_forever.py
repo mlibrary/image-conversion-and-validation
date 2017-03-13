@@ -34,6 +34,9 @@ class DecoratorTest (unittest.TestCase):
         assert_that(method(5), is_(equal_to(5)))
         assert_that(method("hi"), is_(equal_to("hi")))
 
+    def test_returns_object_without_positional_args (self):
+        obj = try_forever()
+
 class GivenDefaultTryForeverDecorator (unittest.TestCase):
 
     def setUp (self):
