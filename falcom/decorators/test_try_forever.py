@@ -28,10 +28,11 @@ class DecoratorTest (unittest.TestCase):
 
     def test_can_set_decorator (self):
         @try_forever
-        def method():
-            pass
+        def method (arg):
+            return arg
 
-        method()
+        assert_that(method(5), is_(equal_to(5)))
+        assert_that(method("hi"), is_(equal_to("hi")))
 
 class GivenDefaultTryForeverDecorator (unittest.TestCase):
 
