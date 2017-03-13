@@ -38,12 +38,17 @@ class GivenDefaultTryForeverDecorator (unittest.TestCase):
     def setUp (self):
         self.decorator = TryForever()
 
-    def test_try_forever_returns_object (self):
+    def test_is_callable (self):
         assert_that(self.decorator, is_(a_method()))
 
     def test_waits_one_minute_by_default (self):
         assert_that(self.decorator.seconds_between_attempts,
                     is_(equal_to(60)))
+
+    def test_can_be_used_as_a_decorator (self):
+        @self.decorator
+        def return_five():
+            return 5
 
 class FailThenSucceedTest (unittest.TestCase):
 
