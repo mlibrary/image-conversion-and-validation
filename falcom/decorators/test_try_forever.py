@@ -50,6 +50,8 @@ class GivenDefaultTryForeverDecorator (unittest.TestCase):
         def return_five():
             return 5
 
+        assert_that(return_five(), is_(equal_to(5)))
+
 class FailThenSucceedTest (unittest.TestCase):
 
     def test_we_can_fail_then_succeed (self):

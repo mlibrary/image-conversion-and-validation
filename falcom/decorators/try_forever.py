@@ -8,7 +8,7 @@ class TryForever:
         self.seconds_between_attempts = 60
 
     def __call__ (self, func):
-        pass
+        return func
 
     def __repr__ (self):
         return "<{}>".format(self.__class__.__name__)
