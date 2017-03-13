@@ -5,6 +5,7 @@ from hamcrest import *
 import unittest
 
 from ..test.hamcrest import ComposedMatcher, evaluates_to
+from .try_forever import try_forever
 
 class NothingTest (unittest.TestCase):
 
