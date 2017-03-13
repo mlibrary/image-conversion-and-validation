@@ -105,7 +105,8 @@ class GivenDefaultTryForeverDecorator (unittest.TestCase):
 class GivenMethodThatFailsThreeTimes (unittest.TestCase):
 
     def setUp (self):
-        self.method = try_forever(seconds_between_attempts = 0.001)
+        obj = try_forever(seconds_between_attempts = 0.001)
+        self.method = obj(FailThenSucceed(3))
 
     def test_setup_works (self): pass
 
