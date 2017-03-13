@@ -5,12 +5,14 @@ import json
 
 from .data import HathiData
 
+EMPTY_JSON_DATA = { }
+
 def load_json (json_data):
     try:
         return json.loads(json_data)
 
     except:
-        return { }
+        return EMPTY_JSON_DATA
 
 def get_None_if_empty (container):
     return container if container else None
