@@ -49,6 +49,11 @@ class DecoratorTest (unittest.TestCase):
         obj = try_forever(base_error=RuntimeError)
         assert_that(obj.base_error, is_(equal_to(RuntimeError)))
 
+    def test_can_set_pause_seconds (self):
+        obj = try_forever(seconds_between_attempts=2.5)
+        assert_that(obj.seconds_between_attempts,
+                    is_(close_to(2.5, 0.001)))
+
 class GivenDefaultTryForeverDecorator (unittest.TestCase):
 
     def setUp (self):
