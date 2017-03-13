@@ -63,6 +63,10 @@ class DecoratorTest (unittest.TestCase):
         assert_that(obj.seconds_between_attempts,
                     is_(close_to(150, 0.001)))
 
+    def test_can_set_pause_to_hours (self):
+        obj = try_forever(hours_between_attempts=2)
+        assert_that(obj.seconds_between_attempts, is_(equal_to(7200)))
+
     def test_cannot_set_minutes_and_seconds (self):
         assert_that(calling(try_forever)
                     .with_args(seconds_between_attempts=10,

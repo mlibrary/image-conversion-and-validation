@@ -7,6 +7,7 @@ class TryForever:
     __time_specifiers = (
         ("seconds_between_attempts", 1),
         ("minutes_between_attempts", 60),
+        ("hours_between_attempts", 60*60),
     )
 
     def __init__ (self, kwargs):
