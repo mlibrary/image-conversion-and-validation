@@ -17,12 +17,18 @@ class TryForever:
 
     def __call__ (self, func):
         def result (*args, **kwargs):
+            n = self.limit
+
             while True:
                 try:
                     return func(*args, **kwargs)
 
                 except:
-                    sleep(self.seconds_between_attempts)
+                    n -= 1
+                    if n == 0:
+                        raise
+
+                sleep(self.seconds_between_attempts)
 
         return result
 
