@@ -4,7 +4,7 @@
 from hamcrest import *
 import unittest
 
-from ..test.hamcrest import ComposedMatcher, evaluates_to
+from ..test.hamcrest import ComposedMatcher, evaluates_to, a_method
 from .try_forever import try_forever, TryForever
 
 class FailThenSucceed:

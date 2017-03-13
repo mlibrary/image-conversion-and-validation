@@ -2,6 +2,7 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
+from .callable import a_method
 from .composed_matcher import ComposedMatcher
 from .has_attrs import HasAttrs
 from .truthiness import evaluates_to
