@@ -125,6 +125,10 @@ class GivenMethodThatFailsThreeTimes (unittest.TestCase):
         looper = self.init_looper(4)
         looper() # raises no exception
 
+    def test_fails_when_looking_for_wrong_exception (self):
+        looper = self.init_looper(100, KeyError)
+        assert_that(calling(looper), raises(RuntimeError))
+
 class FailThenSucceedTest (unittest.TestCase):
 
     def test_we_can_fail_then_succeed (self):

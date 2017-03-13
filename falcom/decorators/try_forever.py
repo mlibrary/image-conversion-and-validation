@@ -23,7 +23,7 @@ class TryForever:
                 try:
                     return func(*args, **kwargs)
 
-                except:
+                except self.base_error:
                     n -= 1
                     if n == 0:
                         raise
