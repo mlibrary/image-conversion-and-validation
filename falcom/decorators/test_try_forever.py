@@ -7,6 +7,28 @@ import unittest
 from ..test.hamcrest import ComposedMatcher, evaluates_to
 from .try_forever import try_forever
 
-class NothingTest (unittest.TestCase):
+class FailThenSucceed:
 
-    def test_nothing (self): pass
+    def __init__ (self, number_of_failures, error = RuntimeError):
+        self.countdown = number_of_failures
+        self.error = error
+
+    def __call__ (self):
+        if self.__we_need_to_raise_an_error():
+            self.__decrement_counter_and_raise_the_error()
+
+    def __we_need_to_raise_an_error (self):
+        return self.countdown > 0
+
+    def __decrement_counter_and_raise_the_error (self):
+        self.countdown -= 1
+        raise self.error
+
+class FailThenSucceedTest (unittest.TestCase):
+
+    def test_we_can_fail_then_succeed (self):
+        method = FailThenSucceed(5)
+        for i in range(5):
+            assert_that(calling(method), raises(RuntimeError))
+
+        method()
