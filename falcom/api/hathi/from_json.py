@@ -8,9 +8,6 @@ from .data import HathiData
 def title_lists_in_data (data):
     return (x.get("titles", ()) for x in data.get("records", {}).values())
 
-def htids_in_data (data):
-    return [x["htid"] for x in data.get("items", []) if "htid" in x]
-
 class HathiJsonData:
 
     def __init__ (self, json_data):
@@ -38,7 +35,10 @@ class HathiJsonData:
         return self.get_None_if_empty(result)
 
     def __get_htids_from_data (self):
-        return self.get_None_if_empty(htids_in_data(self.data))
+        return self.get_None_if_empty(self.htids_in_data(self.data))
+
+    def htids_in_data (self, data):
+        return [x["htid"] for x in data.get("items", []) if "htid" in x]
 
     def get_None_if_empty (self, container):
         return container if container else None
