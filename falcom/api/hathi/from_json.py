@@ -5,8 +5,6 @@ import json
 
 from .data import HathiData
 
-EMPTY_JSON_DATA = { }
-
 def get_None_if_empty (container):
     return container if container else None
 
@@ -40,7 +38,10 @@ class HathiJsonData:
             self.data = json.loads(json_data)
 
         except:
-            self.data = EMPTY_JSON_DATA
+            self.__set_to_empty_json_data()
+
+    def __set_to_empty_json_data (self):
+        self.data = { }
 
 def get_hathi_data_from_json (json_data = ""):
     data = HathiJsonData(json_data)
