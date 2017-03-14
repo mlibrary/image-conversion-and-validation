@@ -21,7 +21,7 @@ class HathiJsonData:
 
     def get_hathi_data (self):
         return HathiData(titles=self.__get_titles_from_data(),
-                         htids=self.__get_htids_from_data(self.data))
+                         htids=self.__get_htids_from_data())
 
     def __load_json (self, json_data):
         try:
@@ -40,8 +40,8 @@ class HathiJsonData:
 
         return get_None_if_empty(result)
 
-    def __get_htids_from_data (self, data):
-        return get_None_if_empty(htids_in_data(data))
+    def __get_htids_from_data (self):
+        return get_None_if_empty(htids_in_data(self.data))
 
 def get_hathi_data_from_json (json_data = ""):
     data = HathiJsonData(json_data)
