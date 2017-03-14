@@ -14,9 +14,6 @@ def title_lists_in_data (data):
 def htids_in_data (data):
     return [x["htid"] for x in data.get("items", []) if "htid" in x]
 
-def get_htids_from_data (data):
-    return get_None_if_empty(htids_in_data(data))
-
 class HathiJsonData:
 
     def __init__ (self, json_data):
@@ -24,7 +21,7 @@ class HathiJsonData:
 
     def get_hathi_data (self):
         return HathiData(titles=self.__get_titles_from_data(),
-                         htids=get_htids_from_data(self.data))
+                         htids=self.__get_htids_from_data(self.data))
 
     def __load_json (self, json_data):
         try:
@@ -42,6 +39,9 @@ class HathiJsonData:
             result.extend(title_list)
 
         return get_None_if_empty(result)
+
+    def __get_htids_from_data (self, data):
+        return get_None_if_empty(htids_in_data(data))
 
 def get_hathi_data_from_json (json_data = ""):
     data = HathiJsonData(json_data)
