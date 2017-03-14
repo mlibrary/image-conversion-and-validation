@@ -5,9 +5,6 @@ from json import loads as json_load_str
 
 from .data import HathiData
 
-def get_None_if_empty (container):
-    return container if container else None
-
 def title_lists_in_data (data):
     return (x.get("titles", ()) for x in data.get("records", {}).values())
 
@@ -38,10 +35,13 @@ class HathiJsonData:
         for title_list in title_lists_in_data(self.data):
             result.extend(title_list)
 
-        return get_None_if_empty(result)
+        return self.get_None_if_empty(result)
 
     def __get_htids_from_data (self):
-        return get_None_if_empty(htids_in_data(self.data))
+        return self.get_None_if_empty(htids_in_data(self.data))
+
+    def get_None_if_empty (self, container):
+        return container if container else None
 
 def get_hathi_data_from_json (json_data = ""):
     data = HathiJsonData(json_data)
