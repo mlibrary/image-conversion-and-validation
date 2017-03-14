@@ -26,13 +26,13 @@ class HathiJsonData:
 
     def __get_titles_from_data (self):
         result = [ ]
-        for title_list in self.__title_lists_in_data(self.data):
+        for title_list in self.__title_lists_in_data():
             result.extend(title_list)
 
         return self.__get_None_if_empty(result)
 
-    def __title_lists_in_data (self, data):
-        return (x.get("titles", ()) for x in data.get("records", {}).values())
+    def __title_lists_in_data (self):
+        return (x.get("titles", ()) for x in self.data.get("records", {}).values())
 
     def __get_htids_from_data (self):
         return self.__get_None_if_empty(self.__htids_in_data(self.data))
