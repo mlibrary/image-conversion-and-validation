@@ -23,7 +23,7 @@ class HathiJsonData:
         self.__load_json(json_data)
 
     def get_hathi_data (self):
-        return HathiData(titles=self.get_titles_from_data(self.data),
+        return HathiData(titles=self.__get_titles_from_data(),
                          htids=get_htids_from_data(self.data))
 
     def __load_json (self, json_data):
@@ -36,9 +36,9 @@ class HathiJsonData:
     def __set_to_empty_json_data (self):
         self.data = { }
 
-    def get_titles_from_data (self, data):
+    def __get_titles_from_data (self):
         result = [ ]
-        for title_list in title_lists_in_data(data):
+        for title_list in title_lists_in_data(self.data):
             result.extend(title_list)
 
         return get_None_if_empty(result)
