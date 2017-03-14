@@ -1,7 +1,7 @@
 # Copyright (c) 2017 The Regents of the University of Michigan.
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
-import json
+from json import loads as json_load_str
 
 from .data import HathiData
 
@@ -35,7 +35,7 @@ class HathiJsonData:
 
     def __load_json (self, json_data):
         try:
-            self.data = json.loads(json_data)
+            self.data = json_load_str(json_data)
 
         except:
             self.__set_to_empty_json_data()
