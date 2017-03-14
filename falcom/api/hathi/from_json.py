@@ -35,10 +35,10 @@ class HathiJsonData:
         return (x.get("titles", ()) for x in self.data.get("records", {}).values())
 
     def __get_htids_from_data (self):
-        return self.__get_None_if_empty(self.__htids_in_data(self.data))
+        return self.__get_None_if_empty(self.__htids_in_data())
 
-    def __htids_in_data (self, data):
-        return [x["htid"] for x in data.get("items", []) if "htid" in x]
+    def __htids_in_data (self):
+        return [x["htid"] for x in self.data.get("items", []) if "htid" in x]
 
     def __get_None_if_empty (self, container):
         return container if container else None
