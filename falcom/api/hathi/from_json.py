@@ -1,37 +1,48 @@
 # Copyright (c) 2017 The Regents of the University of Michigan.
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
-import json
+from json import loads as json_load_str
 
 from .data import HathiData
 
-def load_json (json_data, default):
-    try:
-        return json.loads(json_data)
+class HathiJsonData:
 
-    except:
-        return default
+    def __init__ (self, json_data):
+        self.__load_json(json_data)
 
-def get_None_if_empty (container):
-    return container if container else None
+    def get_hathi_data (self):
+        return HathiData(titles=self.__get_titles(),
+                         htids=self.__get_htids())
 
-def title_lists_in_data (data):
-    return (x.get("titles", ()) for x in data.get("records", {}).values())
+    def __load_json (self, json_data):
+        try:
+            self.data = json_load_str(json_data)
 
-def get_titles_from_data (data):
-    result = [ ]
-    for title_list in title_lists_in_data(data):
-        result.extend(title_list)
+        except:
+            self.__set_to_empty_json_data()
 
-    return get_None_if_empty(result)
+    def __set_to_empty_json_data (self):
+        self.data = { }
 
-def htids_in_data (data):
-    return [x["htid"] for x in data.get("items", []) if "htid" in x]
+    def __get_titles (self):
+        result = [ ]
+        for title_list in self.__title_lists_in_data():
+            result.extend(title_list)
 
-def get_htids_from_data (data):
-    return get_None_if_empty(htids_in_data(data))
+        return self.__replace_empty_container_with_None(result)
+
+    def __title_lists_in_data (self):
+        return (x.get("titles", ()) for x in self.data.get("records", {}).values())
+
+    def __get_htids (self):
+        return self.__replace_empty_container_with_None(self.__htids_in_data())
+
+    def __htids_in_data (self):
+        return [x["htid"] for x in self.data.get("items", []) if "htid" in x]
+
+    def __replace_empty_container_with_None (self, container):
+        return container if container else None
 
 def get_hathi_data_from_json (json_data = ""):
-    data = load_json(json_data, { })
-    return HathiData(titles=get_titles_from_data(data),
-                     htids=get_htids_from_data(data))
+    data = HathiJsonData(json_data)
+    return data.get_hathi_data()
