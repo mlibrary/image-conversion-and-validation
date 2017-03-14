@@ -33,7 +33,15 @@ def htids_in_data (data):
 def get_htids_from_data (data):
     return get_None_if_empty(htids_in_data(data))
 
+class HathiJsonData:
+
+    def __init__ (self, json_data):
+        self.data = load_json(json_data)
+
+    def get_hathi_data (self):
+        return HathiData(titles=get_titles_from_data(self.data),
+                         htids=get_htids_from_data(self.data))
+
 def get_hathi_data_from_json (json_data = ""):
-    data = load_json(json_data)
-    return HathiData(titles=get_titles_from_data(data),
-                     htids=get_htids_from_data(data))
+    data = HathiJsonData(json_data)
+    return data.get_hathi_data()
