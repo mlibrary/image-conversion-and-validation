@@ -11,13 +11,6 @@ def get_None_if_empty (container):
 def title_lists_in_data (data):
     return (x.get("titles", ()) for x in data.get("records", {}).values())
 
-def get_titles_from_data (data):
-    result = [ ]
-    for title_list in title_lists_in_data(data):
-        result.extend(title_list)
-
-    return get_None_if_empty(result)
-
 def htids_in_data (data):
     return [x["htid"] for x in data.get("items", []) if "htid" in x]
 
@@ -30,7 +23,7 @@ class HathiJsonData:
         self.__load_json(json_data)
 
     def get_hathi_data (self):
-        return HathiData(titles=get_titles_from_data(self.data),
+        return HathiData(titles=self.get_titles_from_data(self.data),
                          htids=get_htids_from_data(self.data))
 
     def __load_json (self, json_data):
@@ -42,6 +35,13 @@ class HathiJsonData:
 
     def __set_to_empty_json_data (self):
         self.data = { }
+
+    def get_titles_from_data (self, data):
+        result = [ ]
+        for title_list in title_lists_in_data(data):
+            result.extend(title_list)
+
+        return get_None_if_empty(result)
 
 def get_hathi_data_from_json (json_data = ""):
     data = HathiJsonData(json_data)
