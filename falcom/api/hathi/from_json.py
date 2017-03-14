@@ -26,21 +26,21 @@ class HathiJsonData:
 
     def __get_titles_from_data (self):
         result = [ ]
-        for title_list in self.title_lists_in_data(self.data):
+        for title_list in self.__title_lists_in_data(self.data):
             result.extend(title_list)
 
-        return self.get_None_if_empty(result)
+        return self.__get_None_if_empty(result)
 
-    def title_lists_in_data (self, data):
+    def __title_lists_in_data (self, data):
         return (x.get("titles", ()) for x in data.get("records", {}).values())
 
     def __get_htids_from_data (self):
-        return self.get_None_if_empty(self.htids_in_data(self.data))
+        return self.__get_None_if_empty(self.__htids_in_data(self.data))
 
-    def htids_in_data (self, data):
+    def __htids_in_data (self, data):
         return [x["htid"] for x in data.get("items", []) if "htid" in x]
 
-    def get_None_if_empty (self, container):
+    def __get_None_if_empty (self, container):
         return container if container else None
 
 def get_hathi_data_from_json (json_data = ""):
