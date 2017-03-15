@@ -14,13 +14,20 @@ class TreeMatcher (BaseMatcher):
         self.expected_value = expected_value
 
     def describe_to (self, description):
-        description.append_text(self.expectation.format(self.expected_value))
+        description.append_text(
+                self.expectation.format(repr(self.expected_value)))
 
 class has_full_length (TreeMatcher):
-    expectation = "a tree with a full length of {:d}"
+    expectation = "a tree with a full length of {}"
 
     def _matches (self, item):
         return item.full_length() == self.expected_value
+
+class iterates_into_list (TreeMatcher):
+    expectation = "a tree that iterates into {}"
+
+    def _matches (self, item):
+        return list(item) == self.expected_value
 
 class GivenEmptyTree (unittest.TestCase):
 
@@ -37,7 +44,7 @@ class GivenEmptyTree (unittest.TestCase):
         assert_that(self.tree, has_full_length(0))
 
     def test_iterates_into_empty_list (self):
-        assert_that(list(self.tree), is_(equal_to([])))
+        assert_that(self.tree, iterates_into_list([]))
 
     def test_walk_iterates_into_empty_list (self):
         assert_that(list(self.tree.walk()), is_(equal_to([])))
