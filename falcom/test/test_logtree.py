@@ -2,10 +2,23 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 from hamcrest import *
+from hamcrest.core.base_matcher import BaseMatcher
 import unittest
 
 from .hamcrest import evaluates_to
 from ..logtree import MutableTree
+
+class has_full_length (BaseMatcher):
+
+    def __init__ (self, length):
+        self.length = length
+
+    def _matches (self, item):
+        return item.full_length() == self.length
+
+    def describe_to (self, description):
+        description.append_text(
+                "a tree with a full length of {:d}".format(self.length))
 
 class GivenEmptyTree (unittest.TestCase):
 
@@ -19,7 +32,7 @@ class GivenEmptyTree (unittest.TestCase):
         assert_that(self.tree, has_length(0))
 
     def test_has_total_length_of_zero (self):
-        assert_that(self.tree.full_length(), is_(equal_to(0)))
+        assert_that(self.tree, has_full_length(0))
 
     def test_iterates_into_empty_list (self):
         assert_that(list(self.tree), is_(equal_to([])))
