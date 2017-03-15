@@ -29,6 +29,12 @@ class iterates_into_list (TreeMatcher):
     def _matches (self, item):
         return list(item) == self.expected_value
 
+class iterates_recursively_into_list (TreeMatcher):
+    expectation = "a tree that iterates recursively into {}"
+
+    def _matches (self, item):
+        return list(item.walk()) == self.expected_value
+
 class GivenEmptyTree (unittest.TestCase):
 
     def setUp (self):
@@ -47,7 +53,7 @@ class GivenEmptyTree (unittest.TestCase):
         assert_that(self.tree, iterates_into_list([]))
 
     def test_walk_iterates_into_empty_list (self):
-        assert_that(list(self.tree.walk()), is_(equal_to([])))
+        assert_that(self.tree, iterates_recursively_into_list([]))
 
     def test_has_no_first_item (self):
         assert_that(calling(lambda x: x[0]).with_args(self.tree),
