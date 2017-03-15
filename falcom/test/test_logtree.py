@@ -8,17 +8,19 @@ import unittest
 from .hamcrest import evaluates_to
 from ..logtree import MutableTree
 
-class has_full_length (BaseMatcher):
+class TreeMatcher (BaseMatcher):
 
-    def __init__ (self, length):
-        self.length = length
-
-    def _matches (self, item):
-        return item.full_length() == self.length
+    def __init__ (self, expected_value):
+        self.expected_value = expected_value
 
     def describe_to (self, description):
-        description.append_text(
-                "a tree with a full length of {:d}".format(self.length))
+        description.append_text(self.expectation.format(self.expected_value))
+
+class has_full_length (TreeMatcher):
+    expectation = "a tree with a full length of {:d}"
+
+    def _matches (self, item):
+        return item.full_length() == self.expected_value
 
 class GivenEmptyTree (unittest.TestCase):
 
