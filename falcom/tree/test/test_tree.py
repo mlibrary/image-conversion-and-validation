@@ -73,6 +73,9 @@ class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
 class TestTreeWithOneEmptyChild (GivenTreeWithOneEmptyChild,
                                  unittest.TestCase):
 
+    def test_evaluates_to_true (self):
+        self.assert_tree(evaluates_to(True))
+
     def test_has_length_of_1 (self):
         self.assert_tree(has_length(1))
 
