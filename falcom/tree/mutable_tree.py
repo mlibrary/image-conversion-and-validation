@@ -4,9 +4,9 @@
 
 class MutableTree:
 
-    def __init__ (self):
-        self.child = None
-        self.value = None
+    def __init__ (self, value = None):
+        self.children = [ ]
+        self.value = value
 
     @property
     def value (self):
@@ -16,24 +16,23 @@ class MutableTree:
     def value (self, x):
         self.__value = x
 
+    def __len__ (self):
+        return len(self.children)
+
     def full_length (self):
         return len(self)
 
-    def walk (self):
-        return iter(())
-
-    def __len__ (self):
-        return 0 if self.child is None else 1
-
     def __iter__ (self):
-        return iter(())
+        return iter(self.children)
+
+    def walk (self):
+        return iter(self)
 
     def __getitem__ (self, index):
-        if self and index == 0:
-            return self.child
+        return self.children[index]
 
-        else:
-            raise IndexError("tree index out of range")
+    def insert (self, index, node):
+        self.children.insert(index, node)
 
     def __repr__ (self):
         debug = self.__class__.__name__
@@ -41,7 +40,4 @@ class MutableTree:
         if self.value is not None:
             debug += " " + repr(self.value)
 
-        return "<{}>".format(debug)
-
-    def insert (self, index, node):
-        self.child = node
+        return "<{} {}>".format(debug, repr(self.children))
