@@ -10,6 +10,9 @@ from ..mutable_tree import MutableTree
 
 class TreeHelpers:
 
+    def new_tree (self):
+        return MutableTree()
+
     def set_value (self, value):
         self.tree.value = value
 
@@ -19,13 +22,13 @@ class TreeHelpers:
 class GivenEmptyTree (TreeHelpers):
 
     def setUp (self):
-        self.tree = MutableTree()
+        self.tree = self.new_tree()
 
 class GivenTreeWithOneEmptyChild (GivenEmptyTree):
 
     def setUp (self):
         super().setUp()
-        self.tree.insert(0, MutableTree())
+        self.tree.insert(0, self.new_tree())
 
 class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
 
