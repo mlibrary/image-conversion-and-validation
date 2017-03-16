@@ -35,10 +35,19 @@ class iterates_recursively_into_list (TreeMatcher):
     def _matches (self, item):
         return list(item.walk()) == self.expected_value
 
+class has_value (TreeMatcher):
+    expectation = "a tree node with a value of {}"
+
+    def _matches (self, item):
+        return item.value == self.expected_value
+
 class GivenEmptyTree (unittest.TestCase):
 
     def setUp (self):
         self.tree = MutableTree()
+
+    def set_value (self, value):
+        self.tree.value = value
 
     def test_evaluates_to_false (self):
         assert_that(self.tree, evaluates_to(False))
@@ -60,13 +69,13 @@ class GivenEmptyTree (unittest.TestCase):
                     raises(IndexError))
 
     def test_value_is_none (self):
-        assert_that(self.tree.value, is_(none()))
+        assert_that(self.tree, has_value(None))
 
     def test_can_modify_value (self):
-        self.tree.value = "hello"
+        self.set_value("hello")
         assert_that(self.tree.value, is_(equal_to("hello")))
 
-        self.tree.value = 235813
+        self.set_value(235813)
         assert_that(self.tree.value, is_(equal_to(235813)))
 
     def test_cannot_delete_value (self):
