@@ -40,6 +40,11 @@ class GivenTreeWithTwoEmptyChildren (GivenTreeWithOneEmptyChild):
         self.second_child = self.new_tree()
         self.tree.insert(1, self.second_child)
 
+class GivenNothing (unittest.TestCase):
+
+    def test_can_init_tree_with_value (self):
+        tree = MutableTree(value="hi")
+
 class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
 
     def test_evaluates_to_false (self):
