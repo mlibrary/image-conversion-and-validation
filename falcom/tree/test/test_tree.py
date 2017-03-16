@@ -90,3 +90,9 @@ class TestTreeWithOneEmptyChild (GivenTreeWithOneEmptyChild,
     def test_there_is_no_second_item (self):
         assert_that(calling(lambda x: x[1]).with_args(self.tree),
                     raises(IndexError))
+
+    def test_child_has_length_of_0 (self):
+        assert_that(self.child, has_length(0))
+
+    def test_child_has_full_length_of_0 (self):
+        assert_that(self.child, has_full_length(0))
