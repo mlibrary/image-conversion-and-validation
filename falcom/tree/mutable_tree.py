@@ -36,7 +36,12 @@ class MutableTree:
             raise IndexError("tree index out of range")
 
     def __repr__ (self):
-        return "<{}>".format(self.__class__.__name__)
+        debug = self.__class__.__name__
+
+        if self.value is not None:
+            debug += " " + repr(self.value)
+
+        return "<{}>".format(debug)
 
     def insert (self, index, node):
         self.child = node
