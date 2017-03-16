@@ -20,7 +20,7 @@ class MutableTree:
         return len(self.children)
 
     def full_length (self):
-        return len(self)
+        return len(self) + sum(map(len, self.children))
 
     def __iter__ (self):
         return iter(self.children)

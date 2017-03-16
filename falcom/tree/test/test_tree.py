@@ -172,3 +172,6 @@ class TestTreeWithTwoChildrenAndOneGrandchild (
 
     def test_has_length_of_2 (self):
         self.assert_tree(has_length(2))
+
+    def test_has_full_length_of_3 (self):
+        self.assert_tree(has_full_length(3))
