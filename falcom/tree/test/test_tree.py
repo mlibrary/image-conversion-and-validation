@@ -10,8 +10,8 @@ from ..mutable_tree import MutableTree
 
 class TreeHelpers:
 
-    def new_tree (self):
-        return MutableTree()
+    def new_tree (self, value=None):
+        return MutableTree(value=value)
 
     def set_value (self, value):
         self.tree.value = value
