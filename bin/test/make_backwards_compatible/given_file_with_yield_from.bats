@@ -26,4 +26,5 @@ make_compatible_326() {
   [ "$status" -eq 0 ]
   not_grep 'yield from ' "$tmpfile"
   grep -q 'yield from_this' "$tmpfile"
+  grep -q 'for [^ ]\+ in many_things: yield ' "$tmpfile"
 }
