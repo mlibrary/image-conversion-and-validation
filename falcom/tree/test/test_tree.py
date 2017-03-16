@@ -8,16 +8,18 @@ from ...test.hamcrest import evaluates_to
 from .matchers import *
 from ..mutable_tree import MutableTree
 
-class GivenEmptyTree:
-
-    def setUp (self):
-        self.tree = MutableTree()
+class TreeHelpers:
 
     def set_value (self, value):
         self.tree.value = value
 
     def assert_tree (self, matcher):
         assert_that(self.tree, matcher)
+
+class GivenEmptyTree (TreeHelpers):
+
+    def setUp (self):
+        self.tree = MutableTree()
 
 class GivenTreeWithOneEmptyChild (GivenEmptyTree):
 
