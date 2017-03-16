@@ -30,7 +30,7 @@ class MutableTree:
             return iter(())
 
     def walk (self):
-        return iter(())
+        return iter(self)
 
     def __getitem__ (self, index):
         if self and index == 0:
