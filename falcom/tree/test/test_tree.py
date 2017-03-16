@@ -125,3 +125,9 @@ class TestTreeWithOneEmptyChild (GivenTreeWithOneEmptyChild,
 
     def test_child_has_full_length_of_0 (self):
         assert_that(self.first_child, has_full_length(0))
+
+class TestTreeWithTwoEmptyChildren (GivenTreeWithTwoEmptyChildren,
+                                    unittest.TestCase):
+
+    def test_evaluates_to_true (self):
+        self.assert_tree(evaluates_to(True))
