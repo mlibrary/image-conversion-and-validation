@@ -34,11 +34,7 @@ class MutableTree:
         return iter(self)
 
     def __getitem__ (self, index):
-        if self and index == 0:
-            return self.child
-
-        else:
-            raise IndexError("tree index out of range")
+        return self.children[index]
 
     def insert (self, index, node):
         self.child = node
