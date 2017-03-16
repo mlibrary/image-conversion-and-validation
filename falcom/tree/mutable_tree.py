@@ -30,7 +30,7 @@ class MutableTree:
 
     def __getitem__ (self, index):
         if self:
-            return None
+            return self.child
 
         else:
             raise IndexError("tree index out of range")
