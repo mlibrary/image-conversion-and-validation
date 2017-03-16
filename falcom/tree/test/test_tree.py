@@ -83,3 +83,7 @@ class TestTreeWithOneEmptyChild (GivenTreeWithOneEmptyChild,
 
     def test_has_full_length_of_1 (self):
         self.assert_tree(has_full_length(1))
+
+    @unittest.skip
+    def test_first_item_is_child (self):
+        assert_that(self.tree[0], is_(same_instance(self.child)))

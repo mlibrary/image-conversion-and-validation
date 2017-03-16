@@ -29,7 +29,11 @@ class MutableTree:
         return iter(())
 
     def __getitem__ (self, index):
-        raise IndexError("tree index out of range")
+        if self:
+            return None
+
+        else:
+            raise IndexError("tree index out of range")
 
     def __repr__ (self):
         return "<{}>".format(self.__class__.__name__)
