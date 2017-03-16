@@ -44,14 +44,14 @@ class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
                     raises(IndexError))
 
     def test_value_is_none (self):
-        assert_that(self.tree, has_value(None))
+        assert_that(self.tree, has_node_value(None))
 
     def test_can_modify_value (self):
         self.set_value("hello")
-        assert_that(self.tree, has_value("hello"))
+        assert_that(self.tree, has_node_value("hello"))
 
         self.set_value(235813)
-        assert_that(self.tree, has_value(235813))
+        assert_that(self.tree, has_node_value(235813))
 
     def test_cannot_delete_value (self):
         assert_that(calling(delattr).with_args(self.tree, "value"),

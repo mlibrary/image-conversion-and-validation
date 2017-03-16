@@ -30,7 +30,7 @@ class iterates_recursively_into_list (TreeMatcher):
     def _matches (self, item):
         return list(item.walk()) == self.expected_value
 
-class has_value (TreeMatcher):
+class has_node_value (TreeMatcher):
     expectation = "a tree node with a value of {}"
 
     def _matches (self, item):
