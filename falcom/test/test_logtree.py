@@ -86,3 +86,6 @@ class GivenEmptyTree (unittest.TestCase):
         self.set_value("hello")
         assert_that(calling(delattr).with_args(self.tree, "value"),
                     raises(AttributeError))
+
+    def test_can_add_child_node (self):
+        self.tree.insert(0, MutableTree())
