@@ -28,7 +28,9 @@ class GivenTreeWithOneEmptyChild (GivenEmptyTree):
 
     def setUp (self):
         super().setUp()
-        self.tree.insert(0, self.new_tree())
+
+        self.child = self.new_tree()
+        self.tree.insert(0, self.child)
 
 class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
 
@@ -73,8 +75,24 @@ class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
 class TestTreeWithOneEmptyChild (GivenTreeWithOneEmptyChild,
                                  unittest.TestCase):
 
+    def test_evaluates_to_true (self):
+        self.assert_tree(evaluates_to(True))
+
     def test_has_length_of_1 (self):
         self.assert_tree(has_length(1))
 
     def test_has_full_length_of_1 (self):
         self.assert_tree(has_full_length(1))
+
+    def test_first_item_is_child (self):
+        assert_that(self.tree[0], is_(same_instance(self.child)))
+
+    def test_there_is_no_second_item (self):
+        assert_that(calling(lambda x: x[1]).with_args(self.tree),
+                    raises(IndexError))
+
+    def test_child_has_length_of_0 (self):
+        assert_that(self.child, has_length(0))
+
+    def test_child_has_full_length_of_0 (self):
+        assert_that(self.child, has_full_length(0))
