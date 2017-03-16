@@ -42,6 +42,7 @@ class MutableTree:
 
     def insert (self, index, node):
         self.child = node
+        self.children.insert(index, node)
 
     def __repr__ (self):
         debug = self.__class__.__name__
