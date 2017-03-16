@@ -19,6 +19,10 @@ class TreeHelpers:
     def assert_tree (self, matcher):
         assert_that(self.tree, matcher)
 
+    def assert_invalid_index (self, index):
+        assert_that(calling(lambda x: x[index]).with_args(self.tree),
+                    raises(IndexError))
+
 class GivenEmptyTree (TreeHelpers):
 
     def setUp (self):
@@ -70,8 +74,7 @@ class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
         self.assert_tree(walks_into_list([]))
 
     def test_has_no_first_item (self):
-        assert_that(calling(lambda x: x[0]).with_args(self.tree),
-                    raises(IndexError))
+        self.assert_invalid_index(0)
 
     def test_value_is_none (self):
         self.assert_tree(has_node_value(None))
@@ -111,8 +114,7 @@ class TestTreeWithOneEmptyChild (GivenTreeWithOneEmptyChild,
         assert_that(self.tree[0], is_(same_instance(self.first_child)))
 
     def test_there_is_no_second_item (self):
-        assert_that(calling(lambda x: x[1]).with_args(self.tree),
-                    raises(IndexError))
+        self.assert_invalid_index(1)
 
     def test_iterates_into_list_with_child (self):
         self.assert_tree(iterates_into_list([self.first_child]))
@@ -142,5 +144,4 @@ class TestTreeWithTwoEmptyChildren (GivenTreeWithTwoEmptyChildren,
         assert_that(self.tree[1], is_(same_instance(self.second_child)))
 
     def test_there_is_no_third_item (self):
-        assert_that(calling(lambda x: x[2]).with_args(self.tree),
-                    raises(IndexError))
+        self.assert_invalid_index(2)
