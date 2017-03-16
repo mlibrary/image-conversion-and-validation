@@ -4,7 +4,7 @@
 
 class MutableTree:
 
-    def __init__ (self, value=None):
+    def __init__ (self, value = None):
         self.child = None
         self.value = value
 
