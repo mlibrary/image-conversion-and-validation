@@ -52,10 +52,10 @@ class GivenEmptyTree (unittest.TestCase):
     def test_evaluates_to_false (self):
         assert_that(self.tree, evaluates_to(False))
 
-    def test_has_length_of_zero (self):
+    def test_has_length_of_0 (self):
         assert_that(self.tree, has_length(0))
 
-    def test_has_total_length_of_zero (self):
+    def test_has_total_length_of_0 (self):
         assert_that(self.tree, has_full_length(0))
 
     def test_iterates_into_empty_list (self):
@@ -87,6 +87,11 @@ class GivenEmptyTree (unittest.TestCase):
         assert_that(calling(delattr).with_args(self.tree, "value"),
                     raises(AttributeError))
 
-    def test_when_inserted_child_node_length_is_1 (self):
+class GivenTreeWithOneEmptyChild (unittest.TestCase):
+
+    def setUp (self):
+        self.tree = MutableTree()
         self.tree.insert(0, MutableTree())
+
+    def test_has_length_of_1 (self):
         assert_that(self.tree, has_length(1))
