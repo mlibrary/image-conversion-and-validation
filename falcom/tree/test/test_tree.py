@@ -165,3 +165,10 @@ class TestTreeWithTwoEmptyChildren (GivenTreeWithTwoEmptyChildren,
     def test_walks_into_list_with_children (self):
         self.assert_tree(walks_into_list([self.first_child,
                                           self.second_child]))
+
+class TestTreeWithTwoChildrenAndOneGrandchild (
+        GivenTreeWithTwoChildrenAndOneGrandchild,
+        unittest.TestCase):
+
+    def test_has_length_of_2 (self):
+        self.assert_tree(has_length(2))
