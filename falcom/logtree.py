@@ -5,6 +5,7 @@
 class MutableTree:
 
     def __init__ (self):
+        self.length = 0
         self.value = None
 
     @property
@@ -22,7 +23,7 @@ class MutableTree:
         return iter(())
 
     def __len__ (self):
-        return 0
+        return self.length
 
     def __iter__ (self):
         return iter(())
@@ -33,4 +34,5 @@ class MutableTree:
     def __repr__ (self):
         return "<{}>".format(self.__class__.__name__)
 
-    def insert (self, index, node): pass
+    def insert (self, index, node):
+        self.length = 1
