@@ -41,11 +41,6 @@ class SourceFileLessThan3_3:
         return "for py32_yield_i in {}: yield py32_yield_i".format(
                 match.group(1))
 
-    def replace_os_errors (self):
-        print("Swapping in OSErrors in {} ...".format(self.filename))
-        self.multi_replace()
-        self.write()
-
     def read (self):
         with open(self.filename, "r") as f:
             self.text = f.read()
