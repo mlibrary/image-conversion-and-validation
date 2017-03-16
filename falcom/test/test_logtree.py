@@ -41,13 +41,15 @@ class has_value (TreeMatcher):
     def _matches (self, item):
         return item.value == self.expected_value
 
-class GivenEmptyTree (unittest.TestCase):
+class GivenEmptyTree:
 
     def setUp (self):
         self.tree = MutableTree()
 
     def set_value (self, value):
         self.tree.value = value
+
+class TestGivenEmptyTree (GivenEmptyTree, unittest.TestCase):
 
     def test_evaluates_to_false (self):
         assert_that(self.tree, evaluates_to(False))
