@@ -34,6 +34,9 @@ class SourceFileLessThan3_3:
             self.text = self.re_yield_from.sub(self.sub_yield_from,
                                                self.text)
 
+        self.write_if_changes_were_made()
+
+    def write_if_changes_were_made (self):
         if self.text != self.original:
             self.write()
 
