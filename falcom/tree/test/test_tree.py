@@ -28,7 +28,9 @@ class GivenTreeWithOneEmptyChild (GivenEmptyTree):
 
     def setUp (self):
         super().setUp()
-        self.tree.insert(0, self.new_tree())
+
+        self.child = self.new_tree()
+        self.tree.insert(0, self.child)
 
 class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
 
