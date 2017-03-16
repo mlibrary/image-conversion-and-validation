@@ -30,13 +30,16 @@ class SourceFileLessThan3_3:
         self.write_if_changes_were_made()
 
     def replace_with_compatible_code (self):
-        if any(error in self.text for error in self.os_errors):
-            self.multi_replace()
+        self.replace_os_errors()
 
         yield_match = self.re_yield_from.search(self.text)
         if yield_match:
             self.text = self.re_yield_from.sub(self.sub_yield_from,
                                                self.text)
+
+    def replace_os_errors (self):
+        if any(error in self.text for error in self.os_errors):
+            self.multi_replace()
 
     def sub_yield_from (self, match):
         return "for py32_yield_i in {}: yield py32_yield_i".format(
