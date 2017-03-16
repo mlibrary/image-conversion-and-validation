@@ -46,8 +46,11 @@ class SourceFileLessThan3_3:
             self.original = self.text
 
     def write_if_changes_were_made (self):
-        if self.text != self.original:
+        if self.changes_were_made():
             self.write()
+
+    def changes_were_made (self):
+        return self.text != self.original
 
     def write (self):
         print("Fixing for python 3.2: {} ...".format(self.filename))
