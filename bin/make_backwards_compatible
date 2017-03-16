@@ -52,6 +52,7 @@ class SourceFileLessThan3_3:
             self.original = self.text
 
     def write (self):
+        print("Fixing for python 3.2: {} ...".format(self.filename))
         with open(self.filename, "w") as f:
             f.write(self.text)
 
