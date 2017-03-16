@@ -149,3 +149,7 @@ class TestTreeWithTwoEmptyChildren (GivenTreeWithTwoEmptyChildren,
     def test_iterates_into_list_with_children (self):
         self.assert_tree(iterates_into_list([self.first_child,
                                              self.second_child]))
+
+    def test_walks_into_list_with_children (self):
+        self.assert_tree(walks_into_list([self.first_child,
+                                          self.second_child]))
