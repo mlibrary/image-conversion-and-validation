@@ -5,7 +5,6 @@
 class MutableTree:
 
     def __init__ (self, value = None):
-        self.child = None
         self.children = [ ]
         self.value = value
 
@@ -33,7 +32,6 @@ class MutableTree:
         return self.children[index]
 
     def insert (self, index, node):
-        self.child = node
         self.children.insert(index, node)
 
     def __repr__ (self):
