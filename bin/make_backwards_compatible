@@ -34,6 +34,10 @@ class SourceFileLessThan3_3:
             self.text = self.text.replace("yield from ", "yield ")
             self.write()
 
+    def sub_yield_from (self, match):
+        return "for py32_yield_i in {}: yield py32_yield_i".format(
+                match.group(1))
+
     def replace_os_errors (self):
         print("Swapping in OSErrors in {} ...".format(self.filename))
         self.multi_replace()
