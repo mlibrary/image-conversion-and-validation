@@ -131,3 +131,7 @@ class TestTreeWithTwoEmptyChildren (GivenTreeWithTwoEmptyChildren,
 
     def test_evaluates_to_true (self):
         self.assert_tree(evaluates_to(True))
+
+    @unittest.skip
+    def test_has_length_of_2 (self):
+        self.assert_tree(has_length(2))
