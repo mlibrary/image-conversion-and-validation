@@ -17,7 +17,7 @@ class MutableTree:
         self.__value = x
 
     def full_length (self):
-        return 0
+        return len(self)
 
     def walk (self):
         return iter(())

@@ -30,7 +30,7 @@ class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
     def test_has_length_of_0 (self):
         assert_that(self.tree, has_length(0))
 
-    def test_has_total_length_of_0 (self):
+    def test_has_full_length_of_0 (self):
         assert_that(self.tree, has_full_length(0))
 
     def test_iterates_into_empty_list (self):
@@ -67,3 +67,6 @@ class TestTreeWithOneEmptyChild (GivenTreeWithOneEmptyChild,
 
     def test_has_length_of_1 (self):
         assert_that(self.tree, has_length(1))
+
+    def test_has_full_length_of_1 (self):
+        assert_that(self.tree, has_full_length(1))
