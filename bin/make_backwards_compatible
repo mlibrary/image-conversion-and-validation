@@ -34,8 +34,11 @@ class SourceFileLessThan3_3:
         self.replace_yield_from()
 
     def replace_os_errors (self):
-        if any(error in self.text for error in self.os_errors):
+        if self.we_have_any_os_errors_to_replace():
             self.multi_replace()
+
+    def we_have_any_os_errors_to_replace (self):
+        return any(error in self.text for error in self.os_errors)
 
     def replace_yield_from (self):
         yield_match = self.re_yield_from.search(self.text)
