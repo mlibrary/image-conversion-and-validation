@@ -86,3 +86,7 @@ class TestTreeWithOneEmptyChild (GivenTreeWithOneEmptyChild,
 
     def test_first_item_is_child (self):
         assert_that(self.tree[0], is_(same_instance(self.child)))
+
+    def test_there_is_no_second_item (self):
+        assert_that(calling(lambda x: x[1]).with_args(self.tree),
+                    raises(IndexError))

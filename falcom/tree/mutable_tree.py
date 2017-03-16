@@ -29,7 +29,7 @@ class MutableTree:
         return iter(())
 
     def __getitem__ (self, index):
-        if self:
+        if self and index == 0:
             return self.child
 
         else:
