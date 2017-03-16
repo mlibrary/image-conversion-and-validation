@@ -16,6 +16,9 @@ class GivenEmptyTree:
     def set_value (self, value):
         self.tree.value = value
 
+    def assert_tree (self, matcher):
+        assert_that(self.tree, matcher)
+
 class GivenTreeWithOneEmptyChild (GivenEmptyTree):
 
     def setUp (self):
@@ -25,33 +28,33 @@ class GivenTreeWithOneEmptyChild (GivenEmptyTree):
 class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
 
     def test_evaluates_to_false (self):
-        assert_that(self.tree, evaluates_to(False))
+        self.assert_tree(evaluates_to(False))
 
     def test_has_length_of_0 (self):
-        assert_that(self.tree, has_length(0))
+        self.assert_tree(has_length(0))
 
     def test_has_full_length_of_0 (self):
-        assert_that(self.tree, has_full_length(0))
+        self.assert_tree(has_full_length(0))
 
     def test_iterates_into_empty_list (self):
-        assert_that(self.tree, iterates_into_list([]))
+        self.assert_tree(iterates_into_list([]))
 
     def test_walk_iterates_into_empty_list (self):
-        assert_that(self.tree, iterates_recursively_into_list([]))
+        self.assert_tree(iterates_recursively_into_list([]))
 
     def test_has_no_first_item (self):
         assert_that(calling(lambda x: x[0]).with_args(self.tree),
                     raises(IndexError))
 
     def test_value_is_none (self):
-        assert_that(self.tree, has_node_value(None))
+        self.assert_tree(has_node_value(None))
 
     def test_can_modify_value (self):
         self.set_value("hello")
-        assert_that(self.tree, has_node_value("hello"))
+        self.assert_tree(has_node_value("hello"))
 
         self.set_value(235813)
-        assert_that(self.tree, has_node_value(235813))
+        self.assert_tree(has_node_value(235813))
 
     def test_cannot_delete_value (self):
         assert_that(calling(delattr).with_args(self.tree, "value"),
@@ -66,7 +69,7 @@ class TestTreeWithOneEmptyChild (GivenTreeWithOneEmptyChild,
                                  unittest.TestCase):
 
     def test_has_length_of_1 (self):
-        assert_that(self.tree, has_length(1))
+        self.assert_tree(has_length(1))
 
     def test_has_full_length_of_1 (self):
-        assert_that(self.tree, has_full_length(1))
+        self.assert_tree(has_full_length(1))
