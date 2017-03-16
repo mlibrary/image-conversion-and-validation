@@ -50,4 +50,4 @@ class MutableTree:
         if self.value is not None:
             debug += " " + repr(self.value)
 
-        return "<{}>".format(debug)
+        return "<{} {}>".format(debug, repr(self.children))
