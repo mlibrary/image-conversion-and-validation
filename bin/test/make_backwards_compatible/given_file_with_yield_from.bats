@@ -9,6 +9,7 @@ setup() {
   echo "    def __iter__ (self):" >> "$tmpfile"
   echo "        yield one_thing" >> "$tmpfile"
   echo "        yield from many_things" >> "$tmpfile"
+  echo "        yield from_this" >> "$tmpfile"
   echo "        yield another_thing" >> "$tmpfile"
 }
 
@@ -20,8 +21,9 @@ make_compatible_326() {
   make_compatible --version 3.2.6 "$@"
 }
 
-@test "working test environment" {
+@test "Replace 'yield from' with ugly equivalent" {
   run make_compatible_326 "$tmpfile"
   [ "$status" -eq 0 ]
-  not_grep 'yield from' "$tmpfile"
+  not_grep 'yield from ' "$tmpfile"
+  grep -q 'yield from_this' "$tmpfile"
 }
