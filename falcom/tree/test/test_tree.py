@@ -140,3 +140,7 @@ class TestTreeWithTwoEmptyChildren (GivenTreeWithTwoEmptyChildren,
 
     def test_can_get_second_child_by_index (self):
         assert_that(self.tree[1], is_(same_instance(self.second_child)))
+
+    def test_there_is_no_third_item (self):
+        assert_that(calling(lambda x: x[2]).with_args(self.tree),
+                    raises(IndexError))
