@@ -78,6 +78,9 @@ class TestTreeWithOneEmptyChild (GivenTreeWithOneEmptyChild,
     def test_evaluates_to_true (self):
         self.assert_tree(evaluates_to(True))
 
+    def test_value_is_none (self):
+        self.assert_tree(has_node_value(None))
+
     def test_has_length_of_1 (self):
         self.assert_tree(has_length(1))
 
