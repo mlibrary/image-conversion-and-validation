@@ -31,7 +31,8 @@ class SourceFileLessThan3_3:
 
         yield_match = self.re_yield_from.search(self.text)
         if yield_match:
-            self.text = self.text.replace("yield from ", "yield ")
+            self.text = self.re_yield_from.sub(self.sub_yield_from,
+                                               self.text)
             self.write()
 
     def sub_yield_from (self, match):
