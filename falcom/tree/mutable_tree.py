@@ -26,7 +26,11 @@ class MutableTree:
         return 0 if self.child is None else 1
 
     def __iter__ (self):
-        return iter(())
+        if self:
+            return iter((self.child,))
+
+        else:
+            return iter(())
 
     def __getitem__ (self, index):
         if self and index == 0:

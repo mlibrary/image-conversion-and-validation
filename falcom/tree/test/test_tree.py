@@ -91,6 +91,9 @@ class TestTreeWithOneEmptyChild (GivenTreeWithOneEmptyChild,
         assert_that(calling(lambda x: x[1]).with_args(self.tree),
                     raises(IndexError))
 
+    def test_iterates_into_list_with_child (self):
+        self.assert_tree(iterates_into_list([self.child]))
+
     def test_child_has_length_of_0 (self):
         assert_that(self.child, has_length(0))
 
