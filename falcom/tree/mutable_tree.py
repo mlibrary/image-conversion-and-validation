@@ -24,11 +24,7 @@ class MutableTree:
         return len(self)
 
     def __iter__ (self):
-        if self:
-            return iter((self.child,))
-
-        else:
-            return iter(())
+        return iter(self.children)
 
     def walk (self):
         return iter(self)
