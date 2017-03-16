@@ -145,3 +145,7 @@ class TestTreeWithTwoEmptyChildren (GivenTreeWithTwoEmptyChildren,
 
     def test_there_is_no_third_item (self):
         self.assert_invalid_index(2)
+
+    def test_iterates_into_list_with_children (self):
+        self.assert_tree(iterates_into_list([self.first_child,
+                                             self.second_child]))
