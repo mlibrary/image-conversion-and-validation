@@ -47,7 +47,7 @@ class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
         self.assert_tree(iterates_into_list([]))
 
     def test_walk_iterates_into_empty_list (self):
-        self.assert_tree(iterates_recursively_into_list([]))
+        self.assert_tree(walks_into_list([]))
 
     def test_has_no_first_item (self):
         assert_that(calling(lambda x: x[0]).with_args(self.tree),

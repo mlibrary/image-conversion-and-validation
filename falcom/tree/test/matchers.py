@@ -44,7 +44,7 @@ class iterates_into_list (TreeMatcher):
     def get_compare_value (self, item):
         return list(item)
 
-class iterates_recursively_into_list (TreeMatcher):
+class walks_into_list (TreeMatcher):
     expectation = "a tree that iterates recursively into"
     actual_desc = "recursively iterating into"
 
