@@ -5,6 +5,7 @@
 from argparse import ArgumentParser
 from os import walk
 from os.path import join
+from re import compile as re_compile, MULTILINE
 from sys import version_info
 
 class SourceFileLessThan3_3:
@@ -16,6 +17,8 @@ class SourceFileLessThan3_3:
         "ConnectionRefusedError",
         "ConnectionResetError",
     )
+
+    re_yield_from = re_compile(r"\byield from (.*)$", MULTILINE)
 
     def __init__ (self, filename):
         self.filename = filename
