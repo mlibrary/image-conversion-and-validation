@@ -32,6 +32,9 @@ class GivenTreeWithOneEmptyChild (GivenEmptyTree):
         self.first_child = self.new_tree(1)
         self.tree.insert(0, self.first_child)
 
+    def test_first_child_has_value_of_1 (self):
+        assert_that(self.first_child, has_node_value(1))
+
 class GivenTreeWithTwoEmptyChildren (GivenTreeWithOneEmptyChild):
 
     def setUp (self):
