@@ -27,12 +27,14 @@ class SourceFileLessThan3_3:
     def fix (self):
         self.read()
         if any(error in self.text for error in self.os_errors):
-            self.replace_os_errors()
+            self.multi_replace()
 
         yield_match = self.re_yield_from.search(self.text)
         if yield_match:
             self.text = self.re_yield_from.sub(self.sub_yield_from,
                                                self.text)
+
+        if self.text != self.original:
             self.write()
 
     def sub_yield_from (self, match):
@@ -47,6 +49,7 @@ class SourceFileLessThan3_3:
     def read (self):
         with open(self.filename, "r") as f:
             self.text = f.read()
+            self.original = self.text
 
     def write (self):
         with open(self.filename, "w") as f:
