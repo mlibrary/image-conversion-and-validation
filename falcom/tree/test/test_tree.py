@@ -137,3 +137,6 @@ class TestTreeWithTwoEmptyChildren (GivenTreeWithTwoEmptyChildren,
 
     def test_has_full_length_of_2 (self):
         self.assert_tree(has_full_length(2))
+
+    def test_can_get_second_child_by_index (self):
+        assert_that(self.tree[1], is_(same_instance(self.second_child)))
