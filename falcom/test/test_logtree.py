@@ -6,7 +6,7 @@ from hamcrest.core.base_matcher import BaseMatcher
 import unittest
 
 from .hamcrest import evaluates_to
-from ..logtree import MutableTree
+from ..tree import MutableTree
 
 class TreeMatcher (BaseMatcher):
 
