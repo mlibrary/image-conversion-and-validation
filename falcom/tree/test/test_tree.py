@@ -43,6 +43,9 @@ class GivenTreeWithTwoEmptyChildren (GivenTreeWithOneEmptyChild):
         self.second_child = self.new_tree(2)
         self.tree.insert(1, self.second_child)
 
+    def test_second_child_has_value_of_2 (self):
+        assert_that(self.second_child, has_node_value(2))
+
 class TestGivenNothing (unittest.TestCase):
 
     def test_can_init_tree_with_value (self):
