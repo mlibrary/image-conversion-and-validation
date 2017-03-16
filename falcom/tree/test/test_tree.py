@@ -19,6 +19,10 @@ class TreeHelpers:
     def assert_tree (self, matcher):
         assert_that(self.tree, matcher)
 
+    def assert_invalid_index (self, index):
+        assert_that(calling(lambda x: x[index]).with_args(self.tree),
+                    raises(IndexError))
+
 class GivenEmptyTree (TreeHelpers):
 
     def setUp (self):
@@ -46,6 +50,18 @@ class GivenTreeWithTwoEmptyChildren (GivenTreeWithOneEmptyChild):
     def test_second_child_has_value_of_2 (self):
         assert_that(self.second_child, has_node_value(2))
 
+class GivenTreeWithTwoChildrenAndOneGrandchild (
+        GivenTreeWithTwoEmptyChildren):
+
+    def setUp (self):
+        super().setUp()
+
+        self.grandchild = self.new_tree(3)
+        self.first_child.insert(0, self.grandchild)
+
+    def test_grandchild_has_value_of_3 (self):
+        assert_that(self.grandchild, has_node_value(3))
+
 class TestGivenNothing (unittest.TestCase):
 
     def test_can_init_tree_with_value (self):
@@ -70,8 +86,7 @@ class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
         self.assert_tree(walks_into_list([]))
 
     def test_has_no_first_item (self):
-        assert_that(calling(lambda x: x[0]).with_args(self.tree),
-                    raises(IndexError))
+        self.assert_invalid_index(0)
 
     def test_value_is_none (self):
         self.assert_tree(has_node_value(None))
@@ -111,8 +126,7 @@ class TestTreeWithOneEmptyChild (GivenTreeWithOneEmptyChild,
         assert_that(self.tree[0], is_(same_instance(self.first_child)))
 
     def test_there_is_no_second_item (self):
-        assert_that(calling(lambda x: x[1]).with_args(self.tree),
-                    raises(IndexError))
+        self.assert_invalid_index(1)
 
     def test_iterates_into_list_with_child (self):
         self.assert_tree(iterates_into_list([self.first_child]))
@@ -134,3 +148,44 @@ class TestTreeWithTwoEmptyChildren (GivenTreeWithTwoEmptyChildren,
 
     def test_has_length_of_2 (self):
         self.assert_tree(has_length(2))
+
+    def test_has_full_length_of_2 (self):
+        self.assert_tree(has_full_length(2))
+
+    def test_can_get_second_child_by_index (self):
+        assert_that(self.tree[1], is_(same_instance(self.second_child)))
+
+    def test_there_is_no_third_item (self):
+        self.assert_invalid_index(2)
+
+    def test_iterates_into_list_with_children (self):
+        self.assert_tree(iterates_into_list([self.first_child,
+                                             self.second_child]))
+
+    def test_walks_into_list_with_children (self):
+        self.assert_tree(walks_into_list([self.first_child,
+                                          self.second_child]))
+
+class TestTreeWithTwoChildrenAndOneGrandchild (
+        GivenTreeWithTwoChildrenAndOneGrandchild,
+        unittest.TestCase):
+
+    def test_has_length_of_2 (self):
+        self.assert_tree(has_length(2))
+
+    def test_has_full_length_of_3 (self):
+        self.assert_tree(has_full_length(3))
+
+    def test_when_adding_great_grandchild_full_length_is_4 (self):
+        self.grandchild.insert(0, self.new_tree())
+        self.assert_tree(has_length(2))
+        self.assert_tree(has_full_length(4))
+
+    def test_iterates_into_list_of_both_children (self):
+        self.assert_tree(iterates_into_list([self.first_child,
+                                             self.second_child]))
+
+    def test_walks_into_list_with_all_descendants (self):
+        self.assert_tree(walks_into_list([self.first_child,
+                                          self.grandchild,
+                                          self.second_child]))

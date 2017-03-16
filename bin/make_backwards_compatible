@@ -5,6 +5,7 @@
 from argparse import ArgumentParser
 from os import walk
 from os.path import join
+from re import compile as re_compile, MULTILINE
 from sys import version_info
 
 class SourceFileLessThan3_3:
@@ -17,6 +18,8 @@ class SourceFileLessThan3_3:
         "ConnectionResetError",
     )
 
+    re_yield_from = re_compile(r"\byield from (.*)$", MULTILINE)
+
     def __init__ (self, filename):
         self.filename = filename
         self.fix()
@@ -25,6 +28,16 @@ class SourceFileLessThan3_3:
         self.read()
         if any(error in self.text for error in self.os_errors):
             self.replace_os_errors()
+
+        yield_match = self.re_yield_from.search(self.text)
+        if yield_match:
+            self.text = self.re_yield_from.sub(self.sub_yield_from,
+                                               self.text)
+            self.write()
+
+    def sub_yield_from (self, match):
+        return "for py32_yield_i in {}: yield py32_yield_i".format(
+                match.group(1))
 
     def replace_os_errors (self):
         print("Swapping in OSErrors in {} ...".format(self.filename))

@@ -20,13 +20,15 @@ class MutableTree:
         return len(self.children)
 
     def full_length (self):
-        return len(self)
+        return len(self) + sum(c.full_length() for c in self)
 
     def __iter__ (self):
         return iter(self.children)
 
     def walk (self):
-        return iter(self)
+        for child in self:
+            yield child
+            yield from child
 
     def __getitem__ (self, index):
         return self.children[index]

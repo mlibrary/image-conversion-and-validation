@@ -1,6 +1,6 @@
 test:
 	python3 -m unittest
-	find . -name '*.bats' | xargs bats -p
+	find . -name '*.bats' | xargs bats
 	python3 -m unittest 2>&1 | tail -n 4
 
 clean:
