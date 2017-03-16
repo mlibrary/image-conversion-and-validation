@@ -16,14 +16,11 @@ class MutableTree:
     def value (self, x):
         self.__value = x
 
-    def full_length (self):
-        return len(self)
-
-    def walk (self):
-        return iter(())
-
     def __len__ (self):
         return 0 if self.child is None else 1
+
+    def full_length (self):
+        return len(self)
 
     def __iter__ (self):
         if self:
@@ -31,6 +28,9 @@ class MutableTree:
 
         else:
             return iter(())
+
+    def walk (self):
+        return iter(())
 
     def __getitem__ (self, index):
         if self and index == 0:
