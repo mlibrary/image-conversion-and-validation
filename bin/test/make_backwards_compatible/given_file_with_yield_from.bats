@@ -17,9 +17,11 @@ teardown() {
 }
 
 make_compatible_326() {
-  make_compatible --version 3.2.5 "$@"
+  make_compatible --version 3.2.6 "$@"
 }
 
 @test "working test environment" {
-  true
+  run make_compatible_326 "$tmpfile"
+  [ "$status" -eq 0 ]
+  not_grep 'yield from' "$tmpfile"
 }

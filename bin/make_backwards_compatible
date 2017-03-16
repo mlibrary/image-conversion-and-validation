@@ -26,6 +26,10 @@ class SourceFileLessThan3_3:
         if any(error in self.text for error in self.os_errors):
             self.replace_os_errors()
 
+        if "yield from" in self.text:
+            self.text = self.text.replace("yield from", "yield")
+            self.write()
+
     def replace_os_errors (self):
         print("Swapping in OSErrors in {} ...".format(self.filename))
         self.multi_replace()
