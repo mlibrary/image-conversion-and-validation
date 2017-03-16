@@ -18,7 +18,7 @@ class MutableTree:
         self.__value = x
 
     def __len__ (self):
-        return 0 if self.child is None else 1
+        return len(self.children)
 
     def full_length (self):
         return len(self)
