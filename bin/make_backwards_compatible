@@ -30,7 +30,7 @@ class SourceFileLessThan3_3:
             self.replace_os_errors()
 
         yield_match = self.re_yield_from.search(self.text)
-        if "yield from " in self.text:
+        if yield_match:
             self.text = self.text.replace("yield from ", "yield ")
             self.write()
 
