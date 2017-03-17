@@ -216,3 +216,8 @@ class TestTreeWithTwoChildrenAndOneGreatGrandchild (
                                           self.grandchild,
                                           self.great_grandchild,
                                           self.second_child]))
+
+    def test_when_initing_new_tree_we_get_a_deep_copy (self):
+        copy = MutableTree(self.tree)
+
+        assert_that(copy, is_(equal_to(self.tree)))

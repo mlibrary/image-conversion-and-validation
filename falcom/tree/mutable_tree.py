@@ -4,9 +4,12 @@
 
 class MutableTree:
 
-    def __init__ (self, value = None):
+    def __init__ (self, input_tree = None, value = None):
         self.children = [ ]
         self.value = value
+
+        if input_tree is not None:
+            self.deep_copy_from(input_tree)
 
     @property
     def value (self):
@@ -35,6 +38,16 @@ class MutableTree:
 
     def insert (self, index, node):
         self.children.insert(index, node)
+
+    def deep_copy_from (self, input_tree):
+        self.value = input_tree.value
+        for child in input_tree:
+            self.insert(len(self), MutableTree(child))
+
+    def __eq__ (self, rhs):
+        return self.value == rhs.value \
+                and len(self) == len(rhs) \
+                and all(self[i] == rhs[i] for i in range(len(self)))
 
     def __repr__ (self):
         debug = self.__class__.__name__
