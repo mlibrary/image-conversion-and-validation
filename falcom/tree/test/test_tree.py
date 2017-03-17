@@ -62,6 +62,18 @@ class GivenTreeWithTwoChildrenAndOneGrandchild (
     def test_grandchild_has_value_of_3 (self):
         assert_that(self.grandchild, has_node_value(3))
 
+class GivenTreeWithTwoChildrenAndOneGreatGrandchild (
+        GivenTreeWithTwoChildrenAndOneGrandchild):
+
+    def setUp (self):
+        super().setUp()
+
+        self.great_grandchild = self.new_tree(4)
+        self.grandchild.insert(0, self.great_grandchild)
+
+    def test_great_grandchild_has_value_of_3 (self):
+        assert_that(self.great_grandchild, has_node_value(4))
+
 class TestGivenNothing (unittest.TestCase):
 
     def test_can_init_tree_with_value (self):
@@ -200,3 +212,9 @@ class TestTreeWithTwoChildrenAndOneGrandchild (
                                           self.grandchild,
                                           great_grandchild,
                                           self.second_child]))
+
+class TestTreeWithTwoChildrenAndOneGreatGrandchild (
+        GivenTreeWithTwoChildrenAndOneGreatGrandchild,
+        unittest.TestCase):
+
+    pass
