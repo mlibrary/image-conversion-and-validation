@@ -217,3 +217,13 @@ class TestTreeWithTwoChildrenAndOneGreatGrandchild (
 
     def test_has_full_length_of_4 (self):
         self.assert_tree(has_full_length(4))
+
+    def test_iterates_into_list_of_both_children (self):
+        self.assert_tree(iterates_into_list([self.first_child,
+                                             self.second_child]))
+
+    def test_walks_into_list_with_all_descendants (self):
+        self.assert_tree(walks_into_list([self.first_child,
+                                          self.grandchild,
+                                          self.great_grandchild,
+                                          self.second_child]))
