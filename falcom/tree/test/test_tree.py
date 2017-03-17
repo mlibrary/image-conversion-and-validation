@@ -189,3 +189,14 @@ class TestTreeWithTwoChildrenAndOneGrandchild (
         self.assert_tree(walks_into_list([self.first_child,
                                           self.grandchild,
                                           self.second_child]))
+
+    def test_when_adding_great_grandchild_it_is_walked (self):
+        great_grandchild = self.new_tree()
+        self.grandchild.insert(0, great_grandchild)
+        self.assert_tree(iterates_into_list([self.first_child,
+                                             self.second_child]))
+
+        self.assert_tree(walks_into_list([self.first_child,
+                                          self.grandchild,
+                                          great_grandchild,
+                                          self.second_child]))

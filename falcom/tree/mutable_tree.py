@@ -28,7 +28,7 @@ class MutableTree:
     def walk (self):
         for child in self:
             yield child
-            yield from child
+            yield from child.walk()
 
     def __getitem__ (self, index):
         return self.children[index]
