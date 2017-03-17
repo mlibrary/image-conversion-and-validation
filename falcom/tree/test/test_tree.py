@@ -62,6 +62,18 @@ class GivenTreeWithTwoChildrenAndOneGrandchild (
     def test_grandchild_has_value_of_3 (self):
         assert_that(self.grandchild, has_node_value(3))
 
+class GivenTreeWithTwoChildrenAndOneGreatGrandchild (
+        GivenTreeWithTwoChildrenAndOneGrandchild):
+
+    def setUp (self):
+        super().setUp()
+
+        self.great_grandchild = self.new_tree(4)
+        self.grandchild.insert(0, self.great_grandchild)
+
+    def test_great_grandchild_has_value_of_3 (self):
+        assert_that(self.great_grandchild, has_node_value(4))
+
 class TestGivenNothing (unittest.TestCase):
 
     def test_can_init_tree_with_value (self):
@@ -176,9 +188,23 @@ class TestTreeWithTwoChildrenAndOneGrandchild (
     def test_has_full_length_of_3 (self):
         self.assert_tree(has_full_length(3))
 
-    def test_when_adding_great_grandchild_full_length_is_4 (self):
-        self.grandchild.insert(0, self.new_tree())
+    def test_iterates_into_list_of_both_children (self):
+        self.assert_tree(iterates_into_list([self.first_child,
+                                             self.second_child]))
+
+    def test_walks_into_list_with_all_descendants (self):
+        self.assert_tree(walks_into_list([self.first_child,
+                                          self.grandchild,
+                                          self.second_child]))
+
+class TestTreeWithTwoChildrenAndOneGreatGrandchild (
+        GivenTreeWithTwoChildrenAndOneGreatGrandchild,
+        unittest.TestCase):
+
+    def test_has_length_of_2 (self):
         self.assert_tree(has_length(2))
+
+    def test_has_full_length_of_4 (self):
         self.assert_tree(has_full_length(4))
 
     def test_iterates_into_list_of_both_children (self):
@@ -188,4 +214,14 @@ class TestTreeWithTwoChildrenAndOneGrandchild (
     def test_walks_into_list_with_all_descendants (self):
         self.assert_tree(walks_into_list([self.first_child,
                                           self.grandchild,
+                                          self.great_grandchild,
                                           self.second_child]))
+
+    def test_when_initing_new_tree_we_get_a_deep_copy (self):
+        copy = MutableTree(self.tree)
+
+        assert_that(copy, is_(equal_to(self.tree)))
+
+    def test_can_append_nodes (self):
+        self.tree.append(self.new_tree("append"))
+        self.assert_tree(has_length(3))
