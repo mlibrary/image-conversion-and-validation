@@ -26,29 +26,44 @@ class SourceFileLessThan3_3:
 
     def fix (self):
         self.read()
-        if any(error in self.text for error in self.os_errors):
-            self.replace_os_errors()
+        self.replace_with_compatible_code()
+        self.write_if_changes_were_made()
 
+    def replace_with_compatible_code (self):
+        self.replace_os_errors()
+        self.replace_yield_from()
+
+    def replace_os_errors (self):
+        if self.we_have_any_os_errors_to_replace():
+            self.multi_replace()
+
+    def we_have_any_os_errors_to_replace (self):
+        return any(error in self.text for error in self.os_errors)
+
+    def replace_yield_from (self):
         yield_match = self.re_yield_from.search(self.text)
         if yield_match:
             self.text = self.re_yield_from.sub(self.sub_yield_from,
                                                self.text)
-            self.write()
 
     def sub_yield_from (self, match):
         return "for py32_yield_i in {}: yield py32_yield_i".format(
                 match.group(1))
 
-    def replace_os_errors (self):
-        print("Swapping in OSErrors in {} ...".format(self.filename))
-        self.multi_replace()
-        self.write()
-
     def read (self):
         with open(self.filename, "r") as f:
             self.text = f.read()
+            self.original = self.text
+
+    def write_if_changes_were_made (self):
+        if self.changes_were_made():
+            self.write()
+
+    def changes_were_made (self):
+        return self.text != self.original
 
     def write (self):
+        print("Fixing for python 3.2: {} ...".format(self.filename))
         with open(self.filename, "w") as f:
             f.write(self.text)
 
