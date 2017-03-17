@@ -221,3 +221,6 @@ class TestTreeWithTwoChildrenAndOneGreatGrandchild (
         copy = MutableTree(self.tree)
 
         assert_that(copy, is_(equal_to(self.tree)))
+
+    def test_can_append_nodes (self):
+        self.tree.append(self.new_tree())
