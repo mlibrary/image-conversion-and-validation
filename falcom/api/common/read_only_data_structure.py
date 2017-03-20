@@ -55,16 +55,18 @@ class ReadOnlyDataStructure:
 
     def __read_auto_property_instruction (self, prop):
         if self.__property_instruction_contains_multiple_args(prop):
-            self.__add_auto_property(*prop)
+            self.__generate_property_accession_method(*prop)
 
         else:
-            self.__add_auto_property(prop)
+            self.__generate_property_accession_method(prop)
 
     def __property_instruction_contains_multiple_args (self, prop):
         return isinstance(prop, tuple)
 
-    def __add_auto_property (self, prop_name, default = None):
+    def __generate_property_accession_method (self,
+                                              property_name,
+                                              default = None):
         def getp (self):
-            return self.get(prop_name, default)
+            return self.get(property_name, default)
 
-        setattr(self.__class__, prop_name, property(getp))
+        setattr(self.__class__, property_name, property(getp))
