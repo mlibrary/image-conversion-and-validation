@@ -102,12 +102,12 @@ class ExpectingEmptyHathiData:
     def test_has_no_htids (self):
         assert_that(self.data.htids, is_(empty()))
 
-class GivenNoArgs (ExpectingEmptyHathiData, unittest.TestCase):
-    args = ()
-
     def test_empty_data_has_title_distance_of_1 (self):
         assert_that(self.data.min_title_distance("anything"),
                     is_(close_to(1, 0.001)))
+
+class GivenNoArgs (ExpectingEmptyHathiData, unittest.TestCase):
+    args = ()
 
 class GivenNull (ExpectingEmptyHathiData, unittest.TestCase):
     args = (None,)
