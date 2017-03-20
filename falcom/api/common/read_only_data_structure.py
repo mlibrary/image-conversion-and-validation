@@ -40,8 +40,11 @@ class ReadOnlyDataStructure:
 
     def __ensure_we_have_our_property_accession_methods (self):
         if self.__class__ not in self.__subclasses:
-            self.__subclasses.add(self.__class__)
+            self.__mark_this_class_as_a_valid_subclass()
             self.__add_each_auto_property()
+
+    def __mark_this_class_as_a_valid_subclass (self):
+        self.__subclasses.add(self.__class__)
 
     def __add_each_auto_property (self):
         for p in self.auto_properties:
