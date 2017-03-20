@@ -143,15 +143,3 @@ class MARCDataTest (unittest.TestCase):
     def test_marc_data_of_empty_xml_yields_empty_MARC_data (self):
         empty_etree = ET.fromstring("<empty/>")
         assert_that(empty_etree, yields_empty_marc_data())
-
-    def test_author_can_pull_from_datafield_110 (self):
-        assert_that(EG_MARC_AUTHOR_110, yields_marc_data(
-                        author="Chiusi. Museo Etrusco."))
-
-    def test_author_can_pull_from_datafield_111 (self):
-        assert_that(EG_MARC_AUTHOR_111, yields_marc_data(
-                        author="Pelfrey, Patricia A."))
-
-    def test_author_can_pull_from_datafield_130 (self):
-        assert_that(EG_MARC_AUTHOR_130, yields_marc_data(
-                        author="Châtelaine de Vergi."))
