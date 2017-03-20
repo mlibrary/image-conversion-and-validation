@@ -19,6 +19,6 @@ teardown() {
 
 @test "No ConnectionError leaves file unchanged" {
   echo "maaatt" >> "$tmpfile"
-  run make_compatible --version 3.2.5 "$tmpfile"
+  run make_compatible_32 "$tmpfile"
   grep -q '^maaatt$' "$tmpfile"
 }
