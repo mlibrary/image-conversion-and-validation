@@ -39,9 +39,12 @@ class ReadOnlyDataStructure:
                    if v is None]
 
     def __ensure_we_have_our_property_accession_methods (self):
-        if self.__class__ not in self.__subclasses:
+        if self.__this_is_the_first_instance_of_this_class():
             self.__mark_this_class_as_a_valid_subclass()
             self.__add_each_auto_property()
+
+    def __this_is_the_first_instance_of_this_class (self):
+        return self.__class__ not in self.__subclasses
 
     def __mark_this_class_as_a_valid_subclass (self):
         self.__subclasses.add(self.__class__)
