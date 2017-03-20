@@ -88,6 +88,23 @@ class GivenMultiJson (OclcCountHelpers):
     def test_count_is_1_0 (self):
         self.assert_oclc_counts(1, 3)
 
+class ExpectingEmptyHathiData:
+
+    def setUp (self):
+        self.data = get_hathi_data_from_json(*self.args)
+
+    def test_evaluates_to_false (self):
+        assert_that(self.data, evaluates_to(False))
+
+    def test_has_no_titles (self):
+        assert_that(self.data.titles, is_(empty()))
+
+    def test_has_no_htids (self):
+        assert_that(self.data.htids, is_(empty()))
+
+class GivenNoArgs (ExpectingEmptyHathiData, unittest.TestCase):
+    args = ()
+
 class HathiRecordDataTest (unittest.TestCase):
 
     def test_no_args_yields_no_data (self):
