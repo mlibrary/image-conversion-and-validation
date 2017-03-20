@@ -21,10 +21,6 @@ teardown() {
   rm "$tmpfile"
 }
 
-make_compatible_325() {
-  make_compatible --version 3.2.5 "$@"
-}
-
 @test "ConnectionError becomes OSError in <3.3" {
   run make_compatible_32 "$tmpfile"
   [ "$status" -eq 0 ]
