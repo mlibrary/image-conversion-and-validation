@@ -32,13 +32,17 @@ class HathiJsonData:
         return self.__replace_empty_container_with_None(result)
 
     def __title_lists_in_data (self):
-        return (x.get("titles", ()) for x in self.data.get("records", {}).values())
+        return (x.get("titles", ())
+                for x in self.data.get("records", {}).values())
 
     def __get_htids (self):
-        return self.__replace_empty_container_with_None(self.__htids_in_data())
+        return self.__replace_empty_container_with_None(
+                self.__htids_in_data())
 
     def __htids_in_data (self):
-        return [x["htid"] for x in self.data.get("items", []) if "htid" in x]
+        return [x["htid"]
+                for x in self.data.get("items", [])
+                 if "htid" in x]
 
     def __replace_empty_container_with_None (self, container):
         return container if container else None

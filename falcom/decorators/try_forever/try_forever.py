@@ -69,12 +69,3 @@ class TryForever:
             key, value = kwargs.popitem()
             raise TypeError(repr(key) + " is an invalid keyword " +
                             "argument for this function")
-
-def try_forever (*args, **kwargs):
-    obj = TryForever(kwargs)
-
-    if args:
-        return obj(*args)
-
-    else:
-        return obj

@@ -7,7 +7,7 @@ import unittest
 from ..test.hamcrest import ComposedMatcher, evaluates_to, a_method
 from .try_forever import try_forever
 
-class FailThenSucceed:
+class CallableThatFailsThenSucceeds:
 
     def __init__ (self, number_of_failures, error = RuntimeError):
         self.countdown = number_of_failures
@@ -105,7 +105,7 @@ class GivenDefaultTryForeverDecorator (unittest.TestCase):
 class GivenMethodThatFailsThreeTimes (unittest.TestCase):
 
     def setUp (self):
-        self.tough_method = FailThenSucceed(3)
+        self.tough_method = CallableThatFailsThenSucceeds(3)
 
     def init_looper (self, limit = 0, error = Exception):
         decorator = try_forever(limit=limit,
@@ -132,13 +132,13 @@ class GivenMethodThatFailsThreeTimes (unittest.TestCase):
 class FailThenSucceedTest (unittest.TestCase):
 
     def test_we_can_fail_then_succeed (self):
-        method = FailThenSucceed(5)
+        method = CallableThatFailsThenSucceeds(5)
         for i in range(5):
             assert_that(calling(method), raises(RuntimeError))
 
         method() # raises no exception this time
 
     def test_we_can_use_any_error (self):
-        method = FailThenSucceed(1, KeyError)
+        method = CallableThatFailsThenSucceeds(1, KeyError)
         assert_that(calling(method), raises(KeyError))
         method() # raises no exception this time

@@ -2,23 +2,11 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 from hamcrest import *
-import os
 import unittest
 
 from ...test.hamcrest import ComposedMatcher, evaluates_to
-from ..worldcat import *
-
-FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
-
-def readfile (filename):
-    with open(os.path.join(FILE_BASE, filename), "r") as f:
-        result = f.read()
-
-    return result
-
-EG_OCLC_ASTRO = readfile("worldcat-706055947.json")
-EG_OCLC_BUSINESS = readfile("worldcat-756167029.json")
-EG_OCLC_MIDAILY = readfile("worldcat-009651208.json")
+from ...test.read_example_file import ExampleFileTest
+from ..worldcat import get_worldcat_data_from_json
 
 class yields_empty_worldcat_data (ComposedMatcher):
 
@@ -42,7 +30,11 @@ class yields_worldcat_data (ComposedMatcher):
         yield data.title,   is_(equal_to(self.title)),      "title"
         yield list(data),   is_(equal_to(self.libraries))
 
-class WorldcatDataTest (unittest.TestCase):
+class WorldcatFileTest (ExampleFileTest):
+    this__file__ = __file__
+    format_str = "worldcat-{}.json"
+
+class GivenNothing (unittest.TestCase):
 
     def test_null_yields_empty_data (self):
         assert_that(None, yields_empty_worldcat_data())
@@ -53,12 +45,18 @@ class WorldcatDataTest (unittest.TestCase):
     def test_invalid_json_yields_empty_data (self):
         assert_that("{{{", yields_empty_worldcat_data())
 
+class GivenAstronomyJson (WorldcatFileTest):
+    filename = "706055947"
+
     def test_astro_has_particular_data (self):
-        assert_that(EG_OCLC_ASTRO, yields_worldcat_data(
+        assert_that(self.file_data, yields_worldcat_data(
                 "Astronomical tables", ["EYM"]))
 
+class GivenBusinessJson (WorldcatFileTest):
+    filename = "756167029"
+
     def test_business_has_particular_data (self):
-        assert_that(EG_OCLC_BUSINESS, yields_worldcat_data(
+        assert_that(self.file_data, yields_worldcat_data(
                 "Entrepreneurial president : Richard Atkinson and"
                         " the University of California, 1995-2003",
                 ["EWV", "EYM", "EYL", "EYW", "EES", "EEM", "EEI",
@@ -70,8 +68,11 @@ class WorldcatDataTest (unittest.TestCase):
                  "REC", "UTO", "CNTCS", "IDU", "PWA", "IUL", "PZI",
                  "IHC"]))
 
+class GivenMichiganDailyJson (WorldcatFileTest):
+    filename = "009651208"
+
     def test_midaily_has_particular_data (self):
-        assert_that(EG_OCLC_MIDAILY, yields_worldcat_data(
+        assert_that(self.file_data, yields_worldcat_data(
                 "The Michigan daily.",
                 ["HATHI", "EYM", "BEU", "EYL", "ERR", "EYW", "EEM",
                  "EUQ", "EEX", "BGU", "EXK", "EXC", "EXQ", "HV6",

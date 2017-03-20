@@ -3,7 +3,7 @@
 # BSD License. See LICENSE.txt for details.
 from urllib.parse import urlencode
 
-from .fake_mapping import FakeMappingThatRecordsAccessions
+from .args_from_format import get_expected_args_from_format_str
 
 class URI:
 
@@ -57,10 +57,8 @@ class URI:
             self.__base = uri_base
 
     def __extract_required_args (self):
-        recorder = FakeMappingThatRecordsAccessions()
-        recorder.check_on_format_str(self.__base)
-
-        self.__required_args = recorder.get_set()
+        self.__required_args = get_expected_args_from_format_str(
+                                                        self.__base)
 
     def __get_formatted_base (self, kwargs):
         self.__assert_that_we_have_all_required_kwargs(kwargs)

@@ -7,6 +7,9 @@ class CheckDigitNumber:
     def __init__ (self, number = None):
         self.__set_number(number)
 
+    def generate_from_int (self, n):
+        raise NotImplementedError
+
     def get_check_digit (self):
         if self:
             return self.generate_from_int(self.number)

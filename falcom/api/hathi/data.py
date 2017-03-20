@@ -44,4 +44,6 @@ class HathiData (ReadOnlyDataStructure):
                            normalized=True)
 
     def __soften (self, text):
-        return self.__re_spaces.sub(" ", self.__re_symbol.sub("", text)).lower()
+        without_symbols = self.__re_symbol.sub("", text)
+        collapsed_spaces = self.__re_spaces.sub(" ", without_symbols)
+        return collapsed_spaces.lower()
