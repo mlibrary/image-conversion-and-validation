@@ -38,9 +38,13 @@ class MARCMapping:
                 self.__make_xpath("controlfield", "tag", tag)))
 
     def __make_xpath (self, field, attr, value):
-        # ElementTree xpath: {xmlns}field[@attr='value']
-        return "{{{}}}{}[@{}='{}']".format(
-                self.xmlns, field, attr, value)
+        return "{}[@{}='{}']".format(
+                self.__etree_tag(field), attr, value)
+
+    def __etree_tag (self, field):
+        # ElementTree stores `<ns:tag xmlns:ns="full_ns_uri">` as a tag
+        # with the name `{full_ns_uri}tag`.
+        return "{{{}}}{}".format(self.xmlns, field)
 
     def __find_all (self, xpath):
         return (elt.text for elt in self.xml.findall(xpath))
