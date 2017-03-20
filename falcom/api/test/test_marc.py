@@ -25,11 +25,6 @@ def readfile (filename):
 
     return result
 
-EG_MARC_ISMAN = readfile("39015079130699.xml")
-EG_MARC_ASTRO = readfile("39015081447313.xml")
-EG_MARC_BUSINESS = readfile("39015090867675.xml")
-EG_MARC_MIDAILY = readfile("39015071755826.xml")
-
 EG_MARC_AUTHOR_110 = readfile("39015084510513.xml")
 EG_MARC_AUTHOR_111 = readfile("author_111_39015090867675.xml")
 EG_MARC_AUTHOR_130 = readfile("39015050666182.xml")
@@ -118,6 +113,12 @@ class GivenMichiganDailyXML (MarcFileTest):
                         description="1927 Sept 20 - 1928 Jan 8",
                         years=("1903", "9999"),
                         oclc="009651208")
+
+class GivenAuthorInDatafield110 (MarcFileTest):
+    filename = "39015084510513"
+
+    def test_can_pull_author (self):
+        self.assert_yields_marc_data(author="Chiusi. Museo Etrusco.")
 
 class MARCDataTest (unittest.TestCase):
 
