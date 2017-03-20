@@ -29,11 +29,9 @@ class MARCMapping:
         return isinstance(key, tuple)
 
     def __datafield (self, tag, code):
-        paths = ("./",
-                 self.__make_xpath("datafield", "tag", tag),
-                 self.__make_xpath("subfield", "code", code))
-
-        return self.__find_all("/".join(paths))
+        return self.__find_all(".//{}/{}".format(
+                self.__make_xpath("datafield", "tag", tag),
+                self.__make_xpath("subfield", "code", code)))
 
     def __controlfield (self, tag):
         xpath = ".//" + self.__make_xpath("controlfield", "tag", tag)
