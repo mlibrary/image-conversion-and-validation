@@ -9,7 +9,7 @@ class ReadOnlyDataStructure:
 
     def __init__ (self, **kwargs):
         self.__set_read_only_data(kwargs)
-        self.__generate_property_methods()
+        self.__ensure_we_have_our_property_accession_methods()
 
     def get (self, key, default = None):
         return self.__read_only_data.get(key, default)
@@ -38,7 +38,7 @@ class ReadOnlyDataStructure:
         return [k for k, v in self.__read_only_data.items()
                    if v is None]
 
-    def __generate_property_methods (self):
+    def __ensure_we_have_our_property_accession_methods (self):
         if self.__class__ not in self.__subclasses:
             self.__subclasses.add(self.__class__)
             self.__add_each_auto_property()
