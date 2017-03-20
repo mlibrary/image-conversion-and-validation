@@ -6,6 +6,7 @@ import os
 import unittest
 
 from ...test.hamcrest import ComposedMatcher, evaluates_to
+from ...test.read_example_file import ExampleFileTest
 from ..worldcat import *
 
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
@@ -41,6 +42,19 @@ class yields_worldcat_data (ComposedMatcher):
         yield data,         evaluates_to(True)
         yield data.title,   is_(equal_to(self.title)),      "title"
         yield list(data),   is_(equal_to(self.libraries))
+
+class WorldcatFileTest (ExampleFileTest):
+    this__file__ = __file__
+    format_str = "worldcat-{}.json"
+
+class GivenAstronomyJson (WorldcatFileTest):
+    filename = "706055947"
+
+class GivenBusinessJson (WorldcatFileTest):
+    filename = "756167029"
+
+class GivenMichiganDailyJson (WorldcatFileTest):
+    filename = "009651208"
 
 class WorldcatDataTest (unittest.TestCase):
 
