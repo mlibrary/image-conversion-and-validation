@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 
 from ...test.hamcrest import ComposedMatcher, HasAttrs, evaluates_to
 from ...test.read_example_file import ExampleFileTest
-from ..marc import *
+from ..marc import get_marc_data_from_xml
 
 def has_marc_attrs(**kwargs):
     return HasAttrs("MARC attrs", **kwargs)
