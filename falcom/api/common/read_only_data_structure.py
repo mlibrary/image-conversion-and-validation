@@ -51,15 +51,17 @@ class ReadOnlyDataStructure:
 
     def __generate_each_property_accession_method (self):
         for p in self.auto_properties:
-            self.__examine_then_add_auto_property(p)
+            self.__read_auto_property_instruction(p)
 
-
-    def __examine_then_add_auto_property (self, prop):
-        if isinstance(prop, tuple):
+    def __read_auto_property_instruction (self, prop):
+        if self.__property_instruction_contains_multiple_args(prop):
             self.__add_auto_property(*prop)
 
         else:
             self.__add_auto_property(prop)
+
+    def __property_instruction_contains_multiple_args (self, prop):
+        return isinstance(prop, tuple)
 
     def __add_auto_property (self, prop_name, default = None):
         def getp (self):
