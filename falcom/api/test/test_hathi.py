@@ -31,7 +31,7 @@ class OclcCountHelpers (JustOclcCountHelpers, unittest.TestCase):
         with open(file_path, "r") as f:
             self.file_data = f.read()
 
-class GivenNothing (OclcCountHelpers):
+class GivenNothing (JustOclcCountHelpers, unittest.TestCase):
 
     def test_null_yields_0_0 (self):
         self.file_data = None
