@@ -102,33 +102,24 @@ class ExpectingEmptyHathiData:
     def test_has_no_htids (self):
         assert_that(self.data.htids, is_(empty()))
 
-class GivenNoArgs (
-        ExpectingEmptyHathiData, unittest.TestCase):
+class GivenNoArgs (ExpectingEmptyHathiData, unittest.TestCase):
     args = ()
 
-class GivenNull (
-        ExpectingEmptyHathiData, unittest.TestCase):
+    def test_empty_data_has_title_distance_of_1 (self):
+        assert_that(self.data.min_title_distance("anything"),
+                    is_(close_to(1, 0.001)))
+
+class GivenNull (ExpectingEmptyHathiData, unittest.TestCase):
     args = (None,)
 
-class HathiRecordDataTest (unittest.TestCase):
+class GivenEmptyStr (ExpectingEmptyHathiData, unittest.TestCase):
+    args = ("",)
 
-    def test_null_yields_no_data (self):
-        assert_that(None, yields_empty_hathi_data())
+class GivenInvalidJson (ExpectingEmptyHathiData, unittest.TestCase):
+    args = ("{{{{]]",)
 
-    def test_empty_str_yields_no_data (self):
-        assert_that("", yields_empty_hathi_data())
-
-    def test_invalid_json_yields_no_data (self):
-        assert_that("{{{{]]", yields_empty_hathi_data())
-
-    def test_json_with_no_data_yields_no_data (self):
-        assert_that('{"records":{},"items":[]}',
-                    yields_empty_hathi_data())
-
-    def test_empty_data_has_title_distance_of_1 (self):
-        data = get_hathi_data_from_json()
-        assert_that(data.min_title_distance("anything"),
-                    is_(close_to(1, 0.001)))
+class GivenJsonWithNoData (ExpectingEmptyHathiData, unittest.TestCase):
+    args = ('{"records":{},"items":[]}',)
 
 class TestAstroJsonRecordData (GivenAstroJson, OclcCountHelpers):
 
