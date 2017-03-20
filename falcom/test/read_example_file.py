@@ -10,7 +10,7 @@ class ExampleFileTest (TestCase):
         format_str = getattr(self, "format_str", "{}")
         full_filename = format_str.format(self.filename)
 
-        files_dir = join(dirname(__file__), "files")
+        files_dir = join(dirname(self.this__file__), "files")
         file_path = join(files_dir, full_filename)
 
         with open(file_path, "r") as f:

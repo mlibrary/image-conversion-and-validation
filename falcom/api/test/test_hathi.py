@@ -6,6 +6,7 @@ import os
 import unittest
 
 from ...test.hamcrest import evaluates_to
+from ...test.read_example_file import ExampleFileTest
 from ..hathi import get_oclc_counts_from_json, get_hathi_data_from_json
 
 class OclcCountHelpers (unittest.TestCase):
@@ -37,6 +38,14 @@ class GivenNothing (OclcCountHelpers):
     def test_invalid_json_yields_0_0 (self):
         self.json = "{{{{"
         self.assert_oclc_counts(0, 0)
+
+class TestNewFileReader (ExampleFileTest):
+    format_str = "hathitrust-{}.json"
+    filename = "706055947"
+    this__file__ = __file__
+
+    def test_we_read_any_data (self):
+        assert_that(self.file_data, is_not(empty()))
 
 class GivenAstroJson:
 
