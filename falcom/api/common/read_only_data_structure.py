@@ -29,12 +29,12 @@ class ReadOnlyDataStructure:
         self.__remove_null_keys()
 
     def __remove_null_keys (self):
-        null_keys = self.__list_of_null_keys()
+        null_keys = self.__independent_list_of_null_keys()
 
         for key in null_keys:
             del self.__read_only_data[key]
 
-    def __list_of_null_keys (self):
+    def __independent_list_of_null_keys (self):
         return [k for k, v in self.__read_only_data.items()
                    if v is None]
 
