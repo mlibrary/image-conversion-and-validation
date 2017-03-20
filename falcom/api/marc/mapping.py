@@ -34,9 +34,8 @@ class MARCMapping:
                 self.__make_xpath("subfield", "code", code)))
 
     def __controlfield (self, tag):
-        xpath = ".//" + self.__make_xpath("controlfield", "tag", tag)
-
-        return self.__find_all(xpath)
+        return self.__find_all(".//{}".format(
+                self.__make_xpath("controlfield", "tag", tag)))
 
     def __make_xpath (self, field, attr, value):
         return "{{{}}}{}[@{}='{}']".format(
