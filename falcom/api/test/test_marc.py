@@ -54,7 +54,7 @@ def yields_empty_marc_data():
                                     description=None,
                                     years=(None, None))
 
-class MARCDataTest (unittest.TestCase):
+class GivenNothing (MarcHelper, unittest.TestCase):
 
     def test_marc_data_of_None_yields_empty_MARC_data (self):
         assert_that(None, yields_empty_marc_data())
