@@ -5,7 +5,7 @@ from hamcrest import *
 import os
 import unittest
 
-from ...test.hamcrest import ComposedMatcher, evaluates_to
+from ...test.hamcrest import evaluates_to
 from ..hathi import get_oclc_counts_from_json, get_hathi_data_from_json
 
 class OclcCountHelpers (unittest.TestCase):
