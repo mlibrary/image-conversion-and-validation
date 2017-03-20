@@ -13,6 +13,17 @@ from ..marc import get_marc_data_from_xml
 def has_marc_attrs(**kwargs):
     return HasAttrs("MARC attrs", **kwargs)
 
+class MarcHelper:
+
+    def get_data (self):
+        return get_marc_data_from_xml(self.file_data)
+
+    def assert_has_marc_attrs (self, **kwargs):
+        assert_that(self.get_data(), has_marc_attrs(**kwargs))
+
+    def assert_evaluates_to (self, value):
+        assert_that(self.get_data(), evaluates_to(value))
+
 class YieldsParticularMarcData (ComposedMatcher):
 
     def __init__ (self, eval_to_true = True, **kwargs):
@@ -55,12 +66,13 @@ class MARCDataTest (unittest.TestCase):
         empty_etree = ET.fromstring("<empty/>")
         assert_that(empty_etree, yields_empty_marc_data())
 
-class MarcFileTest (ExampleFileTest):
+class MarcFileTest (MarcHelper, ExampleFileTest):
     this__file__ = __file__
     format_str = "{}.xml"
 
-    def assert_yields_marc_data (self, *args, **kwargs):
-        assert_that(self.file_data, yields_marc_data(*args, **kwargs))
+    def assert_yields_marc_data (self, **kwargs):
+        self.assert_evaluates_to(True)
+        self.assert_has_marc_attrs(**kwargs)
 
 class GivenIslamicManuscriptXML (MarcFileTest):
     filename = "39015079130699"
