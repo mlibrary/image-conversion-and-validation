@@ -20,20 +20,20 @@ class MARCMapping:
 
     def __getitem__ (self, key):
         if self.__this_key_is_for_a_datafield(key):
-            return self.__datafield(*key)
+            return self.__get_datafield(*key)
 
         else:
-            return self.__controlfield(key)
+            return self.__get_controlfield(key)
 
     def __this_key_is_for_a_datafield (self, key):
         return isinstance(key, tuple)
 
-    def __datafield (self, tag, code):
+    def __get_datafield (self, tag, code):
         return self.__find_all(".//{}/{}".format(
                 self.__make_xpath("datafield", "tag", tag),
                 self.__make_xpath("subfield", "code", code)))
 
-    def __controlfield (self, tag):
+    def __get_controlfield (self, tag):
         return self.__find_all(".//{}".format(
                 self.__make_xpath("controlfield", "tag", tag)))
 
