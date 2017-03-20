@@ -34,7 +34,7 @@ class WorldcatFileTest (ExampleFileTest):
     this__file__ = __file__
     format_str = "worldcat-{}.json"
 
-class WorldcatDataTest (unittest.TestCase):
+class GivenNothing (unittest.TestCase):
 
     def test_null_yields_empty_data (self):
         assert_that(None, yields_empty_worldcat_data())
