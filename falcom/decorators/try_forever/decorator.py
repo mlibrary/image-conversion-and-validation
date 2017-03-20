@@ -2,4 +2,4 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
-from .decorator import try_forever
+from .try_forever import try_forever
