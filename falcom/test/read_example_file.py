@@ -13,9 +13,9 @@ class ExampleFileTest (TestCase):
     def __file_path (self):
         return join(self.__files_dir(), self.__full_filename())
 
+    def __files_dir (self):
+        return join(dirname(self.this__file__), "files")
+
     def __full_filename (self):
         format_str = getattr(self, "format_str", "{}")
         return format_str.format(self.filename)
-
-    def __files_dir (self):
-        return join(dirname(self.this__file__), "files")
