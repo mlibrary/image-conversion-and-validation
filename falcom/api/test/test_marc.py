@@ -10,6 +10,10 @@ from ...test.hamcrest import ComposedMatcher, HasAttrs, evaluates_to
 from ...test.read_example_file import ExampleFileTest
 from ..marc import *
 
+class MarcFileTest (ExampleFileTest):
+    this__file__ = __file__
+    format_str = "{}.xml"
+
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
 
 def readfile (filename):
@@ -59,6 +63,19 @@ def yields_empty_marc_data():
                                     title=None,
                                     description=None,
                                     years=(None, None))
+
+class GivenIslamicManuscriptXml (MarcFileTest):
+    filename = "39015079130699"
+
+    def test_correct_marc_data_from_isman_xml (self):
+        assert_that(self.file_data, yields_marc_data(
+                        bib="006822264",
+                        callno="Isl. Ms. 402",
+                        author=None,
+                        title="[Calligraphic specimen,",
+                        description=None,
+                        years=("1790", "1791"),
+                        oclc=None))
 
 class MARCDataTest (unittest.TestCase):
 
@@ -123,6 +140,3 @@ class MARCDataTest (unittest.TestCase):
     def test_author_can_pull_from_datafield_130 (self):
         assert_that(EG_MARC_AUTHOR_130, yields_marc_data(
                         author="Châtelaine de Vergi."))
-
-if __name__ == "__main__":
-    unittest.main()
