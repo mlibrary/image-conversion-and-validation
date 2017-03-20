@@ -7,8 +7,7 @@ from unittest import TestCase
 class ExampleFileTest (TestCase):
 
     def setUp (self):
-        files_dir = join(dirname(self.this__file__), "files")
-        file_path = join(files_dir, self.__full_filename())
+        file_path = join(self.__files_dir(), self.__full_filename())
 
         with open(file_path, "r") as f:
             self.file_data = f.read()
@@ -16,3 +15,6 @@ class ExampleFileTest (TestCase):
     def __full_filename (self):
         format_str = getattr(self, "format_str", "{}")
         return format_str.format(self.filename)
+
+    def __files_dir (self):
+        return join(dirname(self.this__file__), "files")
