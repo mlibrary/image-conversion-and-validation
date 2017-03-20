@@ -85,16 +85,32 @@ class GivenAstroJson (OclcCountHelpers):
     def test_count_is_1_0 (self):
         self.assert_oclc_counts(1, 0)
 
-class HathiOclcCountsTest (unittest.TestCase):
+class GivenBusinessJson (OclcCountHelpers):
 
-    def test_business_json_yields_0_0 (self):
-        assert_that(EG_HATHI_BUSINESS, yields_oclc_counts(0, 0))
+    def setUp (self):
+        self.get_json_from_file("756167029")
+        self.htid = "mdp.39015090867675"
 
-    def test_midaily_json_yields_0_1 (self):
-        assert_that(EG_HATHI_MIDAILY, yields_oclc_counts(0, 1))
+    def test_count_is_1_0 (self):
+        self.assert_oclc_counts(0, 0)
 
-    def test_multi_json_yields_1_3 (self):
-        assert_that(EG_MULTI, yields_oclc_counts(1, 3))
+class GivenMidailyJson (OclcCountHelpers):
+
+    def setUp (self):
+        self.get_json_from_file("009651208")
+        self.htid = "mdp.39015071755826"
+
+    def test_count_is_1_0 (self):
+        self.assert_oclc_counts(0, 1)
+
+class GivenMultiJson (OclcCountHelpers):
+
+    def setUp (self):
+        self.get_json_from_file("multi-eg")
+        self.htid = "mdp.39015071754159"
+
+    def test_count_is_1_0 (self):
+        self.assert_oclc_counts(1, 3)
 
 class HathiRecordDataTest (unittest.TestCase):
 
