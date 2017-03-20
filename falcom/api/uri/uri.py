@@ -57,7 +57,8 @@ class URI:
             self.__base = uri_base
 
     def __extract_required_args (self):
-        self.__required_args = get_expected_args_from_format_str(self.__base)
+        self.__required_args = get_expected_args_from_format_str(
+                                                        self.__base)
 
     def __get_formatted_base (self, kwargs):
         self.__assert_that_we_have_all_required_kwargs(kwargs)
