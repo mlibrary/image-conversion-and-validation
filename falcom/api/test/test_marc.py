@@ -68,6 +68,9 @@ class ExpectEmptyData (MarcHelper):
                                    description=None,
                                    years=(None, None))
 
+class GivenDataIsNone (ExpectEmptyData, unittest.TestCase):
+    file_data = None
+
 class GivenNothing (MarcHelper, unittest.TestCase):
 
     def test_marc_data_of_None_yields_empty_MARC_data (self):
