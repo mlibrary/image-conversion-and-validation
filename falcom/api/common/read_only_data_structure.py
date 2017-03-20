@@ -40,16 +40,16 @@ class ReadOnlyDataStructure:
 
     def __ensure_we_have_our_property_accession_methods (self):
         if self.__this_is_the_first_instance_of_this_class():
-            self.__mark_this_class_as_a_valid_subclass()
-            self.__add_each_auto_property()
+            self.__generate_each_property_accession_method()
+            self.__mark_this_class_as_a_complete_subclass()
 
     def __this_is_the_first_instance_of_this_class (self):
         return self.__class__ not in self.__subclasses
 
-    def __mark_this_class_as_a_valid_subclass (self):
+    def __mark_this_class_as_a_complete_subclass (self):
         self.__subclasses.add(self.__class__)
 
-    def __add_each_auto_property (self):
+    def __generate_each_property_accession_method (self):
         for p in self.auto_properties:
             self.__examine_then_add_auto_property(p)
 
