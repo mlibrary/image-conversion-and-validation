@@ -120,6 +120,18 @@ class GivenAuthorInDatafield110 (MarcFileTest):
     def test_can_pull_author (self):
         self.assert_yields_marc_data(author="Chiusi. Museo Etrusco.")
 
+class GivenAuthorInDatafield111 (MarcFileTest):
+    filename = "author_111_39015090867675"
+
+    def test_can_pull_author (self):
+        self.assert_yields_marc_data(author="Pelfrey, Patricia A.")
+
+class GivenAuthorInDatafield130 (MarcFileTest):
+    filename = "39015050666182"
+
+    def test_can_pull_author (self):
+        self.assert_yields_marc_data(author="Châtelaine de Vergi.")
+
 class MARCDataTest (unittest.TestCase):
 
     def test_marc_data_of_None_yields_empty_MARC_data (self):
