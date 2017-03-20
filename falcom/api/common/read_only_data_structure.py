@@ -8,8 +8,7 @@ class ReadOnlyDataStructure:
     __subclasses = set()
 
     def __init__ (self, **kwargs):
-        self.__read_only_data = kwargs
-        self.__remove_null_keys()
+        self.__set_read_only_data(kwargs)
         self.__create_auto_properties()
 
     def get (self, key, default = None):
@@ -24,6 +23,10 @@ class ReadOnlyDataStructure:
             dictstr.append("{}={}".format(key, repr(value)))
 
         return "<{}>".format(" ".join(dictstr))
+
+    def __set_read_only_data (self, kwargs):
+        self.__read_only_data = kwargs
+        self.__remove_null_keys()
 
     def __remove_null_keys (self):
         null_keys = [k for k, v in self.__read_only_data.items() if v is None]
