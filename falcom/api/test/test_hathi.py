@@ -76,11 +76,13 @@ class GivenNothing (OclcCountHelpers):
         self.json = "{{{{"
         self.assert_oclc_counts(0, 0)
 
-class GivenAstroJson (OclcCountHelpers):
+class GivenAstroJson:
 
     def setUp (self):
         self.get_json_from_file("706055947")
         self.htid = "mdp.39015081447313"
+
+class TestAstroJson (GivenAstroJson, OclcCountHelpers):
 
     def test_count_is_1_0 (self):
         self.assert_oclc_counts(1, 0)
@@ -136,10 +138,11 @@ class HathiRecordDataTest (unittest.TestCase):
         assert_that(data.min_title_distance("anything"),
                     is_(close_to(1, 0.001)))
 
-class HathiRecordDataGivenAstroJson (unittest.TestCase):
+class TestAstroJsonRecordData (GivenAstroJson, OclcCountHelpers):
 
     def setUp (self):
-        self.data = get_hathi_data_from_json(EG_HATHI_ASTRO[0])
+        super().setUp()
+        self.data = get_hathi_data_from_json(self.json)
 
     def test_yields_one_title_and_one_htid (self):
         assert_that(self.data.titles, has_length(1))
