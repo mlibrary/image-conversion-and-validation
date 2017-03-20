@@ -46,6 +46,20 @@ class yields_empty_hathi_data (ComposedMatcher):
     def assertion (self, item):
         yield get_hathi_data_from_json(item), is_(empty_hathi_data())
 
+class OclcCountHelpers:
+    htid = None
+
+    def assert_oclc_counts (self, a, b):
+        assert_that(get_oclc_counts_from_json(self.json,
+                                              self.htid),
+                    is_(equal_to((a, b))))
+
+class GivenNothing (OclcCountHelpers, unittest.TestCase):
+
+    def test_null_yields_0_0 (self):
+        self.json = None
+        self.assert_oclc_counts(0, 0)
+
 class HathiOclcCountsTest (unittest.TestCase):
 
     def test_null_yields_0_0 (self):
