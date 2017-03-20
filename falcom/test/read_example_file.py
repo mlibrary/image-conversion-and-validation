@@ -7,10 +7,11 @@ from unittest import TestCase
 class ExampleFileTest (TestCase):
 
     def setUp (self):
-        file_path = join(self.__files_dir(), self.__full_filename())
-
-        with open(file_path, "r") as f:
+        with open(self.__file_path(), "r") as f:
             self.file_data = f.read()
+
+    def __file_path (self):
+        return join(self.__files_dir(), self.__full_filename())
 
     def __full_filename (self):
         format_str = getattr(self, "format_str", "{}")
