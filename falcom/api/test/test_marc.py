@@ -17,18 +17,6 @@ class MarcFileTest (ExampleFileTest):
     def assert_yields_marc_data (self, *args, **kwargs):
         assert_that(self.file_data, yields_marc_data(*args, **kwargs))
 
-FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
-
-def readfile (filename):
-    with open(os.path.join(FILE_BASE, filename), "r") as f:
-        result = f.read()
-
-    return result
-
-EG_MARC_AUTHOR_110 = readfile("39015084510513.xml")
-EG_MARC_AUTHOR_111 = readfile("author_111_39015090867675.xml")
-EG_MARC_AUTHOR_130 = readfile("39015050666182.xml")
-
 def has_marc_attrs(**kwargs):
     return HasAttrs("MARC attrs", **kwargs)
 
@@ -61,6 +49,18 @@ def yields_empty_marc_data():
                                     title=None,
                                     description=None,
                                     years=(None, None))
+
+class MARCDataTest (unittest.TestCase):
+
+    def test_marc_data_of_None_yields_empty_MARC_data (self):
+        assert_that(None, yields_empty_marc_data())
+
+    def test_marc_data_of_empty_str_yields_empty_MARC_data (self):
+        assert_that("", yields_empty_marc_data())
+
+    def test_marc_data_of_empty_xml_yields_empty_MARC_data (self):
+        empty_etree = ET.fromstring("<empty/>")
+        assert_that(empty_etree, yields_empty_marc_data())
 
 class GivenIslamicManuscriptXML (MarcFileTest):
     filename = "39015079130699"
@@ -131,15 +131,3 @@ class GivenAuthorInDatafield130 (MarcFileTest):
 
     def test_can_pull_author (self):
         self.assert_yields_marc_data(author="Châtelaine de Vergi.")
-
-class MARCDataTest (unittest.TestCase):
-
-    def test_marc_data_of_None_yields_empty_MARC_data (self):
-        assert_that(None, yields_empty_marc_data())
-
-    def test_marc_data_of_empty_str_yields_empty_MARC_data (self):
-        assert_that("", yields_empty_marc_data())
-
-    def test_marc_data_of_empty_xml_yields_empty_MARC_data (self):
-        empty_etree = ET.fromstring("<empty/>")
-        assert_that(empty_etree, yields_empty_marc_data())
