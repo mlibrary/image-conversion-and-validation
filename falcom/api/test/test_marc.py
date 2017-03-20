@@ -71,6 +71,14 @@ class ExpectEmptyData (MarcHelper):
 class GivenDataIsNone (ExpectEmptyData, unittest.TestCase):
     file_data = None
 
+class GivenDataIsEmptyString (ExpectEmptyData, unittest.TestCase):
+    file_data = ""
+
+class GivenDataIsEmptyElementTree (ExpectEmptyData, unittest.TestCase):
+
+    def setUp (self):
+        self.file_data = ET.fromstring("<empty/>")
+
 class GivenNothing (MarcHelper, unittest.TestCase):
 
     def test_marc_data_of_None_yields_empty_MARC_data (self):
