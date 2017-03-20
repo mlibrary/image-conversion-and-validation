@@ -71,14 +71,14 @@ class GivenIslamicManuscriptXml (MarcFileTest):
     filename = "39015079130699"
 
     def test_correct_marc_data_from_isman_xml (self):
-        assert_that(self.file_data, yields_marc_data(
+        self.assert_yields_marc_data(
                         bib="006822264",
                         callno="Isl. Ms. 402",
                         author=None,
                         title="[Calligraphic specimen,",
                         description=None,
                         years=("1790", "1791"),
-                        oclc=None))
+                        oclc=None)
 
 class MARCDataTest (unittest.TestCase):
 
