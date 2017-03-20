@@ -6,8 +6,9 @@ import os
 import unittest
 import xml.etree.ElementTree as ET
 
-from ..marc import *
 from ...test.hamcrest import ComposedMatcher, HasAttrs, evaluates_to
+from ...test.read_example_file import ExampleFileTest
+from ..marc import *
 
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
 
