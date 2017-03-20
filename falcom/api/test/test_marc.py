@@ -54,6 +54,20 @@ def yields_empty_marc_data():
                                     description=None,
                                     years=(None, None))
 
+class ExpectEmptyData (MarcHelper):
+
+    def test_evaluates_to_false (self):
+        self.assert_evaluates_to(False)
+
+    def test_each_attr_is_null (self):
+        self.assert_has_marc_attrs(bib=None,
+                                   callno=None,
+                                   oclc=None,
+                                   author=None,
+                                   title=None,
+                                   description=None,
+                                   years=(None, None))
+
 class GivenNothing (MarcHelper, unittest.TestCase):
 
     def test_marc_data_of_None_yields_empty_MARC_data (self):
