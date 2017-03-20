@@ -16,3 +16,9 @@ class FakeMappingThatRecordsAccessions:
 
     def check_on_format_str (self, format_str):
         format_str.format_map(self)
+
+def get_expected_args_from_format_str (format_str):
+    mapping = FakeMappingThatRecordsAccessions()
+    format_str.format_map(mapping)
+
+    return mapping.get_set()
