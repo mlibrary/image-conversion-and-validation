@@ -13,13 +13,15 @@ class HathiFileTest (ExampleFileTest):
     this__file__ = __file__
     format_str = "hathitrust-{}.json"
 
-class OclcCountHelpers (unittest.TestCase):
+class JustOclcCountHelpers:
     htid = None
 
     def assert_oclc_counts (self, a, b):
-        assert_that(get_oclc_counts_from_json(self.json,
+        assert_that(get_oclc_counts_from_json(self.file_data,
                                               self.htid),
                     is_(equal_to((a, b))))
+
+class OclcCountHelpers (JustOclcCountHelpers, unittest.TestCase):
 
     def get_json_from_file (self, hathitrust_filename):
         files_dir = os.path.join(os.path.dirname(__file__), "files")
@@ -27,20 +29,20 @@ class OclcCountHelpers (unittest.TestCase):
         file_path = os.path.join(files_dir, full_filename)
 
         with open(file_path, "r") as f:
-            self.json = f.read()
+            self.file_data = f.read()
 
 class GivenNothing (OclcCountHelpers):
 
     def test_null_yields_0_0 (self):
-        self.json = None
+        self.file_data = None
         self.assert_oclc_counts(0, 0)
 
     def test_empty_str_yields_0_0 (self):
-        self.json = ""
+        self.file_data = ""
         self.assert_oclc_counts(0, 0)
 
     def test_invalid_json_yields_0_0 (self):
-        self.json = "{{{{"
+        self.file_data = "{{{{"
         self.assert_oclc_counts(0, 0)
 
 class TestNewFileReader (HathiFileTest):
@@ -50,12 +52,10 @@ class TestNewFileReader (HathiFileTest):
         assert_that(self.file_data, is_not(empty()))
 
 class GivenAstroJson:
+    filename = "706055947"
+    htid = "mdp.39015081447313"
 
-    def setUp (self):
-        self.get_json_from_file("706055947")
-        self.htid = "mdp.39015081447313"
-
-class TestAstroJson (GivenAstroJson, OclcCountHelpers):
+class TestAstroJson (GivenAstroJson, JustOclcCountHelpers, HathiFileTest):
 
     def test_count_is_1_0 (self):
         self.assert_oclc_counts(1, 0)
@@ -120,11 +120,12 @@ class GivenInvalidJson (ExpectingEmptyHathiData, unittest.TestCase):
 class GivenJsonWithNoData (ExpectingEmptyHathiData, unittest.TestCase):
     args = ('{"records":{},"items":[]}',)
 
-class TestAstroJsonRecordData (GivenAstroJson, OclcCountHelpers):
+class TestAstroJsonRecordData (GivenAstroJson, JustOclcCountHelpers,
+        HathiFileTest):
 
     def setUp (self):
         super().setUp()
-        self.data = get_hathi_data_from_json(self.json)
+        self.data = get_hathi_data_from_json(self.file_data)
 
     def test_yields_one_title_and_one_htid (self):
         assert_that(self.data.titles, has_length(1))
