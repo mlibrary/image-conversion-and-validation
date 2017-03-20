@@ -79,8 +79,7 @@ class GivenNothing (OclcCountHelpers, unittest.TestCase):
 class GivenAstroJson (OclcCountHelpers, unittest.TestCase):
 
     def setUp (self):
-        with open(os.path.join(FILE_BASE, "hathitrust-706055947.json"), "r") as f:
-            self.json = f.read()
+        self.get_json_from_file("706055947")
         self.htid = "mdp.39015081447313"
 
     def test_count_is_1_0 (self):
