@@ -38,6 +38,7 @@ class MARCMapping:
                 self.__make_xpath("controlfield", "tag", tag)))
 
     def __make_xpath (self, field, attr, value):
+        # ElementTree xpath: {xmlns}field[@attr='value']
         return "{{{}}}{}[@{}='{}']".format(
                 self.xmlns, field, attr, value)
 
