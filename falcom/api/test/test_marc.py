@@ -10,13 +10,6 @@ from ...test.hamcrest import ComposedMatcher, HasAttrs, evaluates_to
 from ...test.read_example_file import ExampleFileTest
 from ..marc import *
 
-class MarcFileTest (ExampleFileTest):
-    this__file__ = __file__
-    format_str = "{}.xml"
-
-    def assert_yields_marc_data (self, *args, **kwargs):
-        assert_that(self.file_data, yields_marc_data(*args, **kwargs))
-
 def has_marc_attrs(**kwargs):
     return HasAttrs("MARC attrs", **kwargs)
 
@@ -61,6 +54,13 @@ class MARCDataTest (unittest.TestCase):
     def test_marc_data_of_empty_xml_yields_empty_MARC_data (self):
         empty_etree = ET.fromstring("<empty/>")
         assert_that(empty_etree, yields_empty_marc_data())
+
+class MarcFileTest (ExampleFileTest):
+    this__file__ = __file__
+    format_str = "{}.xml"
+
+    def assert_yields_marc_data (self, *args, **kwargs):
+        assert_that(self.file_data, yields_marc_data(*args, **kwargs))
 
 class GivenIslamicManuscriptXML (MarcFileTest):
     filename = "39015079130699"
