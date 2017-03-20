@@ -12,11 +12,7 @@ class MARCMapping:
             self.xml = xml_str
 
         else:
-            try:
-                self.xml = ET.fromstring(xml_str)
-
-            except:
-                self.xml = ET.fromstring("<empty/>")
+            self.__try_to_parse_xml(xml_str)
 
     def __getitem__ (self, key):
         if self.__this_key_is_for_a_datafield(key):
@@ -24,6 +20,13 @@ class MARCMapping:
 
         else:
             return self.__get_controlfield(key)
+
+    def __try_to_parse_xml (self, xml_str):
+        try:
+            self.xml = ET.fromstring(xml_str)
+
+        except:
+            self.xml = ET.fromstring("<empty/>")
 
     def __this_key_is_for_a_datafield (self, key):
         return isinstance(key, tuple)
