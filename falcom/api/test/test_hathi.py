@@ -102,14 +102,15 @@ class ExpectingEmptyHathiData:
     def test_has_no_htids (self):
         assert_that(self.data.htids, is_(empty()))
 
-class GivenNoArgs (ExpectingEmptyHathiData, unittest.TestCase):
+class GivenNoArgs (
+        ExpectingEmptyHathiData, unittest.TestCase):
     args = ()
 
-class HathiRecordDataTest (unittest.TestCase):
+class GivenNull (
+        ExpectingEmptyHathiData, unittest.TestCase):
+    args = (None,)
 
-    def test_no_args_yields_no_data (self):
-        data = get_hathi_data_from_json()
-        assert_that(data, is_(empty_hathi_data()))
+class HathiRecordDataTest (unittest.TestCase):
 
     def test_null_yields_no_data (self):
         assert_that(None, yields_empty_hathi_data())
