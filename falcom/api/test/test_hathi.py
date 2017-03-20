@@ -46,7 +46,7 @@ class yields_empty_hathi_data (ComposedMatcher):
     def assertion (self, item):
         yield get_hathi_data_from_json(item), is_(empty_hathi_data())
 
-class OclcCountHelpers:
+class OclcCountHelpers (unittest.TestCase):
     htid = None
 
     def assert_oclc_counts (self, a, b):
@@ -62,7 +62,7 @@ class OclcCountHelpers:
         with open(file_path, "r") as f:
             self.json = f.read()
 
-class GivenNothing (OclcCountHelpers, unittest.TestCase):
+class GivenNothing (OclcCountHelpers):
 
     def test_null_yields_0_0 (self):
         self.json = None
@@ -76,7 +76,7 @@ class GivenNothing (OclcCountHelpers, unittest.TestCase):
         self.json = "{{{{"
         self.assert_oclc_counts(0, 0)
 
-class GivenAstroJson (OclcCountHelpers, unittest.TestCase):
+class GivenAstroJson (OclcCountHelpers):
 
     def setUp (self):
         self.get_json_from_file("706055947")
@@ -86,9 +86,6 @@ class GivenAstroJson (OclcCountHelpers, unittest.TestCase):
         self.assert_oclc_counts(1, 0)
 
 class HathiOclcCountsTest (unittest.TestCase):
-
-    def test_astro_json_yields_1_0 (self):
-        assert_that(EG_HATHI_ASTRO, yields_oclc_counts(1, 0))
 
     def test_business_json_yields_0_0 (self):
         assert_that(EG_HATHI_BUSINESS, yields_oclc_counts(0, 0))
