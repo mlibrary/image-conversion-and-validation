@@ -8,23 +8,6 @@ import unittest
 from ...test.hamcrest import ComposedMatcher, evaluates_to
 from ..hathi import get_oclc_counts_from_json, get_hathi_data_from_json
 
-FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
-
-def readfile (filename):
-    with open(os.path.join(FILE_BASE, filename), "r") as f:
-        result = f.read()
-
-    return result
-
-EG_HATHI_ASTRO = (readfile("hathitrust-706055947.json"),
-                  "mdp.39015081447313")
-EG_HATHI_BUSINESS = (readfile("hathitrust-756167029.json"),
-                     "mdp.39015090867675")
-EG_HATHI_MIDAILY = (readfile("hathitrust-009651208.json"),
-                    "mdp.39015071755826")
-EG_MULTI = (readfile("hathitrust-multi-eg.json"),
-            "mdp.39015071754159")
-
 class yields_oclc_counts (ComposedMatcher):
 
     def __init__ (self, mdp, other):
