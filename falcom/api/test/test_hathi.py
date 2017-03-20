@@ -13,7 +13,7 @@ class HathiFileTest (ExampleFileTest):
     this__file__ = __file__
     format_str = "hathitrust-{}.json"
 
-class JustOclcCountHelpers:
+class OclcCountHelpers:
     htid = None
 
     def assert_oclc_counts (self, a, b):
@@ -21,7 +21,7 @@ class JustOclcCountHelpers:
                                               self.htid),
                     is_(equal_to((a, b))))
 
-class GivenNothing (JustOclcCountHelpers, unittest.TestCase):
+class GivenNothing (OclcCountHelpers, unittest.TestCase):
 
     def test_null_yields_0_0 (self):
         self.file_data = None
@@ -45,26 +45,26 @@ class GivenAstroJson:
     filename = "706055947"
     htid = "mdp.39015081447313"
 
-class TestAstroJson (GivenAstroJson, JustOclcCountHelpers, HathiFileTest):
+class TestAstroJson (GivenAstroJson, OclcCountHelpers, HathiFileTest):
 
     def test_count_is_1_0 (self):
         self.assert_oclc_counts(1, 0)
 
-class GivenBusinessJson (JustOclcCountHelpers, HathiFileTest):
+class GivenBusinessJson (OclcCountHelpers, HathiFileTest):
     filename = "756167029"
     htid = "mdp.39015090867675"
 
     def test_count_is_1_0 (self):
         self.assert_oclc_counts(0, 0)
 
-class GivenMidailyJson (JustOclcCountHelpers, HathiFileTest):
+class GivenMidailyJson (OclcCountHelpers, HathiFileTest):
     filename = "009651208"
     htid = "mdp.39015071755826"
 
     def test_count_is_1_0 (self):
         self.assert_oclc_counts(0, 1)
 
-class GivenMultiJson (JustOclcCountHelpers, HathiFileTest):
+class GivenMultiJson (OclcCountHelpers, HathiFileTest):
     filename = "multi-eg"
     htid = "mdp.39015071754159"
 
@@ -104,8 +104,7 @@ class GivenInvalidJson (ExpectingEmptyHathiData, unittest.TestCase):
 class GivenJsonWithNoData (ExpectingEmptyHathiData, unittest.TestCase):
     args = ('{"records":{},"items":[]}',)
 
-class TestAstroJsonRecordData (GivenAstroJson, JustOclcCountHelpers,
-        HathiFileTest):
+class TestAstroJsonRecordData (GivenAstroJson, HathiFileTest):
 
     def setUp (self):
         super().setUp()
