@@ -19,11 +19,14 @@ class MARCMapping:
                 self.xml = ET.fromstring("<empty/>")
 
     def __getitem__ (self, key):
-        if isinstance(key, tuple):
+        if self.__this_key_is_for_a_datafield(key):
             return self.__datafield(*key)
 
         else:
             return self.__controlfield(key)
+
+    def __this_key_is_for_a_datafield (self, key):
+        return isinstance(key, tuple)
 
     def __controlfield (self, tag):
         xpath = ".//" + self.__xpath("controlfield", "tag", tag)
