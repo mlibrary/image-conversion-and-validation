@@ -2,11 +2,10 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 from hamcrest import *
-import os
 import unittest
 import xml.etree.ElementTree as ET
 
-from ...test.hamcrest import ComposedMatcher, HasAttrs, evaluates_to
+from ...test.hamcrest import HasAttrs, evaluates_to
 from ...test.read_example_file import ExampleFileTest
 from ..marc import get_marc_data_from_xml
 
@@ -24,35 +23,13 @@ class MarcHelper:
     def assert_evaluates_to (self, value):
         assert_that(self.get_data(), evaluates_to(value))
 
-class YieldsParticularMarcData (ComposedMatcher):
+class MarcFileTest (MarcHelper, ExampleFileTest):
+    this__file__ = __file__
+    format_str = "{}.xml"
 
-    def __init__ (self, eval_to_true = True, **kwargs):
-        self.eval_to_true = eval_to_true
-        self.kwargs = kwargs
-
-    def assertion (self, item):
-        data = get_marc_data_from_xml(item)
-
-        if self.eval_to_true:
-            yield data, evaluates_to(True)
-
-        else:
-            yield data, evaluates_to(False)
-
-        yield data, has_marc_attrs(**self.kwargs)
-
-def yields_marc_data(**kwargs):
-    return YieldsParticularMarcData(True, **kwargs)
-
-def yields_empty_marc_data():
-    return YieldsParticularMarcData(False,
-                                    bib=None,
-                                    callno=None,
-                                    oclc=None,
-                                    author=None,
-                                    title=None,
-                                    description=None,
-                                    years=(None, None))
+    def assert_yields_marc_data (self, **kwargs):
+        self.assert_evaluates_to(True)
+        self.assert_has_marc_attrs(**kwargs)
 
 class ExpectEmptyData (MarcHelper):
 
@@ -78,26 +55,6 @@ class GivenDataIsEmptyElementTree (ExpectEmptyData, unittest.TestCase):
 
     def setUp (self):
         self.file_data = ET.fromstring("<empty/>")
-
-class GivenNothing (MarcHelper, unittest.TestCase):
-
-    def test_marc_data_of_None_yields_empty_MARC_data (self):
-        assert_that(None, yields_empty_marc_data())
-
-    def test_marc_data_of_empty_str_yields_empty_MARC_data (self):
-        assert_that("", yields_empty_marc_data())
-
-    def test_marc_data_of_empty_xml_yields_empty_MARC_data (self):
-        empty_etree = ET.fromstring("<empty/>")
-        assert_that(empty_etree, yields_empty_marc_data())
-
-class MarcFileTest (MarcHelper, ExampleFileTest):
-    this__file__ = __file__
-    format_str = "{}.xml"
-
-    def assert_yields_marc_data (self, **kwargs):
-        self.assert_evaluates_to(True)
-        self.assert_has_marc_attrs(**kwargs)
 
 class GivenIslamicManuscriptXML (MarcFileTest):
     filename = "39015079130699"

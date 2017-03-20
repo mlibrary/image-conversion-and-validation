@@ -2,7 +2,6 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 from hamcrest import *
-import os
 import unittest
 
 from ...test.hamcrest import evaluates_to
