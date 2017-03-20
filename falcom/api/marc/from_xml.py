@@ -8,7 +8,7 @@ from .mapping import MARCMapping
 
 RE_OCLC = re_compile(r"^\(OCoLC\).*?([0-9]+)$")
 
-class ParseMarcXml:
+class MARCXMLData:
 
     easy_data = (
         ("bib",         ("001",)),
@@ -21,11 +21,11 @@ class ParseMarcXml:
         ("author",      (("130", "a"),)),
     )
 
-    def __call__ (self, xml):
+    def __init__ (self, xml):
         self.marc = MARCMapping(xml)
 
+    def get_marc_data (self):
         self.fill_in_data()
-
         return MARCData(**self.data)
 
     def fill_in_data (self):
@@ -81,4 +81,6 @@ class ParseMarcXml:
         if result != "^^^^":
             return result
 
-get_marc_data_from_xml = ParseMarcXml()
+def get_marc_data_from_xml (xml):
+    data = MARCXMLData(xml)
+    return data.get_marc_data()

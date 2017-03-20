@@ -21,12 +21,8 @@ teardown() {
   rm "$tmpfile"
 }
 
-make_compatible_325() {
-  make_compatible --version 3.2.5 "$@"
-}
-
 @test "ConnectionError becomes OSError in <3.3" {
-  run make_compatible_325 "$tmpfile"
+  run make_compatible_32 "$tmpfile"
   [ "$status" -eq 0 ]
   not_grep ConnectionError "$tmpfile"
   grep -q '^except OSError:$' "$tmpfile"
@@ -34,31 +30,31 @@ make_compatible_325() {
 }
 
 @test "BrokenPipe becomes OSError in <3.3" {
-  run make_compatible_325 "$tmpfile"
+  run make_compatible_32 "$tmpfile"
   [ "$status" -eq 0 ]
   not_grep BrokenPipe "$tmpfile"
 }
 
 @test "ConnectionAbortedError becomes OSError in <3.3" {
-  run make_compatible_325 "$tmpfile"
+  run make_compatible_32 "$tmpfile"
   [ "$status" -eq 0 ]
   not_grep ConnectionAbortedError "$tmpfile"
 }
 
 @test "ConnectionRefusedError becomes OSError in <3.3" {
-  run make_compatible_325 "$tmpfile"
+  run make_compatible_32 "$tmpfile"
   [ "$status" -eq 0 ]
   not_grep ConnectionRefusedError "$tmpfile"
 }
 
 @test "ConnectionResetError becomes OSError in <3.3" {
-  run make_compatible_325 "$tmpfile"
+  run make_compatible_32 "$tmpfile"
   [ "$status" -eq 0 ]
   not_grep ConnectionResetError "$tmpfile"
 }
 
 @test "ConnectionError and BrokenPipe become OSError in <3.3" {
-  run make_compatible_325 "$tmpfile"
+  run make_compatible_32 "$tmpfile"
   [ "$status" -eq 0 ]
   not_grep ConnectionError "$tmpfile"
   not_grep BrokenPipe "$tmpfile"

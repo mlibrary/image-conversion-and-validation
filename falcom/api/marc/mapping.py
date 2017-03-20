@@ -19,25 +19,26 @@ class MARCMapping:
                 self.xml = ET.fromstring("<empty/>")
 
     def __getitem__ (self, key):
-        if isinstance(key, tuple):
-            return self.__datafield(*key)
+        if self.__this_key_is_for_a_datafield(key):
+            return self.__get_datafield(*key)
 
         else:
-            return self.__controlfield(key)
+            return self.__get_controlfield(key)
 
-    def __controlfield (self, tag):
-        xpath = ".//" + self.__xpath("controlfield", "tag", tag)
+    def __this_key_is_for_a_datafield (self, key):
+        return isinstance(key, tuple)
 
-        return self.__find_all(xpath)
+    def __get_datafield (self, tag, code):
+        return self.__find_all(".//{}/{}".format(
+                self.__make_xpath("datafield", "tag", tag),
+                self.__make_xpath("subfield", "code", code)))
 
-    def __datafield (self, tag, code):
-        paths = ("./",
-                 self.__xpath("datafield", "tag", tag),
-                 self.__xpath("subfield", "code", code))
+    def __get_controlfield (self, tag):
+        return self.__find_all(".//{}".format(
+                self.__make_xpath("controlfield", "tag", tag)))
 
-        return self.__find_all("/".join(paths))
-
-    def __xpath (self, field, attr, value):
+    def __make_xpath (self, field, attr, value):
+        # ElementTree xpath: {xmlns}field[@attr='value']
         return "{{{}}}{}[@{}='{}']".format(
                 self.xmlns, field, attr, value)
 
