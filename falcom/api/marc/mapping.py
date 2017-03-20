@@ -30,17 +30,17 @@ class MARCMapping:
 
     def __datafield (self, tag, code):
         paths = ("./",
-                 self.__xpath("datafield", "tag", tag),
-                 self.__xpath("subfield", "code", code))
+                 self.__make_xpath("datafield", "tag", tag),
+                 self.__make_xpath("subfield", "code", code))
 
         return self.__find_all("/".join(paths))
 
     def __controlfield (self, tag):
-        xpath = ".//" + self.__xpath("controlfield", "tag", tag)
+        xpath = ".//" + self.__make_xpath("controlfield", "tag", tag)
 
         return self.__find_all(xpath)
 
-    def __xpath (self, field, attr, value):
+    def __make_xpath (self, field, attr, value):
         return "{{{}}}{}[@{}='{}']".format(
                 self.xmlns, field, attr, value)
 
