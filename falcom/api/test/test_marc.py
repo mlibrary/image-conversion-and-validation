@@ -14,6 +14,9 @@ class MarcFileTest (ExampleFileTest):
     this__file__ = __file__
     format_str = "{}.xml"
 
+    def assert_yields_marc_data (self, *args, **kwargs):
+        assert_that(self.file_data, yields_marc_data(*args, **kwargs))
+
 FILE_BASE = os.path.join(os.path.dirname(__file__), "files")
 
 def readfile (filename):
