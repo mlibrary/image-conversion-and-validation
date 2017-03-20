@@ -54,6 +54,14 @@ class OclcCountHelpers:
                                               self.htid),
                     is_(equal_to((a, b))))
 
+    def get_json_from_file (self, hathitrust_filename):
+        files_dir = os.path.join(os.path.dirname(__file__), "files")
+        full_filename = "hathitrust-{}.json".format(hathitrust_filename)
+        file_path = os.path.join(files_dir, full_filename)
+
+        with open(file_path, "r") as f:
+            self.json = f.read()
+
 class GivenNothing (OclcCountHelpers, unittest.TestCase):
 
     def test_null_yields_0_0 (self):
