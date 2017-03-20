@@ -8,18 +8,6 @@ import unittest
 from ...test.hamcrest import ComposedMatcher, evaluates_to
 from ..hathi import get_oclc_counts_from_json, get_hathi_data_from_json
 
-class empty_hathi_data (ComposedMatcher):
-
-    def assertion (self, item):
-        yield item, evaluates_to(False)
-        yield item.titles, empty()
-        yield item.htids, empty()
-
-class yields_empty_hathi_data (ComposedMatcher):
-
-    def assertion (self, item):
-        yield get_hathi_data_from_json(item), is_(empty_hathi_data())
-
 class OclcCountHelpers (unittest.TestCase):
     htid = None
 
