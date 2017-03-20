@@ -65,8 +65,8 @@ class ReadOnlyDataStructure:
 
     def __generate_property_accession_method (self,
                                               property_name,
-                                              default = None):
+                                              default_value = None):
         def getp (self):
-            return self.get(property_name, default)
+            return self.get(property_name, default_value)
 
         setattr(self.__class__, property_name, property(getp))
