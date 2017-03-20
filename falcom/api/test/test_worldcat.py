@@ -47,15 +47,6 @@ class WorldcatFileTest (ExampleFileTest):
     this__file__ = __file__
     format_str = "worldcat-{}.json"
 
-class GivenAstronomyJson (WorldcatFileTest):
-    filename = "706055947"
-
-class GivenBusinessJson (WorldcatFileTest):
-    filename = "756167029"
-
-class GivenMichiganDailyJson (WorldcatFileTest):
-    filename = "009651208"
-
 class WorldcatDataTest (unittest.TestCase):
 
     def test_null_yields_empty_data (self):
@@ -67,12 +58,18 @@ class WorldcatDataTest (unittest.TestCase):
     def test_invalid_json_yields_empty_data (self):
         assert_that("{{{", yields_empty_worldcat_data())
 
+class GivenAstronomyJson (WorldcatFileTest):
+    filename = "706055947"
+
     def test_astro_has_particular_data (self):
-        assert_that(EG_OCLC_ASTRO, yields_worldcat_data(
+        assert_that(self.file_data, yields_worldcat_data(
                 "Astronomical tables", ["EYM"]))
 
+class GivenBusinessJson (WorldcatFileTest):
+    filename = "756167029"
+
     def test_business_has_particular_data (self):
-        assert_that(EG_OCLC_BUSINESS, yields_worldcat_data(
+        assert_that(self.file_data, yields_worldcat_data(
                 "Entrepreneurial president : Richard Atkinson and"
                         " the University of California, 1995-2003",
                 ["EWV", "EYM", "EYL", "EYW", "EES", "EEM", "EEI",
@@ -84,8 +81,11 @@ class WorldcatDataTest (unittest.TestCase):
                  "REC", "UTO", "CNTCS", "IDU", "PWA", "IUL", "PZI",
                  "IHC"]))
 
+class GivenMichiganDailyJson (WorldcatFileTest):
+    filename = "009651208"
+
     def test_midaily_has_particular_data (self):
-        assert_that(EG_OCLC_MIDAILY, yields_worldcat_data(
+        assert_that(self.file_data, yields_worldcat_data(
                 "The Michigan daily.",
                 ["HATHI", "EYM", "BEU", "EYL", "ERR", "EYW", "EEM",
                  "EUQ", "EEX", "BGU", "EXK", "EXC", "EXQ", "HV6",
