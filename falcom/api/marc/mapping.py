@@ -28,17 +28,17 @@ class MARCMapping:
     def __this_key_is_for_a_datafield (self, key):
         return isinstance(key, tuple)
 
-    def __controlfield (self, tag):
-        xpath = ".//" + self.__xpath("controlfield", "tag", tag)
-
-        return self.__find_all(xpath)
-
     def __datafield (self, tag, code):
         paths = ("./",
                  self.__xpath("datafield", "tag", tag),
                  self.__xpath("subfield", "code", code))
 
         return self.__find_all("/".join(paths))
+
+    def __controlfield (self, tag):
+        xpath = ".//" + self.__xpath("controlfield", "tag", tag)
+
+        return self.__find_all(xpath)
 
     def __xpath (self, field, attr, value):
         return "{{{}}}{}[@{}='{}']".format(
