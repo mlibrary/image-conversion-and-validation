@@ -3,7 +3,7 @@
 # BSD License. See LICENSE.txt for details.
 from urllib.parse import urlencode
 
-from .fake_mapping import get_expected_args_from_format_str
+from .args_from_format import get_expected_args_from_format_str
 
 class URI:
 
