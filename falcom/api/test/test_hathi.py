@@ -8,15 +8,6 @@ import unittest
 from ...test.hamcrest import ComposedMatcher, evaluates_to
 from ..hathi import get_oclc_counts_from_json, get_hathi_data_from_json
 
-class yields_oclc_counts (ComposedMatcher):
-
-    def __init__ (self, mdp, other):
-        self.expected = (mdp, other)
-
-    def assertion (self, item):
-        actual = get_oclc_counts_from_json(*item)
-        yield actual, is_(equal_to(self.expected))
-
 class empty_hathi_data (ComposedMatcher):
 
     def assertion (self, item):
