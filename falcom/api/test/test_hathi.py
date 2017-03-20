@@ -60,16 +60,15 @@ class GivenNothing (OclcCountHelpers, unittest.TestCase):
         self.json = None
         self.assert_oclc_counts(0, 0)
 
-class HathiOclcCountsTest (unittest.TestCase):
-
-    def test_null_yields_0_0 (self):
-        assert_that((None,), yields_oclc_counts(0, 0))
-
     def test_empty_str_yields_0_0 (self):
-        assert_that(("",), yields_oclc_counts(0, 0))
+        self.json = ""
+        self.assert_oclc_counts(0, 0)
 
     def test_invalid_json_yields_0_0 (self):
-        assert_that(("{{{{",), yields_oclc_counts(0, 0))
+        self.json = "{{{{"
+        self.assert_oclc_counts(0, 0)
+
+class HathiOclcCountsTest (unittest.TestCase):
 
     def test_astro_json_yields_1_0 (self):
         assert_that(EG_HATHI_ASTRO, yields_oclc_counts(1, 0))
