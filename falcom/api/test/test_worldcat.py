@@ -6,7 +6,7 @@ import unittest
 
 from ...test.hamcrest import ComposedMatcher, evaluates_to
 from ...test.read_example_file import ExampleFileTest
-from ..worldcat import *
+from ..worldcat import get_worldcat_data_from_json
 
 class yields_empty_worldcat_data (ComposedMatcher):
 
