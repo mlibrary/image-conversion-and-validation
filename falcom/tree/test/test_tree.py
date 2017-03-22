@@ -41,6 +41,9 @@ class GivenEmptyTree (unittest.TestCase):
     def test_iterates_into_empty_list (self):
         assert_that(list(self.tree), is_(equal_to([])))
 
+    def test_walks_into_empty_list (self):
+        assert_that(list(self.tree.walk()), is_(equal_to([])))
+
     def test_empty_tree_has_null_value (self):
         assert_that(self.tree.value, is_(none()))
 
