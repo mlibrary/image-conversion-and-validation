@@ -9,6 +9,9 @@ class MutableTree:
 
         self.__clear_tree()
 
+        self.__parse_args(args, kwargs)
+
+    def __parse_args (self, args, kwargs):
         if args:
             self.deep_copy_from(args[0])
 
