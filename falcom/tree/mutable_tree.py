@@ -79,11 +79,14 @@ class MutableTree:
             self.__extract_value_from_kwargs(kwargs)
 
         else:
-            self.value = None
+            self.__become_new_tree()
 
     def __extract_value_from_kwargs (self, kwargs):
         if "value" in kwargs and len(kwargs) == 1:
-            self.value = kwargs["value"]
+            self.__become_new_tree(kwargs["value"])
 
         else:
             raise TypeError
+
+    def __become_new_tree (self, value = None):
+        self.value = value
