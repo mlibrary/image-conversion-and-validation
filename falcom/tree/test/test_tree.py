@@ -71,7 +71,7 @@ class GivenLayeredTree (unittest.TestCase):
 
     def setUp (self):
         self.make_layered_mutable_tree()
-        t = Tree(self.mutable_tree)
+        self.tree = Tree(self.mutable_tree)
 
     def test_can_init_from_mutable_tree (self):
         pass
