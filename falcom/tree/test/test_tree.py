@@ -5,7 +5,10 @@ from hamcrest import *
 import unittest
 
 from ...test.hamcrest import evaluates_to
-from .matchers import *
+from .matchers import has_full_length, \
+                      iterates_into_list, \
+                      walks_into_list, \
+                      has_node_value
 from ..mutable_tree import MutableTree
 
 class TreeHelpers:
