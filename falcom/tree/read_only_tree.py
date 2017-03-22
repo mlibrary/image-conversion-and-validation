@@ -21,10 +21,10 @@ class Tree:
         return len(self.children)
 
     def full_length (self):
-        return 0
+        return len(self) + sum(c.full_length() for c in self)
 
     def __iter__ (self):
-        return iter(())
+        return iter(self.children)
 
     def walk (self):
         return iter(())

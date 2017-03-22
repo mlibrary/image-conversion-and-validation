@@ -100,3 +100,6 @@ class GivenLayeredTree (unittest.TestCase):
 
     def test_has_length_2 (self):
         assert_that(self.tree, has_length(2))
+
+    def test_has_full_length_5 (self):
+        assert_that(self.tree.full_length(), is_(equal_to(5)))
