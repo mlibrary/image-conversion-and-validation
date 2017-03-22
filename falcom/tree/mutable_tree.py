@@ -11,6 +11,13 @@ class MutableTree:
 
         self.__parse_args(args, kwargs)
 
+    def __assert_no_more_than_one_arg (self, args, kwargs):
+        if len(args) + len(kwargs) > 1:
+            raise TypeError
+
+    def __clear_tree (self):
+        self.children = [ ]
+
     def __parse_args (self, args, kwargs):
         if args:
             self.deep_copy_from(args[0])
@@ -24,13 +31,6 @@ class MutableTree:
 
         else:
             self.value = None
-
-    def __assert_no_more_than_one_arg (self, args, kwargs):
-        if len(args) + len(kwargs) > 1:
-            raise TypeError
-
-    def __clear_tree (self):
-        self.children = [ ]
 
     @property
     def value (self):
