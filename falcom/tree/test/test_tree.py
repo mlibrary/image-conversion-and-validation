@@ -117,6 +117,9 @@ class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
     def test_walk_iterates_into_empty_list (self):
         self.assert_tree(walks_into_list([]))
 
+    def test_values_iterate_into_empty_list (self):
+        assert_that(list(self.tree.values()), is_(equal_to([])))
+
     def test_has_no_first_item (self):
         self.assert_invalid_index(0)
 
