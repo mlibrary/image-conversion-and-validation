@@ -111,3 +111,7 @@ class GivenLayeredTree (unittest.TestCase):
 
         assert_that(children[0], has_length(2))
         assert_that(children[0].full_length(), is_(equal_to(3)))
+
+    def test_walks_into_list_of_descendants (self):
+        descendants = list(self.tree.walk())
+        assert_that(descendants[0].value, is_(equal_to(2)))

@@ -27,7 +27,9 @@ class Tree:
         return iter(self.children)
 
     def walk (self):
-        return iter(())
+        for child in self:
+            yield child
+            yield from child
 
     def values (self):
         return iter(())
