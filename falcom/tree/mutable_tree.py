@@ -57,9 +57,11 @@ class MutableTree:
 
         return "<{} {}>".format(debug, repr(self.children))
 
-    def __assert_no_more_than_one_arg (self, args, kwargs):
-        if len(args) + len(kwargs) > 1:
-            raise TypeError("Expected 1 tree, 1 value, or neither")
+    def __assert_no_more_than_one_arg (self, *arg_containers):
+        total = sum(map(len, arg_containers))
+        if total > 1:
+            raise TypeError("Expected no more than 1 argument; " \
+                            "got {:d}".format(total))
 
     def __parse_args (self, args, kwargs):
         if args:
