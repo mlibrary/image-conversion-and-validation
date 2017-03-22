@@ -17,6 +17,9 @@ class Tree:
     def full_length (self):
         return 0
 
+    def __iter__ (self):
+        return iter(())
+
     def __repr__ (self):
         debug = self.__class__.__name__
 
