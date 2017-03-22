@@ -32,10 +32,10 @@ class Tree:
             yield from child.walk()
 
     def values (self):
-        return iter(c.value for c in self)
+        return (c.value for c in self)
 
     def walk_values (self):
-        return iter(())
+        return (c.value for c in self.walk())
 
     def __getitem__ (self, index):
         return ()[index]
