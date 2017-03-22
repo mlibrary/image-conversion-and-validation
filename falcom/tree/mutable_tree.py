@@ -36,7 +36,7 @@ class MutableTree:
     def __getitem__ (self, index):
         return self.children[index]
 
-    def insert (self, index, node):
+    def insert_tree (self, index, node):
         self.children.insert(index, node)
 
     def append (self, node):
@@ -45,7 +45,7 @@ class MutableTree:
     def deep_copy_from (self, input_tree):
         self.value = input_tree.value
         for child in input_tree:
-            self.insert(len(self), MutableTree(child))
+            self.insert_tree(len(self), MutableTree(child))
 
     def __eq__ (self, rhs):
         return self.value == rhs.value \

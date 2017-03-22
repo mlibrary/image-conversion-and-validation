@@ -37,7 +37,7 @@ class GivenTreeWithOneEmptyChild (GivenEmptyTree):
         super().setUp()
 
         self.first_child = self.new_tree(1)
-        self.tree.insert(0, self.first_child)
+        self.tree.insert_tree(0, self.first_child)
 
     def test_first_child_has_value_of_1 (self):
         assert_that(self.first_child, has_node_value(1))
@@ -48,7 +48,7 @@ class GivenTreeWithTwoEmptyChildren (GivenTreeWithOneEmptyChild):
         super().setUp()
 
         self.second_child = self.new_tree(2)
-        self.tree.insert(1, self.second_child)
+        self.tree.insert_tree(1, self.second_child)
 
     def test_second_child_has_value_of_2 (self):
         assert_that(self.second_child, has_node_value(2))
@@ -60,7 +60,7 @@ class GivenTreeWithTwoChildrenAndOneGrandchild (
         super().setUp()
 
         self.grandchild = self.new_tree(3)
-        self.first_child.insert(0, self.grandchild)
+        self.first_child.insert_tree(0, self.grandchild)
 
     def test_grandchild_has_value_of_3 (self):
         assert_that(self.grandchild, has_node_value(3))
@@ -72,7 +72,7 @@ class GivenTreeWithTwoChildrenAndOneGreatGrandchild (
         super().setUp()
 
         self.great_grandchild = self.new_tree(4)
-        self.grandchild.insert(0, self.great_grandchild)
+        self.grandchild.insert_tree(0, self.great_grandchild)
 
     def test_great_grandchild_has_value_of_3 (self):
         assert_that(self.great_grandchild, has_node_value(4))
