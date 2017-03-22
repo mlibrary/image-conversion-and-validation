@@ -12,7 +12,7 @@ class Tree:
         pass
 
     def __len__ (self):
-        return 0 if self.tree is None else 1
+        return 0 if self.tree is None else len(self.tree)
 
     def full_length (self):
         return 0

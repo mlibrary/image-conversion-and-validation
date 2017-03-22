@@ -59,6 +59,15 @@ class GivenEmptyTree (unittest.TestCase):
                                                "hi"),
                     raises(AttributeError))
 
+class GivenBasedOnMutableTree (unittest.TestCase):
+
+    def setUp (self):
+        self.mutable_tree = MutableTree()
+        self.tree = Tree(self.mutable_tree)
+
+    def test_evaluates_to_false (self):
+        assert_that(self.tree, evaluates_to(False))
+
 class GivenLayeredTree (unittest.TestCase):
 
     def make_layered_mutable_tree (self):
