@@ -2,7 +2,9 @@
 # All Rights Reserved. Licensed according to the terms of the Revised
 # BSD License. See LICENSE.txt for details.
 
-class MutableTree:
+from .read_only_tree import Tree
+
+class MutableTree (Tree):
 
     def __init__ (self, *args, **kwargs):
         self.__assert_no_more_than_one_arg(args, kwargs)
