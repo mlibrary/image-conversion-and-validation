@@ -9,15 +9,6 @@ from ..mutable_tree import MutableTree
 
 class GivenNothing (unittest.TestCase):
 
-    def test_empty_tree_has_null_value (self):
-        t = Tree()
-        assert_that(t.value, is_(none()))
-
-    def test_cannot_modify_value_for_empty_tree (self):
-        t = Tree()
-        assert_that(calling(setattr).with_args(t, "value", "hi"),
-                    raises(AttributeError))
-
     def test_cannot_init_tree_with_value (self):
         assert_that(calling(Tree).with_args(value="hi"),
                     raises(TypeError))
@@ -31,3 +22,14 @@ class GivenNothing (unittest.TestCase):
         mtree[0][0].append_value(6)
 
         t = Tree(mtree)
+
+class GivenEmptyTree (unittest.TestCase):
+
+    def test_empty_tree_has_null_value (self):
+        t = Tree()
+        assert_that(t.value, is_(none()))
+
+    def test_cannot_modify_value_for_empty_tree (self):
+        t = Tree()
+        assert_that(calling(setattr).with_args(t, "value", "hi"),
+                    raises(AttributeError))
