@@ -144,6 +144,9 @@ class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
         self.assert_tree(has_length(1))
         assert_that(self.tree[0], has_node_value(7))
 
+    def test_can_append_value (self):
+        self.tree.append_value(12)
+
 class TestTreeWithOneEmptyChild (GivenTreeWithOneEmptyChild,
                                  unittest.TestCase):
 
