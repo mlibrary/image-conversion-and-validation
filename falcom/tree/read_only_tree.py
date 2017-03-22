@@ -10,3 +10,14 @@ class Tree:
     @property
     def value (self):
         pass
+
+    def __bool__ (self):
+        return False
+
+    def __repr__ (self):
+        debug = self.__class__.__name__
+
+        if self.value is not None:
+            debug += " " + repr(self.value)
+
+        return "<{}>".format(debug)

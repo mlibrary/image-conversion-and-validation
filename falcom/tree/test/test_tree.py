@@ -4,6 +4,7 @@
 from hamcrest import *
 import unittest
 
+from ...test.hamcrest import evaluates_to
 from ..read_only_tree import Tree
 from ..mutable_tree import MutableTree
 
@@ -27,6 +28,9 @@ class GivenEmptyTree (unittest.TestCase):
 
     def setUp (self):
         self.tree = Tree()
+
+    def test_evaluates_to_false (self):
+        assert_that(self.tree, evaluates_to(False))
 
     def test_empty_tree_has_null_value (self):
         assert_that(self.tree.value, is_(none()))
