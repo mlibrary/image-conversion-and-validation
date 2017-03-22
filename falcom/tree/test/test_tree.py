@@ -14,6 +14,11 @@ class GivenNothing (unittest.TestCase):
         assert_that(calling(Tree).with_args(value="hi"),
                     raises(TypeError))
 
+    def test_stores_value_when_inited_with_valued_tree (self):
+        mutable = MutableTree(value="hello")
+        tree = Tree(mutable)
+        assert_that(tree.value, is_(equal_to("hello")))
+
 class GivenEmptyTree (unittest.TestCase):
 
     def setUp (self):

@@ -6,14 +6,16 @@ class Tree:
 
     def __init__ (self, tree = None):
         if tree is None:
+            self.__value = None
             self.children = ()
 
         else:
+            self.__value = tree.value
             self.children = tuple(Tree(c) for c in tree)
 
     @property
     def value (self):
-        pass
+        return self.__value
 
     def __len__ (self):
         return len(self.children)
