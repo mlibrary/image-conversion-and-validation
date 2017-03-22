@@ -6,8 +6,7 @@ class Tree:
 
     def __init__ (self, tree = None):
         if tree is None:
-            self.__value = None
-            self.__children = ()
+            self.__init_empty_tree()
 
         else:
             self.__value = tree.value
@@ -54,3 +53,7 @@ class Tree:
         debug += " " + repr(list(self.__children))
 
         return "<{}>".format(debug)
+
+    def __init_empty_tree (self):
+        self.__value = None
+        self.__children = ()
