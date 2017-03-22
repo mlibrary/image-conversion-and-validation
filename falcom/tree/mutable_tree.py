@@ -59,7 +59,7 @@ class MutableTree:
 
     def __assert_no_more_than_one_arg (self, args, kwargs):
         if len(args) + len(kwargs) > 1:
-            raise TypeError
+            raise TypeError("Expected 1 tree, 1 value, or neither")
 
     def __parse_args (self, args, kwargs):
         if args:
@@ -80,7 +80,8 @@ class MutableTree:
             self.__become_new_tree(kwargs["value"])
 
         else:
-            raise TypeError
+            raise TypeError("Expected keywords in {} not {}".format(
+                                    {"value"}, set(kwargs)))
 
     def __become_new_tree (self, value = None):
         self.children = [ ]
