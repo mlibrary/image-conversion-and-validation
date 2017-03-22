@@ -124,3 +124,6 @@ class GivenLayeredTree (unittest.TestCase):
     def test_values_walk_into_list_of_descendants (self):
         assert_that(list(self.tree.walk_values()),
                     is_(equal_to([2, 4, 6, 5, 3])))
+
+    def test_can_get_two_items_by_index (self):
+        assert_that(self.tree[0].value, is_(equal_to(2)))

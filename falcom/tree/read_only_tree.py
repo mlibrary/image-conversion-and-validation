@@ -38,7 +38,7 @@ class Tree:
         return (c.value for c in self.walk())
 
     def __getitem__ (self, index):
-        return ()[index]
+        return self.children[index]
 
     def __eq__ (self, rhs):
         return True
