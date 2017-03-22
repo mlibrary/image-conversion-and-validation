@@ -5,3 +5,8 @@ from hamcrest import *
 import unittest
 
 from ..read_only_tree import Tree
+
+class GivenEmptyTree (unittest.TestCase):
+
+    def test_can_init_tree (self):
+        t = Tree()
