@@ -4,7 +4,9 @@
 
 class Tree:
 
-    value = None
-
     def __init__ (self, tree = None):
+        pass
+
+    @property
+    def value (self):
         pass
