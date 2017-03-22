@@ -29,7 +29,7 @@ class Tree:
     def walk (self):
         for child in self:
             yield child
-            yield from child
+            yield from child.walk()
 
     def values (self):
         return iter(())
