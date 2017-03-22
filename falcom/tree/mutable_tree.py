@@ -30,6 +30,9 @@ class MutableTree:
             yield child
             yield from child.walk()
 
+    def values (self):
+        return [1, 2]
+
     def __getitem__ (self, index):
         return self.children[index]
 
