@@ -21,30 +21,11 @@ class MutableTree (Tree):
     def __len__ (self):
         return len(self.__children)
 
-    def full_length (self):
-        return len(self) + sum(c.full_length() for c in self)
-
     def __iter__ (self):
         return iter(self.__children)
 
-    def walk (self):
-        for child in self:
-            yield child
-            yield from child.walk()
-
-    def values (self):
-        return iter(n.value for n in self)
-
-    def walk_values (self):
-        return iter(n.value for n in self.walk())
-
     def __getitem__ (self, index):
         return self.__children[index]
-
-    def __eq__ (self, rhs):
-        return self.value == rhs.value \
-                and len(self) == len(rhs) \
-                and all(self[i] == rhs[i] for i in range(len(self)))
 
     def insert_value (self, index, value):
         self.insert_tree(index, self.new_tree_with_value(value))
