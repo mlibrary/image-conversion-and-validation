@@ -139,6 +139,9 @@ class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
         assert_that(calling(delattr).with_args(self.tree, "value"),
                     raises(AttributeError))
 
+    def test_can_insert_value (self):
+        self.tree.insert_value(7)
+
 class TestTreeWithOneEmptyChild (GivenTreeWithOneEmptyChild,
                                  unittest.TestCase):
 
