@@ -39,7 +39,7 @@ class GivenEmptyTree (TreeHelpers):
         assert_that(copy, is_(equal_to(self.tree)))
 
     def test_cannot_init_new_tree_with_both_tree_and_value (self):
-        assert_that(calling(MutableTree).with_args(self.tree, "value"),
+        assert_that(calling(MutableTree).with_args(self.tree, None),
                     raises(TypeError))
 
 class GivenTreeWithOneEmptyChild (GivenEmptyTree):

@@ -4,15 +4,20 @@
 
 class MutableTree:
 
-    def __init__ (self, input_tree = None, value = None):
+    def __init__ (self, *args, **kwargs):
+        if len(args) + len(kwargs) > 1:
+            raise TypeError
+
         self.children = [ ]
-        self.value = value
 
-        if input_tree is not None:
-            if value is not None:
-                raise TypeError
+        if args:
+            self.deep_copy_from(args[0])
 
-            self.deep_copy_from(input_tree)
+        elif kwargs:
+            self.value = kwargs["value"]
+
+        else:
+            self.value = None
 
     @property
     def value (self):
