@@ -34,7 +34,7 @@ class MutableTree:
         return iter(n.value for n in self)
 
     def walk_values (self):
-        return ()
+        return iter(n.value for n in self.walk())
 
     def __getitem__ (self, index):
         return self.children[index]

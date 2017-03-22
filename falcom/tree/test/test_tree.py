@@ -256,6 +256,10 @@ class TestTreeWithTwoChildrenAndOneGreatGrandchild (
     def test_values_iterate_through_immediate_children_only (self):
         assert_that(list(self.tree.values()), is_(equal_to([1, 2])))
 
+    def test_values_walk_through_all_descendents (self):
+        assert_that(list(self.tree.walk_values()),
+                    is_(equal_to([1, 3, 4, 2])))
+
     def test_can_append_nodes (self):
         self.tree.append_tree(self.new_tree("append"))
         self.assert_tree(has_length(3))
