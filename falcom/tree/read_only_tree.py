@@ -32,6 +32,9 @@ class Tree:
     def __getitem__ (self, index):
         return ()[index]
 
+    def __eq__ (self, rhs):
+        return True
+
     def __repr__ (self):
         debug = self.__class__.__name__
 

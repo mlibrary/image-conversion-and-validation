@@ -54,6 +54,12 @@ class GivenEmptyTree (unittest.TestCase):
         assert_that(calling(lambda t: t[0]).with_args(self.tree),
                     raises(IndexError))
 
+    def test_is_equal_to_self (self):
+        assert_that(self.tree, is_(equal_to(self.tree)))
+
+    def test_is_equal_to_other_empty_tree (self):
+        assert_that(self.tree, is_(equal_to(Tree())))
+
     def test_empty_tree_has_null_value (self):
         assert_that(self.tree.value, is_(none()))
 
