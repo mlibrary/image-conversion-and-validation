@@ -5,223 +5,142 @@ from hamcrest import *
 import unittest
 
 from ...test.hamcrest import evaluates_to
-from .matchers import *
+from ..read_only_tree import Tree
 from ..mutable_tree import MutableTree
 
-class TreeHelpers:
+class GivenNothing (unittest.TestCase):
 
-    def new_tree (self, value = None):
-        return MutableTree(value=value)
+    def test_cannot_init_tree_with_value (self):
+        assert_that(calling(Tree).with_args(value="hi"),
+                    raises(TypeError))
 
-    def set_value (self, value):
-        self.tree.value = value
+    def test_stores_value_when_inited_with_valued_tree (self):
+        mutable = MutableTree(value="hello")
+        tree = Tree(mutable)
+        assert_that(tree.value, is_(equal_to("hello")))
 
-    def assert_tree (self, matcher):
-        assert_that(self.tree, matcher)
-
-    def assert_invalid_index (self, index):
-        assert_that(calling(lambda x: x[index]).with_args(self.tree),
-                    raises(IndexError))
-
-class GivenEmptyTree (TreeHelpers):
+class GivenEmptyTree (unittest.TestCase):
 
     def setUp (self):
-        self.tree = self.new_tree()
-
-class GivenTreeWithOneEmptyChild (GivenEmptyTree):
-
-    def setUp (self):
-        super().setUp()
-
-        self.first_child = self.new_tree(1)
-        self.tree.insert(0, self.first_child)
-
-    def test_first_child_has_value_of_1 (self):
-        assert_that(self.first_child, has_node_value(1))
-
-class GivenTreeWithTwoEmptyChildren (GivenTreeWithOneEmptyChild):
-
-    def setUp (self):
-        super().setUp()
-
-        self.second_child = self.new_tree(2)
-        self.tree.insert(1, self.second_child)
-
-    def test_second_child_has_value_of_2 (self):
-        assert_that(self.second_child, has_node_value(2))
-
-class GivenTreeWithTwoChildrenAndOneGrandchild (
-        GivenTreeWithTwoEmptyChildren):
-
-    def setUp (self):
-        super().setUp()
-
-        self.grandchild = self.new_tree(3)
-        self.first_child.insert(0, self.grandchild)
-
-    def test_grandchild_has_value_of_3 (self):
-        assert_that(self.grandchild, has_node_value(3))
-
-class GivenTreeWithTwoChildrenAndOneGreatGrandchild (
-        GivenTreeWithTwoChildrenAndOneGrandchild):
-
-    def setUp (self):
-        super().setUp()
-
-        self.great_grandchild = self.new_tree(4)
-        self.grandchild.insert(0, self.great_grandchild)
-
-    def test_great_grandchild_has_value_of_3 (self):
-        assert_that(self.great_grandchild, has_node_value(4))
-
-class TestGivenNothing (unittest.TestCase):
-
-    def test_can_init_tree_with_value (self):
-        tree = MutableTree(value="hi")
-        assert_that(tree, has_node_value("hi"))
-
-class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
+        self.tree = Tree()
 
     def test_evaluates_to_false (self):
-        self.assert_tree(evaluates_to(False))
+        assert_that(self.tree, evaluates_to(False))
 
-    def test_has_length_of_0 (self):
-        self.assert_tree(has_length(0))
+    def test_has_length_0 (self):
+        assert_that(self.tree, has_length(0))
 
-    def test_has_full_length_of_0 (self):
-        self.assert_tree(has_full_length(0))
+    def test_has_full_length_0 (self):
+        assert_that(self.tree.full_length(), is_(equal_to(0)))
 
     def test_iterates_into_empty_list (self):
-        self.assert_tree(iterates_into_list([]))
+        assert_that(list(self.tree), is_(equal_to([])))
 
-    def test_walk_iterates_into_empty_list (self):
-        self.assert_tree(walks_into_list([]))
+    def test_walks_into_empty_list (self):
+        assert_that(list(self.tree.walk()), is_(equal_to([])))
 
-    def test_has_no_first_item (self):
-        self.assert_invalid_index(0)
+    def test_values_iterate_into_empty_list (self):
+        assert_that(list(self.tree.values()), is_(equal_to([])))
 
-    def test_value_is_none (self):
-        self.assert_tree(has_node_value(None))
+    def test_values_iterate_into_empty_list (self):
+        assert_that(list(self.tree.walk_values()), is_(equal_to([])))
 
-    def test_can_modify_value (self):
-        self.set_value("hello")
-        self.assert_tree(has_node_value("hello"))
+    def test_cannot_get_first_item (self):
+        assert_that(calling(lambda t: t[0]).with_args(self.tree),
+                    raises(IndexError))
 
-        self.set_value(235813)
-        self.assert_tree(has_node_value(235813))
+    def test_is_equal_to_self (self):
+        assert_that(self.tree, is_(equal_to(self.tree)))
 
-    def test_cannot_delete_value (self):
-        assert_that(calling(delattr).with_args(self.tree, "value"),
+    def test_is_equal_to_other_empty_tree (self):
+        assert_that(self.tree, is_(equal_to(Tree())))
+
+    def test_empty_tree_has_null_value (self):
+        assert_that(self.tree.value, is_(none()))
+
+    def test_cannot_modify_value_for_empty_tree (self):
+        assert_that(calling(setattr).with_args(self.tree,
+                                               "value",
+                                               "hi"),
                     raises(AttributeError))
 
-    def test_when_value_changes_it_still_cannot_be_deleted (self):
-        self.set_value("hello")
-        assert_that(calling(delattr).with_args(self.tree, "value"),
-                    raises(AttributeError))
+class GivenBasedOnMutableTree (unittest.TestCase):
 
-class TestTreeWithOneEmptyChild (GivenTreeWithOneEmptyChild,
-                                 unittest.TestCase):
+    def setUp (self):
+        self.mutable_tree = MutableTree()
+        self.tree = Tree(self.mutable_tree)
 
-    def test_evaluates_to_true (self):
-        self.assert_tree(evaluates_to(True))
+    def test_evaluates_to_false (self):
+        assert_that(self.tree, evaluates_to(False))
 
-    def test_value_is_none (self):
-        self.assert_tree(has_node_value(None))
+    def test_has_length_0 (self):
+        assert_that(self.tree, has_length(0))
 
-    def test_has_length_of_1 (self):
-        self.assert_tree(has_length(1))
+    def test_modifying_mutable_tree_has_no_effect_on_this_tree (self):
+        self.mutable_tree.append_value(5)
+        assert_that(self.mutable_tree, has_length(1))
+        assert_that(self.tree, has_length(0))
 
-    def test_has_full_length_of_1 (self):
-        self.assert_tree(has_full_length(1))
+class GivenLayeredTree (unittest.TestCase):
 
-    def test_first_item_is_child (self):
-        assert_that(self.tree[0], is_(same_instance(self.first_child)))
+    def make_layered_mutable_tree (self):
+        self.mutable_tree = MutableTree(value=1)
+        self.mutable_tree.append_value(2)
+        self.mutable_tree.append_value(3)
+        self.mutable_tree[0].append_value(4)
+        self.mutable_tree[0].append_value(5)
+        self.mutable_tree[0][0].append_value(6)
 
-    def test_there_is_no_second_item (self):
-        self.assert_invalid_index(1)
-
-    def test_iterates_into_list_with_child (self):
-        self.assert_tree(iterates_into_list([self.first_child]))
-
-    def test_walks_into_list_with_child (self):
-        self.assert_tree(walks_into_list([self.first_child]))
-
-    def test_child_has_length_of_0 (self):
-        assert_that(self.first_child, has_length(0))
-
-    def test_child_has_full_length_of_0 (self):
-        assert_that(self.first_child, has_full_length(0))
-
-class TestTreeWithTwoEmptyChildren (GivenTreeWithTwoEmptyChildren,
-                                    unittest.TestCase):
+    def setUp (self):
+        self.make_layered_mutable_tree()
+        self.tree = Tree(self.mutable_tree)
 
     def test_evaluates_to_true (self):
-        self.assert_tree(evaluates_to(True))
+        assert_that(self.tree, evaluates_to(True))
 
-    def test_has_length_of_2 (self):
-        self.assert_tree(has_length(2))
+    def test_has_length_2 (self):
+        assert_that(self.tree, has_length(2))
 
-    def test_has_full_length_of_2 (self):
-        self.assert_tree(has_full_length(2))
+    def test_has_full_length_5 (self):
+        assert_that(self.tree.full_length(), is_(equal_to(5)))
 
-    def test_can_get_second_child_by_index (self):
-        assert_that(self.tree[1], is_(same_instance(self.second_child)))
+    def test_iterates_into_list_of_children (self):
+        children = list(self.tree)
+        assert_that(children[0].value, is_(equal_to(2)))
+        assert_that(children[1].value, is_(equal_to(3)))
 
-    def test_there_is_no_third_item (self):
-        self.assert_invalid_index(2)
+        assert_that(children[0], has_length(2))
+        assert_that(children[0].full_length(), is_(equal_to(3)))
 
-    def test_iterates_into_list_with_children (self):
-        self.assert_tree(iterates_into_list([self.first_child,
-                                             self.second_child]))
+    def test_walks_into_list_of_descendants (self):
+        descendants = list(self.tree.walk())
+        assert_that(descendants[0].value, is_(equal_to(2)))
+        assert_that(descendants[1].value, is_(equal_to(4)))
+        assert_that(descendants[2].value, is_(equal_to(6)))
 
-    def test_walks_into_list_with_children (self):
-        self.assert_tree(walks_into_list([self.first_child,
-                                          self.second_child]))
+    def test_values_iterate_into_list_of_children (self):
+        assert_that(list(self.tree.values()), is_(equal_to([2, 3])))
 
-class TestTreeWithTwoChildrenAndOneGrandchild (
-        GivenTreeWithTwoChildrenAndOneGrandchild,
-        unittest.TestCase):
+    def test_values_walk_into_list_of_descendants (self):
+        assert_that(list(self.tree.walk_values()),
+                    is_(equal_to([2, 4, 6, 5, 3])))
 
-    def test_has_length_of_2 (self):
-        self.assert_tree(has_length(2))
+    def test_can_get_two_items_by_index (self):
+        assert_that(self.tree[0].value, is_(equal_to(2)))
+        assert_that(self.tree[1].value, is_(equal_to(3)))
+        assert_that(calling(lambda t: t[2]).with_args(self.tree),
+                    raises(IndexError))
 
-    def test_has_full_length_of_3 (self):
-        self.assert_tree(has_full_length(3))
+    def test_tree_is_equal_to_mutable_tree (self):
+        assert_that(self.tree, is_(equal_to(self.mutable_tree)))
 
-    def test_iterates_into_list_of_both_children (self):
-        self.assert_tree(iterates_into_list([self.first_child,
-                                             self.second_child]))
+    def test_tree_is_not_equal_to_empty_tree (self):
+        assert_that(self.tree, is_not(equal_to(Tree())))
 
-    def test_walks_into_list_with_all_descendants (self):
-        self.assert_tree(walks_into_list([self.first_child,
-                                          self.grandchild,
-                                          self.second_child]))
+    def test_tree_is_not_equal_to_modified_base_tree (self):
+        self.mutable_tree.append_value(7)
+        assert_that(self.tree, is_not(equal_to(self.mutable_tree)))
 
-class TestTreeWithTwoChildrenAndOneGreatGrandchild (
-        GivenTreeWithTwoChildrenAndOneGreatGrandchild,
-        unittest.TestCase):
-
-    def test_has_length_of_2 (self):
-        self.assert_tree(has_length(2))
-
-    def test_has_full_length_of_4 (self):
-        self.assert_tree(has_full_length(4))
-
-    def test_iterates_into_list_of_both_children (self):
-        self.assert_tree(iterates_into_list([self.first_child,
-                                             self.second_child]))
-
-    def test_walks_into_list_with_all_descendants (self):
-        self.assert_tree(walks_into_list([self.first_child,
-                                          self.grandchild,
-                                          self.great_grandchild,
-                                          self.second_child]))
-
-    def test_when_initing_new_tree_we_get_a_deep_copy (self):
-        copy = MutableTree(self.tree)
-
-        assert_that(copy, is_(equal_to(self.tree)))
-
-    def test_can_append_nodes (self):
-        self.tree.append(self.new_tree("append"))
-        self.assert_tree(has_length(3))
+    def test_tree_is_not_equal_to_modified_base_tree_value (self):
+        self.mutable_tree[0][0].value = 20
+        assert_that(self.tree, is_not(equal_to(self.mutable_tree)))
