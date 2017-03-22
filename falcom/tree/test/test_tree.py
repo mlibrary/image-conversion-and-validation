@@ -16,6 +16,9 @@ class TreeHelpers:
     def new_tree (self, value = None):
         return MutableTree(value=value)
 
+    def tree_copy (self, tree):
+        return MutableTree(tree)
+
     def set_value (self, value):
         self.tree.value = value
 
@@ -221,7 +224,7 @@ class TestTreeWithTwoChildrenAndOneGreatGrandchild (
                                           self.second_child]))
 
     def test_when_initing_new_tree_we_get_a_deep_copy (self):
-        copy = MutableTree(self.tree)
+        copy = self.tree_copy(self.tree)
 
         assert_that(copy, is_(equal_to(self.tree)))
 
