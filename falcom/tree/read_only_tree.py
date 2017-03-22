@@ -23,6 +23,9 @@ class Tree:
     def walk (self):
         return iter(())
 
+    def values (self):
+        return iter(())
+
     def __repr__ (self):
         debug = self.__class__.__name__
 
