@@ -43,7 +43,7 @@ class MutableTree:
         self.insert_tree(index, MutableTree(value=value))
 
     def append_value (self, value):
-        self.append_tree(value)
+        self.append_tree(MutableTree(value=value))
 
     def __eq__ (self, rhs):
         return self.value == rhs.value \
