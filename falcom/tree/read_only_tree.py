@@ -7,24 +7,24 @@ class Tree:
     def __init__ (self, tree = None):
         if tree is None:
             self.__value = None
-            self.children = ()
+            self.__children = ()
 
         else:
             self.__value = tree.value
-            self.children = tuple(Tree(c) for c in tree)
+            self.__children = tuple(Tree(c) for c in tree)
 
     @property
     def value (self):
         return self.__value
 
     def __len__ (self):
-        return len(self.children)
+        return len(self.__children)
 
     def full_length (self):
         return len(self) + sum(c.full_length() for c in self)
 
     def __iter__ (self):
-        return iter(self.children)
+        return iter(self.__children)
 
     def walk (self):
         for child in self:
@@ -38,7 +38,7 @@ class Tree:
         return (c.value for c in self.walk())
 
     def __getitem__ (self, index):
-        return self.children[index]
+        return self.__children[index]
 
     def __eq__ (self, rhs):
         return self.value == rhs.value \
@@ -51,6 +51,6 @@ class Tree:
         if self.value is not None:
             debug += " " + repr(self.value)
 
-        debug += " " + repr(list(self.children))
+        debug += " " + repr(list(self.__children))
 
         return "<{}>".format(debug)
