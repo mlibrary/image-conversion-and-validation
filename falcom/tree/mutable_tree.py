@@ -27,14 +27,17 @@ class MutableTree:
 
     def __read_value_if_any (self, kwargs):
         if kwargs:
-            if "value" in kwargs and len(kwargs) == 1:
-                self.value = kwargs["value"]
-
-            else:
-                raise TypeError
+            self.__extract_value_from_kwargs(kwargs)
 
         else:
             self.value = None
+
+    def __extract_value_from_kwargs (self, kwargs):
+        if "value" in kwargs and len(kwargs) == 1:
+            self.value = kwargs["value"]
+
+        else:
+            raise TypeError
 
     @property
     def value (self):
