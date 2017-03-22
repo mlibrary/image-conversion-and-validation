@@ -127,3 +127,6 @@ class GivenLayeredTree (unittest.TestCase):
 
     def test_can_get_two_items_by_index (self):
         assert_that(self.tree[0].value, is_(equal_to(2)))
+        assert_that(self.tree[1].value, is_(equal_to(3)))
+        assert_that(calling(lambda t: t[2]).with_args(self.tree),
+                    raises(IndexError))
