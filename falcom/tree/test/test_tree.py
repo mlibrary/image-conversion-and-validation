@@ -34,6 +34,10 @@ class GivenEmptyTree (TreeHelpers):
     def setUp (self):
         self.tree = self.new_tree()
 
+    def test_when_initing_new_tree_we_get_a_deep_copy (self):
+        copy = self.tree_copy(self.tree)
+        assert_that(copy, is_(equal_to(self.tree)))
+
 class GivenTreeWithOneEmptyChild (GivenEmptyTree):
 
     def setUp (self):
@@ -222,11 +226,6 @@ class TestTreeWithTwoChildrenAndOneGreatGrandchild (
                                           self.grandchild,
                                           self.great_grandchild,
                                           self.second_child]))
-
-    def test_when_initing_new_tree_we_get_a_deep_copy (self):
-        copy = self.tree_copy(self.tree)
-
-        assert_that(copy, is_(equal_to(self.tree)))
 
     def test_can_append_nodes (self):
         self.tree.append_tree(self.new_tree("append"))
