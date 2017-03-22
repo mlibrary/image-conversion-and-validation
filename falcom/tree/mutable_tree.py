@@ -11,34 +11,6 @@ class MutableTree:
 
         self.__parse_args(args, kwargs)
 
-    def __assert_no_more_than_one_arg (self, args, kwargs):
-        if len(args) + len(kwargs) > 1:
-            raise TypeError
-
-    def __clear_tree (self):
-        self.children = [ ]
-
-    def __parse_args (self, args, kwargs):
-        if args:
-            self.deep_copy_from(args[0])
-
-        else:
-            self.__read_value_if_any(kwargs)
-
-    def __read_value_if_any (self, kwargs):
-        if kwargs:
-            self.__extract_value_from_kwargs(kwargs)
-
-        else:
-            self.value = None
-
-    def __extract_value_from_kwargs (self, kwargs):
-        if "value" in kwargs and len(kwargs) == 1:
-            self.value = kwargs["value"]
-
-        else:
-            raise TypeError
-
     @property
     def value (self):
         return self.__value
@@ -87,3 +59,31 @@ class MutableTree:
             debug += " " + repr(self.value)
 
         return "<{} {}>".format(debug, repr(self.children))
+
+    def __assert_no_more_than_one_arg (self, args, kwargs):
+        if len(args) + len(kwargs) > 1:
+            raise TypeError
+
+    def __clear_tree (self):
+        self.children = [ ]
+
+    def __parse_args (self, args, kwargs):
+        if args:
+            self.deep_copy_from(args[0])
+
+        else:
+            self.__read_value_if_any(kwargs)
+
+    def __read_value_if_any (self, kwargs):
+        if kwargs:
+            self.__extract_value_from_kwargs(kwargs)
+
+        else:
+            self.value = None
+
+    def __extract_value_from_kwargs (self, kwargs):
+        if "value" in kwargs and len(kwargs) == 1:
+            self.value = kwargs["value"]
+
+        else:
+            raise TypeError
