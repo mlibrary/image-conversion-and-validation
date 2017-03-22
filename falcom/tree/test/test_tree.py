@@ -97,3 +97,6 @@ class GivenLayeredTree (unittest.TestCase):
 
     def test_evaluates_to_true (self):
         assert_that(self.tree, evaluates_to(True))
+
+    def test_has_length_2 (self):
+        assert_that(self.tree, has_length(2))
