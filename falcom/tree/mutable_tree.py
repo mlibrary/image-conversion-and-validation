@@ -14,7 +14,11 @@ class MutableTree:
             self.deep_copy_from(args[0])
 
         elif kwargs:
-            self.value = kwargs["value"]
+            if "value" in kwargs and len(kwargs) == 1:
+                self.value = kwargs["value"]
+
+            else:
+                raise TypeError
 
         else:
             self.value = None

@@ -41,6 +41,8 @@ class GivenEmptyTree (TreeHelpers):
     def test_cannot_init_new_tree_with_both_tree_and_value (self):
         assert_that(calling(MutableTree).with_args(self.tree, None),
                     raises(TypeError))
+        assert_that(calling(MutableTree).with_args(self.tree, value=None),
+                    raises(TypeError))
 
 class GivenTreeWithOneEmptyChild (GivenEmptyTree):
 
@@ -93,6 +95,10 @@ class TestGivenNothing (unittest.TestCase):
     def test_can_init_tree_with_value (self):
         tree = MutableTree(value="hi")
         assert_that(tree, has_node_value("hi"))
+
+    def test_cannot_init_new_tree_with_unexpected_kwarg (self):
+        assert_that(calling(MutableTree).with_args(weird="bad"),
+                    raises(TypeError))
 
 class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
 
