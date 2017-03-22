@@ -3,4 +3,6 @@
 # BSD License. See LICENSE.txt for details.
 
 class Tree:
-    pass
+
+    def __init__ (self, tree = None):
+        pass
