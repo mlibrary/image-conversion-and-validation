@@ -41,12 +41,14 @@ class Tree:
         return self.children[index]
 
     def __eq__ (self, rhs):
-        return True
+        return self.value == rhs.value
 
     def __repr__ (self):
         debug = self.__class__.__name__
 
         if self.value is not None:
             debug += " " + repr(self.value)
+
+        debug += " " + repr(list(self.children))
 
         return "<{}>".format(debug)
