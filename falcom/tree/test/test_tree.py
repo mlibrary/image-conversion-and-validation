@@ -61,15 +61,17 @@ class GivenEmptyTree (unittest.TestCase):
 
 class GivenLayeredTree (unittest.TestCase):
 
-    def setUp (self):
-        mtree = MutableTree(value=1)
-        mtree.append_value(2)
-        mtree.append_value(3)
-        mtree[0].append_value(4)
-        mtree[0].append_value(5)
-        mtree[0][0].append_value(6)
+    def make_layered_mutable_tree (self):
+        self.mutable_tree = MutableTree(value=1)
+        self.mutable_tree.append_value(2)
+        self.mutable_tree.append_value(3)
+        self.mutable_tree[0].append_value(4)
+        self.mutable_tree[0].append_value(5)
+        self.mutable_tree[0][0].append_value(6)
 
-        t = Tree(mtree)
+    def setUp (self):
+        self.make_layered_mutable_tree()
+        t = Tree(self.mutable_tree)
 
     def test_can_init_from_mutable_tree (self):
         pass
