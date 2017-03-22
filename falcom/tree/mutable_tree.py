@@ -18,15 +18,6 @@ class MutableTree (Tree):
     def value (self, x):
         self.__value = x
 
-    def __len__ (self):
-        return len(self.__children)
-
-    def __iter__ (self):
-        return iter(self.__children)
-
-    def __getitem__ (self, index):
-        return self.__children[index]
-
     def insert_value (self, index, value):
         self.insert_tree(index, self.new_tree_with_value(value))
 
@@ -37,10 +28,10 @@ class MutableTree (Tree):
         return MutableTree(value=value)
 
     def insert_tree (self, index, node):
-        self.__children.insert(index, node)
+        self.children.insert(index, node)
 
     def append_tree (self, node):
-        self.__children.append(node)
+        self.children.append(node)
 
     def __repr__ (self):
         debug = self.__class__.__name__
@@ -48,7 +39,7 @@ class MutableTree (Tree):
         if self.value is not None:
             debug += " " + repr(self.value)
 
-        return "<{} {}>".format(debug, repr(self.__children))
+        return "<{} {}>".format(debug, repr(self.children))
 
     def __assert_no_more_than_one_arg (self, *arg_containers):
         total = sum(map(len, arg_containers))
@@ -84,5 +75,5 @@ class MutableTree (Tree):
                                     {"value"}, set(kwargs)))
 
     def __become_new_tree (self, value = None):
-        self.__children = [ ]
+        self.children = [ ]
         self.value = value
