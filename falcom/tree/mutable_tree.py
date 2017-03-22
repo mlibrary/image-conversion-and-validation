@@ -33,14 +33,6 @@ class MutableTree (Tree):
     def append_tree (self, node):
         self.children.append(node)
 
-    def __repr__ (self):
-        debug = self.__class__.__name__
-
-        if self.value is not None:
-            debug += " " + repr(self.value)
-
-        return "<{} {}>".format(debug, repr(self.children))
-
     def __assert_no_more_than_one_arg (self, *arg_containers):
         total = sum(map(len, arg_containers))
         if total > 1:
