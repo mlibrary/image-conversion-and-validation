@@ -9,6 +9,9 @@ class MutableTree:
         self.value = value
 
         if input_tree is not None:
+            if value is not None:
+                raise TypeError
+
             self.deep_copy_from(input_tree)
 
     @property
