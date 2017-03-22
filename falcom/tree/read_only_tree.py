@@ -5,14 +5,14 @@
 class Tree:
 
     def __init__ (self, tree = None):
-        pass
+        self.tree = tree
 
     @property
     def value (self):
         pass
 
     def __len__ (self):
-        return 0
+        return 0 if self.tree is None else 1
 
     def full_length (self):
         return 0

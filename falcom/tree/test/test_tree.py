@@ -75,3 +75,6 @@ class GivenLayeredTree (unittest.TestCase):
 
     def test_can_init_from_mutable_tree (self):
         pass
+
+    def test_evaluates_to_true (self):
+        assert_that(self.tree, evaluates_to(True))
