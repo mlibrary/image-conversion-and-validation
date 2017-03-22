@@ -226,5 +226,5 @@ class TestTreeWithTwoChildrenAndOneGreatGrandchild (
         assert_that(copy, is_(equal_to(self.tree)))
 
     def test_can_append_nodes (self):
-        self.tree.append(self.new_tree("append"))
+        self.tree.append_tree(self.new_tree("append"))
         self.assert_tree(has_length(3))
