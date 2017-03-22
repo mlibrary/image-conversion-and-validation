@@ -11,8 +11,8 @@ class Tree:
     def value (self):
         pass
 
-    def __bool__ (self):
-        return False
+    def __len__ (self):
+        return 0
 
     def __repr__ (self):
         debug = self.__class__.__name__

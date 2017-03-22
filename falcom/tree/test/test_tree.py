@@ -32,6 +32,9 @@ class GivenEmptyTree (unittest.TestCase):
     def test_evaluates_to_false (self):
         assert_that(self.tree, evaluates_to(False))
 
+    def test_has_length_0 (self):
+        assert_that(self.tree, has_length(0))
+
     def test_empty_tree_has_null_value (self):
         assert_that(self.tree.value, is_(none()))
 
