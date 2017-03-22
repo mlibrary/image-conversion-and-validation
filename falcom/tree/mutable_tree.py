@@ -33,17 +33,20 @@ class MutableTree:
     def __getitem__ (self, index):
         return self.children[index]
 
+    def insert_value (self, index, value):
+        self.insert_tree(index, self.new_tree_with_value(value))
+
+    def append_value (self, value):
+        self.append_tree(self.new_tree_with_value(value))
+
+    def new_tree_with_value (self, value):
+        return MutableTree(value=value)
+
     def insert_tree (self, index, node):
         self.children.insert(index, node)
 
     def append_tree (self, node):
         self.children.append(node)
-
-    def insert_value (self, index, value):
-        self.insert_tree(index, MutableTree(value=value))
-
-    def append_value (self, value):
-        self.append_tree(MutableTree(value=value))
 
     def __eq__ (self, rhs):
         return self.value == rhs.value \
