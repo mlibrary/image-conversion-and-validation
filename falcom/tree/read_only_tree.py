@@ -9,8 +9,7 @@ class Tree:
             self.__init_empty_tree()
 
         else:
-            self.__value = tree.value
-            self.__children = tuple(Tree(c) for c in tree)
+            self.__init_with_base(tree)
 
     @property
     def value (self):
@@ -57,3 +56,7 @@ class Tree:
     def __init_empty_tree (self):
         self.__value = None
         self.__children = ()
+
+    def __init_with_base (self, base):
+        self.__value = base.value
+        self.__children = tuple(Tree(c) for c in base)
