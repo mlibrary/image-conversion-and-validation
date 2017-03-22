@@ -136,3 +136,7 @@ class GivenLayeredTree (unittest.TestCase):
 
     def test_tree_is_not_equal_to_empty_tree (self):
         assert_that(self.tree, is_not(equal_to(Tree())))
+
+    def test_tree_is_not_equal_to_modified_base_tree (self):
+        self.mutable_tree.append_value(7)
+        assert_that(self.tree, is_not(equal_to(self.mutable_tree)))

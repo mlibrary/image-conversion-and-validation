@@ -41,7 +41,8 @@ class Tree:
         return self.children[index]
 
     def __eq__ (self, rhs):
-        return self.value == rhs.value
+        return self.value == rhs.value \
+                and len(self) == len(rhs)
 
     def __repr__ (self):
         debug = self.__class__.__name__
