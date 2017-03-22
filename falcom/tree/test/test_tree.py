@@ -9,9 +9,6 @@ from ..mutable_tree import MutableTree
 
 class GivenNothing (unittest.TestCase):
 
-    def test_can_init_tree (self):
-        t = Tree()
-
     def test_empty_tree_has_null_value (self):
         t = Tree()
         assert_that(t.value, is_(none()))
