@@ -39,7 +39,7 @@ class MutableTree:
     def append_tree (self, node):
         self.children.append(node)
 
-    def insert_value (self, value):
+    def insert_value (self, index, value):
         pass
 
     def deep_copy_from (self, input_tree):

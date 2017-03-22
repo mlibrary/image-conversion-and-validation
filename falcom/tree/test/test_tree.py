@@ -140,7 +140,7 @@ class TestEmptyTree (GivenEmptyTree, unittest.TestCase):
                     raises(AttributeError))
 
     def test_can_insert_value (self):
-        self.tree.insert_value(7)
+        self.tree.insert_value(0, 7)
 
 class TestTreeWithOneEmptyChild (GivenTreeWithOneEmptyChild,
                                  unittest.TestCase):
