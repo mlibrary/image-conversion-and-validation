@@ -14,16 +14,6 @@ class GivenNothing (unittest.TestCase):
         assert_that(calling(Tree).with_args(value="hi"),
                     raises(TypeError))
 
-    def test_can_init_from_mutable_tree (self):
-        mtree = MutableTree(value=1)
-        mtree.append_value(2)
-        mtree.append_value(3)
-        mtree[0].append_value(4)
-        mtree[0].append_value(5)
-        mtree[0][0].append_value(6)
-
-        t = Tree(mtree)
-
 class GivenEmptyTree (unittest.TestCase):
 
     def setUp (self):
@@ -68,3 +58,18 @@ class GivenEmptyTree (unittest.TestCase):
                                                "value",
                                                "hi"),
                     raises(AttributeError))
+
+class GivenLayeredTree (unittest.TestCase):
+
+    def setUp (self):
+        mtree = MutableTree(value=1)
+        mtree.append_value(2)
+        mtree.append_value(3)
+        mtree[0].append_value(4)
+        mtree[0].append_value(5)
+        mtree[0][0].append_value(6)
+
+        t = Tree(mtree)
+
+    def test_can_init_from_mutable_tree (self):
+        pass
