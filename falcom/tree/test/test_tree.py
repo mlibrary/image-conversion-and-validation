@@ -71,6 +71,11 @@ class GivenBasedOnMutableTree (unittest.TestCase):
     def test_has_length_0 (self):
         assert_that(self.tree, has_length(0))
 
+    def test_modifying_mutable_tree_has_no_effect_on_this_tree (self):
+        self.mutable_tree.append_value(5)
+        assert_that(self.mutable_tree, has_length(1))
+        assert_that(self.tree, has_length(0))
+
 class GivenLayeredTree (unittest.TestCase):
 
     def make_layered_mutable_tree (self):

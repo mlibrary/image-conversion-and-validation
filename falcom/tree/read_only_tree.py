@@ -5,14 +5,18 @@
 class Tree:
 
     def __init__ (self, tree = None):
-        self.tree = tree
+        if tree is None:
+            self.children = ()
+
+        else:
+            self.children = tuple(Tree(c) for c in tree)
 
     @property
     def value (self):
         pass
 
     def __len__ (self):
-        return 0 if self.tree is None else len(self.tree)
+        return len(self.children)
 
     def full_length (self):
         return 0
