@@ -6,7 +6,11 @@ import unittest
 
 from ..read_only_tree import Tree
 
-class GivenEmptyTree (unittest.TestCase):
+class GivenNothing (unittest.TestCase):
 
     def test_can_init_tree (self):
         t = Tree()
+
+    def test_cannot_init_tree_with_value (self):
+        assert_that(calling(Tree).with_args(value="hi"),
+                    raises(TypeError))
