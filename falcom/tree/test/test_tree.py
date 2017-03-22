@@ -25,11 +25,14 @@ class GivenNothing (unittest.TestCase):
 
 class GivenEmptyTree (unittest.TestCase):
 
+    def setUp (self):
+        self.tree = Tree()
+
     def test_empty_tree_has_null_value (self):
-        t = Tree()
-        assert_that(t.value, is_(none()))
+        assert_that(self.tree.value, is_(none()))
 
     def test_cannot_modify_value_for_empty_tree (self):
-        t = Tree()
-        assert_that(calling(setattr).with_args(t, "value", "hi"),
+        assert_that(calling(setattr).with_args(self.tree,
+                                               "value",
+                                               "hi"),
                     raises(AttributeError))
