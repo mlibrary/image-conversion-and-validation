@@ -130,3 +130,6 @@ class GivenLayeredTree (unittest.TestCase):
         assert_that(self.tree[1].value, is_(equal_to(3)))
         assert_that(calling(lambda t: t[2]).with_args(self.tree),
                     raises(IndexError))
+
+    def test_tree_is_equal_to_mutable_tree (self):
+        assert_that(self.tree, is_(equal_to(self.mutable_tree)))
