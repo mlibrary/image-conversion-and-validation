@@ -4,5 +4,7 @@
 
 class Tree:
 
+    value = None
+
     def __init__ (self, tree = None):
         pass

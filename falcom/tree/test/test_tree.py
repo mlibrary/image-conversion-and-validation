@@ -12,6 +12,10 @@ class GivenNothing (unittest.TestCase):
     def test_can_init_tree (self):
         t = Tree()
 
+    def test_empty_tree_has_null_value (self):
+        t = Tree()
+        assert_that(t.value, is_(none()))
+
     def test_cannot_init_tree_with_value (self):
         assert_that(calling(Tree).with_args(value="hi"),
                     raises(TypeError))
