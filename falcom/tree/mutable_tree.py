@@ -22,7 +22,11 @@ class MutableTree:
         if args:
             self.deep_copy_from(args[0])
 
-        elif kwargs:
+        else:
+            self.__read_value_if_any(kwargs)
+
+    def __read_value_if_any (self, kwargs):
+        if kwargs:
             if "value" in kwargs and len(kwargs) == 1:
                 self.value = kwargs["value"]
 
