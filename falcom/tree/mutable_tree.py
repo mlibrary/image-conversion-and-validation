@@ -45,11 +45,6 @@ class MutableTree:
     def append_value (self, value):
         pass
 
-    def deep_copy_from (self, input_tree):
-        self.__become_new_tree(input_tree.value)
-        for child in input_tree:
-            self.insert_tree(len(self), MutableTree(child))
-
     def __eq__ (self, rhs):
         return self.value == rhs.value \
                 and len(self) == len(rhs) \
@@ -71,10 +66,15 @@ class MutableTree:
 
     def __parse_args (self, args, kwargs):
         if args:
-            self.deep_copy_from(args[0])
+            self.__deep_copy_from(args[0])
 
         else:
             self.__read_value_if_any(kwargs)
+
+    def __deep_copy_from (self, input_tree):
+        self.__become_new_tree(input_tree.value)
+        for child in input_tree:
+            self.insert_tree(len(self), MutableTree(child))
 
     def __read_value_if_any (self, kwargs):
         if kwargs:
