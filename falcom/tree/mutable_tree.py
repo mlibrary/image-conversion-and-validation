@@ -33,6 +33,11 @@ class MutableTree:
     def __getitem__ (self, index):
         return self.children[index]
 
+    def __eq__ (self, rhs):
+        return self.value == rhs.value \
+                and len(self) == len(rhs) \
+                and all(self[i] == rhs[i] for i in range(len(self)))
+
     def insert_value (self, index, value):
         self.insert_tree(index, self.new_tree_with_value(value))
 
@@ -47,11 +52,6 @@ class MutableTree:
 
     def append_tree (self, node):
         self.children.append(node)
-
-    def __eq__ (self, rhs):
-        return self.value == rhs.value \
-                and len(self) == len(rhs) \
-                and all(self[i] == rhs[i] for i in range(len(self)))
 
     def __repr__ (self):
         debug = self.__class__.__name__
