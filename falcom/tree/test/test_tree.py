@@ -103,3 +103,11 @@ class GivenLayeredTree (unittest.TestCase):
 
     def test_has_full_length_5 (self):
         assert_that(self.tree.full_length(), is_(equal_to(5)))
+
+    def test_iterates_into_list_of_children (self):
+        children = list(self.tree)
+        assert_that(children[0].value, is_(equal_to(2)))
+        assert_that(children[1].value, is_(equal_to(3)))
+
+        assert_that(children[0], has_length(2))
+        assert_that(children[0].full_length(), is_(equal_to(3)))
