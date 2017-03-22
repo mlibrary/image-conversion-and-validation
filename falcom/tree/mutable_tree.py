@@ -5,8 +5,7 @@
 class MutableTree:
 
     def __init__ (self, *args, **kwargs):
-        if len(args) + len(kwargs) > 1:
-            raise TypeError
+        self.__assert_no_more_than_one_arg(args, kwargs)
 
         self.children = [ ]
 
@@ -22,6 +21,10 @@ class MutableTree:
 
         else:
             self.value = None
+
+    def __assert_no_more_than_one_arg (self, args, kwargs):
+        if len(args) + len(kwargs) > 1:
+            raise TypeError
 
     @property
     def value (self):
