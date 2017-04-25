@@ -116,6 +116,20 @@ class Given3x3Table (unittest.TestCase):
     def setUp (self):
         self.table = Table("a\tb\tc\nd\te\tf\ng\th\ti\n")
 
+class Given3x3TableWithHeader (Given3x3Table):
+
+    def setUp (self):
+        super().setUp()
+        self.table.add_header("1", "2", "3")
+
+class Given3x3TableWithOverriddenHeader (Given3x3TableWithHeader):
+
+    def setUp (self):
+        super().setUp()
+        self.table.add_header("2", "4", "8")
+
+class Test3x3Table (Given3x3Table):
+
     def test_table_is_internally_consistent (self):
         assert_that(self.table, is_(an_internally_consistent_table()))
 
@@ -124,6 +138,32 @@ class Given3x3Table (unittest.TestCase):
                     is_(equal_to([("d", "e", "f"),
                                   ("g", "h", "i")])))
 
-    def test_can_add_header_row (self):
-        self.table.add_header("1", "2", "3")
+    def test_cannot_add_a_two_column_header (self):
+        assert_that(calling(self.table.add_header).with_args("1", "2"),
+                    raises(Table.InconsistentColumnCounts))
+
+class Test3x3TableWithHeader (Given3x3TableWithHeader):
+
+    def test_length_is_four (self):
         assert_that(self.table, has_length(4))
+
+    def test_table_is_internally_consistent (self):
+        assert_that(self.table, is_(an_internally_consistent_table()))
+
+    def test_skipping_header_yields_original_three_rows (self):
+        assert_that(list(self.table.body()),
+                    is_(equal_to([("a", "b", "c"),
+                                  ("d", "e", "f"),
+                                  ("g", "h", "i")])))
+
+    def test_first_row_is_the_header (self):
+        assert_that(self.table[0], is_(equal_to(("1", "2", "3"))))
+
+class Test3x3TableWithOverriddenHeader (
+        Given3x3TableWithOverriddenHeader):
+
+    def test_adding_a_second_header_does_not_effect_length (self):
+        assert_that(self.table, has_length(4))
+
+    def test_first_row_is_the_new_header (self):
+        assert_that(self.table[0], is_(equal_to(("2", "4", "8"))))
