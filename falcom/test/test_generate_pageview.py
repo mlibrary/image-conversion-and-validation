@@ -24,7 +24,7 @@ class GivenEmptyPagetags (unittest.TestCase):
                         is_(equal_to(confid)))
 
     def test_cannot_set_confidence_to_weird_values (self):
-        for confid in (0, 99, 901, 1000, 500.5):
+        for confid in (0, 99, 901, 1000, 500.5, "500"):
             assert_that(calling(setattr).with_args(self.tags,
                                                    "default_confidence",
                                                    confid),
