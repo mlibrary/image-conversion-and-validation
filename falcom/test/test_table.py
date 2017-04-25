@@ -122,6 +122,12 @@ class Given3x3TableWithHeader (Given3x3Table):
         super().setUp()
         self.table.add_header("1", "2", "3")
 
+class Given3x3TableWithOverriddenHeader (Given3x3TableWithHeader):
+
+    def setUp (self):
+        super().setUp()
+        self.table.add_header("2", "4", "8")
+
 class Test3x3Table (Given3x3Table):
 
     def test_table_is_internally_consistent (self):
@@ -149,6 +155,8 @@ class Test3x3TableWithHeader (Given3x3TableWithHeader):
     def test_first_row_is_the_header (self):
         assert_that(self.table[0], is_(equal_to(("1", "2", "3"))))
 
+class Test3x3TableWithOverriddenHeader (
+        Given3x3TableWithOverriddenHeader):
+
     def test_adding_a_second_header_does_not_effect_length (self):
-        self.table.add_header("2", "4", "8")
         assert_that(self.table, has_length(4))

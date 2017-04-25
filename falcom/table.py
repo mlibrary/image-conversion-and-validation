@@ -62,8 +62,14 @@ class Table:
             return self.__rows[key - 1]
 
     def __repr__ (self):
-        return "<{} {}>".format(self.__class__.__name__,
-                                repr(self.text))
+        if self.__header is None:
+            return "<{} {}>".format(self.__class__.__name__,
+                                    repr(self.text))
+
+        else:
+            return "<{} {} {}>".format(self.__class__.__name__,
+                                       repr(self.__header),
+                                       repr(self.text))
 
     def __raise_error_if_carriage_returns (self):
         if self.text and "\r" in self.text:
