@@ -69,17 +69,11 @@ class Table:
 
     def __create_internal_structure (self):
         self.__header = None
-
-        if self.text:
-            self.__set_to_list_of_rows_from_text()
-
-        else:
-            self.__rows = []
-
-    def __set_to_list_of_rows_from_text (self):
-        self.__rows = [self.__split_row(r)
-                       for r in self.__rows_from_text()]
+        self.__rows = self.__get_rows() if self.text else []
         self.__raise_error_unless_col_counts_are_consistent()
+
+    def __get_rows (self):
+        return [self.__split_row(r) for r in self.__rows_from_text()]
 
     def __split_row (self, row_text):
         return tuple(row_text.split("\t"))
