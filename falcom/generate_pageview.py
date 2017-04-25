@@ -20,7 +20,7 @@ class Pagetags:
         return ""
 
     def add_raw_tags (self, tag_data):
-        if "hi" in tag_data:
+        if "tags" not in tag_data:
             raise ValueError
 
     def __assert_valid_confid (self, confid):

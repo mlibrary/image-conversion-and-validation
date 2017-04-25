@@ -34,6 +34,6 @@ class GivenEmptyPagetags (unittest.TestCase):
         self.tags.add_raw_tags({"tags": []})
 
     def test_cannot_add_tag_data_when_missing_tags (self):
-        for data in ({"hi": "hello"},):
+        for data in ({}, {"hi": "hello"}):
             assert_that(calling(self.tags.add_raw_tags).with_args(data),
                         raises(ValueError))
