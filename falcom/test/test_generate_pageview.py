@@ -18,14 +18,10 @@ class GivenEmptyPagetags (unittest.TestCase):
         assert_that(self.tags.default_confidence, is_(equal_to(100)))
 
     def test_can_alter_default_confidence (self):
-        self.tags.default_confidence = 900
-        assert_that(self.tags.default_confidence, is_(equal_to(900)))
-
-        self.tags.default_confidence = 100
-        assert_that(self.tags.default_confidence, is_(equal_to(100)))
-
-        self.tags.default_confidence = 444
-        assert_that(self.tags.default_confidence, is_(equal_to(444)))
+        for confid in (900, 100, 444):
+            self.tags.default_confidence = confid
+            assert_that(self.tags.default_confidence,
+                        is_(equal_to(confid)))
 
     def test_cannot_set_confidence_to_weird_values (self):
         for confid in (0, 99, 901):
