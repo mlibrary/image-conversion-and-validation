@@ -6,8 +6,10 @@ import unittest
 
 from ..generate_pageview import Pagetags
 
-class TestPagetags (unittest.TestCase):
+class GivenEmptyPagetags (unittest.TestCase):
+
+    def setUp (self):
+        self.tags = Pagetags()
 
     def test_can_init_pagetags (self):
-        tags = Pagetags()
-        assert_that(tags.generate_pageview(), is_(equal_to("")))
+        assert_that(self.tags.generate_pageview(), is_(equal_to("")))
