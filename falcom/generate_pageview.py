@@ -20,7 +20,8 @@ class Pagetags:
         return ""
 
     def add_raw_tags (self, tag_data):
-        pass
+        if "hi" in tag_data:
+            raise ValueError
 
     def __assert_valid_confid (self, confid):
         if not isinstance(confid, int) or confid < 100 or confid > 900:
