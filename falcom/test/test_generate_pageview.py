@@ -37,3 +37,16 @@ class GivenEmptyPagetags (unittest.TestCase):
         for data in ({}, {"hi": "hello"}):
             assert_that(calling(self.tags.add_raw_tags).with_args(data),
                         raises(ValueError))
+
+    def test_outputs_pages_as_given (self):
+        self.tags.add_raw_tags(
+                {"tags": [{"number": "1", "feature": "TITLE"},
+                          {"number": "2", "feature": ""},
+                          {"number": "c", "feature": "INDEX"}]})
+
+        assert_that(self.tags.generate_pageview(),
+                    is_(equal_to("\n".join((
+                        "00000001.tif\t00000001\t00000001\t100\tTITLE",
+                        "00000002.tif\t00000002\t00000002\t100\t",
+                        "00000003.tif\t00000003\t0000000c\t100\tINDEX")
+                    ))))
