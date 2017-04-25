@@ -14,13 +14,6 @@ class GivenEmptyPagetags (unittest.TestCase):
     def test_can_generate_pageview (self):
         assert_that(self.tags.generate_pageview(), is_(equal_to("")))
 
-    @unittest.skip
-    def test_can_generate_pageview_with_a_number (self):
-        assert_that(self.tags.generate_pageview(3),
-                    is_(equal_to("\n".join(
-                        "{n:08d}.tif\t{n:08d}\t{n:08d}\t100\t"
-                                .format(n=i) for i in range(3)))))
-
     def test_default_confidence_is_100 (self):
         assert_that(self.tags.default_confidence, is_(equal_to(100)))
 
