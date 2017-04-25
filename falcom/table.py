@@ -36,16 +36,30 @@ class Table:
         return body
 
     def add_header (self, *args):
-        self.__rows.insert(0, args)
+        self.__header = args
 
     def __len__ (self):
-        return len(self.__rows)
+        if self.__header is None:
+            return len(self.__rows)
+
+        else:
+            return len(self.__rows) + 1
 
     def __iter__ (self):
-        return iter(self.__rows)
+        if self.__header is not None:
+            yield self.__header
+
+        yield from self.__rows
 
     def __getitem__ (self, key):
-        return self.__rows[key]
+        if self.__header is None:
+            return self.__rows[key]
+
+        elif key == 0:
+            return self.__header
+
+        else:
+            return self.__rows[key - 1]
 
     def __repr__ (self):
         return "<{} {}>".format(self.__class__.__name__,
@@ -56,6 +70,8 @@ class Table:
             raise self.InputStrContainsCarriageReturn
 
     def __create_internal_structure (self):
+        self.__header = None
+
         if self.text:
             self.__set_to_list_of_rows_from_text()
 

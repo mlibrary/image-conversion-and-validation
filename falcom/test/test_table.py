@@ -148,3 +148,7 @@ class Test3x3TableWithHeader (Given3x3TableWithHeader):
 
     def test_first_row_is_the_header (self):
         assert_that(self.table[0], is_(equal_to(("1", "2", "3"))))
+
+    def test_adding_a_second_header_does_not_effect_length (self):
+        self.table.add_header("2", "4", "8")
+        assert_that(self.table, has_length(4))
