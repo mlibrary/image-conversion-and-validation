@@ -36,7 +36,7 @@ class Table:
         return body
 
     def add_header (self, *args):
-        self.__rows.append(args)
+        self.__rows.insert(0, args)
 
     def __len__ (self):
         return len(self.__rows)
