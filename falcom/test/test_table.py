@@ -116,6 +116,14 @@ class Given3x3Table (unittest.TestCase):
     def setUp (self):
         self.table = Table("a\tb\tc\nd\te\tf\ng\th\ti\n")
 
+class Given3x3TableWithHeader (Given3x3Table):
+
+    def setUp (self):
+        super().setUp()
+        self.table.add_header("1", "2", "3")
+
+class Test3x3Table (Given3x3Table):
+
     def test_table_is_internally_consistent (self):
         assert_that(self.table, is_(an_internally_consistent_table()))
 
@@ -124,7 +132,8 @@ class Given3x3Table (unittest.TestCase):
                     is_(equal_to([("d", "e", "f"),
                                   ("g", "h", "i")])))
 
+class Test3x3TableWithHeader (Given3x3TableWithHeader):
+
     def test_can_add_header_row (self):
-        self.table.add_header("1", "2", "3")
         assert_that(self.table, has_length(4))
         assert_that(self.table, is_(an_internally_consistent_table()))
