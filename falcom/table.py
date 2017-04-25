@@ -56,14 +56,12 @@ class Table:
             return self.__rows[key]
 
     def __repr__ (self):
-        if self.__header is None:
-            return "<{} {}>".format(self.__class__.__name__,
-                                    repr(self.text))
+        items = [self.__class__.__name__, repr(self.text)]
 
-        else:
-            return "<{} {} {}>".format(self.__class__.__name__,
-                                       repr(self.__header),
-                                       repr(self.text))
+        if self.__we_have_a_header():
+            items.insert(1, repr(self.__header))
+
+        return "<{}>".format(" ".join(items))
 
     def __raise_error_if_carriage_returns (self):
         if self.text and "\r" in self.text:
