@@ -17,5 +17,15 @@ class GivenEmptyPagetags (unittest.TestCase):
     def test_default_confidence_is_100 (self):
         assert_that(self.tags.default_confidence, is_(equal_to(100)))
 
+    def test_can_alter_default_confidence (self):
+        self.tags.default_confidence = 900
+        assert_that(self.tags.default_confidence, is_(equal_to(900)))
+
+        self.tags.default_confidence = 100
+        assert_that(self.tags.default_confidence, is_(equal_to(100)))
+
+        self.tags.default_confidence = 444
+        assert_that(self.tags.default_confidence, is_(equal_to(444)))
+
     def test_can_add_tags (self):
         self.tags.add_raw_tags({"tags": []})
