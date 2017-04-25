@@ -36,6 +36,7 @@ class Table:
         return body
 
     def add_header (self, *args):
+        self.__assert_valid_length(args)
         self.__header = args
 
     def __len__ (self):

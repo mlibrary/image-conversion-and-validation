@@ -138,6 +138,10 @@ class Test3x3Table (Given3x3Table):
                     is_(equal_to([("d", "e", "f"),
                                   ("g", "h", "i")])))
 
+    def test_cannot_add_a_two_column_header (self):
+        assert_that(calling(self.table.add_header).with_args("1", "2"),
+                    raises(Table.InconsistentColumnCounts))
+
 class Test3x3TableWithHeader (Given3x3TableWithHeader):
 
     def test_length_is_four (self):
