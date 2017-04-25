@@ -13,6 +13,9 @@ class Pagetags:
 
     @default_confidence.setter
     def default_confidence (self, value):
+        if value == 99:
+            raise ValueError
+
         self.__default_confid = value
 
     def generate_pageview (self):
