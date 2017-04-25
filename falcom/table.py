@@ -50,11 +50,7 @@ class Table:
 
     def __getitem__ (self, key):
         if self.__we_have_a_header():
-            if key == 0:
-                return self.__header
-
-            else:
-                return self.__rows[key - 1]
+            return self.__get_item_with_header(key)
 
         else:
             return self.__rows[key]
@@ -106,3 +102,10 @@ class Table:
 
     def __we_have_a_header (self):
         return self.__header is not None
+
+    def __get_item_with_header (self, key):
+        if key == 0:
+            return self.__header
+
+        else:
+            return self.__rows[key - 1]
