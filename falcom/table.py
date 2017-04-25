@@ -49,14 +49,15 @@ class Table:
         yield from self.__rows
 
     def __getitem__ (self, key):
-        if self.__header is None:
-            return self.__rows[key]
+        if self.__we_have_a_header():
+            if key == 0:
+                return self.__header
 
-        elif key == 0:
-            return self.__header
+            else:
+                return self.__rows[key - 1]
 
         else:
-            return self.__rows[key - 1]
+            return self.__rows[key]
 
     def __repr__ (self):
         if self.__header is None:
