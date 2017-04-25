@@ -102,7 +102,7 @@ class Table:
             raise Table.InconsistentColumnCounts(self.cols, row)
 
     def __get_header_rowcount (self):
-        return 0 if self.__header is None else 1
+        return 1 if self.__we_have_a_header() else 0
 
     def __we_have_a_header (self):
         return self.__header is not None
