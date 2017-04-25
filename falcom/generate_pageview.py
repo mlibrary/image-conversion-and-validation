@@ -4,7 +4,16 @@
 
 class Pagetags:
 
-    default_confidence = 100
+    def __init__ (self):
+        self.default_confidence = 100
+
+    @property
+    def default_confidence (self):
+        return self.__default_confid
+
+    @default_confidence.setter
+    def default_confidence (self, value):
+        self.__default_confid = value
 
     def generate_pageview (self):
         return ""
