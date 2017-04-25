@@ -43,7 +43,7 @@ class Table:
         return len(self.__rows) + self.__get_header_rowcount()
 
     def __iter__ (self):
-        if self.__header is not None:
+        if self.__we_have_a_header():
             yield self.__header
 
         yield from self.__rows
@@ -102,3 +102,6 @@ class Table:
 
     def __get_header_rowcount (self):
         return 0 if self.__header is None else 1
+
+    def __we_have_a_header (self):
+        return self.__header is not None
