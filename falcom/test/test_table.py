@@ -160,3 +160,6 @@ class Test3x3TableWithOverriddenHeader (
 
     def test_adding_a_second_header_does_not_effect_length (self):
         assert_that(self.table, has_length(4))
+
+    def test_first_row_is_the_new_header (self):
+        assert_that(self.table[0], is_(equal_to(("2", "4", "8"))))
