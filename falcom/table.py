@@ -40,11 +40,7 @@ class Table:
         self.__header = args
 
     def __len__ (self):
-        len_header = self.__get_header_rowcount()
-        return len(self.__rows) + len_header
-
-    def __get_header_rowcount (self):
-        return 0 if self.__header is None else 1
+        return len(self.__rows) + self.__get_header_rowcount()
 
     def __iter__ (self):
         if self.__header is not None:
@@ -103,3 +99,6 @@ class Table:
     def __assert_valid_length (self, row):
         if len(row) != self.cols:
             raise Table.InconsistentColumnCounts(self.cols, row)
+
+    def __get_header_rowcount (self):
+        return 0 if self.__header is None else 1
