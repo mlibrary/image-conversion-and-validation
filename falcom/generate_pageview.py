@@ -6,3 +6,6 @@ class Pagetags:
 
     def generate_pageview (self):
         return ""
+
+    def add_raw_tags (self, tag_data):
+        pass
