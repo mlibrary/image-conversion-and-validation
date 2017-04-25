@@ -3,4 +3,6 @@
 # BSD License. See LICENSE.txt for details.
 
 class Pagetags:
-    pass
+
+    def generate_pageview (self):
+        return ""

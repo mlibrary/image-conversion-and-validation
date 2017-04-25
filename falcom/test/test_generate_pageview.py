@@ -10,3 +10,4 @@ class TestPagetags (unittest.TestCase):
 
     def test_can_init_pagetags (self):
         tags = Pagetags()
+        assert_that(tags.generate_pageview(), is_(equal_to("")))
