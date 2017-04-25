@@ -6,7 +6,7 @@ import unittest
 
 from ..generate_pageview import Pagetags
 
-class TestNothing (unittest.TestCase):
+class TestPagetags (unittest.TestCase):
 
-    def test_nothing (self):
-        pass
+    def test_can_init_pagetags (self):
+        tags = Pagetags()
