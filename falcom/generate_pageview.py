@@ -4,6 +4,8 @@
 
 class Pagetags:
 
+    default_confidence = 100
+
     def generate_pageview (self):
         return ""
 
