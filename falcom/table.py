@@ -40,8 +40,11 @@ class Table:
         self.__header = args
 
     def __len__ (self):
-        len_header = 0 if self.__header is None else 1
+        len_header = self.__get_header_rowcount()
         return len(self.__rows) + len_header
+
+    def __get_header_rowcount (self):
+        return 0 if self.__header is None else 1
 
     def __iter__ (self):
         if self.__header is not None:
