@@ -33,5 +33,10 @@ class GivenEmptyPagetags (unittest.TestCase):
                                                99),
                     raises(ValueError))
 
+        assert_that(calling(setattr).with_args(self.tags,
+                                               "default_confidence",
+                                               0),
+                    raises(ValueError))
+
     def test_can_add_tags (self):
         self.tags.add_raw_tags({"tags": []})

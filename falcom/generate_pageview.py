@@ -23,5 +23,5 @@ class Pagetags:
         pass
 
     def __assert_valid_confid (self, confid):
-        if confid == 99:
+        if confid < 100:
             raise ValueError
