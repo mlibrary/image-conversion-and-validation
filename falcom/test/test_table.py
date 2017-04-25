@@ -134,6 +134,8 @@ class Test3x3Table (Given3x3Table):
 
 class Test3x3TableWithHeader (Given3x3TableWithHeader):
 
-    def test_can_add_header_row (self):
+    def test_length_is_four (self):
         assert_that(self.table, has_length(4))
+
+    def test_table_is_internally_consistent (self):
         assert_that(self.table, is_(an_internally_consistent_table()))
