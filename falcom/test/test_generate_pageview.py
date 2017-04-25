@@ -11,12 +11,6 @@ class GivenEmptyPagetags (unittest.TestCase):
     def setUp (self):
         self.tags = Pagetags()
 
-    def assert_invalid_confidence (self, confid):
-        assert_that(calling(setattr).with_args(self.tags,
-                                               "default_confidence",
-                                               confid),
-                    raises(ValueError))
-
     def test_can_init_pagetags (self):
         assert_that(self.tags.generate_pageview(), is_(equal_to("")))
 
@@ -34,8 +28,11 @@ class GivenEmptyPagetags (unittest.TestCase):
         assert_that(self.tags.default_confidence, is_(equal_to(444)))
 
     def test_cannot_set_confidence_to_weird_values (self):
-        self.assert_invalid_confidence(99)
-        self.assert_invalid_confidence(0)
+        for confid in (0, 99):
+            assert_that(calling(setattr).with_args(self.tags,
+                                                   "default_confidence",
+                                                   confid),
+                        raises(ValueError))
 
     def test_can_add_tags (self):
         self.tags.add_raw_tags({"tags": []})
