@@ -145,3 +145,6 @@ class Test3x3TableWithHeader (Given3x3TableWithHeader):
                     is_(equal_to([("a", "b", "c"),
                                   ("d", "e", "f"),
                                   ("g", "h", "i")])))
+
+    def test_first_row_is_the_header (self):
+        assert_that(self.table[0], is_(equal_to(("1", "2", "3"))))
